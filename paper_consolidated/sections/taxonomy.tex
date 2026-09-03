@@ -100,7 +100,7 @@ Mixtral~$8{\times}7$B \cite{jiang2024mixtral} (47B total, 12.9B active per token
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{paper_slm_moe_vs_dense.pdf}
-  \caption{Mixture-of-experts versus dense SLMs in the inventory: variant count (left), median total parameters (centre), and median context window (right).}
+  \caption{Mixture-of-experts versus dense SLMs in the inventory: variant count (left), median total parameters (centre), and median \emph{active} parameters per token (right). MoE models carry a much larger total-parameter count but a per-token cost comparable to dense models.}
   \label{fig:moe_vs_dense}
 \end{figure}
 

@@ -1,0 +1,25 @@
+# Normalise line endings: text files stay LF in the repo and on checkout.
+* text=auto eol=lf
+
+*.tex   text eol=lf
+*.bib   text eol=lf
+*.sty   text eol=lf
+*.cls   text eol=lf
+*.py    text eol=lf
+*.js    text eol=lf
+*.md    text eol=lf
+*.json  text eol=lf
+*.yaml  text eol=lf
+*.toml  text eol=lf
+*.bat   text eol=crlf
+latexmkrc text eol=lf
+
+# Binary assets
+*.pdf   binary
+*.png   binary
+*.jpg   binary
+*.otf   binary
+*.ttf   binary
+*.woff  binary
+*.woff2 binary
+*.synctex.gz binary

@@ -476,20 +476,24 @@ def fig_context_by_year(
         color = YEAR_COLORS.get(str(year), PALETTE["slate"])
         if len(values) >= 5:
             fig.add_trace(go.Box(
-                name=str(year), y=values, boxmean=True,
-                marker_color=color, line_color=color, boxpoints="outliers",
+                name=str(year), y=values, boxmean=True, showlegend=False,
+                marker_color=color, line_color=color, fillcolor=color_with_alpha(color, 0.35),
+                boxpoints="outliers",
             ))
         else:
             fig.add_trace(go.Scatter(
                 x=[str(year)] * len(values), y=values, mode="markers",
                 name=str(year),
-                marker=dict(size=10, color=color, opacity=0.8,
-                            line=dict(color="white", width=0.8)),
-                showlegend=True,
+                marker=dict(size=11, color=color, opacity=0.85,
+                            line=dict(color="white", width=1.0)),
+                showlegend=False,
             ))
     apply_figure_theme(fig, f"{label} Context Windows by Release Year", show_title=show_title)
+    # year is already on the x-axis, so no legend is needed
     fig.update_xaxes(title_text="Release year")
-    fig.update_yaxes(title_text="Context window (tokens)", type="log")
+    fig.update_yaxes(title_text="Context window (tokens)", type="log",
+                     tickvals=[1e3, 1e4, 1e5, 1e6, 1e7],
+                     ticktext=["1K", "10K", "100K", "1M", "10M"])
     save_figure(fig, output_dir, f"paper_{tag}_context_by_year", fmt)
 
 
@@ -807,12 +811,17 @@ def fig_family_treemap(
     fig = go.Figure(go.Treemap(
         ids=ids, labels=labels_list, parents=parents, values=values,
         branchvalues="total",
-        marker=dict(colors=colors, line=dict(color="white", width=1)),
+        marker=dict(colors=colors, line=dict(color="white", width=1.4),
+                    cornerradius=3),
         textinfo="label+value",
+        textfont=dict(family=FIGURE_FONT, size=15),
+        tiling=dict(pad=3), maxdepth=2, sort=True,
         hovertemplate="<b>%{label}</b><br>Variants: %{value}<extra></extra>",
-        tiling=dict(pad=2), maxdepth=2,
     ))
     apply_figure_theme(fig, f"{label} Ecosystem by Developer and Family", size="tall", show_title=show_title)
+    # treemaps should fill the frame: strip the plot-style margins/legend room
+    fig.update_layout(margin=dict(l=6, r=6, t=6, b=6),
+                      uniformtext=dict(minsize=10, mode="hide"))
     save_figure(fig, output_dir, f"paper_{tag}_family_treemap", fmt)
 
 
@@ -852,51 +861,49 @@ def fig_moe_vs_dense(
 
     moe_total = [total_params_billions(m) for m in moe if total_params_billions(m) is not None]
     dense_total = [total_params_billions(m) for m in dense if total_params_billions(m) is not None]
-    moe_ctx = [m["context_window_tokens"] / 1024 for m in moe if m.get("context_window_tokens")]
-    dense_ctx = [m["context_window_tokens"] / 1024 for m in dense if m.get("context_window_tokens")]
+    moe_active = [effective_params_billions(m) for m in moe if effective_params_billions(m) is not None]
 
     fig = make_subplots(
         rows=1, cols=3,
         subplot_titles=(
-            f"Count",
-            f"Median Total Params (B)",
-            f"Median Context (K)",
+            "Variant count",
+            "Median total params (B)",
+            "Median active params / token (B)",
         ),
-        horizontal_spacing=0.10,
+        horizontal_spacing=0.14,
     )
-    bar_kw = dict(width=0.5)
+    bar_kw = dict(width=0.55)
     cats = ["MoE", "Dense"]
+    col_moe, col_dense = PALETTE["amber"], PALETTE["indigo"]
 
-    # Count
     fig.add_trace(go.Bar(
         x=cats, y=[len(moe), len(dense)],
-        marker_color=[PALETTE["amber"], PALETTE["indigo"]],
+        marker_color=[col_moe, col_dense],
         text=[str(len(moe)), str(len(dense))], textposition="outside",
         showlegend=False, **bar_kw,
     ), row=1, col=1)
 
-    # Median params
     mp = round(median(moe_total), 1) if moe_total else 0
     dp = round(median(dense_total), 1) if dense_total else 0
     fig.add_trace(go.Bar(
         x=cats, y=[mp, dp],
-        marker_color=[PALETTE["amber"], PALETTE["indigo"]],
-        text=[str(mp), str(dp)], textposition="outside",
+        marker_color=[col_moe, col_dense],
+        text=[f"{mp:g}", f"{dp:g}"], textposition="outside",
         showlegend=False, **bar_kw,
     ), row=1, col=2)
 
-    # Median context
-    mc = round(median(moe_ctx)) if moe_ctx else 0
-    dc = round(median(dense_ctx)) if dense_ctx else 0
+    # active params: for dense this equals total; shows the "same per-token cost" point
+    ma = round(median(moe_active), 1) if moe_active else 0
+    da = round(median(dense_total), 1) if dense_total else 0
     fig.add_trace(go.Bar(
-        x=cats, y=[mc, dc],
-        marker_color=[PALETTE["amber"], PALETTE["indigo"]],
-        text=[str(int(mc)), str(int(dc))], textposition="outside",
+        x=cats, y=[ma, da],
+        marker_color=[col_moe, col_dense],
+        text=[f"{ma:g}", f"{da:g}"], textposition="outside",
         showlegend=False, **bar_kw,
     ), row=1, col=3)
 
     apply_figure_theme(fig, f"{label} MoE vs Dense Comparison", size="wide", show_title=show_title)
-    # Pad each subplot y-axis
+    fig.update_annotations(font=dict(size=17, family=FIGURE_FONT, color=PALETTE["ink"]))
     for col in (1, 2, 3):
         fig.update_yaxes(rangemode="tozero", row=1, col=col)
     save_figure(fig, output_dir, f"paper_{tag}_moe_vs_dense", fmt)
@@ -979,8 +986,10 @@ def fig_developer_diversity_timeline(
     models: list[dict], tag: str, label: str,
     output_dir: Path, show_title: bool, fmt: str,
 ) -> None:
+    # keep only well-formed YYYY-QN quarters so the axis is consistent
     entries = [(release_quarter(m), m.get("developer", "Unknown"))
                for m in models if release_quarter(m) is not None]
+    entries = [(q, d) for q, d in entries if re.fullmatch(r"\d{4}-Q[1-4]", str(q))]
     quarters = sorted({q for q, _ in entries}, key=quarter_sort_key)
     seen: set[str] = set()
     cumul, new_q = [], []
@@ -991,21 +1000,20 @@ def fig_developer_diversity_timeline(
         cumul.append(len(seen))
         new_q.append(len(new))
 
-    fig = make_subplots(specs=[[{"secondary_y": True}]])
-    fig.add_trace(go.Scatter(
-        x=quarters, y=cumul, mode="lines+markers", name="Cumulative developers",
-        line=dict(color=PALETTE["teal"], width=3), marker=dict(size=7),
-        fill="tozeroy", fillcolor=color_with_alpha(PALETTE["teal"], 0.18),
-    ), secondary_y=False)
+    fig = go.Figure()
     fig.add_trace(go.Bar(
-        x=quarters, y=new_q, name="New developers",
-        marker_color=color_with_alpha(PALETTE["amber"], 0.7),
-    ), secondary_y=True)
+        x=quarters, y=new_q, name="New developers this quarter",
+        marker_color=color_with_alpha(PALETTE["amber"], 0.75),
+        marker_line=dict(width=0),
+    ))
+    fig.add_trace(go.Scatter(
+        x=quarters, y=cumul, mode="lines+markers", name="Cumulative distinct developers",
+        line=dict(color=PALETTE["teal"], width=3), marker=dict(size=7),
+    ))
     apply_figure_theme(fig, f"Developer Diversity in {label} Ecosystem", size="wide", show_title=show_title)
     fig.update_xaxes(title_text="Release quarter", tickangle=-35)
-    fig.update_yaxes(title_text="Cumulative unique developers", secondary_y=False)
-    fig.update_yaxes(title_text="New developers per quarter", secondary_y=True)
-    # legend inherits the top-centre horizontal placement from apply_figure_theme
+    fig.update_yaxes(title_text="Distinct developers", rangemode="tozero")
+    fig.update_layout(bargap=0.35)
     save_figure(fig, output_dir, f"paper_{tag}_developer_diversity_timeline", fmt)
 
 

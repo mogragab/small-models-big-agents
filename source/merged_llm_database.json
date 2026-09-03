@@ -3,9 +3,9 @@
   "title": "Complete AI Model Inventory: SLMs & LLMs (Merged)",
   "snapshot_date": "2026-09-03",
   "version": "3.1",
-  "total_slm_variants": 125,
+  "total_slm_variants": 123,
   "total_llm_variants": 238,
-  "total_models": 363,
+  "total_models": 361,
   "total_model_families": 103,
   "classification_rules": {
    "SLM": "≤20B dense parameters OR ≤20B active parameters in MoE architectures",
@@ -901,7 +901,7 @@
     },
     "context_window_tokens": null,
     "modalities": [
-     "image",
+     "vision",
      "text"
     ],
     "license": "See source",
@@ -1533,7 +1533,7 @@
     },
     "context_window_tokens": null,
     "modalities": [
-     "image",
+     "vision",
      "text"
     ],
     "license": "Proprietary",
@@ -1762,7 +1762,7 @@
     },
     "context_window_tokens": 4096,
     "modalities": [
-     "image",
+     "vision",
      "text"
     ],
     "license": "See source",
@@ -1821,49 +1821,6 @@
     "variants": [
      "recurrentgemma-2b",
      "recurrentgemma-2b-it"
-    ]
-   },
-   {
-    "id": "snowflake-arctic-embed",
-    "name": "Arctic Embed",
-    "family": "Arctic",
-    "type": "SLM",
-    "access": "OW",
-    "developer": "Snowflake",
-    "release_date": "2024-04-18",
-    "status": "legacy",
-    "parameters": {
-     "total": "334M",
-     "active_per_token": "334M",
-     "is_moe": false
-    },
-    "context_window_tokens": 512,
-    "modalities": [
-     "embedding",
-     "text"
-    ],
-    "license": "See source",
-    "use_cases": [
-     "Text embedding model",
-     "Top MTEB performance",
-     "Apache 2.0 license"
-    ],
-    "reference_url": "https://www.snowflake.com/blog/introducing-snowflake-arctic-embed-snowflakes-state-of-the-art-text-embedding-family-of-models/",
-    "huggingface_url": "https://huggingface.co/Snowflake/snowflake-arctic-embed-l",
-    "paper_url": "https://arxiv.org/abs/2405.05374",
-    "pricing_usd_per_million_tokens": null,
-    "architecture_notes": "Family of efficient embedding models optimized for retrieval tasks.",
-    "languages_supported": null,
-    "benchmarks": {
-     "MTEB": "Top 10 at launch"
-    },
-    "training_data": "undisclosed",
-    "base_or_instruct": "instruct",
-    "variants": [
-     "arctic-embed-xs",
-     "arctic-embed-s",
-     "arctic-embed-m",
-     "arctic-embed-l"
     ]
    },
    {
@@ -2042,7 +1999,7 @@
     },
     "context_window_tokens": 8192,
     "modalities": [
-     "image",
+     "vision",
      "text"
     ],
     "license": "See source",
@@ -2238,46 +2195,6 @@
     "training_data": "APN data (web, curated, synthetic)",
     "base_or_instruct": "instruct",
     "variants": []
-   },
-   {
-    "id": "stability-sd3",
-    "name": "Stable Diffusion 3 Medium",
-    "family": "Stable Diffusion",
-    "type": "SLM",
-    "access": "OW",
-    "developer": "Stability AI",
-    "release_date": "2024-06-12",
-    "status": "active",
-    "parameters": {
-     "total": "2B",
-     "active_per_token": "2B",
-     "is_moe": false
-    },
-    "context_window_tokens": null,
-    "modalities": [
-     "image",
-     "text"
-    ],
-    "license": "See source",
-    "use_cases": [
-     "MMDiT architecture",
-     "Flow matching",
-     "3 text encoders (CLIP x2 + T5)"
-    ],
-    "reference_url": "https://stability.ai/news/stable-diffusion-3",
-    "huggingface_url": "https://huggingface.co/stabilityai/stable-diffusion-3-medium",
-    "paper_url": "https://arxiv.org/abs/2403.03206",
-    "pricing_usd_per_million_tokens": null,
-    "architecture_notes": "Major architecture upgrade using Multimodal Diffusion Transformer (MMDiT).",
-    "languages_supported": null,
-    "benchmarks": null,
-    "training_data": "Large-scale image-text dataset",
-    "base_or_instruct": "base",
-    "variants": [
-     "sd3-medium",
-     "sd3-large",
-     "sd3-large-turbo"
-    ]
    },
    {
     "id": "124",
@@ -2529,7 +2446,7 @@
     },
     "context_window_tokens": null,
     "modalities": [
-     "image",
+     "vision",
      "text"
     ],
     "license": "Proprietary",
@@ -4654,7 +4571,7 @@
     },
     "context_window_tokens": null,
     "modalities": [
-     "image",
+     "vision",
      "text"
     ],
     "license": "See source",
