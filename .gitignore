@@ -1,0 +1,45 @@
+# --- Python / uv ---
+.venv/
+**/.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# --- LaTeX build artefacts ---
+*.aux
+*.bcf
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.glg
+*.glo
+*.gls
+*.glsdefs
+*.ist
+*.acn
+*.acr
+*.alg
+*.lof
+*.lot
+*.log
+*.nav
+*.snm
+*.out
+*.run.xml
+*.synctex.gz
+*.synctex(busy)
+*.toc
+*.xdv
+*.dvi
+
+# --- editor / OS ---
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/
+
+# Keep figure PDFs and the built manuscripts; only intermediate junk is ignored.

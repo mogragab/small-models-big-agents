@@ -1,0 +1,82 @@
+% ================================================================
+% Section: Challenges and Future Directions
+% From main (2).tex — Section VIII + sections/conclusion.tex future work
+% ================================================================
+
+\section{Challenges and Future Directions}
+\label{sec:challenges}
+
+Despite remarkable progress, SLMs face persistent challenges that define the frontier of the field, and the agentic framing of Section~\ref{sec:agentic} adds a set of its own. We organize these into research clusters, closing with the empirical-verification agenda for this paper's consolidated evidence base.
+
+\subsection{Hallucination Mitigation in Small Models}
+\label{subsec:challenges_hallucination}
+
+Hallucination---confident generation of factually incorrect content---is an intrinsic failure mode of autoregressive language models, and it is more pronounced in smaller models \cite{zhang2023siren}. The core issue is information capacity: a 3B model's parameters can encode far fewer facts than a 175B model, and when queried about knowledge at the boundary of its training distribution, small models are more likely to confabulate plausible-sounding but incorrect responses.
+
+Mitigation strategies include: (1)~\emph{Retrieval-Augmented Generation} \cite{lewis2020rag}, which anchors SLM generation to retrieved documents rather than parametric memory; (2)~\emph{uncertainty quantification} through sampling and ensemble methods; (3)~\emph{RLHF with truthfulness rewards} to penalize confident incorrect responses; and (4)~\emph{calibration post-processing} to align model confidence to actual accuracy.
+
+\subsection{Reasoning Limitations Under Parameter Constraints}
+\label{subsec:challenges_reasoning}
+
+Complex multi-step reasoning---particularly in mathematics, formal logic, and scientific inference---improves roughly as a power law with parameter count \cite{kaplan2020scaling}. At the 1B--7B scale, SLMs struggle with problems that require holding many intermediate states simultaneously or with deep deductive chains.
+
+Emerging directions include: (1)~\emph{Test-time scaling}: allocating additional inference compute (more generation tokens, repeated sampling, tree-of-thought search) to substitute for model capacity; DeepSeek-R1 \cite{deepseek2025r1} achieves frontier-class reasoning in its 7B distilled variant through extended chain-of-thought generation. (2)~\emph{Neuro-symbolic integration}: augmenting SLMs with symbolic solvers (SAT solvers, theorem provers, calculators) to handle formal reasoning externally. (3)~\emph{Speculative decoding} \cite{leviathan2023speculative} using a small draft SLM to propose tokens verified by a larger model, enabling faster inference from larger models when latency permits.
+
+\subsection{Open Problems for Agentic SLM Systems}
+\label{subsec:challenges_routing}
+
+Section~\ref{sec:agentic} argues that SLMs are the default substrate for agents; several problems stand between that position and routine practice. \textbf{Difficulty estimation without an oracle:} a router must decide, cheaply and before generation, whether a given call exceeds the local model's competence; current approaches use learned win-prediction \cite{ong2024routellm} or sub-task decomposition \cite{division_of_thoughts_2025}, but calibration under distribution shift is unsolved. \textbf{Multi-objective routing:} the decision must jointly weigh accuracy, latency, energy, monetary cost, privacy sensitivity, and network availability, and the reported multilingual and safety gaps (Section~\ref{subsec:reported_safety}) mean a size-only router silently degrades non-English and safety-critical calls. \textbf{Seamless handoff:} escalation from SLM to LLM mid-task must not produce a visible discontinuity in style or quality. \textbf{Agent-appropriate evaluation:} generalist leaderboards do not measure the tool-selection, argument-filling, and format-adherence skills agents actually use \cite{belcak2025slm_agentic}; function-calling leaderboards \cite{zhang2024xlam} are a start but cover a narrow slice. \textbf{Fleet management:} an agent built from many fine-tuned sub-3B specialists (Section~\ref{subsec:agentic_conversion}) raises questions of versioning, drift detection, and retraining cadence that single-model deployments do not face. Apple's privacy-preserving cloud escalation \cite{apple2024intelligence,gunter2025afm} shows the pattern is production-viable; generalizing it beyond a single vendor's stack is open.
+
+\subsection{Hardware Co-Design and NPU Optimization}
+\label{subsec:challenges_hardware}
+
+The efficiency of SLM inference depends as much on hardware as on model architecture. Modern consumer hardware increasingly includes dedicated AI accelerators: Apple ANE, Qualcomm Hexagon NPU \cite{qualcomm2024ondevice}, Samsung Exynos NPU, and Intel NPU. These accelerators are optimized for specific operation types (INT4/INT8 matrix multiplication) and data layouts.
+
+A critical open problem is \emph{hardware-model co-design}: developing SLM architectures whose attention patterns, FFN widths, and layer counts align with the data bus widths and tile sizes of target NPUs. GQA head counts of 8 or 16 align well with SIMD widths on ARM Cortex-A processors, while head counts of 32 may be suboptimal. Future SLMs trained with hardware constraints as first-class optimization objectives---rather than retrofitting quantization post-hoc---will likely yield significant efficiency improvements.
+
+\subsection{Ethical Considerations: Bias Amplification in Compressed Models}
+\label{subsec:challenges_ethics}
+
+Model compression introduces an underexplored ethical risk: \emph{bias amplification}. Pruning and quantization may disproportionately affect model performance on underrepresented demographic groups, dialects, and languages, as the model's remaining capacity may preferentially serve the majority distributions present in training data \cite{blodgett2020language}. Kurz and Zhao \cite{kurz2025pruning_vs_quant} observe that quantization's advantage over pruning is most pronounced for multilingual tasks, suggesting that pruning disproportionately degrades non-English performance.
+
+Research priorities include: (1)~\emph{fairness-aware compression} that includes demographic parity metrics as part of the compression objective; (2)~\emph{representation auditing} of compressed models across language, dialect, gender, and race; and (3)~\emph{minimum performance floors} for safety-critical applications, ensuring compressed models meet baseline accuracy thresholds for all user populations.
+
+\subsection{Sustainable AI: SLMs as a Green AI Alternative}
+\label{subsec:challenges_sustainability}
+
+The energy consumption of training and serving frontier LLMs has become a significant environmental and economic concern \cite{strubell2019energy,patterson2022carbon}. Training GPT-3 emitted an estimated 552 metric tons of CO$_2$ equivalent; training a comparable SLM from scratch consumes orders of magnitude less energy, and inference costs are proportionally lower.
+
+The ``SLMs as green AI'' framing extends beyond training to the lifecycle of deployed models. A deployment of 10,000 concurrent SLM instances on consumer hardware consumes less total energy than a single multi-GPU LLM server, while the carbon amortization benefits of on-device inference (utilizing hardware already present in user devices) are substantial. As AI regulation increasingly incorporates carbon disclosure requirements, the energy efficiency profile of SLMs will become a competitive differentiator.
+
+\subsection{Empirical-Verification Opportunities}
+\label{subsec:challenges_verification}
+
+Because this review synthesizes reported performance rather than producing original benchmark runs, the most immediately valuable follow-up work is targeted empirical verification of the reported claims that do the most work in practitioner decisions. Four empirical studies would disproportionately reduce the residual uncertainty in the evidence base reviewed here:
+
+\begin{enumerate}
+    \item \textbf{Harness-consistent reruns of the headline SLMs on the headline benchmarks.} A controlled re-run of the seven most-cited SLMs (Phi-4-mini, Phi-4, Qwen2.5-3B, Qwen2.5-7B, Gemma-3-4B, LLaMA-3.2-3B, Mistral-7B) on MMLU, GSM8K, HumanEval, and MT-Bench under a single \texttt{lm-evaluation-harness} configuration would anchor every vendor-reported figure to an independent reproduction.
+    \item \textbf{Quantization-degradation measurement.} A controlled comparison of FP16 vs.\ INT8 vs.\ INT4 accuracy across the seven headline SLMs and four benchmarks, using the GGUF, GPTQ, and AWQ toolchains referenced in the vendor reports, would sharpen the 1--4-point degradation figure reported in the literature.
+    \item \textbf{Edge-throughput reproduction.} Timed runs of the same seven SLMs in their best-supported INT4 format on a Raspberry~Pi~5, Jetson Orin Nano, Snapdragon reference device, and recent laptop CPU would calibrate the reported throughput ranges against modern silicon.
+    \item \textbf{QLoRA-gain reproduction.} A controlled QLoRA (rank 64, $\alpha = 128$) adaptation of the seven SLMs on SST-2, MNLI, ARC-C, GSM8K, and SQuAD~2.0 would quantify the reported fine-tuning gains under a single adaptation recipe.
+\end{enumerate}
+
+These four studies are practical on a single modern GPU on the time scale of weeks and would convert several of the consolidated claims in this review from ``reported by sources'' to ``empirically verified.'' They do not replace the review; they strengthen the claims that practitioners depend on most.
+
+\subsection{Open Research Directions Beyond Empirical Verification}
+\label{subsec:challenges_future}
+
+Beyond direct empirical verification, several promising research directions emerge from this review:
+
+\begin{enumerate}
+    \item \textbf{Multilingual SLM evaluation.} Extending the consolidated performance evidence to non-English benchmarks would reveal whether the English-centric performance hierarchy reported in the literature holds across languages, particularly for models with multilingual training data (Qwen2.5, Gemma~3, BLOOM).
+
+    \item \textbf{On-device continual learning.} Developing methods for incremental adaptation of deployed SLMs to new data without full retraining would enable personalization and domain adaptation at the edge.
+
+    \item \textbf{SLM ensembles vs.\ single LLM.} Investigating whether ensembles of specialized SLMs (one for math, one for code, one for general knowledge) with a lightweight router can match single-LLM performance at lower aggregate cost.
+
+    \item \textbf{Multimodal SLMs.} Evaluating vision-language SLMs such as Phi-3-vision, Gemma~3 with vision, and Gemma~3n \cite{google2025gemma3n} on multimodal benchmarks would extend the comparison to the rapidly growing multimodal inference domain.
+
+    \item \textbf{Hybrid architectures.} The emergence of non-transformer SLM architectures (SambaY \cite{pal2025sambay}, Gated Delta Networks \cite{yang2025gated_delta}) suggests that the transformer's dominance may not extend to the edge, where linear-time inference is particularly valuable.
+
+    \item \textbf{Federated fine-tuning.} Developing privacy-preserving fine-tuning protocols that aggregate gradient updates across edge devices would enable collaborative model improvement without centralized data collection.
+\end{enumerate}

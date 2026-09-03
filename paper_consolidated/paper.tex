@@ -1,0 +1,90 @@
+% !TeX program = lualatex
+% !BIB program = biber
+% !TeX TXS-program:bibliography = txs:///biber
+\documentclass[a4paper,10pt]{article}
+
+% Options: twocolumn/onecolumn, final/review,
+% and nobibliography/bibliography.
+\usepackage[onecolumn,final,bibliography]{template}
+
+\input{metadata}
+\input{abbreviations}
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+\begin{document}
+
+\MakeJournalFrontMatter{
+  \begin{abstract}
+  Large Language Models (LLMs) with hundreds of billions of parameters
+  have advanced natural language processing dramatically, but their
+  computational cost, memory demand, and latency make them a poor fit for
+  the fastest-growing consumer of language intelligence: the AI agent,
+  which issues many narrow, repetitive, well-specified model calls rather
+  than a few open-ended ones. Small Language Models
+  (SLMs)---here, decoder-only or hybrid transformers with roughly twenty
+  billion parameters or fewer, counting active parameters for
+  mixture-of-experts models---have closed much of the capability gap
+  through knowledge distillation, synthetic-data curation, and
+  post-training quantization, and are now the natural default for agentic
+  workloads. This paper is a combined survey and position statement. We
+  catalog 125 publicly documented SLM variants released between 2022 and 2026,
+  including the 2025--2026 wave of hybrid state-space models (Falcon-H1,
+  IBM Granite~4.0, NVIDIA Nemotron Nano~2), unified reasoning models
+  (Qwen3, Phi-4-mini-reasoning, SmolLM3), and mobile-first multimodal
+  families (Gemma~3n, Gemma~4, Apple Foundation Models). We organize the
+  landscape along a four-dimensional taxonomy---\emph{architecture},
+  \emph{training strategy}, \emph{modality}, and \emph{application
+  domain}---and review the compression-technique literature specific to
+  the sub-10B regime, in which quantization consistently outperforms
+  pruning. We then consolidate publicly \emph{reported} performance for a
+  17-model cohort across 15 benchmark tasks, three evaluation paradigms,
+  six hardware tiers, and three quantization precisions, under a
+  documented grey-literature protocol; every figure is a reported value
+  traced to a dated source rather than an original benchmark run. Building
+  on this evidence, we argue that SLMs are the substrate of agentic AI:
+  they meet the capability threshold for the sub-tasks agents actually
+  delegate, they cost 10--30$\times$ less to serve, they are cheaper to
+  specialize, and their behavior is easier to constrain to tool and code
+  interfaces. We survey heterogeneous SLM--LLM architectures, learned
+  routing, and the LLM-to-SLM conversion pipeline, and close with the
+  open problems---reasoning under parameter constraints, hallucination,
+  hardware co-design, fairness under compression, and empirical
+  verification of the consolidated evidence base---that stand between the
+  current state of the art and that future.
+  \end{abstract}
+
+  \begin{highlights}
+  \item Surveys 125 documented small language model variants (2022--2026), including the 2025--2026 hybrid state-space, unified-reasoning, and mobile-multimodal waves, under a taxonomy of architecture, training strategy, modality, and application domain.
+  \item Consolidates publicly reported performance for 17 SLMs across 15 tasks, six hardware tiers, and FP16/INT8/INT4 precision, with every figure traced to a dated source via a documented protocol.
+  \item Reviews compression for the sub-10B regime and the finding that quantization consistently outperforms pruning below 4B parameters.
+  \item Argues that SLMs are the substrate of agentic AI on grounds of capability sufficiency, 10--30$\times$ lower serving cost, cheaper specialization, and tighter behavioral alignment to tool interfaces.
+  \item Surveys heterogeneous SLM--LLM routing and the LLM-to-SLM conversion pipeline, and sets an empirical-verification agenda for the consolidated claims.
+  \end{highlights}
+
+  \begin{keywords}
+  \paperkeywords
+  \end{keywords}
+}
+
+\input{sections/introduction}
+\input{sections/background}
+\input{sections/taxonomy}
+\input{sections/compression}
+\input{sections/reported_performance}
+\input{sections/deployment}
+\input{sections/agentic}
+\input{sections/applications}
+\input{sections/discussion}
+\input{sections/challenges}
+\input{sections/conclusion}
+\input{sections/declarations}
+
+\appendix
+\input{sections/appendix_supplementary}
+\input{sections/appendix_ecosystem}
+
+\printjournalbibliography
+
+\end{document}

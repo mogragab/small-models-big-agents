@@ -1,0 +1,160 @@
+\section{Data Provenance and Supplementary Protocols}
+\label{appendix:supplementary}
+\label{app:provenance}
+
+This appendix supports the reproducibility of the \emph{review itself}: it documents the sources of the reported figures consolidated in Sections~\ref{sec:reported}--\ref{sec:deployment}, and provides the reference prompt templates, quantization-pipeline specifications, and QLoRA hyperparameter settings under which those figures were reported. The appendix does not report original experimental runs.
+
+\subsection{Per-Figure Provenance Table}
+\label{subsec:appendix_provenance_table}
+\textit{To be populated at submission:} a per-figure provenance table listing, for every reported performance value appearing in Sections~\ref{sec:reported}--\ref{sec:deployment}, the following fields: (a)~model (name + Hugging~Face commit hash or release version); (b)~benchmark and metric variant; (c)~quantization precision and toolchain; (d)~hardware configuration; (e)~source citation (vendor technical report, model card, leaderboard entry, or third-party study) with a stable identifier (DOI, arXiv ID, or archival URL); (f)~extraction date; and (g)~any conflict-resolution decision applied under the rules of Section~\ref{subsec:reported_sources}.
+
+The remaining subsections of this appendix document the reference conditions---prompt formats, quantization toolchains, adaptation hyperparameters---that the reviewed sources most commonly report; these are preserved here so that readers can interpret any individual reported figure against the conditions it was measured under.
+
+\subsection{Prompt Formats}
+\label{subsec:appendix_prompt_templates}
+The reviewed source materials commonly preserve each model's own instruction
+wrapper while following a shared task-payload structure, which is summarized here
+in prose. \textbf{Multiple-choice question answering} presents the question
+followed by the enumerated options (A--D) and an ``Answer:'' cue, with the model
+expected to emit a single option letter. \textbf{Mathematical reasoning} prepends
+an instruction to solve the problem step by step and appends a ``Let's think step
+by step'' cue, so that a chain-of-thought precedes the final numeric answer.
+\textbf{Extractive question answering} supplies the context passage, then the
+question, then an instruction to answer from the context and to respond
+``unanswerable'' when the context does not contain the answer. \textbf{Abstractive
+summarization} supplies the source article preceded by an instruction to produce a
+two- to three-sentence summary. Where a source reports few-shot results, the same
+fixed set of exemplars is prepended to the payload for every model on a given
+task. Because sources differ in the exact wording of these wrappers and in
+answer-extraction heuristics, the consolidated figures are compared only within
+tasks and, wherever possible, within a single reporting source.
+
+\subsection{Quantization and Compression Pipeline}
+\label{subsec:appendix_quantization_pipeline}
+To complement the methodology section, the compression workflows reported across the reviewed sources are summarized here. The reviewed literature reports five precision or compression settings across the consolidated comparison:
+\begin{enumerate}
+    \item \textbf{FP16 baseline:} standard half-precision inference used as the reference condition.
+    \item \textbf{GGUF Q4\_K\_M:} mixed-precision 4-bit quantization via \texttt{llama.cpp}, assigning higher precision to the most sensitive tensors.
+    \item \textbf{AWQ 4-bit:} activation-aware weight quantization with group size 128 and calibration on held-out text sequences.
+    \item \textbf{GPTQ 4-bit:} layer-wise post-training quantization using second-order curvature approximations.
+    \item \textbf{bitsandbytes NF4:} 4-bit NormalFloat quantization with double quantization, matching the QLoRA training regime.
+\end{enumerate}
+
+For compression stress tests, the sources report SparseGPT~\cite{frantar2023sparsegpt}-induced 50\% unstructured sparsity applied before 4-bit quantization. Reported figures for this combined pruning-plus-quantization setting are retained in the provenance tables for sensitivity analysis rather than the main comparative tables, because support for sparse inference remains hardware dependent and is not uniformly reported across the reviewed sources.
+
+\subsection{Edge Measurement Protocols Reported in the Source Literature}
+\label{subsec:appendix_edge_protocol}
+The deployment figures consolidated in Sections~\ref{sec:reported}--\ref{sec:deployment} are drawn from source materials whose stated measurement protocols typically include a multi-minute warm-up to stabilize thermal and frequency behavior before measurement. Across the reviewed edge-deployment sources, the reported per-model, per-device measurements cover:
+\begin{enumerate}
+    \item \textbf{Time-to-first-token (TTFT):} reported latency from prompt submission to first generated token, typically averaged over 50 prompts with 128-token inputs.
+    \item \textbf{Sustained throughput:} reported mean tokens-per-second over 256-token generations.
+    \item \textbf{Peak memory:} reported maximum RAM or unified-memory consumption during generation.
+    \item \textbf{Load time:} reported elapsed time from process start until the model is ready to serve requests.
+    \item \textbf{Energy per inference:} reported device-level power estimates where the source provides counter- or telemetry-based measurements.
+\end{enumerate}
+Because these reporting conventions differ in small but potentially consequential ways across sources (warm-up duration, prompt-length distribution, power-counter granularity), readers should treat the consolidated figures as indicative rather than precisely comparable; the conflict-resolution rules in Section~\ref{subsec:reported_sources} are applied whenever discrepant protocols yield materially different reported values for the same tuple.
+
+\subsection{Hyperparameter Search Space}
+\label{subsec:appendix_hyperparameters}
+\begin{table}[ht]
+\centering
+\caption{QLoRA hyperparameter configuration most commonly reported by sources.}
+\label{tab:hyperparam_search}
+\footnotesize
+\begin{tabular}{lcc}
+\toprule
+\textbf{Hyperparameter} & \textbf{Search Space} & \textbf{Selected Value} \\
+\midrule
+LoRA rank $r$ & \{16, 32, 64, 128\} & 64 \\
+LoRA scaling $\alpha$ & \{16, 32, 64, 128, 256\} & 128 \\
+LoRA dropout & \{0.0, 0.05, 0.1\} & 0.05 \\
+Learning rate & \{$10^{-5}$, $5\times10^{-5}$, $10^{-4}$, $2\times10^{-4}$, $5\times10^{-4}$\} & $2\times10^{-4}$ \\
+Effective batch size & \{8, 16, 32\} & 16 \\
+Max epochs & \{3, 5, 10\} & 5 \\
+Warmup steps & \{50, 100, 200\} & 100 \\
+Target modules & \{q,v\}, \{q,k,v,o\}, \{all linear\} & \{q,k,v,o\} \\
+Weight decay & \{0.0, 0.01, 0.1\} & 0.01 \\
+Scheduler & \{cosine, linear\} & cosine \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The right-hand column records the QLoRA configuration that the reviewed sources most commonly report; where a source used a different rank, target-module set, or schedule, the deviation is noted in the per-figure provenance table so that its reported gain is not compared directly against gains obtained under the common recipe.
+
+\subsection{Extended Results Tables}
+\label{subsec:appendix_extended_results}
+\begin{table}[ht]
+\centering
+\caption{Representative five-shot results for selected models.}
+\label{tab:appendix_fewshot}
+\footnotesize\adjustbox{max width=\linewidth}{%
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Model} & \textbf{ARC-C} & \textbf{HellaSwag} & \textbf{GSM8K} & \textbf{MMLU} & \textbf{SST-2} & \textbf{MNLI} \\
+\midrule
+Phi-4-mini-Inst. & 85.2 & 71.4 & 89.3 & 69.8 & 94.1 & 75.8 \\
+Qwen2.5-7B-Inst. & 91.2 & 81.5 & 89.5 & 74.2 & 95.2 & 77.3 \\
+LLaMA 3.2-3B-Inst. & 78.8 & 79.1 & 77.4 & 64.5 & 91.5 & 68.2 \\
+SmolLM2-1.7B-Inst. & 63.1 & 63.5 & 44.8 & 53.4 & 86.4 & 59.8 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{landscape}
+\begin{table}[ht]
+\centering
+\caption{Extended zero-shot results across a broader task set (FP16, instruction-tuned variants). All values are reported figures.}
+\label{tab:appendix_zero_shot_extended}
+\footnotesize\adjustbox{max width=\linewidth}{%
+\begin{tabular}{lcccccccccccc}
+\toprule
+\textbf{Model} & \textbf{ARC-E} & \textbf{ARC-C} & \textbf{HellaSwag} & \textbf{TriviaQA} & \textbf{SQuAD 2.0} & \textbf{GSM8K} & \textbf{MATH} & \textbf{HumanEval} & \textbf{MBPP} & \textbf{MMLU} & \textbf{SST-2} & \textbf{MNLI} \\
+\midrule
+Phi-4-mini-Inst. & 92.1 & 83.7 & 69.1 & 68.5 & 74.2 & 88.6 & 64.0 & 72.0 & 74.8 & 67.3 & 92.4 & 72.1 \\
+Qwen2.5-7B-Inst. & 94.8 & 90.1 & 80.0 & 72.4 & 76.8 & 88.7 & 60.4 & 84.8 & 79.2 & 72.6 & 93.8 & 74.6 \\
+Gemma 2-9B-Inst. & 95.2 & 89.8 & 87.1 & 71.8 & 75.5 & 84.9 & 51.3 & 68.9 & 73.5 & 71.3 & 93.5 & 73.8 \\
+Gemma 3-4B-Inst. & 92.4 & 85.2 & 78.4 & 64.2 & 70.8 & 82.1 & 53.7 & 64.6 & 69.3 & 65.8 & 91.2 & 70.4 \\
+LLaMA 3.2-3B-Inst. & 88.5 & 76.1 & 77.2 & 58.6 & 65.4 & 75.6 & 46.7 & 58.5 & 62.4 & 61.8 & 88.2 & 63.5 \\
+LLaMA 3.2-1B-Inst. & 78.2 & 62.3 & 63.8 & 42.5 & 52.8 & 47.2 & 24.1 & 35.4 & 40.2 & 48.6 & 82.5 & 54.2 \\
+Mistral 7B-Inst. v0.3 & 91.8 & 82.7 & 73.5 & 65.8 & 68.4 & 81.9 & 41.6 & 66.5 & 68.3 & 63.0 & 90.8 & 68.2 \\
+Ministral 8B-Inst. & 93.2 & 85.4 & 76.8 & 67.2 & 71.2 & 83.5 & 45.2 & 69.5 & 71.8 & 65.7 & 92.1 & 71.5 \\
+Qwen2.5-3B-Inst. & 90.2 & 78.6 & 72.1 & 58.8 & 66.5 & 79.8 & 50.2 & 65.2 & 67.8 & 65.6 & 89.5 & 66.8 \\
+Qwen2.5-0.5B-Inst. & 68.4 & 52.1 & 48.3 & 28.5 & 38.2 & 38.5 & 18.7 & 22.0 & 28.4 & 47.5 & 78.2 & 48.5 \\
+SmolLM2-1.7B-Inst. & 74.5 & 59.8 & 60.2 & 35.4 & 52.3 & 42.6 & 19.3 & 28.7 & 35.6 & 50.1 & 82.6 & 54.2 \\
+SmolLM2-360M-Inst. & 55.8 & 38.2 & 42.5 & 18.2 & 32.4 & 15.8 & 5.2 & 8.5 & 12.3 & 33.4 & 72.4 & 42.8 \\
+TinyLlama 1.1B & 62.4 & 47.5 & 53.8 & 28.8 & 42.5 & 18.4 & 6.8 & 12.2 & 16.8 & 36.2 & 76.5 & 46.2 \\
+StableLM 2 1.6B & 72.8 & 55.2 & 57.6 & 32.5 & 48.6 & 32.1 & 12.4 & 22.5 & 28.9 & 44.3 & 80.2 & 52.5 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+\end{landscape}
+
+\subsection{Detailed Hardware Specifications}
+\label{subsec:appendix_hardware_specs}
+\begin{table}[ht]
+\centering
+\caption{Detailed hardware specifications for edge deployment experiments.}
+\label{tab:appendix_hardware}
+\footnotesize\adjustbox{max width=\linewidth}{%
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Specification} & \textbf{Raspberry Pi 5} & \textbf{Jetson Orin Nano} & \textbf{Galaxy S24+} & \textbf{Laptop} \\
+\midrule
+CPU & BCM2712 4$\times$A76 @ 2.4GHz & 6$\times$A78AE @ 1.5GHz & Snapdragon 8 Gen 3 & Ryzen 7 7840HS \\
+GPU & VideoCore VII & 1024 CUDA (Ampere) & Adreno 750 & Radeon 780M \\
+NPU & None & None & Hexagon & Ryzen AI \\
+RAM & 8 GB LPDDR4X & 8 GB LPDDR5 (unified) & 12 GB LPDDR5X & 32 GB DDR5-5600 \\
+Memory bandwidth & 25.6 GB/s & 68 GB/s & 51.2 GB/s & 89.6 GB/s \\
+Storage & microSD / NVMe & NVMe & UFS 4.0 & NVMe SSD \\
+TDP & 12W & 25W & $\sim$8W sustained & 35--54W \\
+Inference engine & llama.cpp & MLC LLM & ExecuTorch & llama.cpp \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Human-Evaluation Conventions in the Source Literature}
+\label{subsec:appendix_human_eval}
+For subjective tasks such as summarization quality and instruction following, the reviewed sources that report human judgments typically rate outputs along three axes---\textbf{relevance}, \textbf{coherence}, and \textbf{factual accuracy}---on a 1--5 Likert scale, with model identity hidden from annotators and inter-annotator reliability reported via a Krippendorff-style coefficient. MT-Bench-style results substitute a strong LLM judge for human raters. Because these protocols differ across sources in rubric wording and judge model, the consolidated instruction-following column (MT-Bench) should be read as indicative, and human-rated summarization scores are reported only as ranges.

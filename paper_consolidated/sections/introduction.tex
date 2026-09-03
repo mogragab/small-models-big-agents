@@ -1,0 +1,42 @@
+\section{Introduction}
+\label{section:introduction}
+
+The landscape of natural language processing (NLP) has been reshaped by Large Language Models (LLMs). Systems such as GPT-4 \cite{openai2023gpt4}, Claude \cite{anthropic2024claude}, Gemini \cite{gemini2023}, and the LLaMA series \cite{grattafiori2024llama3} demonstrate broad competence across reasoning, code generation, and multilingual tasks. That competence, however, comes at extraordinary cost. GPT-3's 175~billion parameters \cite{brown2020gpt3} inaugurated an era in which scale was treated as synonymous with capability, and scaling laws \cite{kaplan2020scaling,hoffmann2022chinchilla} appeared to promise predictable returns on ever-larger models. Frontier LLMs now require multi-thousand-GPU clusters to train, tens of gigabytes of accelerator memory to serve, and cloud infrastructure that introduces latency, recurring cost, and privacy exposure. Training GPT-3 is estimated to have consumed 1{,}287~MWh and emitted roughly 502~metric tons of CO$_2$ equivalent \cite{patterson2021carbon}; a single frontier-model query draws on the order of ten times the energy of a conventional web search \cite{devries2023energy}.
+
+\subsection{The Rise of Small Language Models}
+\label{subsec:intro_rise}
+
+Running against this trajectory is a counter-trend: Small Language Models (SLMs) that achieve disproportionately strong performance for their size. We use \emph{SLM} to mean a decoder-only or hybrid transformer with roughly twenty billion parameters or fewer---counting \emph{active} parameters for mixture-of-experts models, since deployment cost tracks those---small enough to be plausibly served on a single consumer GPU, a laptop, or a modern phone. The empirical cohort of Section~\ref{sec:reported} is concentrated below 10B, with Phi-4 (14B) retained as an upper-bound reference. Where earlier compact models such as DistilBERT \cite{sanh2019distilbert} and TinyBERT \cite{jiao2020tinybert} were task-specific encoders, the current generation are general-purpose, instruction-following systems. The Chinchilla scaling analysis \cite{hoffmann2022chinchilla} showed that most large models were badly undertrained and that a smaller model given proportionally more data could match them; the Phi family then demonstrated that ``textbook-quality'' synthetic data lets a 3.8B model rival models an order of magnitude larger \cite{abdin2024phi3}, Gemma applied distillation from larger teachers \cite{gemma2024}, and Qwen2.5 pushed sub-7B training to 18~trillion tokens \cite{qwen2024qwen25}. MIT Technology Review named SLMs one of its 10 Breakthrough Technologies of 2025 \cite{mit2025breakthrough}. By 2026 the strongest 3--4B models post benchmark scores that were state-of-the-art for 13B-class models in 2023, and the 2025--2026 release wave adds hybrid state-space architectures \cite{falconh1_2025}, controllable-reasoning models \cite{qwen3_2025}, and mobile-first multimodal families \cite{gemma4_2026,gunter2025afm}. Figure~\ref{fig:cumulative_releases} shows the resulting acceleration: the cumulative count of documented open SLM variants has grown from a handful in 2023 to more than one hundred by early 2026.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{paper_combined_cumulative_releases.pdf}
+  \caption{Cumulative count of documented small (SLM) and large (LLM) language-model variants by release date, from the model inventory of Appendix~\ref{appendix:ecosystem} (snapshot September~2026). SLM releases accelerate sharply from mid-2024.}
+  \label{fig:cumulative_releases}
+\end{figure}
+
+\subsection{The Agentic Turn}
+\label{subsec:intro_agentic}
+
+At the same time, the way language models are consumed has shifted. The fastest-growing workload is not the chat session but the \emph{AI agent}: a control loop in which a model is called repeatedly to choose a tool, fill its arguments, extract a field, classify an intent, or check a result \cite{belcak2025slm_agentic}. These calls are narrow, repetitive, and format-constrained, and they exercise only a thin slice of a frontier model's competence. \citet{belcak2025slm_agentic} argue---and this paper concurs and elaborates---that for such workloads SLMs are not a compromise but the appropriate default: sufficiently capable for the delegated sub-task, 10--30$\times$ cheaper to serve, cheaper to specialize, and easier to constrain to a code interface, with a strong generalist model reserved for the minority of calls that genuinely need planning or broad context. Surveys of LLM--SLM collaboration \cite{chen2024role_small,chen2025collab_survey} and production systems such as Apple's on-device/server split \cite{gunter2025afm} indicate that this heterogeneous design is already the direction of travel.
+
+\subsection{Scope and Contributions}
+\label{subsec:intro_gap}
+
+Existing SLM surveys \cite{lu2024slmsurvey,vannguyen2024slm_survey,wang2024comprehensive} provide taxonomies and measurements but predate the 2025--2026 model wave and treat agentic deployment only in passing; agentic position pieces \cite{belcak2025slm_agentic} make the argument but do not ground it in a consolidated capability-and-deployment review. This paper joins the two. It is simultaneously a survey of the SLM landscape and a position statement that SLMs are the substrate of agentic AI. Its contributions are:
+
+\begin{itemize}
+  \item \textbf{Landscape and taxonomy.} A catalog of 125 documented SLM variants (2022--2026), including the recent hybrid, reasoning, and mobile-multimodal families, organized along a four-dimensional taxonomy of architecture, training strategy, modality, and application domain (Section~\ref{sec:taxonomy} and Appendix~\ref{appendix:ecosystem}).
+  \item \textbf{Compression review.} A synthesis of distillation, quantization, pruning, and compound pipelines for the sub-10B regime, including the finding that quantization consistently outperforms pruning below 4B parameters \cite{kurz2025pruning_vs_quant} (Section~\ref{sec:compression}).
+  \item \textbf{Consolidated reported performance.} A comparison of 17 SLMs across 15 tasks, three evaluation paradigms, six hardware tiers, and three precisions, assembled under a documented grey-literature protocol in which every figure is a \emph{reported} value traced to a dated source rather than an original run (Section~\ref{sec:reported}, Appendix~\ref{app:provenance}).
+  \item \textbf{Deployment ecosystem.} A survey of inference frameworks, quantization formats, and on-device platforms from Raspberry~Pi to Apple silicon (Section~\ref{sec:deployment}).
+  \item \textbf{The agentic argument.} A structured case that SLMs are the default execution substrate for agents, covering capability sufficiency, economics, behavioral alignment, heterogeneous SLM--LLM routing, and the LLM-to-SLM conversion pipeline (Section~\ref{sec:agentic}).
+  \item \textbf{An open-problems and verification agenda} (Section~\ref{sec:challenges}).
+\end{itemize}
+
+\subsection{Paper Organization}
+\label{subsec:intro_organization}
+
+Section~\ref{section:background} reviews prior work on the LLM-to-SLM transition, compression, edge inference, and LLM--SLM collaboration. Section~\ref{sec:taxonomy} presents the four-dimensional taxonomy. Section~\ref{sec:compression} reviews compression techniques. Section~\ref{sec:reported} documents the data-collection protocol and consolidates reported performance. Section~\ref{sec:deployment} covers resource-constrained deployment. Section~\ref{sec:agentic} makes the agentic argument. Section~\ref{sec:applications} surveys domain-specific applications. Section~\ref{section:discussion} discusses implications, limitations, and ethics. Section~\ref{sec:challenges} sets out open challenges and an empirical-verification agenda. Section~\ref{section:conclusion} concludes.
+
+The ecosystem inventory referenced throughout is generated directly from \texttt{merged\_llm\_database.json} (snapshot September~2026). Appendix~\ref{appendix:ecosystem} provides the full variant inventory grouped chronologically by release year and family, together with the source-selection protocol.

@@ -1,0 +1,250 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{template}[2026/08/31 v1.0 Journal manuscript formatting]
+
+% Package options: twocolumn/onecolumn, final/review,
+% and nobibliography/bibliography.
+\newif\iftemplate@twocolumn
+\newif\iftemplate@review
+\newif\iftemplate@bibliography
+
+\DeclareOption{twocolumn}{\template@twocolumntrue}
+\DeclareOption{onecolumn}{\template@twocolumnfalse}
+\DeclareOption{review}{\template@reviewtrue}
+\DeclareOption{final}{\template@reviewfalse}
+\DeclareOption{bibliography}{\template@bibliographytrue}
+\DeclareOption{nobibliography}{\template@bibliographyfalse}
+\DeclareOption*{\PackageWarning{template}{Unknown option `\CurrentOption'}}
+\ExecuteOptions{twocolumn,final,nobibliography}
+\ProcessOptions\relax
+
+% Engine, fonts, page geometry, and text composition.
+\RequirePackage{iftex}
+\ifLuaTeX\else
+  \PackageError{template}
+    {This template requires LuaLaTeX}
+    {Compile manuscript.tex with LuaLaTeX rather than pdfLaTeX.}
+\fi
+
+\RequirePackage[table,xcdraw]{xcolor}
+\RequirePackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{source-sans-regular.ttf}[
+  Path=./fonts/source-sans/,
+  BoldFont=source-sans-bold.ttf,
+  ItalicFont=source-sans-italic.ttf,
+  BoldItalicFont=source-sans-bold-italic.ttf
+]
+\setsansfont{source-sans-regular.ttf}[
+  Path=./fonts/source-sans/,
+  BoldFont=source-sans-bold.ttf,
+  ItalicFont=source-sans-italic.ttf,
+  BoldItalicFont=source-sans-bold-italic.ttf
+]
+\setmonofont{geist-mono-regular.ttf}[
+  Path=./fonts/geist-mono/,
+  BoldFont=geist-mono-bold.ttf,
+  ItalicFont=geist-mono-italic.ttf,
+  BoldItalicFont=geist-mono-bold-italic.ttf,
+  Scale=MatchLowercase
+]
+
+\RequirePackage[a4paper]{geometry}
+\iftemplate@twocolumn
+  \geometry{top=22mm,bottom=24mm,inner=19mm,outer=19mm,footskip=10mm}
+\else
+  \geometry{top=24mm,bottom=25mm,inner=24mm,outer=24mm,footskip=10mm}
+\fi
+
+\RequirePackage{microtype}
+\RequirePackage{setspace}
+\RequirePackage{ragged2e}
+\RequirePackage{enumitem}
+\RequirePackage{lineno}
+
+% Mathematics, theorems, figures, tables, algorithms, and code.
+\RequirePackage{mathtools}
+\RequirePackage{amsthm}
+\RequirePackage{unicode-math}
+\setmathfont{fira-math-regular.otf}[Path=./fonts/fira-math/]
+\RequirePackage{graphicx}
+\graphicspath{{./figures/}}
+\RequirePackage{caption}
+\RequirePackage{subcaption}
+\RequirePackage{booktabs}
+\RequirePackage{tabularx}
+\RequirePackage{longtable}
+\RequirePackage{array}
+\RequirePackage{multirow}
+\RequirePackage{makecell}
+\RequirePackage{threeparttable}
+\RequirePackage{adjustbox}
+\RequirePackage{pdflscape}
+\RequirePackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+\RequirePackage{algorithm}
+\RequirePackage{algorithmicx}
+\RequirePackage{algpseudocode}
+\RequirePackage{listings}
+\RequirePackage[title]{appendix}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Bibliography, links, identifiers, acronyms, and author blocks.
+\RequirePackage{csquotes}
+\RequirePackage[
+  backend=biber,
+  style=nejm,
+  citestyle=numeric-comp,
+  sorting=none,
+  giveninits=true,
+  natbib=true,
+  maxbibnames=99
+]{biblatex}
+\addbibresource{bibliography.bib}
+\RequirePackage[acronym,nomain,nonumberlist]{glossaries}
+\RequirePackage[hidelinks]{hyperref}
+\RequirePackage{orcidlink}
+\RequirePackage{authblk}
+
+% Journal typography and spacing.
+\iftemplate@review
+  \setstretch{1.50}
+\else
+  \setstretch{1.04}
+\fi
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\setlength{\columnsep}{7mm}
+\setlength{\columnseprule}{0pt}
+\setlength{\emergencystretch}{2em}
+\setlength{\extrarowheight}{1.5pt}
+\renewcommand{\arraystretch}{1.10}
+\Urlmuskip=0mu plus 2mu\relax
+
+\setlength{\textfloatsep}{13pt plus 3pt minus 3pt}
+\setlength{\floatsep}{11pt plus 2pt minus 2pt}
+\setlength{\intextsep}{11pt plus 2pt minus 2pt}
+\setlength{\abovedisplayskip}{8pt plus 2pt minus 2pt}
+\setlength{\belowdisplayskip}{8pt plus 2pt minus 2pt}
+\setlength{\abovedisplayshortskip}{4pt plus 2pt}
+\setlength{\belowdisplayshortskip}{6pt plus 2pt minus 2pt}
+
+\setlist{leftmargin=*,itemsep=2pt,topsep=4pt,parsep=0pt,partopsep=0pt}
+\setlist[description]{font=\normalfont\bfseries,style=nextline}
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  labelsep=period,
+  justification=justified,
+  singlelinecheck=false,
+  skip=5pt
+}
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\bfseries,
+  commentstyle=\itshape,
+  numbers=left,
+  numberstyle=\scriptsize,
+  numbersep=7pt,
+  frame=single,
+  framesep=4pt,
+  breaklines=true,
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true
+}
+
+\renewcommand\section{\@startsection{section}{1}{\z@}
+  {-2.35ex plus -0.6ex minus -0.2ex}
+  {0.85ex plus 0.2ex}
+  {\normalfont\large\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}
+  {-1.75ex plus -0.5ex minus -0.2ex}
+  {0.65ex plus 0.2ex}
+  {\normalfont\normalsize\bfseries}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}
+  {-1.45ex plus -0.4ex minus -0.2ex}
+  {0.45ex plus 0.1ex}
+  {\normalfont\normalsize\itshape}}
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}
+  {1.1ex plus 0.3ex minus 0.2ex}
+  {-0.8em}
+  {\normalfont\normalsize\bfseries}}
+
+\renewcommand\Authfont{\normalsize\bfseries}
+\renewcommand\Affilfont{\small\normalfont}
+\renewcommand\Authsep{, }
+\renewcommand\Authand{ and }
+\renewcommand\Authands{, and }
+\setlength{\affilsep}{0.55em}
+
+% Front matter environments and the column transition.
+\renewenvironment{abstract}{
+  \par\small\noindent\textbf{Abstract}\par\vspace{0.4em}
+  \noindent\ignorespaces
+}{\par\vspace{0.65em}}
+
+\newenvironment{highlights}{
+  \par\small\noindent\textbf{Highlights}\par\vspace{0.25em}
+  \begin{itemize}[
+    leftmargin=1.3em,
+    label=\textbullet,
+    itemsep=1pt,
+    topsep=2pt,
+    parsep=0pt,
+    partopsep=0pt
+  ]
+}{\end{itemize}\vspace{0.45em}}
+
+\providecommand{\sep}{}
+\renewcommand{\sep}{\unskip\enspace\textbullet\enspace\ignorespaces}
+\newenvironment{keywords}{
+  \par\small\RaggedRight\noindent\textbf{Keywords:}\ \ignorespaces
+}{\par\vspace{0.65em}}
+\pdfstringdefDisableCommands{\def\sep{; }}
+
+\newcommand{\JournalFrontMatter}[1]{
+  \maketitle
+  #1
+  \vspace{1.2em}
+}
+\newcommand{\MakeJournalFrontMatter}[1]{
+  \iftemplate@twocolumn
+    \twocolumn[\begin{@twocolumnfalse}\JournalFrontMatter{#1}\end{@twocolumnfalse}]
+  \else
+    \JournalFrontMatter{#1}
+  \fi
+}
+
+% Document-level behavior.
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+\AtBeginDocument{
+  \iftemplate@review\linenumbers\else\nolinenumbers\fi
+  \setcounter{biburlnumpenalty}{9000}
+  \setcounter{biburlucpenalty}{9000}
+  \setcounter{biburllcpenalty}{9000}
+}
+
+\newcommand{\printjournalbibliography}{
+  \iftemplate@bibliography
+    \printbibliography[title={References}]
+  \fi
+}
+
+\endinput

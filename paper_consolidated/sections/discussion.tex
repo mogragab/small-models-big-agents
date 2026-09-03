@@ -1,0 +1,109 @@
+\section{Discussion}
+\label{section:discussion}
+
+\subsection{What the Consolidated Evidence Shows}
+\label{subsec:discussion_key_findings}
+
+Read together, the taxonomy (Section~\ref{sec:taxonomy}), the compression review
+(Section~\ref{sec:compression}), and the consolidated reported performance
+(Section~\ref{sec:reported}) support four claims.
+
+\textbf{Capability per parameter has risen sharply, and unevenly.} The best
+reported 3--4B models now match the 2023 state of the art for 13B-class systems on
+mathematics, code, and knowledge benchmarks. The dominant explanatory variable in
+the reported record is not architecture but training data: models of near-identical
+size trained on different corpora differ by 15--25~points on knowledge tasks, a
+gap no architectural choice at this scale approaches. The practical implication
+for model builders is that data curation and synthetic-data pipelines dominate
+architectural novelty as a lever on SLM quality.
+
+\textbf{Compression is a first-class capability, not an afterthought.} INT8 is
+reported as effectively lossless and INT4 as costing 1--4~points, with smaller
+models and mathematical reasoning at the higher end. Because autoregressive
+inference is memory-bandwidth-bound, 4-bit quantization is simultaneously a
+storage optimization and a near-linear speedup on edge hardware. Quantization
+consistently outperforms pruning below 4B parameters \cite{kurz2025pruning_vs_quant},
+which simplifies the practitioner's decision: quantize aggressively, prune only
+when a structured size reduction is independently required.
+
+\textbf{Right-sizing beats scaling for bounded tasks.} A quantized 3.8B model that
+clears a task's accuracy threshold, running on hardware that already exists in the
+user's hand, is preferable on every axis---cost, latency, energy, privacy---to a
+larger model that also clears it. The reported numbers make this concrete: a 3--4B
+model at INT4 occupies roughly 2~GB, runs at interactive speed on a phone or a
+Jetson, and costs a small fraction of a 70B model per token. The scaling-era
+assumption that a larger model is always the safer default is inverted for any
+task whose requirements can be stated.
+
+\textbf{The evidence base itself is the weak point.} Every figure in
+Section~\ref{sec:reported} is a reported value drawn from heterogeneous sources
+with different harnesses, prompt formats, and self-reporting incentives. The
+consolidated tables are internally reconciled and provenance-tagged
+(Appendix~\ref{app:provenance}), but they are not a substitute for a controlled
+re-evaluation. Section~\ref{subsec:challenges_verification} specifies the
+verification studies that would convert the load-bearing claims from ``reported''
+to ``measured.''
+
+\subsection{Implications for Agentic Systems}
+\label{subsec:discussion_agentic}
+
+The agentic argument of Section~\ref{sec:agentic} rests on these claims rather
+than restating them. Capability-per-parameter growth is what makes an SLM
+\emph{sufficient} for a delegated sub-task; compression and edge deployability are
+what make it \emph{cheap} and \emph{private}; right-sizing is the design
+discipline that turns a heterogeneous SLM--LLM system from an option into the
+default. Two cross-cutting observations sharpen the picture. First, routing must
+be capability-aware, not size-aware: the reported multilingual and safety gaps
+(Section~\ref{subsec:reported_safety}) mean that a naive ``small model unless
+hard'' router will silently degrade non-English and safety-sensitive calls.
+Second, the specialization threshold near 3B (Section~\ref{subsec:reported_finetuning})
+implies that the economical unit in an agent is often a \emph{fine-tuned} sub-3B
+model per recurring call type, not a single general SLM---exactly the target of
+the LLM-to-SLM conversion pipeline.
+
+\subsection{Democratization and Sustainability}
+\label{subsec:discussion_implications}
+
+Deploying a 3B model that answers grade-school mathematics correctly on an
+\$80 single-board computer is a qualitative change in access. Organizations facing
+cloud-API cost, data-sovereignty rules, or unreliable connectivity can now run
+capable NLP locally with no per-query cost and no data egress. The environmental
+case is directional rather than precise: reported per-inference energy for a small
+model on modest hardware is one to two orders of magnitude below a frontier-model
+query in a datacenter, and if even a modest fraction of today's classification,
+extraction, and short-generation traffic were served by right-sized SLMs, the
+aggregate saving would be large. These figures are estimates and should be treated
+as such.
+
+\subsection{Limitations}
+\label{subsec:discussion_limitations}
+
+Beyond the evidence-base limitations already stated
+(Section~\ref{subsec:reported_limits}): the review is English-centric in its task
+coverage; the ecosystem moves faster than any static snapshot, so models released
+after the collection window are discussed only qualitatively; the taxonomy's
+boundaries (the 10B threshold, the treatment of MoE by active parameters) are
+pragmatic conventions, not natural kinds; and the agentic argument, while
+grounded in a production-scale position paper \cite{belcak2025slm_agentic} and two
+large deployments, is a projection about where the field is heading, not a
+measured outcome.
+
+\subsection{Ethical Considerations}
+\label{subsec:discussion_ethics}
+
+Safety alignment is proportionally harder at small scale: several research-grade
+SLMs lack the safety training of their larger siblings, and fine-tuning can erode
+what alignment exists \cite{qi2023finetuning}. Practitioners deploying SLMs---and
+especially those wiring them into agents with tool access---should treat
+application-level safety filtering and output monitoring as mandatory, not
+optional. Compression carries its own risk: pruning and quantization can degrade
+performance unevenly across dialects, languages, and demographic groups
+\cite{blodgett2020language}, and the reported advantage of quantization over
+pruning is largest precisely on multilingual tasks \cite{kurz2025pruning_vs_quant},
+which suggests pruning disproportionately harms non-English users. Fairness-aware
+compression objectives and per-group performance floors for high-stakes
+applications are open requirements. Against these risks, on-device SLMs advance
+privacy (no data leaves the device), accessibility (no connectivity required),
+and cost (no subscription), which matters most for the healthcare, education, and
+agricultural applications of Section~\ref{sec:applications} in under-resourced
+settings.
