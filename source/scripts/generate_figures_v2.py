@@ -463,9 +463,15 @@ def fig_context_by_year(
     models: list[dict], tag: str, label: str,
     output_dir: Path, show_title: bool, fmt: str,
 ) -> None:
-    """Box plots for years with >= 5 points, strip (jitter) for years with < 5."""
+    """Violin (density) of context window per release year.
+
+    Values are plotted in log10 space with a linear axis so the kernel-density
+    shape is meaningful; the axis is then relabelled with 1K..10M ticks.
+    """
+    import math
     years = sorted({y for y in (release_year(m) for m in models) if y is not None})
     fig = go.Figure()
+    all_log = []
     for year in years:
         values = [
             m["context_window_tokens"]
@@ -473,27 +479,30 @@ def fig_context_by_year(
         ]
         if not values:
             continue
+        logv = [math.log10(v) for v in values]
+        all_log += logv
         color = YEAR_COLORS.get(str(year), PALETTE["slate"])
-        if len(values) >= 5:
-            fig.add_trace(go.Box(
-                name=str(year), y=values, boxmean=True, showlegend=False,
-                marker_color=color, line_color=color, fillcolor=color_with_alpha(color, 0.35),
-                boxpoints="outliers",
-            ))
-        else:
-            fig.add_trace(go.Scatter(
-                x=[str(year)] * len(values), y=values, mode="markers",
-                name=str(year),
-                marker=dict(size=11, color=color, opacity=0.85,
-                            line=dict(color="white", width=1.0)),
-                showlegend=False,
-            ))
+        fig.add_trace(go.Violin(
+            x=[str(year)] * len(logv), y=logv, name=str(year),
+            line_color=color, fillcolor=color_with_alpha(color, 0.40),
+            box_visible=True, meanline_visible=True,
+            box_line_color=color, box_fillcolor=color_with_alpha(color, 0.25),
+            meanline_color=PALETTE["ink"],
+            points="all", pointpos=0, jitter=0.25,
+            marker=dict(size=5, color=color, opacity=0.5, line=dict(width=0)),
+            width=0.8, spanmode="hard", scalemode="width",
+            showlegend=False,
+        ))
     apply_figure_theme(fig, f"{label} Context Windows by Release Year", show_title=show_title)
-    # year is already on the x-axis, so no legend is needed
     fig.update_xaxes(title_text="Release year")
-    fig.update_yaxes(title_text="Context window (tokens)", type="log",
-                     tickvals=[1e3, 1e4, 1e5, 1e6, 1e7],
-                     ticktext=["1K", "10K", "100K", "1M", "10M"])
+    lo = math.floor(min(all_log)) if all_log else 3
+    hi = math.ceil(max(all_log)) if all_log else 7
+    fig.update_yaxes(
+        title_text="Context window (tokens)",
+        tickvals=[3, 4, 5, 6, 7],
+        ticktext=["1K", "10K", "100K", "1M", "10M"],
+        range=[lo - 0.25, hi + 0.25],
+    )
     save_figure(fig, output_dir, f"paper_{tag}_context_by_year", fmt)
 
 
