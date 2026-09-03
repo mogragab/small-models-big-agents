@@ -53,12 +53,12 @@ The ``\glspl{slm} as green AI'' framing extends beyond training to the lifecycle
 
 Because this review synthesizes reported performance rather than producing original benchmark runs, the most immediately valuable follow-up work is targeted empirical verification of the reported claims that do the most work in practitioner decisions. Four empirical studies would disproportionately reduce the residual uncertainty in the evidence base reviewed here:
 
-\begin{enumerate}
-    \item \textbf{Harness-consistent reruns of the headline \glspl{slm} on the headline benchmarks.} A controlled re-run of the seven most-cited \glspl{slm} (Phi-4-mini, Phi-4, Qwen2.5-3B, Qwen2.5-7B, Gemma-3-4B, LLaMA-3.2-3B, Mistral-7B) on \gls{mmlu}, \gls{gsm8k}, HumanEval, and MT-Bench under a single \texttt{lm-evaluation-harness} configuration would anchor every vendor-reported figure to an independent reproduction.
-    \item \textbf{Quantization-degradation measurement.} A controlled comparison of FP16 vs.\ INT8 vs.\ INT4 accuracy across the seven headline \glspl{slm} and four benchmarks, using the \gls{gguf}, GPTQ, and \gls{awq} toolchains referenced in the vendor reports, would sharpen the 1--4-point degradation figure reported in the literature.
-    \item \textbf{Edge-throughput reproduction.} Timed runs of the same seven \glspl{slm} in their best-supported INT4 format on a Raspberry~Pi~5, Jetson Orin Nano, Snapdragon reference device, and recent laptop CPU would calibrate the reported throughput ranges against modern silicon.
-    \item \textbf{QLoRA-gain reproduction.} A controlled \gls{qlora} (rank 64, $\alpha = 128$) adaptation of the seven \glspl{slm} on SST-2, MNLI, ARC-C, \gls{gsm8k}, and SQuAD~2.0 would quantify the reported fine-tuning gains under a single adaptation recipe.
-\end{enumerate}
+\begin{description}
+    \item[Harness-consistent reruns of the headline \glspl{slm} on the headline benchmarks] A controlled re-run of the seven most-cited \glspl{slm} (Phi-4-mini, Phi-4, Qwen2.5-3B, Qwen2.5-7B, Gemma-3-4B, LLaMA-3.2-3B, Mistral-7B) on \gls{mmlu}, \gls{gsm8k}, HumanEval, and MT-Bench under a single \texttt{lm-evaluation-harness} configuration would anchor every vendor-reported figure to an independent reproduction.
+    \item[Quantization-degradation measurement] A controlled comparison of FP16 vs.\ INT8 vs.\ INT4 accuracy across the seven headline \glspl{slm} and four benchmarks, using the \gls{gguf}, GPTQ, and \gls{awq} toolchains referenced in the vendor reports, would sharpen the 1--4-point degradation figure reported in the literature.
+    \item[Edge-throughput reproduction] Timed runs of the same seven \glspl{slm} in their best-supported INT4 format on a Raspberry~Pi~5, Jetson Orin Nano, Snapdragon reference device, and recent laptop CPU would calibrate the reported throughput ranges against modern silicon.
+    \item[QLoRA-gain reproduction] A controlled \gls{qlora} (rank 64, $\alpha = 128$) adaptation of the seven \glspl{slm} on SST-2, MNLI, ARC-C, \gls{gsm8k}, and SQuAD~2.0 would quantify the reported fine-tuning gains under a single adaptation recipe.
+\end{description}
 
 These four studies are practical on a single modern GPU on the time scale of weeks and would convert several of the consolidated claims in this review from ``reported by sources'' to ``empirically verified.'' They do not replace the review; they strengthen the claims that practitioners depend on most.
 
@@ -67,16 +67,16 @@ These four studies are practical on a single modern GPU on the time scale of wee
 
 Beyond direct empirical verification, several promising research directions emerge from this review:
 
-\begin{enumerate}
-    \item \textbf{Multilingual \gls{slm} evaluation.} Extending the consolidated performance evidence to non-English benchmarks would reveal whether the English-centric performance hierarchy reported in the literature holds across languages, particularly for models with multilingual training data (Qwen2.5, Gemma~3, BLOOM).
+\begin{description}
+    \item[Multilingual \gls{slm} evaluation] Extending the consolidated performance evidence to non-English benchmarks would reveal whether the English-centric performance hierarchy reported in the literature holds across languages, particularly for models with multilingual training data (Qwen2.5, Gemma~3, BLOOM).
 
-    \item \textbf{On-device continual learning.} Developing methods for incremental adaptation of deployed \glspl{slm} to new data without full retraining would enable personalization and domain adaptation at the edge.
+    \item[On-device continual learning] Developing methods for incremental adaptation of deployed \glspl{slm} to new data without full retraining would enable personalization and domain adaptation at the edge.
 
-    \item \textbf{SLM ensembles vs.\ single \gls{llm}.} Investigating whether ensembles of specialized \glspl{slm} (one for math, one for code, one for general knowledge) with a lightweight router can match single-LLM performance at lower aggregate cost.
+    \item[SLM ensembles vs.\ single \gls{llm}] Investigating whether ensembles of specialized \glspl{slm} (one for math, one for code, one for general knowledge) with a lightweight router can match single-LLM performance at lower aggregate cost.
 
-    \item \textbf{Multimodal \glspl{slm}.} Evaluating vision-language \glspl{slm} such as Phi-3-vision, Gemma~3 with vision, and Gemma~3n \cite{google2025gemma3n} on multimodal benchmarks would extend the comparison to the rapidly growing multimodal inference domain.
+    \item[Multimodal \glspl{slm}] Evaluating vision-language \glspl{slm} such as Phi-3-vision, Gemma~3 with vision, and Gemma~3n \cite{google2025gemma3n} on multimodal benchmarks would extend the comparison to the rapidly growing multimodal inference domain.
 
-    \item \textbf{Hybrid architectures.} The emergence of non-transformer \gls{slm} architectures (SambaY \cite{pal2025sambay}, Gated Delta Networks \cite{yang2025gated_delta}) suggests that the transformer's dominance may not extend to the edge, where linear-time inference is particularly valuable.
+    \item[Hybrid architectures] The emergence of non-transformer \gls{slm} architectures (SambaY \cite{pal2025sambay}, Gated Delta Networks \cite{yang2025gated_delta}) suggests that the transformer's dominance may not extend to the edge, where linear-time inference is particularly valuable.
 
-    \item \textbf{Federated fine-tuning.} Developing privacy-preserving fine-tuning protocols that aggregate gradient updates across edge devices would enable collaborative model improvement without centralized data collection.
-\end{enumerate}
+    \item[Federated fine-tuning] Developing privacy-preserving fine-tuning protocols that aggregate gradient updates across edge devices would enable collaborative model improvement without centralized data collection.
+\end{description}

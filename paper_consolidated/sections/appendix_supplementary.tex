@@ -32,26 +32,26 @@ tasks and, wherever possible, within a single reporting source.
 \subsection{Quantization and Compression Pipeline}
 \label{subsec:appendix_quantization_pipeline}
 To complement the methodology section, the compression workflows reported across the reviewed sources are summarized here. The reviewed literature reports five precision or compression settings across the consolidated comparison:
-\begin{enumerate}
-    \item \textbf{FP16 baseline:} standard half-precision inference used as the reference condition.
-    \item \textbf{GGUF Q4\_K\_M:} mixed-precision 4-bit quantization via \texttt{llama.cpp}, assigning higher precision to the most sensitive tensors.
-    \item \textbf{AWQ 4-bit:} activation-aware weight quantization with group size 128 and calibration on held-out text sequences.
-    \item \textbf{GPTQ 4-bit:} layer-wise post-training quantization using second-order curvature approximations.
-    \item \textbf{bitsandbytes NF4:} 4-bit NormalFloat quantization with double quantization, matching the \gls{qlora} training regime.
-\end{enumerate}
+\begin{description}
+    \item[FP16 baseline] Standard half-precision inference used as the reference condition.
+    \item[GGUF Q4\_K\_M] Mixed-precision 4-bit quantization via \texttt{llama.cpp}, assigning higher precision to the most sensitive tensors.
+    \item[AWQ 4-bit] Activation-aware weight quantization with group size 128 and calibration on held-out text sequences.
+    \item[GPTQ 4-bit] Layer-wise post-training quantization using second-order curvature approximations.
+    \item[bitsandbytes NF4] 4-bit NormalFloat quantization with double quantization, matching the \gls{qlora} training regime.
+\end{description}
 
 For compression stress tests, the sources report SparseGPT~\cite{frantar2023sparsegpt}-induced 50\% unstructured sparsity applied before 4-bit quantization. Reported figures for this combined pruning-plus-quantization setting are retained in the provenance tables for sensitivity analysis rather than the main comparative tables, because support for sparse inference remains hardware dependent and is not uniformly reported across the reviewed sources.
 
 \subsection{Edge Measurement Protocols Reported in the Source Literature}
 \label{subsec:appendix_edge_protocol}
 The deployment figures consolidated in Sections~\ref{sec:reported}--\ref{sec:deployment} are drawn from source materials whose stated measurement protocols typically include a multi-minute warm-up to stabilize thermal and frequency behavior before measurement. Across the reviewed edge-deployment sources, the reported per-model, per-device measurements cover:
-\begin{enumerate}
-    \item \textbf{Time-to-first-token (\gls{ttft}):} reported latency from prompt submission to first generated token, typically averaged over 50 prompts with 128-token inputs.
-    \item \textbf{Sustained throughput:} reported mean tokens-per-second over 256-token generations.
-    \item \textbf{Peak memory:} reported maximum RAM or unified-memory consumption during generation.
-    \item \textbf{Load time:} reported elapsed time from process start until the model is ready to serve requests.
-    \item \textbf{Energy per inference:} reported device-level power estimates where the source provides counter- or telemetry-based measurements.
-\end{enumerate}
+\begin{description}
+    \item[Time-to-first-token (\gls{ttft})] Reported latency from prompt submission to first generated token, typically averaged over 50 prompts with 128-token inputs.
+    \item[Sustained throughput] Reported mean tokens-per-second over 256-token generations.
+    \item[Peak memory] Reported maximum RAM or unified-memory consumption during generation.
+    \item[Load time] Reported elapsed time from process start until the model is ready to serve requests.
+    \item[Energy per inference] Reported device-level power estimates where the source provides counter- or telemetry-based measurements.
+\end{description}
 Because these reporting conventions differ in small but potentially consequential ways across sources (warm-up duration, prompt-length distribution, power-counter granularity), readers should treat the consolidated figures as indicative rather than precisely comparable; the conflict-resolution rules in Section~\ref{subsec:reported_sources} are applied whenever discrepant protocols yield materially different reported values for the same tuple.
 
 \subsection{Hyperparameter Search Space}

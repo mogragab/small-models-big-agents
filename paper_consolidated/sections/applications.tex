@@ -37,15 +37,15 @@ Pilot deployments of domain-adapted \glspl{slm} (3B--7B range, fine-tuned on con
 
 Code-focused \glspl{slm} have matured into a category distinct from general \glspl{slm}, with specialized pre-training corpora (GitHub, Stack Overflow, documentation), code-aware tokenization, and evaluation on function-level benchmarks (HumanEval, MBPP, SWE-Bench).
 
-\begin{itemize}
-    \item \textbf{Code LLaMA} \cite{roziere2023codellama}: Meta's family of code models fine-tuned on LLaMA-2 (7B, 13B, 34B). Code LLaMA 7B achieves 33.5\% HumanEval pass@1.
+\begin{description}
+    \item[Code LLaMA \cite{roziere2023codellama}] Meta's family of code models fine-tuned on LLaMA-2 (7B, 13B, 34B). Code LLaMA 7B achieves 33.5\% HumanEval pass@1.
 
-    \item \textbf{StarCoder2} \cite{lozhkov2024starcoder2}: BigCode's 3B/7B/15B models trained on The Stack v2 (600+ programming languages). StarCoder2-7B achieves 46.3\% HumanEval pass@1.
+    \item[StarCoder2 \cite{lozhkov2024starcoder2}] BigCode's 3B/7B/15B models trained on The Stack v2 (600+ programming languages). StarCoder2-7B achieves 46.3\% HumanEval pass@1.
 
-    \item \textbf{DeepSeek-Coder} \cite{zhu2024deepseek_coder}: A 1B--33B family trained from scratch on 2T code tokens. The 6.7B variant achieves 47.6\% HumanEval pass@1, outperforming GPT-3.5 on code completion.
+    \item[DeepSeek-Coder \cite{zhu2024deepseek_coder}] A 1B--33B family trained from scratch on 2T code tokens. The 6.7B variant achieves 47.6\% HumanEval pass@1, outperforming GPT-3.5 on code completion.
 
-    \item \textbf{Codestral} \cite{mistral2024codestral}: Mistral's 22B code model trained on 80+ programming languages with fill-in-the-middle (FIM) training for IDE integration.
-\end{itemize}
+    \item[Codestral \cite{mistral2024codestral}] Mistral's 22B code model trained on 80+ programming languages with fill-in-the-middle (FIM) training for IDE integration.
+\end{description}
 
 \subsection{Education and Multilingual NLP}
 \label{subsec:applications_multilingual}
