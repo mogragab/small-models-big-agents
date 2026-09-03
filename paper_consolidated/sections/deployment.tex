@@ -14,21 +14,21 @@ On-device deployment eliminates the latency, cost, and privacy exposure of cloud
 
 \subsubsection{Apple Intelligence (AFM)}
 
-Apple's Foundation Models \cite{apple2024intelligence,gunter2025afm} are the most fully documented on-device SLM deployment. The 2025 report \cite{gunter2025afm} describes a $\sim$3B on-device model, optimized for Apple silicon through KV-cache sharing (dividing the model so the second block reuses the first block's cache, a reported 37.5\% memory saving) and 2-bit quantization-aware training, paired with a Parallel-Track Mixture-of-Experts server model on Private Cloud Compute. The on-device model is reported competitive with Qwen3-4B and Gemma-3-4B on its target tasks; the server model with Llama~4 Scout. The third-generation framework \cite{apple2026afm3} adds a natively multimodal, sparsely activated on-device model and opens the same API surface to third-party cloud models, so that an application calls the local SLM by default and escalates to a frontier LLM only on demand. Google's Gemini Nano and Samsung's Gauss \cite{samsung2023gauss} occupy the same design point on Android and Galaxy devices.
+Apple's Foundation Models \cite{apple2024intelligence,gunter2025afm} are the most fully documented on-device \gls{slm} deployment. The 2025 report \cite{gunter2025afm} describes a $\sim$3B on-device model, optimized for Apple silicon through KV-cache sharing (dividing the model so the second block reuses the first block's cache, a reported 37.5\% memory saving) and 2-bit quantization-aware training, paired with a Parallel-Track Mixture-of-Experts server model on Private Cloud Compute. The on-device model is reported competitive with Qwen3-4B and Gemma-3-4B on its target tasks; the server model with Llama~4 Scout. The third-generation framework \cite{apple2026afm3} adds a natively multimodal, sparsely activated on-device model and opens the same API surface to third-party cloud models, so that an application calls the local \gls{slm} by default and escalates to a frontier \gls{llm} only on demand. Google's Gemini Nano and Samsung's Gauss \cite{samsung2023gauss} occupy the same design point on Android and Galaxy devices.
 
 \subsubsection{Samsung Gauss}
 
-Samsung Gauss \cite{samsung2023gauss} is a family of language models for Galaxy devices, including a ${\sim}1.7$B on-device model targeting the Gauss1 chip and Exynos 2400 NPU. Samsung reports that Gauss enables on-device email summarization, translation, and writing assistance without requiring internet connectivity.
+Samsung Gauss \cite{samsung2023gauss} is a family of language models for Galaxy devices, including a ${\sim}1.7$B on-device model targeting the Gauss1 chip and Exynos 2400 \gls{npu}. Samsung reports that Gauss enables on-device email summarization, translation, and writing assistance without requiring internet connectivity.
 
 \subsubsection{General Mobile Deployment Considerations}
 
-SLMs targeting mobile deployment must navigate three constraints. (1) \emph{Memory}: Consumer smartphones typically provide 6--12~GB RAM, of which the OS uses 2--4~GB, leaving 4--8~GB for applications. A 3B model at Q4 requires ${\sim}2$~GB, comfortable for most flagship devices. (2)~\emph{Thermal}: Sustained inference on mobile NPUs is throttled by thermals; realistic sustained throughput is lower than peak throughput benchmarks suggest. (3)~\emph{Battery}: Gemma~3 on Android reportedly consumes ${\sim}0.75\%$ battery per prompt on Pixel~9 Pro, enabling hundreds of interactions per charge. The fundamental constraint in edge deployment is memory bandwidth rather than compute: mobile devices offer 50--90~GB/s of memory bandwidth versus 2--3~TB/s for datacenter GPUs \cite{xu2024device}, making INT4 quantization not merely a storage optimization but a critical performance enabler.
+\glspl{slm} targeting mobile deployment must navigate three constraints. (1) \emph{Memory}: Consumer smartphones typically provide 6--12~GB RAM, of which the OS uses 2--4~GB, leaving 4--8~GB for applications. A 3B model at Q4 requires ${\sim}2$~GB, comfortable for most flagship devices. (2)~\emph{Thermal}: Sustained inference on mobile \glspl{npu} is throttled by thermals; realistic sustained throughput is lower than peak throughput benchmarks suggest. (3)~\emph{Battery}: Gemma~3 on Android reportedly consumes ${\sim}0.75\%$ battery per prompt on Pixel~9 Pro, enabling hundreds of interactions per charge. The fundamental constraint in edge deployment is memory bandwidth rather than compute: mobile devices offer 50--90~GB/s of memory bandwidth versus 2--3~TB/s for datacenter GPUs \cite{xu2024device}, making INT4 quantization not merely a storage optimization but a critical performance enabler.
 
 % ----------------------------------------------------------------
 \subsection{Edge and IoT Deployment}
 \label{subsec:deployment_edge}
 
-Below smartphone-class hardware lies a diverse ecosystem of edge devices: Raspberry Pi single-board computers, NVIDIA Jetson modules, and microcontrollers. SLMs targeting this tier typically require:
+Below smartphone-class hardware lies a diverse ecosystem of edge devices: Raspberry Pi single-board computers, NVIDIA Jetson modules, and microcontrollers. \glspl{slm} targeting this tier typically require:
 
 \begin{itemize}
     \item \textbf{Sub-1B or extreme quantization:} A Raspberry Pi~5 (8~GB RAM, Cortex-A76 CPU) can run Q4 quantized 1B models at 10--20 tokens/second. SmolLM2-135M at Q8 runs at $>$30~tok/s on Raspberry Pi~5. Benchmarking shows that llamafile achieves up to $4\times$ higher throughput and 30--40\% lower power consumption than Ollama for equivalent models on single-board computers \cite{costa2025sbc}.
@@ -42,7 +42,7 @@ Below smartphone-class hardware lies a diverse ecosystem of edge devices: Raspbe
 \subsection{Deployment Frameworks}
 \label{subsec:deployment_frameworks}
 
-A mature ecosystem of open-source frameworks enables SLM deployment across hardware targets. Table~\ref{tab:deployment_frameworks} provides a structured comparison.
+A mature ecosystem of open-source frameworks enables \gls{slm} deployment across hardware targets. Table~\ref{tab:deployment_frameworks} provides a structured comparison.
 
 \begin{table}[ht]
 \caption{Key SLM deployment frameworks, their primary targets, and characteristics.}
@@ -69,7 +69,7 @@ WebLLM \cite{webllm2024}       & Web browsers           & 4-bit WASM     & WebGP
 \subsection{Latency Comparison: SLMs vs.\ LLMs}
 \label{subsec:deployment_latency}
 
-Table~\ref{tab:latency_compare} illustrates the practical latency implications of SLM vs.\ LLM deployment for three representative real-world scenarios.
+Table~\ref{tab:latency_compare} illustrates the practical latency implications of \gls{slm} vs.\ \gls{llm} deployment for three representative real-world scenarios.
 
 \begin{table}[ht]
 \small
@@ -102,4 +102,4 @@ Cost/1M tokens     & \$5--15       & \$5--15        & N/A \\
 }
 \end{table}
 
-The data in Table~\ref{tab:latency_compare} illustrate a 5--20$\times$ cost advantage and comparable or superior latency for SLMs in chatbot and code-completion scenarios, with an absolute deployment advantage in offline edge contexts where LLMs are simply infeasible.
+The data in Table~\ref{tab:latency_compare} illustrate a 5--20$\times$ cost advantage and comparable or superior latency for \glspl{slm} in chatbot and code-completion scenarios, with an absolute deployment advantage in offline edge contexts where \glspl{llm} are simply infeasible.

@@ -1,77 +1,57 @@
-% abbreviations:
+% Acronym definitions for the glossaries package.
+% Use \gls{key} in body prose: first use prints "Long form (SHORT)", later uses
+% print "SHORT". \glspl{key} is the plural. Do NOT use \gls in section headings,
+% figure/table captions, or table cells (first-use tracking misfires in floats).
 
-% General AI/ML
-\newacronym{ai}{AI}{Artificial Intelligence}
-\newacronym{ml}{ML}{Machine Learning}
-\newacronym{dl}{DL}{Deep Learning}
-\newacronym{nlp}{NLP}{Natural Language Processing}
-\newacronym{llm}{LLM}{Large Language Model}
-\newacronym{slm}{SLM}{Small Language Model}
+% --- General ---
+\newacronym{ai}{AI}{artificial intelligence}
+\newacronym{ml}{ML}{machine learning}
+\newacronym{nlp}{NLP}{natural language processing}
+\newacronym{llm}{LLM}{large language model}
+\newacronym{slm}{SLM}{small language model}
+\newacronym{stem}{STEM}{science, technology, engineering, and mathematics}
 
-% Neural Network Types
-\newacronym{nn}{NN}{Neural Network}
-\newacronym{dnn}{DNN}{Deep Neural Network}
-\newacronym{cnn}{CNN}{Convolutional Neural Network}
-\newacronym{rnn}{RNN}{Recurrent Neural Network}
-\newacronym{lstm}{LSTM}{Long Short-Term Memory}
+% --- Architecture ---
+\newacronym{moe}{MoE}{mixture of experts}
+\newacronym{ssm}{SSM}{state-space model}
+\newacronym{mha}{MHA}{multi-head attention}
+\newacronym{mqa}{MQA}{multi-query attention}
+\newacronym{gqa}{GQA}{grouped-query attention}
+\newacronym{rope}{RoPE}{rotary position embeddings}
+\newacronym{ffn}{FFN}{feed-forward network}
+\newacronym{mlp}{MLP}{multi-layer perceptron}
+\newacronym{kv}{KV}{key--value}
 
-% Transformer Architecture
-\newacronym{ssm}{SSM}{State Space Model}
-\newacronym{mha}{MHA}{Multi-Head Attention}
-\newacronym{mqa}{MQA}{Multi-Query Attention}
-\newacronym{gqa}{GQA}{Grouped-Query Attention}
-\newacronym{swa}{SWA}{Sliding Window Attention}
-\newacronym{rope}{RoPE}{Rotary Position Embeddings}
-\newacronym{ffn}{FFN}{Feed-Forward Network}
+% --- Training and adaptation ---
+\newacronym{kd}{KD}{knowledge distillation}
+\newacronym{cot}{CoT}{chain of thought}
+\newacronym{peft}{PEFT}{parameter-efficient fine-tuning}
+\newacronym{lora}{LoRA}{low-rank adaptation}
+\newacronym{qlora}{QLoRA}{quantized low-rank adaptation}
+\newacronym{sft}{SFT}{supervised fine-tuning}
+\newacronym{rlhf}{RLHF}{reinforcement learning from human feedback}
+\newacronym{grpo}{GRPO}{group relative policy optimization}
+\newacronym{rag}{RAG}{retrieval-augmented generation}
+\newacronym{kl}{KL}{Kullback--Leibler}
 
-% Training and Fine-tuning
-\newacronym{lora}{LoRA}{Low-Rank Adaptation}
-\newacronym{qlora}{QLoRA}{Quantized Low-Rank Adaptation}
-\newacronym{sft}{SFT}{Supervised Fine-Tuning}
-\newacronym{rlhf}{RLHF}{Reinforcement Learning from Human Feedback}
-\newacronym{grpo}{GRPO}{Group Relative Policy Optimization}
-\newacronym{kd}{KD}{Knowledge Distillation}
-\newacronym{sgd}{SGD}{Stochastic Gradient Descent}
-\newacronym{peft}{PEFT}{Parameter-Efficient Fine-Tuning}
-\newacronym{rag}{RAG}{Retrieval-Augmented Generation}
-\newacronym{cot}{CoT}{Chain-of-Thought}
+% --- Compression ---
+\newacronym{ptq}{PTQ}{post-training quantization}
+\newacronym{qat}{QAT}{quantization-aware training}
+\newacronym{awq}{AWQ}{activation-aware weight quantization}
+\newacronym{gguf}{GGUF}{GPT-generated unified format}
 
-% Quantization
-\newacronym{gptq}{GPTQ}{Generative Pre-Trained Transformer Quantization}
-\newacronym{awq}{AWQ}{Activation-Aware Weight Quantization}
-\newacronym{gguf}{GGUF}{GPT-Generated Unified Format}
-\newacronym{nf4}{NF4}{NormalFloat 4-bit}
-\newacronym{ptq}{PTQ}{Post-Training Quantization}
-\newacronym{qat}{QAT}{Quantization-Aware Training}
-
-% Benchmarks
-\newacronym{mmlu}{MMLU}{Massive Multitask Language Understanding}
-\newacronym{gsm8k}{GSM8K}{Grade School Math 8K}
-\newacronym{arc}{ARC}{AI2 Reasoning Challenge}
-\newacronym{piqa}{PIQA}{Physical Intuition Question Answering}
-\newacronym{mnli}{MNLI}{Multi-Genre Natural Language Inference}
-\newacronym{anli}{ANLI}{Adversarial Natural Language Inference}
-\newacronym{mbpp}{MBPP}{Mostly Basic Python Problems}
-\newacronym{squad}{SQuAD}{Stanford Question Answering Dataset}
-
-% Metrics
-\newacronym{em}{EM}{Exact Match}
-\newacronym{ttft}{TTFT}{Time-to-First-Token}
-\newacronym{tps}{TPS}{Tokens Per Second}
-\newacronym{vram}{VRAM}{Video Random Access Memory}
-\newacronym{ram}{RAM}{Random Access Memory}
-\newacronym{tdp}{TDP}{Thermal Design Power}
-
-% Hardware/Deployment
-\newacronym{gpu}{GPU}{Graphics Processing Unit}
-\newacronym{npu}{NPU}{Neural Processing Unit}
-\newacronym{cpu}{CPU}{Central Processing Unit}
-\newacronym{moe}{MoE}{Mixture of Experts}
-
-% Frameworks
+% --- Hardware / deployment ---
+\newacronym{gpu}{GPU}{graphics processing unit}
+\newacronym{npu}{NPU}{neural processing unit}
+\newacronym{cpu}{CPU}{central processing unit}
+\newacronym{vram}{VRAM}{video memory}
+\newacronym{tdp}{TDP}{thermal design power}
+\newacronym{ttft}{TTFT}{time to first token}
+\newacronym{sbc}{SBC}{single-board computer}
 \newacronym{onnx}{ONNX}{Open Neural Network Exchange}
 
-% Other
-\newacronym{ci}{CI}{Computational Intelligence}
-\newacronym{kl}{KL}{Kullback--Leibler}
-\newacronym{stem}{STEM}{Science, Technology, Engineering, and Mathematics}
+% --- Benchmarks / metrics ---
+\newacronym{mmlu}{MMLU}{Massive Multitask Language Understanding}
+\newacronym{gsm8k}{GSM8K}{Grade School Math 8K}
+\newacronym{iqr}{IQR}{interquartile range}
+\newacronym{kde}{KDE}{kernel density estimate}

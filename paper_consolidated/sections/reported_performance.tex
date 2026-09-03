@@ -8,7 +8,7 @@
 \section{Consolidated Reported Performance}
 \label{sec:reported}
 
-This section assembles a comparative picture of SLM capability and deployment
+This section assembles a comparative picture of \gls{slm} capability and deployment
 behavior from the public record. In contrast to an original benchmarking study,
 the performance values analyzed here are \emph{reported} figures, synthesized
 from vendor technical reports, official model cards, community leaderboards, and
@@ -64,16 +64,16 @@ Phi-4 & 14.0B & 40 & 5,120 & GQA & 16K & 100K & $\sim$10T \\
 \bottomrule
 \end{tabular}%
 }\\[5pt]
-{\raggedright \small \textit{Note:} MHA = Multi-Head Attention; GQA = Grouped-Query Attention (Q/KV heads); GQA-LG = GQA with local--global interleaving. Training-token counts are reported or estimated values from each model's official technical report or model card.\par}
+{\raggedright \small \textit{Note:} MHA = Multi-Head Attention; \gls{gqa} = Grouped-Query Attention (Q/KV heads); GQA-LG = \gls{gqa} with local--global interleaving. Training-token counts are reported or estimated values from each model's official technical report or model card.\par}
 \end{table}
 
 \subsubsection{Benchmark Tasks and Metrics}
 \label{subsec:reported_benchmarks}
-Fifteen benchmark tasks across seven NLP categories were included: MMLU
+Fifteen benchmark tasks across seven \gls{nlp} categories were included: \gls{mmlu}
 \citep{hendrycks2021mmlu}, HellaSwag \citep{zellers2019hellaswag}, Winogrande
 \citep{sakaguchi2020winogrande}, ARC-Challenge \citep{clark2018arc}, PIQA
 \citep{bisk2020piqa}, and BoolQ \citep{clark2019boolq} for commonsense and
-language reasoning; GSM8K \citep{cobbe2021gsm8k} and MATH \citep{hendrycks2021math}
+language reasoning; \gls{gsm8k} \citep{cobbe2021gsm8k} and MATH \citep{hendrycks2021math}
 for mathematical reasoning; HumanEval \citep{chen2021humaneval} and MBPP
 \citep{austin2021mbpp} for code generation; MNLI \citep{williams2018mnli} and ANLI
 \citep{nie2020anli} for natural language inference; TriviaQA \citep{joshi2017triviaqa}
@@ -83,7 +83,7 @@ MT-Bench \citep{zheng2023mtbench} for instruction following. Inclusion of a task
 required that at least three reviewed models have publicly reported scores under
 compatible settings. Reported figures correspond to each benchmark's standard
 metric (accuracy for multiple choice; EM/F1 for QA; pass@1 for code; ROUGE-L for
-summarization; GPT-4 judge score for MT-Bench; exact match for GSM8K; symbolic
+summarization; GPT-4 judge score for MT-Bench; exact match for \gls{gsm8k}; symbolic
 equivalence for MATH). Efficiency metrics---tokens per second, time-to-first-token,
 peak memory, on-disk size, and reported energy---are each annotated in
 Appendix~\ref{app:provenance} with the measurement conditions given by their
@@ -94,7 +94,7 @@ context length, and backend.
 \label{subsec:reported_hardware}
 The review covers reported behavior across six configurations spanning the
 cloud-to-edge spectrum (Table~\ref{tab:hardware_configs}) and three precisions:
-FP16 (reference), INT8, and INT4, with GGUF~Q4\_K\_M, GPTQ group-128, and AWQ
+FP16 (reference), INT8, and INT4, with \gls{gguf}~Q4\_K\_M, GPTQ group-128, and \gls{awq}
 group-128 treated as distinct INT4 subclasses when the source distinguishes them.
 Inference-framework attribution (vLLM \citep{kwon2023vllm}, llama.cpp
 \citep{gerganov2023llamacpp}, ONNX Runtime \citep{microsoft2019onnx}, ExecuTorch
@@ -127,7 +127,7 @@ Mobile SoC & Snapdragon 8 Gen 3 & 12 GB LPDDR5X & $\sim$10W & Smartphone \\
 Reported values were collected in decreasing order of priority from: (1)~official
 vendor technical reports and release papers; (2)~official model cards on Hugging
 Face and vendor repositories, including linked evaluation appendices;
-(3)~community-operated standardized evaluations (the Open LLM Leaderboard, HELM
+(3)~community-operated standardized evaluations (the Open \gls{llm} Leaderboard, HELM
 \citep{liang2023helm}, and lm-evaluation-harness \citep{gao2023harness}-based
 community reports); (4)~third-party independent evaluations (Artificial Analysis,
 LMSYS Chatbot Arena, peer-reviewed follow-up studies); and (5)~vendor developer
@@ -195,8 +195,8 @@ StableLM 2-1.6B & 1.6B & 55.2 & 57.6 & 32.1 & 22.5 & 44.3 \\
 \end{table}
 
 Several patterns are consistent across the sources reviewed
-(Table~\ref{tab:zero_shot}). No single SLM leads on every task. In the 3--4B band,
-Phi-4-mini is reported strongest on mathematical reasoning (GSM8K) and MATH, while
+(Table~\ref{tab:zero_shot}). No single \gls{slm} leads on every task. In the 3--4B band,
+Phi-4-mini is reported strongest on mathematical reasoning (\gls{gsm8k}) and MATH, while
 Qwen2.5-3B is close behind with broader consistency. In the 7--10B band,
 Qwen2.5-7B is reported ahead of Mistral~7B and Gemma~2-9B on knowledge and code
 benchmarks. Phi-4 (14B) serves as an upper-bound reference. The most striking
@@ -204,7 +204,7 @@ regularity is the effect of training data: models of near-identical size but
 different training corpora---Qwen2.5-1.5B versus SmolLM2-1.7B, or Qwen2.5-0.5B
 versus older 500M-class models---differ by 15--25~points on knowledge benchmarks,
 a gap far larger than any attributable to architecture at this scale. A Pareto
-view of reported MMLU against parameter count places Phi-4-mini and Qwen2.5-3B on
+view of reported \gls{mmlu} against parameter count places Phi-4-mini and Qwen2.5-3B on
 the sub-4B efficient frontier and Qwen2.5-7B and Gemma~2-9B on the 7--10B
 frontier.
 
@@ -245,7 +245,7 @@ SmolLM2-1.7B & Zero-shot & 82.6 & 54.2 & 59.8 & 42.6 & 52.3 \\
 \end{table}
 
 Across sources that report all three paradigms for a common model--task pair
-(Table~\ref{tab:finetuning}), QLoRA adaptation yields the largest gains for the
+(Table~\ref{tab:finetuning}), \gls{qlora} adaptation yields the largest gains for the
 smallest models and for tasks where the base model is weak: reported sub-3B gains
 average roughly 8--10~percentage points over zero-shot, against roughly
 4--5~points at 7B. Few-shot prompting is reported to add a smaller, consistent
@@ -292,8 +292,8 @@ benchmarks). INT4 costs roughly 1--4~points on average, and the loss is
 that each weight in a small model carries more information
 \citep{slmquant2025}. Mathematical reasoning is reported to degrade faster
 than knowledge recall under INT4, by a factor of roughly 1.7--2.2. Among INT4
-methods, activation-aware quantization (AWQ) is reported to retain slightly more
-accuracy than GPTQ for SLMs \citep{lin2024awq}, and GGUF's Q4\_K\_M offers the
+methods, \gls{awq} is reported to retain slightly more
+accuracy than GPTQ for \glspl{slm} \citep{lin2024awq}, and \gls{gguf}'s Q4\_K\_M offers the
 best size--quality balance for CPU and edge backends. Reported model-size
 reductions are close to the theoretical 4$\times$: a 7B model drops from roughly
 15~GB to roughly 4.5~GB, and a 3.8B model to roughly 2.4~GB
@@ -350,17 +350,17 @@ Qwen2.5-7B & Galaxy S24+ (CPU) & 5.4 & 920 & 5.5 & 18.2 & Marginal \\
 \bottomrule
 \end{tabular}%
 }\\[4pt]
-{\raggedright \small $^*$Reported with a 4-bit NPU backend (ExecuTorch/SpinQuant).\par}
+{\raggedright \small $^*$Reported with a 4-bit \gls{npu} backend (ExecuTorch/SpinQuant).\par}
 \end{table}
 
 The reported edge figures (Table~\ref{tab:edge_deployment}) draw clear
 boundaries. An 8~GB Raspberry~Pi~5 is reported to run INT4 models up to about 3B
 at marginally interactive speeds and sub-2B models comfortably. The Jetson Orin
 Nano handles everything up to 9B at useful speeds. Snapdragon-class smartphones
-with NPU delegation are reported to run models up to 7B, with interactive use
+with \gls{npu} delegation are reported to run models up to 7B, with interactive use
 practical below 4B. Time-to-first-token, dominated by prefill, is the binding
-constraint for conversational use: reported TTFT for a 3B INT4 model is around
-4~s on the Pi but around 1~s on the Jetson. GQA and local--global attention
+constraint for conversational use: reported \gls{ttft} for a 3B INT4 model is around
+4~s on the Pi but around 1~s on the Jetson. \gls{gqa} and local--global attention
 substantially reduce the reported KV-cache footprint, which otherwise dominates
 memory at long context.
 
@@ -400,7 +400,7 @@ into cost-per-token comparisons.
 \label{subsec:reported_safety}
 
 Reported multilingual scores (FLORES-200, XQuAD, MGSM) place Qwen2.5-7B ahead of
-other SLMs, reflecting its large multilingual training corpus, with a wide gap to
+other \glspl{slm}, reflecting its large multilingual training corpus, with a wide gap to
 English-centric models on non-English mathematical reasoning. Reported toxicity
 evaluations (ToxiGen, RealToxicityPrompts) show substantially higher toxicity for
 the smallest models (TinyLlama, sub-1B variants), consistent with the argument

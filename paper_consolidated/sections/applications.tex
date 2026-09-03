@@ -6,7 +6,7 @@
 \section{Domain-Specific Applications}
 \label{sec:applications}
 
-The domains below are where SLM deployment is most advanced, and each is an
+The domains below are where \gls{slm} deployment is most advanced, and each is an
 agentic setting in the sense of Section~\ref{sec:agentic}: a workflow of bounded,
 repeated language operations---extract a diagnosis code, classify a clause,
 complete a function, translate a passage---executed under regulatory or cost
@@ -17,25 +17,25 @@ small model is the LLM-to-SLM conversion pipeline
 \subsection{Healthcare and Clinical NLP}
 \label{subsec:applications_healthcare}
 
-Healthcare NLP presents unique requirements: high factual accuracy, interpretability, HIPAA/GDPR compliance, and compatibility with clinical workflows. Large general-purpose LLMs are increasingly restricted from processing identifiable patient data due to data residency regulations, creating a strong pull toward on-premises SLMs.
+Healthcare \gls{nlp} presents unique requirements: high factual accuracy, interpretability, HIPAA/GDPR compliance, and compatibility with clinical workflows. Large general-purpose \glspl{llm} are increasingly restricted from processing identifiable patient data due to data residency regulations, creating a strong pull toward on-premises \glspl{slm}.
 
-The Meerkat family \cite{kim2025meerkat} demonstrates the potential of domain-specific SLM fine-tuning. Built on a 7B base with instruction fine-tuning on curated clinical QA datasets and chain-of-thought reasoning traces from medical board examinations, Meerkat achieves 85.7\% on USMLE Step~1---surpassing GPT-4 (86.0\% in zero-shot) while being deployable on a single A100 GPU rather than a multi-GPU cloud cluster. Meerkat's clinical reasoning is particularly strong on diagnostic pattern matching, outperforming GPT-4 by 4\% on complex differential diagnosis tasks \cite{kim2025meerkat}.
+The Meerkat family \cite{kim2025meerkat} demonstrates the potential of domain-specific \gls{slm} fine-tuning. Built on a 7B base with instruction fine-tuning on curated clinical QA datasets and chain-of-thought reasoning traces from medical board examinations, Meerkat achieves 85.7\% on USMLE Step~1---surpassing GPT-4 (86.0\% in zero-shot) while being deployable on a single A100 GPU rather than a multi-GPU cloud cluster. Meerkat's clinical reasoning is particularly strong on diagnostic pattern matching, outperforming GPT-4 by 4\% on complex differential diagnosis tasks \cite{kim2025meerkat}.
 
-OptimCLM \cite{hasan2024optimclm} applies the full compression pipeline---knowledge distillation, structured pruning, and 4-bit quantization---to clinical language models, reducing a 7B model to under 1B while preserving 95\% of its accuracy on ICD coding and discharge summary generation tasks. This makes clinical NLP feasible on hospital workstations without GPU infrastructure.
+OptimCLM \cite{hasan2024optimclm} applies the full compression pipeline---knowledge distillation, structured pruning, and 4-bit quantization---to clinical language models, reducing a 7B model to under 1B while preserving 95\% of its accuracy on ICD coding and discharge summary generation tasks. This makes clinical \gls{nlp} feasible on hospital workstations without GPU infrastructure.
 
-The broader SLM healthcare ecosystem includes BioMedLM (PubMed-trained 2.7B model), clinical note generation models, and radiology-specific models. A key trend is the use of Retrieval-Augmented Generation (RAG) \cite{lewis2020rag} to anchor SLM outputs to verified clinical knowledge bases, reducing hallucination rates in patient-facing applications.
+The broader \gls{slm} healthcare ecosystem includes BioMedLM (PubMed-trained 2.7B model), clinical note generation models, and radiology-specific models. A key trend is the use of \gls{rag} \cite{lewis2020rag} to anchor \gls{slm} outputs to verified clinical knowledge bases, reducing hallucination rates in patient-facing applications.
 
 \subsection{Legal NLP}
 \label{subsec:applications_legal}
 
-Legal document processing---contract review, compliance monitoring, regulatory change analysis, case law search---involves long, precisely structured documents where hallucination is particularly dangerous. SLMs address legal NLP deployment constraints in two ways: (1)~by enabling on-premises deployment to satisfy attorney-client privilege and data security requirements; and (2)~by enabling cost-effective processing of the massive volumes of routine legal work that would be prohibitively expensive with frontier LLMs.
+Legal document processing---contract review, compliance monitoring, regulatory change analysis, case law search---involves long, precisely structured documents where hallucination is particularly dangerous. \glspl{slm} address legal \gls{nlp} deployment constraints in two ways: (1)~by enabling on-premises deployment to satisfy attorney-client privilege and data security requirements; and (2)~by enabling cost-effective processing of the massive volumes of routine legal work that would be prohibitively expensive with frontier \glspl{llm}.
 
-Pilot deployments of domain-adapted SLMs (3B--7B range, fine-tuned on contract corpora) have demonstrated 30--40\% reductions in administrative processing time for standard contract review workflows. Models fine-tuned on specific regulatory domains (GDPR, SOC~2, FINRA) consistently outperform general-purpose GPT-4 on domain-specific compliance classification tasks, owing to the depth of in-domain knowledge concentration.
+Pilot deployments of domain-adapted \glspl{slm} (3B--7B range, fine-tuned on contract corpora) have demonstrated 30--40\% reductions in administrative processing time for standard contract review workflows. Models fine-tuned on specific regulatory domains (GDPR, SOC~2, FINRA) consistently outperform general-purpose GPT-4 on domain-specific compliance classification tasks, owing to the depth of in-domain knowledge concentration.
 
 \subsection{Code Generation}
 \label{subsec:applications_code}
 
-Code-focused SLMs have matured into a category distinct from general SLMs, with specialized pre-training corpora (GitHub, Stack Overflow, documentation), code-aware tokenization, and evaluation on function-level benchmarks (HumanEval, MBPP, SWE-Bench).
+Code-focused \glspl{slm} have matured into a category distinct from general \glspl{slm}, with specialized pre-training corpora (GitHub, Stack Overflow, documentation), code-aware tokenization, and evaluation on function-level benchmarks (HumanEval, MBPP, SWE-Bench).
 
 \begin{itemize}
     \item \textbf{Code LLaMA} \cite{roziere2023codellama}: Meta's family of code models fine-tuned on LLaMA-2 (7B, 13B, 34B). Code LLaMA 7B achieves 33.5\% HumanEval pass@1.
@@ -50,8 +50,8 @@ Code-focused SLMs have matured into a category distinct from general SLMs, with 
 \subsection{Education and Multilingual NLP}
 \label{subsec:applications_multilingual}
 
-Multilingual SLMs address the linguistic coverage gap in AI assistants: the majority of LLM pre-training data is English, leaving speakers of lower-resource languages with significantly degraded performance. Aya~8B \cite{ustun2024aya} is fine-tuned on 204 million multilingual instructions spanning 101 languages, with strong performance across African, South Asian, and Southeast Asian languages that are severely underrepresented in standard benchmarks.
+Multilingual \glspl{slm} address the linguistic coverage gap in AI assistants: the majority of \gls{llm} pre-training data is English, leaving speakers of lower-resource languages with significantly degraded performance. Aya~8B \cite{ustun2024aya} is fine-tuned on 204 million multilingual instructions spanning 101 languages, with strong performance across African, South Asian, and Southeast Asian languages that are severely underrepresented in standard benchmarks.
 
-Qwen2.5~7B \cite{qwen2024qwen25} is pre-trained on 18T tokens with strong multilingual coverage including Chinese, Japanese, Korean, Arabic, and multiple European languages, serving as the de facto open-weight SLM for multilingual enterprise deployments. Gemma~3's multilingual extension \cite{team2025gemma3} adds instruction-tuning data for 40+ languages at the 4B and 12B scales.
+Qwen2.5~7B \cite{qwen2024qwen25} is pre-trained on 18T tokens with strong multilingual coverage including Chinese, Japanese, Korean, Arabic, and multiple European languages, serving as the de facto open-weight \gls{slm} for multilingual enterprise deployments. Gemma~3's multilingual extension \cite{team2025gemma3} adds instruction-tuning data for 40+ languages at the 4B and 12B scales.
 
-Educational applications include on-device tutoring systems (leveraging Phi-3 or SmolLM on tablets), interactive language learning assistants with real-time feedback, and low-connectivity educational tools for rural and developing-world deployments. The key requirement for educational SLMs is not just multilingual capability but also low hallucination rates and age-appropriate safety filtering.
+Educational applications include on-device tutoring systems (leveraging Phi-3 or SmolLM on tablets), interactive language learning assistants with real-time feedback, and low-connectivity educational tools for rural and developing-world deployments. The key requirement for educational \glspl{slm} is not just multilingual capability but also low hallucination rates and age-appropriate safety filtering.

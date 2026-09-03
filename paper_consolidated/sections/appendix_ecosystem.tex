@@ -1,13 +1,13 @@
 \section{Broader Small-Model Ecosystem Context}
 \label{appendix:ecosystem}
 
-The standalone inventory drafts in this project tracked the wider model ecosystem surrounding the evaluated SLM cohort. Their main function was to contextualize the paper within the rapidly changing 2025--2026 release cycle, where compact open models, open-weight reasoning models, and frontier API systems evolved in parallel. The distilled summary below preserves the most relevant ecosystem information inside the main paper.
+The standalone inventory drafts in this project tracked the wider model ecosystem surrounding the evaluated \gls{slm} cohort. Their main function was to contextualize the paper within the rapidly changing 2025--2026 release cycle, where compact open models, open-weight reasoning models, and frontier API systems evolved in parallel. The distilled summary below preserves the most relevant ecosystem information inside the main paper.
 
 \subsection{Landscape Snapshot}
 \label{subsec:ecosystem_snapshot}
 Three ecosystem trends are especially relevant to the present study:
 \begin{enumerate}
-    \item \textbf{Capability compression:} reasoning, long-context handling, and multimodality have moved into the 1B--8B range, narrowing the gap between deployable SLMs and cloud-scale LLMs.
+    \item \textbf{Capability compression:} reasoning, long-context handling, and multimodality have moved into the 1B--8B range, narrowing the gap between deployable \glspl{slm} and cloud-scale \glspl{llm}.
     \item \textbf{Open-weight acceleration:} families such as Qwen, Phi, Gemma, SmolLM, DeepSeek distills, Granite, and MiniCPM have expanded the design space for self-hosted deployment (Figure~\ref{fig:license_posture}).
     \item \textbf{Deployment diversification:} inference targets now span cloud GPUs, consumer GPUs, laptops, smartphones, browsers, and embedded edge boards, making model choice inseparable from hardware choice.
 \end{enumerate}
@@ -67,14 +67,14 @@ Grok / Kimi / GLM / Nova & xAI / Moonshot / Zhipu / AWS & Large API or MoE syste
 \label{subsec:ecosystem_classification}
 The inventory drafts used the following practical conventions, which also informed the model-selection narrative in this paper:
 \begin{itemize}
-    \item Dense models at roughly 20B parameters or below were treated as SLMs when they remained plausibly deployable on modest hardware.
+    \item Dense models at roughly 20B parameters or below were treated as \glspl{slm} when they remained plausibly deployable on modest hardware.
     \item Mixture-of-Experts models were interpreted using \emph{active} parameters for deployment reasoning, because active parameters better capture per-token compute and memory cost.
-    \item Closed API models with undisclosed parameter counts were treated as frontier LLM baselines rather than direct members of the evaluated SLM cohort.
+    \item Closed API models with undisclosed parameter counts were treated as frontier \gls{llm} baselines rather than direct members of the evaluated \gls{slm} cohort.
 \end{itemize}
 
 \subsection{Generated Variant Inventory}
 \label{subsec:ecosystem_generated_inventory}
-The following inventory is generated directly from \texttt{merged\_llm\_database.json} using \texttt{scripts/generate\_model\_tables.py}. The database covers 123 SLM variants and 238 LLM variants (361 entries in total, snapshot September~2026); only the SLM inventory is reproduced here, organized chronologically by release year and then by family, with parameter size as an explicit comparison column. The corresponding LLM inventory is available in the source database.
+The following inventory is generated directly from \texttt{merged\_llm\_database.json} using \texttt{scripts/generate\_model\_tables.py}. The database covers 123 \gls{slm} variants and 238 \gls{llm} variants (361 entries in total, snapshot September~2026); only the \gls{slm} inventory is reproduced here, organized chronologically by release year and then by family, with parameter size as an explicit comparison column. The corresponding \gls{llm} inventory is available in the source database.
 
 {\footnotesize\noindent\textbf{Chronology.} \hyperref[tab:model_inventory_slm_by_year]{SLM inventory}: \hyperlink{model-year-slm-2026}{2026}, \hyperlink{model-year-slm-2025}{2025}, \hyperlink{model-year-slm-2024}{2024}, \hyperlink{model-year-slm-2023-and-earlier}{2023 and earlier}.\par}
 \input{partials/model_inventory_slm_by_year}

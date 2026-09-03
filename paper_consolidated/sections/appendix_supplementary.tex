@@ -2,7 +2,7 @@
 \label{appendix:supplementary}
 \label{app:provenance}
 
-This appendix supports the reproducibility of the \emph{review itself}: it documents the sources of the reported figures consolidated in Sections~\ref{sec:reported}--\ref{sec:deployment}, and provides the reference prompt templates, quantization-pipeline specifications, and QLoRA hyperparameter settings under which those figures were reported. The appendix does not report original experimental runs.
+This appendix supports the reproducibility of the \emph{review itself}: it documents the sources of the reported figures consolidated in Sections~\ref{sec:reported}--\ref{sec:deployment}, and provides the reference prompt templates, quantization-pipeline specifications, and \gls{qlora} hyperparameter settings under which those figures were reported. The appendix does not report original experimental runs.
 
 \subsection{Per-Figure Provenance Table}
 \label{subsec:appendix_provenance_table}
@@ -37,7 +37,7 @@ To complement the methodology section, the compression workflows reported across
     \item \textbf{GGUF Q4\_K\_M:} mixed-precision 4-bit quantization via \texttt{llama.cpp}, assigning higher precision to the most sensitive tensors.
     \item \textbf{AWQ 4-bit:} activation-aware weight quantization with group size 128 and calibration on held-out text sequences.
     \item \textbf{GPTQ 4-bit:} layer-wise post-training quantization using second-order curvature approximations.
-    \item \textbf{bitsandbytes NF4:} 4-bit NormalFloat quantization with double quantization, matching the QLoRA training regime.
+    \item \textbf{bitsandbytes NF4:} 4-bit NormalFloat quantization with double quantization, matching the \gls{qlora} training regime.
 \end{enumerate}
 
 For compression stress tests, the sources report SparseGPT~\cite{frantar2023sparsegpt}-induced 50\% unstructured sparsity applied before 4-bit quantization. Reported figures for this combined pruning-plus-quantization setting are retained in the provenance tables for sensitivity analysis rather than the main comparative tables, because support for sparse inference remains hardware dependent and is not uniformly reported across the reviewed sources.
@@ -46,7 +46,7 @@ For compression stress tests, the sources report SparseGPT~\cite{frantar2023spar
 \label{subsec:appendix_edge_protocol}
 The deployment figures consolidated in Sections~\ref{sec:reported}--\ref{sec:deployment} are drawn from source materials whose stated measurement protocols typically include a multi-minute warm-up to stabilize thermal and frequency behavior before measurement. Across the reviewed edge-deployment sources, the reported per-model, per-device measurements cover:
 \begin{enumerate}
-    \item \textbf{Time-to-first-token (TTFT):} reported latency from prompt submission to first generated token, typically averaged over 50 prompts with 128-token inputs.
+    \item \textbf{Time-to-first-token (\gls{ttft}):} reported latency from prompt submission to first generated token, typically averaged over 50 prompts with 128-token inputs.
     \item \textbf{Sustained throughput:} reported mean tokens-per-second over 256-token generations.
     \item \textbf{Peak memory:} reported maximum RAM or unified-memory consumption during generation.
     \item \textbf{Load time:} reported elapsed time from process start until the model is ready to serve requests.
@@ -79,7 +79,7 @@ Scheduler & \{cosine, linear\} & cosine \\
 \end{tabular}
 \end{table}
 
-The right-hand column records the QLoRA configuration that the reviewed sources most commonly report; where a source used a different rank, target-module set, or schedule, the deviation is noted in the per-figure provenance table so that its reported gain is not compared directly against gains obtained under the common recipe.
+The right-hand column records the \gls{qlora} configuration that the reviewed sources most commonly report; where a source used a different rank, target-module set, or schedule, the deviation is noted in the per-figure provenance table so that its reported gain is not compared directly against gains obtained under the common recipe.
 
 \subsection{Extended Results Tables}
 \label{subsec:appendix_extended_results}
@@ -157,4 +157,4 @@ Inference engine & llama.cpp & MLC LLM & ExecuTorch & llama.cpp \\
 
 \subsection{Human-Evaluation Conventions in the Source Literature}
 \label{subsec:appendix_human_eval}
-For subjective tasks such as summarization quality and instruction following, the reviewed sources that report human judgments typically rate outputs along three axes---\textbf{relevance}, \textbf{coherence}, and \textbf{factual accuracy}---on a 1--5 Likert scale, with model identity hidden from annotators and inter-annotator reliability reported via a Krippendorff-style coefficient. MT-Bench-style results substitute a strong LLM judge for human raters. Because these protocols differ across sources in rubric wording and judge model, the consolidated instruction-following column (MT-Bench) should be read as indicative, and human-rated summarization scores are reported only as ranges.
+For subjective tasks such as summarization quality and instruction following, the reviewed sources that report human judgments typically rate outputs along three axes---\textbf{relevance}, \textbf{coherence}, and \textbf{factual accuracy}---on a 1--5 Likert scale, with model identity hidden from annotators and inter-annotator reliability reported via a Krippendorff-style coefficient. MT-Bench-style results substitute a strong \gls{llm} judge for human raters. Because these protocols differ across sources in rubric wording and judge model, the consolidated instruction-following column (MT-Bench) should be read as indicative, and human-rated summarization scores are reported only as ranges.

@@ -1,12 +1,12 @@
 % ================================================================
-% Section: Model Compression Techniques for SLMs
+% Section: Model Compression Techniques for \glspl{slm}
 % Merged from main (2).tex — Section IV + sections/background.tex
 % ================================================================
 
 \section{Model Compression Techniques for SLMs}
 \label{sec:compression}
 
-Model compression is central to the SLM ecosystem: it is the primary pathway for reducing large pre-trained models to sizes deployable on edge hardware, and it provides a complementary route to training-from-scratch. The principal techniques are knowledge distillation, quantization, and pruning; in practice, compound pipelines combining all three have become the state of the art. Table~\ref{tab:compression_compare} summarizes the key characteristics of each approach.
+Model compression is central to the \gls{slm} ecosystem: it is the primary pathway for reducing large pre-trained models to sizes deployable on edge hardware, and it provides a complementary route to training-from-scratch. The principal techniques are knowledge distillation, quantization, and pruning; in practice, compound pipelines combining all three have become the state of the art. Table~\ref{tab:compression_compare} summarizes the key characteristics of each approach.
 
 \begin{table}[ht]
 \small
@@ -35,53 +35,55 @@ KD + Pruning + Quant  & Yes & $40\times+$        & ${\sim}90\%$   & High \\
 \subsection{Knowledge Distillation}
 \label{subsec:compression_kd}
 
-Knowledge distillation (KD) \cite{hinton2015distilling} transfers the ``dark knowledge'' embedded in a teacher model's soft output distribution to a smaller student model. The student is trained to minimize a combination of the standard cross-entropy loss on labeled data and a KL-divergence loss with respect to the teacher's output logits at a temperature $T > 1$. This approach was pioneered for BERT compression (DistilBERT \cite{sanh2019distilbert}, TinyBERT \cite{jiao2020tinybert}) and has since been substantially extended for generative SLMs.
+\gls{kd} \cite{hinton2015distilling} transfers the ``dark knowledge'' embedded in a teacher model's soft output distribution to a smaller student model. The student is trained to minimize a combination of the standard cross-entropy loss on labeled data and a Kullback--Leibler (KL) divergence loss with respect to the teacher's output logits at a temperature $T > 1$. This approach was pioneered for BERT compression (DistilBERT \cite{sanh2019distilbert}, TinyBERT \cite{jiao2020tinybert}) and has since been substantially extended for generative \glspl{slm}.
 
 \subsubsection{White-Box vs.\ Black-Box KD}
 
-The survey by Yang et al.\ \cite{yang2024kd_survey} classifies LLM distillation into two paradigms:
+The survey by Yang et al.\ \cite{yang2024kd_survey} classifies \gls{llm} distillation into two paradigms:
 
-\textbf{White-box KD} has access to the teacher's intermediate representations. TinyBERT \cite{jiao2020tinybert} pioneered layer-by-layer feature alignment, matching student hidden states, attention matrices, and embedding layers to teacher counterparts via MSE loss. In the decoder-only LLM setting, this requires pairing student and teacher layers—a non-trivial task when sizes differ substantially—and is computationally expensive but yields superior retention of teacher capabilities.
+\emph{White-box \gls{kd}} has access to the teacher's intermediate representations. TinyBERT \cite{jiao2020tinybert} pioneered layer-by-layer feature alignment, matching student hidden states, attention matrices, and embedding layers to teacher counterparts via MSE loss. In the decoder-only \gls{llm} setting, this requires pairing student and teacher layers—a non-trivial task when sizes differ substantially—and is computationally expensive but yields superior retention of teacher capabilities.
 
-\textbf{Black-box KD} uses only the teacher's generated outputs—either token probabilities or free-form text—as the supervision signal. Orca \cite{ho2022orca} exemplifies text-output black-box KD: GPT-4 generates step-by-step reasoning traces, which a LLaMA-based student learns to replicate. DeepSeek-R1 \cite{deepseek2025r1} extends this to long chain-of-thought reasoning distillation, producing 7B and 14B students that dramatically outperform identically-sized from-scratch models on mathematical reasoning.
+\emph{Black-box \gls{kd}} uses only the teacher's generated outputs---either token probabilities or free-form text---as the supervision signal. Orca \cite{ho2022orca} exemplifies text-output black-box \gls{kd}: GPT-4 generates step-by-step reasoning traces, which a LLaMA-based student learns to replicate. DeepSeek-R1 \cite{deepseek2025r1} extends this to long chain-of-thought reasoning distillation, producing 7B and 14B students that dramatically outperform identically-sized from-scratch models on mathematical reasoning.
 
 \subsubsection{Chain-of-Thought Distillation}
 
-A particularly productive form of black-box KD is chain-of-thought (CoT) distillation \cite{wei2022cot}: the teacher model generates explicit reasoning steps, and the student learns to produce or internalize these steps. Feng et al.\ \cite{feng2024counterfactual} demonstrate counterfactual distillation—augmenting CoT traces with contrastive incorrect reasoning—as a way to sharpen the student's reasoning boundaries. Liao et al.\ \cite{liao2024nesycd} propose Neural-Symbolic Collaborative Distillation, using a neuro-symbolic teacher to provide structured reasoning supervision that is more transferable to small students than purely neural CoT.
+A particularly productive form of black-box \gls{kd} is \gls{cot} distillation \cite{wei2022cot}: the teacher model generates explicit reasoning steps, and the student learns to produce or internalize these steps. Feng et al.\ \cite{feng2024counterfactual} demonstrate counterfactual distillation—augmenting \gls{cot} traces with contrastive incorrect reasoning—as a way to sharpen the student's reasoning boundaries. Liao et al.\ \cite{liao2024nesycd} propose Neural-Symbolic Collaborative Distillation, using a neuro-symbolic teacher to provide structured reasoning supervision that is more transferable to small students than purely neural \gls{cot}.
 
 \subsubsection{Data Augmentation in KD}
 
-The survey by Xu et al.\ \cite{xu2024kd_survey} highlights data augmentation (DA) as a central paradigm within KD frameworks. When the student lacks sufficient coverage of the teacher's knowledge space, the teacher can generate synthetic training instances targeting specific skill gaps—the mechanism underlying the Phi family's success \cite{gunasekar2023phi1}. The efficient KD approach of Ballout et al.\ \cite{ballout2024efficient_kd} demonstrates that targeted data augmentation can reduce the student training compute by 60\% while preserving 95\% of the teacher's task-specific accuracy.
+The survey by Xu et al.\ \cite{xu2024kd_survey} highlights data augmentation (DA) as a central paradigm within \gls{kd} frameworks. When the student lacks sufficient coverage of the teacher's knowledge space, the teacher can generate synthetic training instances targeting specific skill gaps—the mechanism underlying the Phi family's success \cite{gunasekar2023phi1}. The efficient \gls{kd} approach of Ballout et al.\ \cite{ballout2024efficient_kd} demonstrates that targeted data augmentation can reduce the student training compute by 60\% while preserving 95\% of the teacher's task-specific accuracy.
 
 \subsubsection{Self-Distillation}
 
-An emerging approach eliminates the external teacher entirely. Fu et al.\ \cite{fu2024dynamic_selfd} propose Dynamic Self-Distillation, in which the model uses its own predictions from previous mini-batches as soft targets during fine-tuning, providing a form of implicit regularization that reduces overfitting on small fine-tuning datasets—a critical challenge for SLMs.
+An emerging approach eliminates the external teacher entirely. Fu et al.\ \cite{fu2024dynamic_selfd} propose Dynamic Self-Distillation, in which the model uses its own predictions from previous mini-batches as soft targets during fine-tuning, providing a form of implicit regularization that reduces overfitting on small fine-tuning datasets—a critical challenge for \glspl{slm}.
 
 % ----------------------------------------------------------------
 \subsection{Quantization}
 \label{subsec:compression_quantization}
 
-Quantization reduces the numerical precision of model weights and/or activations from 32-bit floats (FP32) or 16-bit (FP16/BF16) to integers or low-bit floats (INT8, INT4, FP4, NF4, INT2). This directly reduces memory footprint and, on hardware with native integer arithmetic (NPUs, modern CPUs), reduces inference latency.
+Quantization reduces the numerical precision of model weights and/or activations from 32-bit floats (FP32) or 16-bit (FP16/BF16) to integers or low-bit floats (INT8, INT4, FP4, NF4, INT2). This directly reduces memory footprint and, on hardware with native integer arithmetic (\glspl{npu}, modern CPUs), reduces inference latency.
 
 \subsubsection{Post-Training Quantization (PTQ)}
+\glsunset{ptq}
 
 PTQ is performed after training is complete, requiring only a small calibration dataset (typically 128--512 samples) and no gradient computation. It is the dominant quantization paradigm because it is cheap and applies to any model without access to training infrastructure.
 
-\textbf{GPTQ} \cite{frantar2023gptq} applies second-order weight compression: it uses an approximation of the inverse Hessian of the loss with respect to each layer's weights to determine optimal rounding decisions, minimizing the layer-wise squared error introduced by quantization. For SLMs, GPTQ 4-bit quantization of a 7B model reduces VRAM from ${\sim}14$~GB to ${\sim}4$~GB.
+GPTQ \cite{frantar2023gptq} applies second-order weight compression: it uses an approximation of the inverse Hessian of the loss with respect to each layer's weights to determine optimal rounding decisions, minimizing the layer-wise squared error introduced by quantization. For \glspl{slm}, GPTQ 4-bit quantization of a 7B model reduces \gls{vram} from ${\sim}14$~GB to ${\sim}4$~GB.
 
-\textbf{AWQ (Activation-Aware Weight Quantization)} \cite{lin2024awq} observes that not all weights are equally important for activation output: 1\% of weights (those corresponding to large-magnitude activation channels) account for disproportionate reconstruction error. AWQ identifies these ``salient'' channels using a small calibration set and applies per-channel scaling to protect them before quantization, consistently outperforming GPTQ on complex reasoning tasks and winning the MLSys 2024 Best Paper award.
+\gls{awq} \cite{lin2024awq} observes that not all weights are equally important for activation output: 1\% of weights (those corresponding to large-magnitude activation channels) account for disproportionate reconstruction error. \gls{awq} identifies these ``salient'' channels using a small calibration set and applies per-channel scaling to protect them before quantization, consistently outperforming GPTQ on complex reasoning tasks and winning the MLSys 2024 Best Paper award.
 
-\textbf{GGUF} is a quantization format popularized by \texttt{llama.cpp} \cite{gerganov2023llamacpp} that packages model weights, vocabulary, and architecture metadata in a single binary file. GGUF supports a range of quantization levels (Q2\_K through Q8\_0), enabling users to trade off quality and memory footprint across a continuous spectrum. Its practical importance for SLM deployment cannot be overstated: GGUF enables LLaMA-3.2-3B to run at 60+ tokens/second on consumer laptops without a GPU.
+\gls{gguf} is a quantization file format popularized by \texttt{llama.cpp} \cite{gerganov2023llamacpp} that packages model weights, vocabulary, and architecture metadata in a single binary file. It supports a range of quantization levels (Q2\_K through Q8\_0), letting users trade off quality against memory footprint along a near-continuous spectrum, and it enables Llama-3.2-3B to run at 60+ tokens per second on consumer laptops without a GPU.
 
-\textbf{SqueezeLLM} \cite{kim2024squeezellm} introduced sensitivity-based non-uniform quantization with dense-and-sparse decomposition, demonstrating that sensitivity varies dramatically across weight dimensions and enabling superior accuracy at ultra-low bit-widths.
+SqueezeLLM \cite{kim2024squeezellm} introduced sensitivity-based non-uniform quantization with dense-and-sparse decomposition, showing that sensitivity varies dramatically across weight dimensions and enabling higher accuracy at ultra-low bit-widths.
 
 \subsubsection{Quantization-Aware Training (QAT)}
+\glsunset{qat}
 
-QAT integrates simulated quantization into the training loop, allowing the model to learn weight values that are robust to quantization error. This is particularly valuable for aggressive quantization (2-bit, 3-bit) where PTQ accuracy drops unacceptably. QAT produces models with 2--3\% higher task accuracy than PTQ at the same bit-width but requires access to training data and significant compute.
+QAT integrates simulated quantization into the training loop, allowing the model to learn weight values that are robust to quantization error. This is particularly valuable for aggressive quantization (2-bit, 3-bit) where \gls{ptq} accuracy drops unacceptably. \gls{qat} produces models with 2--3\% higher task accuracy than \gls{ptq} at the same bit-width but requires access to training data and significant compute.
 
-\subsubsection{Key Finding: Quantization vs.\ Pruning}
+\subsubsection{Quantization versus Pruning in the Sub-10B Regime}
 
-Kurz and Zhao \cite{kurz2025pruning_vs_quant} conducted the first systematic comparison of PTQ quantization (GPTQ, AWQ) against post-training pruning (SparseGPT, Wanda) specifically in the SLM regime (0.5B--3.8B parameters, six models, seven languages, seven downstream tasks). Their primary conclusion: \emph{quantization consistently outperforms pruning in preserving model fidelity, multilingual perplexity, and reasoning accuracy}. AWQ at 4-bit outperforms 50\% Wanda pruning on 6 of 7 tasks. Quantization's advantage is most pronounced on language modeling and multilingual tasks; the gap narrows on complex knowledge tasks, where both methods show similar degradation under high compression.
+Kurz and Zhao \cite{kurz2025pruning_vs_quant} conducted the first systematic comparison of \gls{ptq} quantization (GPTQ, \gls{awq}) against post-training pruning (SparseGPT, Wanda) specifically in the \gls{slm} regime (0.5B--3.8B parameters, six models, seven languages, seven downstream tasks). Their primary conclusion: \emph{quantization consistently outperforms pruning in preserving model fidelity, multilingual perplexity, and reasoning accuracy}. \gls{awq} at 4-bit outperforms 50\% Wanda pruning on 6 of 7 tasks. Quantization's advantage is most pronounced on language modeling and multilingual tasks; the gap narrows on complex knowledge tasks, where both methods show similar degradation under high compression.
 
 % ----------------------------------------------------------------
 \subsection{Pruning}
@@ -91,18 +93,18 @@ Pruning removes parameters from a pre-trained model, either individually (unstru
 
 \subsubsection{Unstructured Pruning}
 
-\textbf{SparseGPT} \cite{frantar2023sparsegpt} extends the GPTQ framework to weight removal: it prunes weights layer-by-layer using inverse-Hessian information to minimize the reconstruction error introduced by zeroing each weight. SparseGPT can prune 175B GPT-3 to 50\% sparsity in a single forward pass without weight updates, with $<1$\% perplexity increase.
+SparseGPT \cite{frantar2023sparsegpt} extends the GPTQ framework to weight removal: it prunes weights layer-by-layer using inverse-Hessian information to minimize the reconstruction error introduced by zeroing each weight. It can prune the 175B GPT-3 to 50\% sparsity in a single forward pass without weight updates, with a perplexity increase below 1\%.
 
-\textbf{Wanda (Pruning by Weights and Activations)} \cite{sun2024wanda} proposes a simpler criterion: prune weights with the smallest product of weight magnitude and corresponding input activation norm. This requires only a forward pass through the calibration data (no second-order information) and runs $10\times$ faster than SparseGPT while achieving competitive performance at 50\% sparsity.
+Pruning by weights and activations (Wanda) \cite{sun2024wanda} proposes a simpler criterion: remove the weights with the smallest product of weight magnitude and corresponding input-activation norm. This needs only a forward pass over the calibration data (no second-order information) and runs about $10\times$ faster than SparseGPT while matching its accuracy at 50\% sparsity.
 
 \subsubsection{Structured Pruning}
 
-Structured pruning removes entire attention heads, MLP channels, or transformer layers, yielding immediately deployable models without special sparsity libraries. Layer pruning—removing the least important layers as measured by cosine similarity between adjacent layer outputs—has been shown to reduce LLaMA-3 8B to a 6B model with $<2$\% MMLU degradation. The Minitron pipeline \cite{minitron2024} applies depth and width pruning simultaneously, guided by importance scores derived from activation magnitudes over a calibration set.
+Structured pruning removes entire attention heads, MLP channels, or transformer layers, yielding immediately deployable models without special sparsity libraries. Layer pruning—removing the least important layers as measured by cosine similarity between adjacent layer outputs—has been shown to reduce LLaMA-3 8B to a 6B model with $<2$\% \gls{mmlu} degradation. The Minitron pipeline \cite{minitron2024} applies depth and width pruning simultaneously, guided by importance scores derived from activation magnitudes over a calibration set.
 
 % ----------------------------------------------------------------
 \subsection{Combined Compression Pipelines}
 \label{subsec:compression_combined}
 
-The state of the art in SLM compression combines pruning, distillation, and quantization in a multi-stage pipeline. NVIDIA Minitron \cite{minitron2024} achieves a $40\times$ reduction in training compute relative to training LLaMA-3.1-8B from scratch by: (1)~structured pruning to target size; (2)~knowledge distillation from the original 8B teacher to the pruned student; (3)~post-training quantization for deployment. The resulting 4B Minitron model matches the performance of 4B models trained from scratch on commonsense, code, and math benchmarks.
+The state of the art in \gls{slm} compression combines pruning, distillation, and quantization in a multi-stage pipeline. NVIDIA Minitron \cite{minitron2024} achieves a $40\times$ reduction in training compute relative to training LLaMA-3.1-8B from scratch by: (1)~structured pruning to target size; (2)~knowledge distillation from the original 8B teacher to the pruned student; (3)~post-training quantization for deployment. The resulting 4B Minitron model matches the performance of 4B models trained from scratch on commonsense, code, and math benchmarks.
 
-OptimCLM \cite{hasan2024optimclm} applies a similar pipeline to clinical language models, combining all three compression stages to produce models under 1B that achieve within 5\% of clinical NLP accuracy of their 7B counterparts. These results suggest that the combination of pruning (for architectural reduction) + distillation (for capability recovery) + quantization (for memory reduction) represents the practical frontier of SLM compression.
+OptimCLM \cite{hasan2024optimclm} applies a similar pipeline to clinical language models, combining all three compression stages to produce models under 1B that achieve within 5\% of clinical \gls{nlp} accuracy of their 7B counterparts. These results suggest that the combination of pruning (for architectural reduction) + distillation (for capability recovery) + quantization (for memory reduction) represents the practical frontier of \gls{slm} compression.

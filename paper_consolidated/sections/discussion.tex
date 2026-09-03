@@ -15,7 +15,7 @@ the reported record is not architecture but training data: models of near-identi
 size trained on different corpora differ by 15--25~points on knowledge tasks, a
 gap no architectural choice at this scale approaches. The practical implication
 for model builders is that data curation and synthetic-data pipelines dominate
-architectural novelty as a lever on SLM quality.
+architectural novelty as a lever on \gls{slm} quality.
 
 \textbf{Compression is a first-class capability, not an afterthought.} INT8 is
 reported as effectively lossless and INT4 as costing 1--4~points, with smaller
@@ -48,7 +48,7 @@ to ``measured.''
 \label{subsec:discussion_agentic}
 
 The agentic argument of Section~\ref{sec:agentic} rests on these claims rather
-than restating them. Capability-per-parameter growth is what makes an SLM
+than restating them. Capability-per-parameter growth is what makes an \gls{slm}
 \emph{sufficient} for a delegated sub-task; compression and edge deployability are
 what make it \emph{cheap} and \emph{private}; right-sizing is the design
 discipline that turns a heterogeneous SLM--LLM system from an option into the
@@ -67,11 +67,11 @@ the LLM-to-SLM conversion pipeline.
 Deploying a 3B model that answers grade-school mathematics correctly on an
 \$80 single-board computer is a qualitative change in access. Organizations facing
 cloud-API cost, data-sovereignty rules, or unreliable connectivity can now run
-capable NLP locally with no per-query cost and no data egress. The environmental
+capable \gls{nlp} locally with no per-query cost and no data egress. The environmental
 case is directional rather than precise: reported per-inference energy for a small
 model on modest hardware is one to two orders of magnitude below a frontier-model
 query in a datacenter, and if even a modest fraction of today's classification,
-extraction, and short-generation traffic were served by right-sized SLMs, the
+extraction, and short-generation traffic were served by right-sized \glspl{slm}, the
 aggregate saving would be large. These figures are estimates and should be treated
 as such.
 
@@ -82,7 +82,7 @@ Beyond the evidence-base limitations already stated
 (Section~\ref{subsec:reported_limits}): the review is English-centric in its task
 coverage; the ecosystem moves faster than any static snapshot, so models released
 after the collection window are discussed only qualitatively; the taxonomy's
-boundaries (the 10B threshold, the treatment of MoE by active parameters) are
+boundaries (the 10B threshold, the treatment of \gls{moe} by active parameters) are
 pragmatic conventions, not natural kinds; and the agentic argument, while
 grounded in a production-scale position paper \cite{belcak2025slm_agentic} and two
 large deployments, is a projection about where the field is heading, not a
@@ -92,7 +92,7 @@ measured outcome.
 \label{subsec:discussion_ethics}
 
 Safety alignment is proportionally harder at small scale: several research-grade
-SLMs lack the safety training of their larger siblings, and fine-tuning can erode
+\glspl{slm} lack the safety training of their larger siblings, and fine-tuning can erode
 what alignment exists \cite{qi2023finetuning}. Practitioners deploying SLMs---and
 especially those wiring them into agents with tool access---should treat
 application-level safety filtering and output monitoring as mandatory, not
@@ -102,7 +102,7 @@ performance unevenly across dialects, languages, and demographic groups
 pruning is largest precisely on multilingual tasks \cite{kurz2025pruning_vs_quant},
 which suggests pruning disproportionately harms non-English users. Fairness-aware
 compression objectives and per-group performance floors for high-stakes
-applications are open requirements. Against these risks, on-device SLMs advance
+applications are open requirements. Against these risks, on-device \glspl{slm} advance
 privacy (no data leaves the device), accessibility (no connectivity required),
 and cost (no subscription), which matters most for the healthcare, education, and
 agricultural applications of Section~\ref{sec:applications} in under-resourced

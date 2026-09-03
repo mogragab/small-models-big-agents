@@ -114,7 +114,9 @@
   maxbibnames=99
 ]{biblatex}
 \addbibresource{bibliography.bib}
-\RequirePackage[acronym,nomain,nonumberlist]{glossaries}
+\RequirePackage[acronym,nomain,nonumberlist,nopostdot]{glossaries}
+\setacronymstyle{long-short}
+% first use: "long form (SHORT)"; subsequent uses: "SHORT".
 \RequirePackage[hidelinks]{hyperref}
 \RequirePackage{orcidlink}
 \RequirePackage{authblk}
