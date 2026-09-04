@@ -2,7 +2,7 @@
 \label{appendix:supplementary}
 \label{app:provenance}
 
-This appendix supports the reproducibility of the \emph{review itself}: it documents the sources of the reported figures consolidated in Sections~\ref{sec:reported}--\ref{sec:deployment}, and provides the reference prompt templates, quantization-pipeline specifications, and \gls{qlora} hyperparameter settings under which those figures were reported. The appendix does not report original experimental runs.
+This appendix supports the reproducibility of the \emph{review itself}: it documents the sources of the reported figures consolidated in Sections~\ref{sec:reported}--\ref{sec:deployment}, and provides the reference prompt templates and quantization-pipeline specifications under which those figures were reported. (The \gls{qlora} adaptation recipe appears in Section~\ref{sec:reported}, Table~\ref{tab:hyperparam_search}; detailed device specifications appear in Section~\ref{sec:deployment}, Table~\ref{tab:appendix_hardware}.) The appendix does not report original experimental runs.
 
 \subsection{Per-Figure Provenance Table}
 \label{subsec:appendix_provenance_table}
@@ -54,52 +54,13 @@ The deployment figures consolidated in Sections~\ref{sec:reported}--\ref{sec:dep
 \end{description}
 Because these reporting conventions differ in small but potentially consequential ways across sources (warm-up duration, prompt-length distribution, power-counter granularity), readers should treat the consolidated figures as indicative rather than precisely comparable; the conflict-resolution rules in Section~\ref{subsec:reported_sources} are applied whenever discrepant protocols yield materially different reported values for the same tuple.
 
-\subsection{Hyperparameter Search Space}
-\label{subsec:appendix_hyperparameters}
-\begin{table}[ht]
-\centering
-\caption{QLoRA hyperparameter configuration most commonly reported by sources.}
-\label{tab:hyperparam_search}
-\footnotesize
-\begin{tabular}{lcc}
-\toprule
-\textbf{Hyperparameter} & \textbf{Search Space} & \textbf{Selected Value} \\
-\midrule
-LoRA rank $r$ & \{16, 32, 64, 128\} & 64 \\
-LoRA scaling $\alpha$ & \{16, 32, 64, 128, 256\} & 128 \\
-LoRA dropout & \{0.0, 0.05, 0.1\} & 0.05 \\
-Learning rate & \{$10^{-5}$, $5\times10^{-5}$, $10^{-4}$, $2\times10^{-4}$, $5\times10^{-4}$\} & $2\times10^{-4}$ \\
-Effective batch size & \{8, 16, 32\} & 16 \\
-Max epochs & \{3, 5, 10\} & 5 \\
-Warmup steps & \{50, 100, 200\} & 100 \\
-Target modules & \{q,v\}, \{q,k,v,o\}, \{all linear\} & \{q,k,v,o\} \\
-Weight decay & \{0.0, 0.01, 0.1\} & 0.01 \\
-Scheduler & \{cosine, linear\} & cosine \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-The right-hand column records the \gls{qlora} configuration that the reviewed sources most commonly report; where a source used a different rank, target-module set, or schedule, the deviation is noted in the per-figure provenance table so that its reported gain is not compared directly against gains obtained under the common recipe.
-
 \subsection{Extended Results Tables}
 \label{subsec:appendix_extended_results}
-\begin{table}[ht]
-\centering
-\caption{Representative five-shot results for selected models.}
-\label{tab:appendix_fewshot}
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{lcccccc}
-\toprule
-\textbf{Model} & \textbf{ARC-C} & \textbf{HellaSwag} & \textbf{GSM8K} & \textbf{MMLU} & \textbf{SST-2} & \textbf{MNLI} \\
-\midrule
-Phi-4-mini-Inst. & 85.2 & 71.4 & 89.3 & 69.8 & 94.1 & 75.8 \\
-Qwen2.5-7B-Inst. & 91.2 & 81.5 & 89.5 & 74.2 & 95.2 & 77.3 \\
-LLaMA 3.2-3B-Inst. & 78.8 & 79.1 & 77.4 & 64.5 & 91.5 & 68.2 \\
-SmolLM2-1.7B-Inst. & 63.1 & 63.5 & 44.8 & 53.4 & 86.4 & 59.8 \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
+The representative five-shot results for the four models with fine-tuning
+comparisons, and the QLoRA hyperparameter configuration used to produce them, are
+given with the fine-tuning comparison itself in Section~\ref{sec:reported}
+(Table~\ref{tab:finetuning}, Table~\ref{tab:hyperparam_search}) rather than
+repeated here.
 
 \begin{landscape}
 \begin{table}[ht]
@@ -130,30 +91,6 @@ StableLM 2 1.6B & 72.8 & 55.2 & 57.6 & 32.5 & 48.6 & 32.1 & 12.4 & 22.5 & 28.9 &
 }
 \end{table}
 \end{landscape}
-
-\subsection{Detailed Hardware Specifications}
-\label{subsec:appendix_hardware_specs}
-\begin{table}[ht]
-\centering
-\caption{Detailed hardware specifications for edge deployment experiments.}
-\label{tab:appendix_hardware}
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{lcccc}
-\toprule
-\textbf{Specification} & \textbf{Raspberry Pi 5} & \textbf{Jetson Orin Nano} & \textbf{Galaxy S24+} & \textbf{Laptop} \\
-\midrule
-CPU & BCM2712 4$\times$A76 @ 2.4GHz & 6$\times$A78AE @ 1.5GHz & Snapdragon 8 Gen 3 & Ryzen 7 7840HS \\
-GPU & VideoCore VII & 1024 CUDA (Ampere) & Adreno 750 & Radeon 780M \\
-NPU & None & None & Hexagon & Ryzen AI \\
-RAM & 8 GB LPDDR4X & 8 GB LPDDR5 (unified) & 12 GB LPDDR5X & 32 GB DDR5-5600 \\
-Memory bandwidth & $\sim$17 GB/s & 68 GB/s & 51.2 GB/s & 89.6 GB/s \\
-Storage & microSD / NVMe & NVMe & UFS 4.0 & NVMe SSD \\
-TDP & 12W & 25W & $\sim$8W sustained & 35--54W \\
-Inference engine & llama.cpp & MLC LLM & ExecuTorch & llama.cpp \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
 
 \subsection{Human-Evaluation Conventions in the Source Literature}
 \label{subsec:appendix_human_eval}

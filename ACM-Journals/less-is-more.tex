@@ -1,0 +1,197 @@
+%%
+%% Less is More: Small Language Models as the Substrate of Agentic AI
+%% ACM Journals (acmart) version -- content ported from paper_consolidated/paper.tex
+%%
+%% Build:  pdflatex -> bibtex -> pdflatex -> pdflatex
+%%
+\documentclass[manuscript,screen,review]{acmart}
+
+%% -------------------------------------------------------------------------
+%% Packages required by the ported section files
+%% (acmart already provides amsmath, booktabs, graphicx, hyperref, natbib)
+%% -------------------------------------------------------------------------
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{threeparttable}
+\usepackage{adjustbox}
+\usepackage{pdflscape}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+
+%% Acronyms / glossaries (same setup as the source manuscript)
+\usepackage[acronym,nomain,nonumberlist,nopostdot]{glossaries}
+\setacronymstyle{long-short}
+
+%% Column types used by the ported tables
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\graphicspath{{figures/}}
+
+\input{abbreviations}
+
+%% -------------------------------------------------------------------------
+%% Rights / journal metadata (placeholder values -- replace on submission)
+%% -------------------------------------------------------------------------
+\AtBeginDocument{\providecommand\BibTeX{{Bib\TeX}}}
+\setcopyright{acmlicensed}
+\copyrightyear{2026}
+\acmYear{2026}
+\acmDOI{XXXXXXX.XXXXXXX}
+\acmJournal{CSUR}
+\acmVolume{1}
+\acmNumber{1}
+\acmArticle{1}
+\acmMonth{9}
+
+\received{4 September 2026}
+\received[revised]{XX XXXX 2026}
+\received[accepted]{XX XXXX 2026}
+
+%% -------------------------------------------------------------------------
+%% Front matter
+%% -------------------------------------------------------------------------
+\begin{document}
+
+\title{Less is More: Small Language Models as the Substrate of Agentic AI---A
+  Survey of Architectures, Compression, Deployment, and Reported Performance}
+\titlenote{Preprint / manuscript version prepared for ACM Computing Surveys.}
+
+\author{Mohammed Gamal Ragab}
+\authornote{Corresponding authors.}
+\orcid{0000-0001-5226-4962}
+\email{mohammed.ragab@utp.edu.my}
+\affiliation{%
+  \department[0]{Department of Computer and Information Sciences}
+  \department[1]{Center for Research in Data Science (CeRDaS)}
+  \institution{Universiti Teknologi PETRONAS}
+  \city{Seri Iskandar}
+  \state{Perak}
+  \country{Malaysia}
+  \postcode{32610}
+}
+
+\author{Hitham Alhussian}
+\authornotemark[1]
+\email{seddig.alhussian@utp.edu.my}
+\affiliation{%
+  \department[0]{Department of Computer and Information Sciences}
+  \department[1]{Center for Research in Data Science (CeRDaS)}
+  \institution{Universiti Teknologi PETRONAS}
+  \city{Seri Iskandar}
+  \state{Perak}
+  \country{Malaysia}
+  \postcode{32610}
+}
+
+\author{Said Jadid Abdulkadir}
+\email{saidjadid.a@utp.edu.my}
+\affiliation{%
+  \department[0]{Department of Computer and Information Sciences}
+  \department[1]{Center for Research in Data Science (CeRDaS)}
+  \institution{Universiti Teknologi PETRONAS}
+  \city{Seri Iskandar}
+  \state{Perak}
+  \country{Malaysia}
+  \postcode{32610}
+}
+
+\author{Ayed Alwadain}
+\email{aalwadain@ksu.edu.sa}
+\affiliation{%
+  \department[0]{Department of Software Engineering}
+  \department[1]{College of Computer and Information Sciences}
+  \institution{King Saud University}
+  \city{Riyadh}
+  \country{Saudi Arabia}
+}
+
+\renewcommand{\shortauthors}{Ragab et al.}
+
+\begin{abstract}
+  Large language models (LLMs) have transformed natural language processing, but
+  their cost, memory footprint, and latency are a poor match for the
+  fastest-growing consumer of language intelligence: the AI agent, which issues
+  many narrow, repetitive, well-specified model calls rather than a few
+  open-ended ones. Small language models (SLMs)---decoder-only or hybrid
+  transformers of roughly twenty billion parameters or fewer, counting active
+  parameters for mixture-of-experts models---have closed much of the capability
+  gap through knowledge distillation, synthetic-data curation, and post-training
+  quantization. This article is both a survey and a position statement. We
+  catalog 126 documented SLM variants (2022--2026), including the 2025--2026
+  hybrid state-space, unified-reasoning, and mobile-first multimodal families,
+  and organize them along a four-dimensional taxonomy of \emph{architecture},
+  \emph{training strategy}, \emph{modality}, and \emph{application domain}. We
+  review compression for the sub-10B regime, where quantization consistently
+  outperforms pruning, and consolidate publicly reported performance for an
+  18-model cohort across 12 benchmarks, six hardware tiers, and three precisions,
+  with every figure traced to a dated source rather than an original run. On this
+  evidence we argue that SLMs are the substrate of agentic AI: capable enough for
+  the sub-tasks agents delegate, roughly 10--30$\times$ cheaper to serve, cheaper
+  to specialize, and easier to constrain to tool interfaces. We survey
+  heterogeneous SLM--LLM routing and the LLM-to-SLM conversion pipeline, and close
+  with the open problems---reasoning under parameter constraints, hallucination,
+  hardware co-design, fairness under compression, and empirical verification of
+  the consolidated evidence---that stand between the present and that future.
+\end{abstract}
+
+%%
+%% CCS concepts. ACM requires these for the CAMERA-READY of any article over two
+%% pages; they are not needed for a manuscript/review submission, so they are
+%% commented out here. Before acceptance, generate the block at
+%% https://dl.acm.org/ccs/ccs.cfm and uncomment.
+%%
+% \begin{CCSXML}
+% <ccs2012>
+%    <concept>
+%        <concept_id>10010147.10010178.10010179</concept_id>
+%        <concept_desc>Computing methodologies~Natural language processing</concept_desc>
+%        <concept_significance>500</concept_significance>
+%    </concept>
+%    <concept>
+%        <concept_id>10010147.10010257</concept_id>
+%        <concept_desc>Computing methodologies~Machine learning</concept_desc>
+%        <concept_significance>300</concept_significance>
+%    </concept>
+% </ccs2012>
+% \end{CCSXML}
+%
+% \ccsdesc[500]{Computing methodologies~Natural language processing}
+% \ccsdesc[300]{Computing methodologies~Machine learning}
+
+\keywords{Small language models, agentic AI, model compression, edge AI,
+  on-device inference, LLM--SLM collaboration, knowledge distillation,
+  quantization, efficient NLP}
+
+\maketitle
+
+% acronyms may have been expanded in the abstract; reset so the body re-expands
+% each one on its own first use.
+\glsresetall
+
+\input{sections/introduction}
+\input{sections/background}
+\input{sections/taxonomy}
+\input{sections/compression}
+\input{sections/reported_performance}
+\input{sections/deployment}
+\input{sections/agentic}
+\input{sections/applications}
+\input{sections/discussion}
+\input{sections/challenges}
+\input{sections/conclusion}
+\input{sections/declarations}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{bibliography}
+
+\appendix
+\input{sections/appendix_supplementary}
+\input{sections/appendix_ecosystem}
+
+\end{document}

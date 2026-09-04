@@ -1,0 +1,103 @@
+\section{Broader Small-Model Ecosystem Context}
+\label{appendix:ecosystem}
+
+The standalone inventory drafts in this project tracked the wider model ecosystem surrounding the evaluated \gls{slm} cohort. Their main function was to contextualize the paper within the rapidly changing 2025--2026 release cycle, where compact open models, open-weight reasoning models, and frontier API systems evolved in parallel. The distilled summary below preserves the most relevant ecosystem information inside the main paper.
+
+\subsection{Landscape Snapshot}
+\label{subsec:ecosystem_snapshot}
+Three ecosystem trends are especially relevant to the present study:
+\begin{description}
+    \item[Capability compression] Reasoning, long-context handling, and multimodality have moved into the 1B--8B range, narrowing the gap between deployable \glspl{slm} and cloud-scale \glspl{llm}.
+    \item[Open-weight acceleration] Families such as Qwen, Phi, Gemma, SmolLM, DeepSeek distills, Granite, and MiniCPM have expanded the design space for self-hosted deployment (Figure~\ref{fig:license_posture}).
+    \item[Deployment diversification] Inference targets now span cloud GPUs, consumer GPUs, laptops, smartphones, browsers, and embedded edge boards, making model choice inseparable from hardware choice.
+\end{description}
+
+Figure~\ref{fig:family_treemap} gives a size-proportional overview of the inventory by developer and family, and Figure~\ref{fig:developer_diversity} tracks the entry of new developers into the open-SLM space.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{paper_slm_family_treemap.pdf}
+  \caption{Documented SLM variants grouped by developer and family; area is proportional to the number of variants. Generated from \texttt{merged\_llm\_database.json} (snapshot September~2026).}
+  \label{fig:family_treemap}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{paper_slm_developer_diversity_timeline.pdf}
+  \caption{Cumulative distinct developers releasing documented SLM variants (line) and new developers per quarter (bars).}
+  \label{fig:developer_diversity}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.78\linewidth]{paper_slm_license_posture.pdf}
+  \caption{License posture of documented SLM variants. Permissive open licenses (Apache-2.0, MIT) account for the plurality; ``unspecified'' entries are typically research checkpoints without an attached license file.}
+  \label{fig:license_posture}
+\end{figure}
+
+\subsection{Representative Family Reference}
+\label{subsec:ecosystem_families}
+\begin{table}[ht]
+\centering
+\caption{Representative model families tracked in the inventory drafts.}
+\label{tab:ecosystem_families}
+\footnotesize\adjustbox{max width=\linewidth}{%
+\begin{tabular}{lllll}
+\toprule
+\textbf{Family} & \textbf{Developer} & \textbf{Representative Versions} & \textbf{Access} & \textbf{Typical Role} \\
+\midrule
+Qwen2.5 / Qwen3 & Alibaba & 0.5B--14B dense, MoE variants & Open weights & Strong multilingual, math, and code performance \\
+Phi-3 / Phi-4 & Microsoft & 3.8B mini variants, 14B reasoning & Open weights & Data-curated reasoning-focused SLMs \\
+Gemma 2 / 3 / 3n & Google DeepMind & 1B--12B dense, mobile-first multimodal variants & Open weights & Distilled compact models with strong safety tuning \\
+Llama 3.2 / 4 & Meta & 1B--3B edge models, larger MoE frontier models & Open weights & Broad deployment ecosystem from edge to server \\
+SmolLM2 / SmolLM3 & Hugging Face & 135M--3B & Open weights & Lightweight, fully open research and edge baselines \\
+DeepSeek distills & DeepSeek & 1.5B--14B distilled reasoning models & Open weights & Reasoning transfer into self-hosted sizes \\
+Granite 3 / 4 & IBM & 2--8B dense; 4.0 hybrid Mamba-2/MoE (350M--32B, 1--9B active) & Open weights & Enterprise-friendly, tool-use and RAG focus \\
+Falcon-H1 & TII & 0.5--34B parallel attention/Mamba-2 hybrid & Open weights & Long-context edge-to-server \\
+LFM2 & Liquid AI & 350M--8.3B hybrid conv/attention & Open weights & Fastest-on-CPU on-device models \\
+MiniCPM & OpenBMB & Compact multimodal variants & Open weights & Edge multimodal use cases \\
+GPT-5.x / Claude 4.x / Gemini 3.x & OpenAI / Anthropic / Google & API frontier models & API only & High-end proprietary baselines and teacher models \\
+Grok / Kimi / GLM / Nova & xAI / Moonshot / Zhipu / AWS & Large API or MoE systems & Mixed & Frontier alternatives with long context or agent focus \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Classification Conventions}
+\label{subsec:ecosystem_classification}
+The inventory drafts used the following practical conventions, which also informed the model-selection narrative in this paper:
+\begin{itemize}
+    \item Dense models at roughly 20B parameters or below were treated as \glspl{slm} when they remained plausibly deployable on modest hardware.
+    \item Mixture-of-Experts models were interpreted using \emph{active} parameters for deployment reasoning, because active parameters better capture per-token compute and memory cost.
+    \item Closed API models with undisclosed parameter counts were treated as frontier \gls{llm} baselines rather than direct members of the evaluated \gls{slm} cohort.
+\end{itemize}
+
+\subsection{Generated Variant Inventory}
+\label{subsec:ecosystem_generated_inventory}
+The following inventory is generated directly from \texttt{merged\_llm\_database.json} using \texttt{scripts/generate\_model\_tables.py}. The database covers 123 \gls{slm} variants and 238 \gls{llm} variants (361 entries in total, snapshot September~2026); only the \gls{slm} inventory is reproduced here, organized chronologically by release year and then by family, with parameter size as an explicit comparison column. The corresponding \gls{llm} inventory is available in the source database.
+
+{\footnotesize\noindent\textbf{Chronology.} \hyperref[tab:model_inventory_slm_by_year]{SLM inventory}: \hyperlink{model-year-slm-2026}{2026}, \hyperlink{model-year-slm-2025}{2025}, \hyperlink{model-year-slm-2024}{2024}, \hyperlink{model-year-slm-2023-and-earlier}{2023 and earlier}.\par}
+\input{partials/model_inventory_slm_by_year}
+
+\subsection{Monitoring Sources and Maintenance}
+\label{subsec:ecosystem_monitoring}
+\begin{table}[ht]
+\centering
+\caption{High-value monitoring sources retained from the inventory files.}
+\label{tab:ecosystem_sources}
+\footnotesize
+\begin{tabularx}{\textwidth}{L{4cm}X}
+\toprule
+\textbf{Source} & \textbf{Use} \\
+\midrule
+Hugging Face model hub and leaderboards & New releases, model cards, and benchmark submissions \\
+Artificial Analysis & Context windows, pricing, and comparative capability snapshots \\
+LLM Stats & Consolidated model metadata and API comparisons \\
+LMSYS / Chatbot Arena & Human preference rankings \\
+BentoML and vendor engineering blogs & Practical deployment write-ups and model updates \\
+Official vendor changelogs & Release confirmation for OpenAI, Anthropic, Google, Meta, Mistral, Alibaba, and DeepSeek \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Recommended maintenance queries from the inventory drafts included combinations such as ``best small language model [year]'', ``new open-weight reasoning model'', and vendor-specific searches around context window, model card, and release notes. In practice, the highest-signal workflow is to combine vendor documentation with model cards and a benchmark tracker rather than relying on any single static list.

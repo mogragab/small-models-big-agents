@@ -11,36 +11,45 @@ We propose a four-dimensional taxonomy of \glspl{slm} organized along orthogonal
 \begin{figure}[t]
 \centering
 \footnotesize
-\newcommand{\txax}[1]{{\bfseries #1}}
-\newcommand{\txcat}[1]{{\scriptsize\bfseries #1}}
-\newcommand{\txex}[1]{{\scriptsize\itshape\textcolor{black!60}{#1}}}
+% Palette shared with the generated figures (source/scripts/generate_figures_v2.py).
+\definecolor{txInk}{HTML}{2D3436}
+\definecolor{txSlate}{HTML}{7E8C9A}
+\definecolor{txIndigo}{HTML}{6C5B7B}
+\definecolor{txOcean}{HTML}{3D7EA6}
+\definecolor{txTeal}{HTML}{45B7A0}
+\definecolor{txCoral}{HTML}{E8836B}
+\newcommand{\txax}[2]{{\normalsize\bfseries\color{#1!88!black}#2}}
+\newcommand{\txcat}[1]{{\scriptsize\bfseries\color{txInk}#1}}
+\newcommand{\txsep}{{\color{txSlate}\,\textendash\,}}
+\newcommand{\txex}[1]{{\scriptsize\itshape\color{txSlate}#1}}
 \begin{tikzpicture}[
-  panel/.style={draw, rounded corners=2.5pt, line width=0.5pt, inner sep=5pt,
-                text width=71mm, align=left, fill=black!3},
+  panel/.style={draw=#1!55, line width=0.7pt, rounded corners=3pt, inner sep=6pt,
+                text width=0.455\linewidth, align=left, fill=#1!7},
+  node distance=4mm and 4mm,
 ]
-\node[panel] (arch) {%
-  \txax{1.\ Architecture}\\[2pt]
-  \txcat{Dense transformer} --- GQA, RoPE, SwiGLU\\ \txex{Phi-4-mini, Qwen3, SmolLM3, Gemma 3}\\[1pt]
-  \txcat{Mixture-of-experts} --- sparse activation\\ \txex{Mixtral, Qwen3-30B-A3B, Llama 4 Scout}\\[1pt]
-  \txcat{Hybrid SSM/attention} --- linear-time\\ \txex{Falcon-H1, Granite 4.0, Nemotron Nano 2}%
+\node[panel=txIndigo] (arch) {%
+  \txax{txIndigo}{1.\ Architecture}\\[3pt]
+  \txcat{Dense transformer}\txsep GQA, RoPE, SwiGLU\\ \txex{Phi-4-mini, Qwen3, SmolLM3, Gemma 3}\\[2pt]
+  \txcat{Mixture-of-experts}\txsep sparse activation\\ \txex{Mixtral, Qwen3-30B-A3B, Llama 4 Scout}\\[2pt]
+  \txcat{Hybrid SSM/attention}\txsep linear-time\\ \txex{Falcon-H1, Granite 4.0, Nemotron Nano 2}%
 };
-\node[panel, right=5mm of arch] (train) {%
-  \txax{2.\ Training strategy}\\[2pt]
-  \txcat{From scratch} --- curated / synthetic data\\ \txex{Phi, Qwen3, SmolLM3}\\[1pt]
-  \txcat{Distillation} --- transfer from a larger teacher\\ \txex{Gemma 3/4, DeepSeek-R1-Distill, Phi-4-mini-reasoning}\\[1pt]
-  \txcat{Pruning + distillation} --- shrink a large model\\ \txex{Minitron, Sheared-LLaMA}%
+\node[panel=txOcean, right=of arch] (train) {%
+  \txax{txOcean}{2.\ Training strategy}\\[3pt]
+  \txcat{From scratch}\txsep curated / synthetic data\\ \txex{Phi, Qwen3, SmolLM3}\\[2pt]
+  \txcat{Distillation}\txsep transfer from a larger teacher\\ \txex{Gemma 3/4, DeepSeek-R1-Distill, Phi-4-mini-reasoning}\\[2pt]
+  \txcat{Pruning + distillation}\txsep shrink a large model\\ \txex{Minitron, Sheared-LLaMA}%
 };
-\node[panel, below=5mm of arch] (mod) {%
-  \txax{3.\ Modality}\\[2pt]
-  \txcat{Text-only} --- majority of production SLMs\\ \txex{Mistral 7B, SmolLM3, Qwen3}\\[1pt]
-  \txcat{Vision--language} --- CLIP/SigLIP encoder\\ \txex{Phi-3-vision, Gemma 3, PaliGemma}\\[1pt]
-  \txcat{Text + vision + audio} --- one sub-10B model\\ \txex{Gemma 3n, Gemma 4, Apple AFM}%
+\node[panel=txTeal, below=of arch] (mod) {%
+  \txax{txTeal}{3.\ Modality}\\[3pt]
+  \txcat{Text-only}\txsep majority of production SLMs\\ \txex{Mistral 7B, SmolLM3, Qwen3}\\[2pt]
+  \txcat{Vision--language}\txsep CLIP/SigLIP encoder\\ \txex{Phi-3-vision, Gemma 3, PaliGemma}\\[2pt]
+  \txcat{Text + vision + audio}\txsep one sub-10B model\\ \txex{Gemma 3n, Gemma 4, Apple AFM}%
 };
-\node[panel, below=5mm of train] (dom) {%
-  \txax{4.\ Application domain}\\[2pt]
-  \txcat{General-purpose} --- broad benchmarks\\ \txex{Phi, Gemma, Llama, Qwen, Mistral}\\[1pt]
-  \txcat{Healthcare / legal} --- on-premises, compliance\\ \txex{Meerkat, OptimCLM}\\[1pt]
-  \txcat{Code / multilingual} --- domain corpora\\ \txex{StarCoder2, DeepSeek-Coder, Aya}%
+\node[panel=txCoral, below=of train] (dom) {%
+  \txax{txCoral}{4.\ Application domain}\\[3pt]
+  \txcat{General-purpose}\txsep broad benchmarks\\ \txex{Phi, Gemma, Llama, Qwen, Mistral}\\[2pt]
+  \txcat{Healthcare / legal}\txsep on-premises, compliance\\ \txex{Meerkat, OptimCLM}\\[2pt]
+  \txcat{Code / multilingual}\txsep domain corpora\\ \txex{StarCoder2, DeepSeek-Coder, Aya}%
 };
 \end{tikzpicture}
 \caption{The four-dimensional taxonomy of small language models. The axes are

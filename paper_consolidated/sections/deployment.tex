@@ -38,6 +38,32 @@ Below smartphone-class hardware lies a diverse ecosystem of edge devices: Raspbe
     \item[Microcontrollers (MCU)] Sub-100M models using aggressive quantization (INT4/INT2) can run on ARM Cortex-M series MCUs with 512~KB--2~MB SRAM for specialized tasks like keyword detection and sensor data analysis.
 \end{description}
 
+Table~\ref{tab:appendix_hardware} details the specifications of the four
+representative devices referenced throughout this section, from the Raspberry~Pi
+5 up to a laptop-class CPU.
+
+\begin{table}[ht]
+\centering
+\caption{Detailed specifications of the devices referenced in this section.}
+\label{tab:appendix_hardware}
+\footnotesize\adjustbox{max width=\linewidth}{%
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Specification} & \textbf{Raspberry Pi 5} & \textbf{Jetson Orin Nano} & \textbf{Galaxy S24+} & \textbf{Laptop} \\
+\midrule
+CPU & BCM2712 4$\times$A76 @ 2.4GHz & 6$\times$A78AE @ 1.5GHz & Snapdragon 8 Gen 3 & Ryzen 7 7840HS \\
+GPU & VideoCore VII & 1024 CUDA (Ampere) & Adreno 750 & Radeon 780M \\
+NPU & None & None & Hexagon & Ryzen AI \\
+RAM & 8 GB LPDDR4X & 8 GB LPDDR5 (unified) & 12 GB LPDDR5X & 32 GB DDR5-5600 \\
+Memory bandwidth & $\sim$17 GB/s & 68 GB/s & 51.2 GB/s & 89.6 GB/s \\
+Storage & microSD / NVMe & NVMe & UFS 4.0 & NVMe SSD \\
+TDP & 12W & 25W & $\sim$8W sustained & 35--54W \\
+Inference engine & llama.cpp & MLC LLM & ExecuTorch & llama.cpp \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
 % ----------------------------------------------------------------
 \subsection{Deployment Frameworks}
 \label{subsec:deployment_frameworks}

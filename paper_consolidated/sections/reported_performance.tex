@@ -222,31 +222,32 @@ MBPP, SST-2, and MNLI and does not change these orderings.
 
 \begin{table}[ht]
 \centering
-\caption{Reported zero-shot, 5-shot, and QLoRA fine-tuned accuracy for selected model--task pairs. Values are reported figures.}
+\caption{Reported zero-shot, 5-shot, and QLoRA fine-tuned accuracy for selected model--task pairs. HellaSwag and MMLU are reported for the 5-shot setting only in the sources compiled here. Values are reported figures.}
 \label{tab:finetuning}
 \footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{llccccc}
+\begin{tabular}{llccccccc}
 \toprule
-\textbf{Model} & \textbf{Setting} & \textbf{SST-2} & \textbf{MNLI} & \textbf{ARC-C} & \textbf{GSM8K} & \textbf{SQuAD 2.0 (F1)} \\
+\textbf{Model} & \textbf{Setting} & \textbf{SST-2} & \textbf{MNLI} & \textbf{ARC-C} & \textbf{HellaSwag} & \textbf{GSM8K} & \textbf{MMLU} & \textbf{SQuAD 2.0 (F1)} \\
 \midrule
-Phi-4-mini & Zero-shot & 92.4 & 72.1 & 83.7 & 88.6 & 74.2 \\
- & 5-shot & 94.1 & 75.8 & 85.2 & 89.3 & 77.8 \\
- & QLoRA & \textbf{96.8} & \textbf{82.4} & 86.1 & 89.8 & \textbf{83.6} \\
+Phi-4-mini & Zero-shot & 92.4 & 72.1 & 83.7 & \textendash & 88.6 & \textendash & 74.2 \\
+ & 5-shot & 94.1 & 75.8 & 85.2 & 71.4 & 89.3 & 69.8 & 77.8 \\
+ & QLoRA & \textbf{96.8} & \textbf{82.4} & 86.1 & \textendash & 89.8 & \textendash & \textbf{83.6} \\
 \midrule
-Qwen2.5-7B & Zero-shot & 93.8 & 74.6 & 90.1 & 88.7 & 76.8 \\
- & 5-shot & 95.2 & 77.3 & 91.2 & 89.5 & 79.4 \\
- & QLoRA & \textbf{97.3} & \textbf{84.1} & 91.5 & 90.1 & \textbf{85.2} \\
+Qwen2.5-7B & Zero-shot & 93.8 & 74.6 & 90.1 & \textendash & 88.7 & \textendash & 76.8 \\
+ & 5-shot & 95.2 & 77.3 & 91.2 & 81.5 & 89.5 & 74.2 & 79.4 \\
+ & QLoRA & \textbf{97.3} & \textbf{84.1} & 91.5 & \textendash & 90.1 & \textendash & \textbf{85.2} \\
 \midrule
-LLaMA 3.2-3B & Zero-shot & 88.2 & 63.5 & 76.1 & 75.6 & 65.4 \\
- & 5-shot & 91.5 & 68.2 & 78.8 & 77.4 & 70.2 \\
- & QLoRA & \textbf{95.4} & \textbf{78.6} & 80.3 & 79.8 & \textbf{78.5} \\
+LLaMA 3.2-3B & Zero-shot & 88.2 & 63.5 & 76.1 & \textendash & 75.6 & \textendash & 65.4 \\
+ & 5-shot & 91.5 & 68.2 & 78.8 & 79.1 & 77.4 & 64.5 & 70.2 \\
+ & QLoRA & \textbf{95.4} & \textbf{78.6} & 80.3 & \textendash & 79.8 & \textendash & \textbf{78.5} \\
 \midrule
-SmolLM2-1.7B & Zero-shot & 82.6 & 54.2 & 59.8 & 42.6 & 52.3 \\
- & 5-shot & 86.4 & 59.8 & 63.1 & 44.8 & 57.6 \\
- & QLoRA & \textbf{93.2} & \textbf{72.5} & 65.8 & 48.2 & \textbf{68.4} \\
+SmolLM2-1.7B & Zero-shot & 82.6 & 54.2 & 59.8 & \textendash & 42.6 & \textendash & 52.3 \\
+ & 5-shot & 86.4 & 59.8 & 63.1 & 63.5 & 44.8 & 53.4 & 57.6 \\
+ & QLoRA & \textbf{93.2} & \textbf{72.5} & 65.8 & \textendash & 48.2 & \textendash & \textbf{68.4} \\
 \bottomrule
 \end{tabular}%
-}
+}\\[4pt]
+{\raggedright \small \textit{Note:} \textendash\ marks a setting not reported for that task in the sources compiled here (not a zero value).\par}
 \end{table}
 
 Across sources that report all three paradigms for a common model--task pair
@@ -259,6 +260,38 @@ for on-device agents. The practical reading, and the one most relevant to
 Section~\ref{sec:agentic}, is a specialization threshold near 3B: below it,
 task-specific fine-tuning is close to mandatory for delegated agent sub-tasks;
 above it, few-shot prompting is often sufficient for well-represented tasks.
+
+Table~\ref{tab:hyperparam_search} gives the \gls{qlora} configuration underlying
+the fine-tuned rows above.
+
+\begin{table}[ht]
+\centering
+\caption{QLoRA hyperparameter configuration most commonly reported by sources.}
+\label{tab:hyperparam_search}
+\footnotesize
+\begin{tabular}{lcc}
+\toprule
+\textbf{Hyperparameter} & \textbf{Search Space} & \textbf{Selected Value} \\
+\midrule
+LoRA rank $r$ & \{16, 32, 64, 128\} & 64 \\
+LoRA scaling $\alpha$ & \{16, 32, 64, 128, 256\} & 128 \\
+LoRA dropout & \{0.0, 0.05, 0.1\} & 0.05 \\
+Learning rate & \{$10^{-5}$, $5\times10^{-5}$, $10^{-4}$, $2\times10^{-4}$, $5\times10^{-4}$\} & $2\times10^{-4}$ \\
+Effective batch size & \{8, 16, 32\} & 16 \\
+Max epochs & \{3, 5, 10\} & 5 \\
+Warmup steps & \{50, 100, 200\} & 100 \\
+Target modules & \{q,v\}, \{q,k,v,o\}, \{all linear\} & \{q,k,v,o\} \\
+Weight decay & \{0.0, 0.01, 0.1\} & 0.01 \\
+Scheduler & \{cosine, linear\} & cosine \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The right-hand column records the \gls{qlora} configuration that the reviewed
+sources most commonly report; where a source used a different rank,
+target-module set, or schedule, the deviation is noted in the per-figure
+provenance table (Appendix~\ref{app:provenance}) so that its reported gain is not
+compared directly against gains obtained under the common recipe.
 
 \subsection{Quantization Impact}
 \label{subsec:reported_quantization}

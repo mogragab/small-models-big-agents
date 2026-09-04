@@ -1,0 +1,89 @@
+% ================================================================
+% Section: \glspl{slm} as the Substrate of Agentic AI
+% New section (position core of the consolidated paper)
+% ================================================================
+
+\section{Small Language Models as the Substrate of Agentic AI}
+\label{sec:agentic}
+
+The preceding sections establish three facts about the sub-10B regime: modern \glspl{slm} reach capability levels that were state-of-the-art for far larger models only two years earlier (Section~\ref{sec:reported}); they can be compressed to run on commodity and edge hardware with modest accuracy loss (Sections~\ref{sec:compression}--\ref{sec:deployment}); and a mature ecosystem now exists to deploy them (Section~\ref{subsec:deployment_frameworks}). This section argues that these facts, taken together with how agentic systems are actually built, make \glspl{slm} the \emph{default} execution substrate for AI agents, with large models reserved for a shrinking set of genuinely hard calls. The argument follows and extends the position of \citet{belcak2025slm_agentic}; we situate it within the broader literature on LLM--SLM collaboration \citep{chen2024role_small,chen2025collab_survey} and connect it to the deployment evidence consolidated in this paper.
+
+\subsection{What Agents Delegate to Language Models}
+\label{subsec:agentic_delegation}
+
+An AI agent is a software system in which one or more language models operate under a control loop that also includes tools, memory, and a scaffold of prompts and parsers \citep{belcak2025slm_agentic}. The language model in such a system is rarely asked to hold an open-ended conversation. It is asked to perform bounded sub-tasks: decide which tool to call and with what arguments, extract fields from a document, classify an intent, rewrite a query, summarize a retrieved passage, produce a short code patch, or check whether a step succeeded. These calls share three properties. They are \emph{narrow}---each exercises a small slice of the model's competence. They are \emph{repetitive}---the same handful of call types recur thousands of times in production. And they are \emph{format-constrained}---the output must parse as JSON, match a function signature, or fall within a fixed label set, or the surrounding code breaks \citep{belcak2025slm_agentic}.
+
+None of these properties rewards the breadth of a frontier \gls{llm}. A model that can also write a sonnet, debate philosophy, and reason across a 200-page contract is carrying capacity that the agent never invokes on the call in question. \citet{belcak2025slm_agentic} formalize this as the observation that agents use only a narrow subset of language-model functionality, and that agentic systems demand strict behavioral alignment to code interfaces---exactly the setting in which a specialized small model can match or exceed a general large one.
+
+\subsection{The Case for SLMs in Agents}
+\label{subsec:agentic_case}
+
+\subsubsection{Capability Sufficiency}
+\label{subsubsec:agentic_capability}
+
+The first premise is that \glspl{slm} are already good enough for delegated sub-tasks. On instruction following, tool selection, and structured extraction---the operations that dominate agent traces---sub-10B models trained or tuned for the purpose are competitive with frontier models. Salesforce's xLAM family \citep{zhang2024xlam} illustrates the point: its 7B function-calling model ranked at the top of the Berkeley Function-Calling Leaderboard, and its 1B variant was reported to surpass GPT-3.5-Turbo and Claude-3~Haiku on the same task despite being one to two orders of magnitude smaller. Unified-reasoning \glspl{slm} extend this to multi-step tasks: Qwen3 \citep{qwen3_2025} exposes a controllable ``thinking budget'' so that an agent can spend inference compute only on the calls that need it, and distilled reasoning models such as Phi-4-mini-reasoning \citep{xu2025phi4mini_reasoning} and the DeepSeek-R1 distillations \citep{deepseek2025r1} bring competition-mathematics performance into the 3--8B range. \citet{belcak2025slm_agentic} argue that objections based on scaling laws (AV1: larger is permanently better) understate \gls{slm} capability because scaling-law studies hold architecture fixed, exclude task-specific fine-tuning, and predate inference-time reasoning---all three of which disproportionately help small models.
+
+\subsubsection{Economics}
+\label{subsubsec:agentic_economics}
+
+The second premise is cost. \citet{belcak2025slm_agentic} estimate that serving a 7B \gls{slm} is 10--30$\times$ cheaper than serving a 70--175B \gls{llm} once latency, energy, and FLOPs are accounted for, and that parameter-efficient fine-tuning lets a small model be specialized for a new agent role in GPU-hours rather than GPU-weeks. The deployment figures consolidated in this paper are consistent with that range: Table~\ref{tab:latency_compare} shows a 5--20$\times$ cost advantage and comparable or better latency for a quantized 3B model relative to a 70B model on chatbot and code-completion workloads, and an absolute advantage in offline settings where the large model cannot run at all. Because an agent amortizes model cost over many calls per user task, a constant-factor saving on each call compounds into the difference between a viable and an unviable product margin.
+
+\subsubsection{Behavioral Alignment and Operational Fit}
+\label{subsubsec:agentic_alignment}
+
+The third premise is control. An agent needs its model to emit exactly the format the scaffold expects, and to do so reliably across a long tail of inputs. Constraining a small specialized model to a narrow output distribution is easier than suppressing the much larger behavioral range of a frontier model, and fine-tuning a small model on the agent's own logged traces closes the residual gap \citep{belcak2025slm_agentic}. \citet{belcak2025slm_agentic} note a virtuous cycle here (their argument A7): agent interactions generate high-quality, in-distribution training data essentially for free, which is precisely what specialization of a small model requires. Operationally, small models are also easier to version, roll back, run on-premises for data-residency reasons, and co-locate with the tools they call.
+
+\subsection{Heterogeneous SLM--LLM Systems}
+\label{subsec:agentic_hetero}
+
+The position is not that \glspl{llm} disappear from agents but that the default inverts: \glspl{slm} handle the repetitive language errands, and a strong generalist model is invoked only for planning, open-ended decomposition, or calls that genuinely need long context or broad world knowledge \citep{belcak2025slm_agentic}. Figure~\ref{fig:hetero_agent} sketches the arrangement. Realizing it requires a mechanism to decide, per call, which model to use. \citet{chen2025collab_survey} organize the collaboration literature into five interaction patterns---pipeline, routing, auxiliary, distillation, and fusion---of which routing is the most direct fit for agents.
+
+\begin{figure}[t]
+\centering
+\footnotesize
+\begin{tikzpicture}[
+  >={Stealth[length=2mm]},
+  box/.style={draw, rounded corners=2pt, align=center, inner sep=4pt, line width=0.5pt},
+  slm/.style={box, fill=black!4, text width=40mm, align=left},
+  llm/.style={box, fill=black!10, text width=40mm, align=left},
+  router/.style={box, fill=black!6, text width=24mm, minimum height=10mm},
+  lbl/.style={font=\scriptsize\itshape, text=black!55},
+]
+\node[box, text width=13mm] (task) {User task};
+\node[box, right=7mm of task, minimum height=12mm, text width=20mm] (loop) {Agent\\control loop};
+\node[box, below=6mm of loop, font=\scriptsize, text width=20mm] (tools) {Tools $\cdot$ Memory};
+\node[router, right=9mm of loop] (router) {\textbf{Router}\\[1pt]\scriptsize difficulty $\cdot$ cost $\cdot$ privacy $\cdot$ network};
+\node[slm, above right=2mm and 12mm of router] (slm) {\textbf{Specialised SLMs} — default\\[1pt]\scriptsize tool selection, argument filling, field extraction, classification, query rewrite, short code patch, step verification};
+\node[llm, below right=2mm and 12mm of router] (llm) {\textbf{Generalist LLM} — escalation\\[1pt]\scriptsize planning, open-ended decomposition, long context, broad world knowledge};
+\draw[->] (task) -- (loop);
+\draw[->] (tools) -- (loop);
+\draw[<->] (loop) -- (router);
+\draw[->] (router.east) -- ($(slm.west)+(0,-1mm)$) node[lbl, midway, above] {most calls};
+\draw[->] (router.east) -- ($(llm.west)+(0,1mm)$) node[lbl, midway, below] {minority};
+\end{tikzpicture}
+\caption{Heterogeneous SLM--LLM agent. A per-call router sends the majority of
+delegated sub-tasks to specialised small models and escalates only planning-like
+or long-context calls to a generalist \gls{llm}; tools and memory are shared. After
+\citet{belcak2025slm_agentic}.}
+\label{fig:hetero_agent}
+\end{figure}
+
+\subsubsection{Learned Routing}
+\label{subsubsec:agentic_routing}
+
+RouteLLM \citep{ong2024routellm} trains a lightweight router on human-preference data to predict, for each query, whether a weak model's answer would be judged as good as a strong model's, and dispatches accordingly; the authors report cost reductions of more than 2$\times$ on standard benchmarks with no measurable quality loss, and transfer of the trained router to unseen strong/weak model pairs. Division-of-Thoughts \citep{division_of_thoughts_2025} pushes routing below the query level, decomposing a task into sub-questions and assigning each to a local \gls{slm} or a cloud \gls{llm} according to estimated difficulty, for on-device agents. The open problems are difficulty estimation without an oracle, routing objectives that jointly weigh accuracy, latency, privacy sensitivity, and network availability, and handoff that does not produce a visible seam in output quality \citep{demystifying2025slm}.
+
+\subsubsection{Production Instances}
+\label{subsubsec:agentic_production}
+
+Two large deployments already embody the heterogeneous pattern. Apple's Foundation Models framework pairs an on-device model of roughly 3B parameters, quantized with 2-bit quantization-aware training and KV-cache sharing, with a Private Cloud Compute server model built on a Parallel-Track Mixture-of-Experts transformer, and routes to the server only when the on-device model is expected to fall short \citep{gunter2025afm}. The on-device model is reported to be competitive with Qwen3-4B and Gemma-3-4B on its target tasks. Third-party providers can now register cloud models behind the same API surface as the local model, making the \gls{slm} the default and the \gls{llm} an opt-in escalation \citep{apple2026afm3}. Samsung's Gauss and Google's Gemini Nano occupy the same design point on their respective platforms \citep{samsung2023gauss}.
+
+\subsection{Converting an LLM Agent to an SLM Agent}
+\label{subsec:agentic_conversion}
+
+For teams with an existing LLM-only agent, \citet{belcak2025slm_agentic} propose a six-step conversion pipeline that we summarize here because it operationalizes the position. \textbf{S1, instrumentation:} log every non-interface model call (inputs, outputs, latency) from the running agent, with encryption and access control. \textbf{S2, curation:} strip personally identifiable and protected health information and application secrets from the logs. \textbf{S3, clustering:} apply unsupervised clustering to the curated calls to surface the recurring request types---these are the specialization targets. \textbf{S4, selection:} for each cluster, choose a candidate \gls{slm} by matching required capability against benchmarks, license, and deployment constraints. \textbf{S5, specialization:} fine-tune the chosen \gls{slm} on the cluster's curated data, typically with \gls{lora} or \gls{qlora}. \textbf{S6, iteration:} re-run the loop periodically as the traffic distribution drifts. The pipeline is attractive precisely because the data it needs is a by-product of running the agent, and because each cluster converted removes a recurring frontier-model bill.
+
+\subsection{Barriers to Adoption}
+\label{subsec:agentic_barriers}
+
+\citet{belcak2025slm_agentic} identify three reasons the shift has lagged the technical case. First, large centralized-inference investments create sunk-cost inertia and an operational bias toward one big model behind one API (B1). Second, \glspl{slm} are still evaluated on generalist leaderboards (\gls{mmlu}, broad chat benchmarks) that are misaligned with agentic utility, so their fitness for delegated sub-tasks is under-measured (B2)---an evaluation gap this paper's consolidated tables also reflect, since public reporting concentrates on the same generalist benchmarks. Third, \gls{slm} releases receive far less attention than frontier launches, so awareness lags capability (B3). None of these is a technical obstacle, which is the point: the barriers are those of infrastructure, measurement, and attention, and each is already eroding as routing frameworks mature, agent-specific benchmarks such as the Berkeley Function-Calling Leaderboard gain traction, and on-device platforms ship \glspl{slm} to billions of devices by default.

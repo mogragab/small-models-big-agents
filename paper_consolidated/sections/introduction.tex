@@ -37,28 +37,43 @@ Existing \gls{slm} surveys \cite{lu2024slmsurvey,vannguyen2024slm_survey,wang202
 \subsection{Survey Method and Sources}
 \label{subsec:intro_method}
 
-This survey draws on three evidence streams, each with its own protocol.
-\emph{(1)~The model inventory} (Appendix~\ref{appendix:ecosystem}) is generated
-programmatically from \texttt{merged\_llm\_database.json}, a curated snapshot
-(September~2026) compiled from vendor technical reports, official model cards, and
-dated release announcements; each catalogued variant links to a primary source.
-\emph{(2)~The technique literature} on compression, training, and LLM--SLM
-collaboration was gathered by keyword search of the ACL Anthology, arXiv (cs.CL,
-cs.LG), and the proceedings of NeurIPS, ICML, ICLR, and MLSys for 2019--2026,
-seeded from the four prior \gls{slm} surveys
+This is a structured survey rather than a systematic review in the PRISMA sense:
+its aim is representative coverage of the \gls{slm} design space and of the public
+performance record, not an exhaustive, protocol-driven enumeration of every
+publication. Three bodies of evidence were assembled, each under an explicit
+inclusion rule.
+
+\emph{Model documentation.} We surveyed publicly documented \gls{slm} variants
+released between 2022 and 2026 (Appendix~\ref{appendix:ecosystem}). Candidates
+were identified from vendor technical reports and release papers, official model
+cards on Hugging Face and vendor repositories, and dated release announcements,
+and were cross-checked against independent trackers and community leaderboards. A
+variant was included when it had a citable primary source describing its
+architecture and training and an active-parameter count at or below roughly
+twenty billion. For each variant, architecture family, parameter count, context
+length, modality, license, and release date were taken from its primary source;
+the resulting synthesis reflects the public record as of September~2026.
+
+\emph{Technique literature.} Work on compression, training, and LLM--SLM
+collaboration was gathered by keyword search of the ACL Anthology, arXiv (cs.CL
+and cs.LG), and the proceedings of NeurIPS, ICML, ICLR, and MLSys for
+2019--2026, seeded from four prior \gls{slm} surveys
 \citep{lu2024slmsurvey,vannguyen2024slm_survey,wang2024comprehensive,belcak2025slm_agentic}
-and expanded by forward and backward citation tracing; a work was retained when it
-concerned models at or below roughly 20B parameters, or a compression or
-deployment method material to that regime. \emph{(3)~The reported-performance
-figures} of Section~\ref{sec:reported} follow the grey-literature collection and
-reconciliation protocol of Section~\ref{subsec:reported_protocol}. The survey is
-narrative rather than systematic in the PRISMA sense: the goal is coverage of the
-design space and of the public reported record, not an exhaustive enumeration of
-every publication.
+and expanded by forward and backward citation tracing. A work was retained when it
+concerned models at or below roughly twenty billion parameters, or a compression
+or deployment technique material to that regime.
+
+\emph{Reported performance.} The quantitative comparison in
+Section~\ref{sec:reported} consolidates \emph{reported} figures---values published
+in vendor technical reports, official model cards, standardized community
+evaluations, and third-party studies---under the collection, extraction, and
+reconciliation protocol set out in Section~\ref{subsec:reported_protocol}. No
+benchmark was executed for this survey; every consolidated figure is traced to a
+dated source in Appendix~\ref{app:provenance}.
 
 \subsection{Paper Organization}
 \label{subsec:intro_organization}
 
 Section~\ref{section:background} reviews prior work on the LLM-to-SLM transition, compression, edge inference, and LLM--SLM collaboration. Section~\ref{sec:taxonomy} presents the four-dimensional taxonomy. Section~\ref{sec:compression} reviews compression techniques. Section~\ref{sec:reported} documents the data-collection protocol and consolidates reported performance. Section~\ref{sec:deployment} covers resource-constrained deployment. Section~\ref{sec:agentic} makes the agentic argument. Section~\ref{sec:applications} surveys domain-specific applications. Section~\ref{section:discussion} discusses implications, limitations, and ethics. Section~\ref{sec:challenges} sets out open challenges and an empirical-verification agenda. Section~\ref{section:conclusion} concludes.
 
-The ecosystem inventory referenced throughout is generated directly from \texttt{merged\_llm\_database.json} (snapshot September~2026). Appendix~\ref{appendix:ecosystem} provides the full variant inventory grouped chronologically by release year and family, together with the source-selection protocol.
+Appendix~\ref{appendix:ecosystem} provides the full variant inventory, grouped chronologically by release year and family, together with the source-selection protocol; it reflects the public record as of September~2026.
