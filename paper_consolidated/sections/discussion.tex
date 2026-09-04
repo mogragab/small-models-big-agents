@@ -22,7 +22,7 @@ reported as effectively lossless and INT4 as costing 1--4~points, with smaller
 models and mathematical reasoning at the higher end. Because autoregressive
 inference is memory-bandwidth-bound, 4-bit quantization is simultaneously a
 storage optimization and a near-linear speedup on edge hardware. Quantization
-consistently outperforms pruning below 4B parameters \cite{kurz2025pruning_vs_quant},
+consistently outperforms pruning below 4B parameters \citep{kurz2025pruning_vs_quant},
 which simplifies the practitioner's decision: quantize aggressively, prune only
 when a structured size reduction is independently required.
 
@@ -38,9 +38,11 @@ task whose requirements can be stated.
 \textbf{The evidence base itself is the weak point.} Every figure in
 Section~\ref{sec:reported} is a reported value drawn from heterogeneous sources
 with different harnesses, prompt formats, and self-reporting incentives. The
-consolidated tables are internally reconciled and provenance-tagged
-(Appendix~\ref{app:provenance}), but they are not a substitute for a controlled
-re-evaluation. Section~\ref{subsec:challenges_verification} specifies the
+consolidated tables are internally reconciled and their provenance is documented
+at the level of model and source class (Appendix~\ref{app:provenance}), but they
+are not a substitute for a controlled re-evaluation, and the efficiency,
+edge-throughput, and energy figures in particular rest on a thinner and less
+uniformly documented reporting base than the accuracy figures do. Section~\ref{subsec:challenges_verification} specifies the
 verification studies that would convert the load-bearing claims from ``reported''
 to ``measured.''
 
@@ -84,7 +86,7 @@ coverage; the ecosystem moves faster than any static snapshot, so models release
 after the collection window are discussed only qualitatively; the taxonomy's
 boundaries (the 10B threshold, the treatment of \gls{moe} by active parameters) are
 pragmatic conventions, not natural kinds; and the agentic argument, while
-grounded in a production-scale position paper \cite{belcak2025slm_agentic} and two
+grounded in a production-scale position paper \citep{belcak2025slm_agentic} and two
 large deployments, is a projection about where the field is heading, not a
 measured outcome.
 
@@ -93,17 +95,17 @@ measured outcome.
 
 Safety alignment is proportionally harder at small scale: several research-grade
 \glspl{slm} lack the safety training of their larger siblings, and fine-tuning can erode
-what alignment exists \cite{qi2023finetuning}. Practitioners deploying SLMs---and
+what alignment exists \citep{qi2023finetuning}. Practitioners deploying SLMs---and
 especially those wiring them into agents with tool access---should treat
 application-level safety filtering and output monitoring as mandatory, not
 optional. Compression carries its own risk: pruning and quantization can degrade
 performance unevenly across dialects, languages, and demographic groups
-\cite{blodgett2020language}, and the reported advantage of quantization over
-pruning is largest precisely on multilingual tasks \cite{kurz2025pruning_vs_quant},
+\citep{blodgett2020language}, and the reported advantage of quantization over
+pruning is largest precisely on multilingual tasks \citep{kurz2025pruning_vs_quant},
 which suggests pruning disproportionately harms non-English users. Fairness-aware
 compression objectives and per-group performance floors for high-stakes
 applications are open requirements. Against these risks, on-device \glspl{slm} advance
 privacy (no data leaves the device), accessibility (no connectivity required),
-and cost (no subscription), which matters most for the healthcare, education, and
-agricultural applications of Section~\ref{sec:applications} in under-resourced
+and cost (no subscription), which matters most for the healthcare and
+educational applications of Section~\ref{sec:applications} in under-resourced
 settings.

@@ -65,7 +65,8 @@ The position is not that \glspl{llm} disappear from agents but that the default 
 delegated sub-tasks to specialised small models and escalates only planning-like
 or long-context calls to a generalist \gls{llm}; tools and memory are shared. After
 \citet{belcak2025slm_agentic}.}
-\label{fig:hetero_agent}
+\Description{Block diagram of a heterogeneous agent. A user task feeds an agent control loop that shares tools and memory and consults a router. The router sends most calls to specialised small language models handling tool selection, argument filling, extraction, classification, query rewriting, short code patches, and step verification, and escalates a minority of calls to a generalist large language model for planning, open-ended decomposition, long context, and broad world knowledge.}
+  \label{fig:hetero_agent}
 \end{figure}
 
 \subsubsection{Learned Routing}

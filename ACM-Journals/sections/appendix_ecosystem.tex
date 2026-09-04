@@ -1,7 +1,7 @@
 \section{Broader Small-Model Ecosystem Context}
 \label{appendix:ecosystem}
 
-The standalone inventory drafts in this project tracked the wider model ecosystem surrounding the evaluated \gls{slm} cohort. Their main function was to contextualize the paper within the rapidly changing 2025--2026 release cycle, where compact open models, open-weight reasoning models, and frontier API systems evolved in parallel. The distilled summary below preserves the most relevant ecosystem information inside the main paper.
+This appendix situates the reviewed \gls{slm} cohort within the wider model ecosystem, which matters because the 2025--2026 release cycle moved compact open models, open-weight reasoning models, and frontier API systems in parallel rather than in sequence. The summary below records the ecosystem context needed to interpret the cohort, followed by the full generated variant inventory.
 
 \subsection{Landscape Snapshot}
 \label{subsec:ecosystem_snapshot}
@@ -18,6 +18,7 @@ Figure~\ref{fig:family_treemap} gives a size-proportional overview of the invent
   \centering
   \includegraphics[width=\linewidth]{paper_slm_family_treemap.pdf}
   \caption{Documented SLM variants grouped by developer and family; area is proportional to the number of variants. Generated from \texttt{merged\_llm\_database.json} (snapshot September~2026).}
+  \Description{Treemap of documented small language model variants grouped by developer and then by family, with rectangle area proportional to the number of variants in each group.}
   \label{fig:family_treemap}
 \end{figure}
 
@@ -25,6 +26,7 @@ Figure~\ref{fig:family_treemap} gives a size-proportional overview of the invent
   \centering
   \includegraphics[width=\linewidth]{paper_slm_developer_diversity_timeline.pdf}
   \caption{Cumulative distinct developers releasing documented SLM variants (line) and new developers per quarter (bars).}
+  \Description{Combination chart with bars showing the number of new developers releasing their first documented small language model in each quarter, overlaid with a line showing the cumulative count of distinct developers.}
   \label{fig:developer_diversity}
 \end{figure}
 
@@ -32,6 +34,7 @@ Figure~\ref{fig:family_treemap} gives a size-proportional overview of the invent
   \centering
   \includegraphics[width=0.78\linewidth]{paper_slm_license_posture.pdf}
   \caption{License posture of documented SLM variants. Permissive open licenses (Apache-2.0, MIT) account for the plurality; ``unspecified'' entries are typically research checkpoints without an attached license file.}
+  \Description{Bar chart of documented small language model variants by license category. Permissive open licenses, chiefly Apache 2.0 and MIT, form the plurality, followed by custom vendor licenses and unspecified research checkpoints.}
   \label{fig:license_posture}
 \end{figure}
 
@@ -39,7 +42,7 @@ Figure~\ref{fig:family_treemap} gives a size-proportional overview of the invent
 \label{subsec:ecosystem_families}
 \begin{table}[ht]
 \centering
-\caption{Representative model families tracked in the inventory drafts.}
+\caption{Representative model families tracked in the inventory.}
 \label{tab:ecosystem_families}
 \footnotesize\adjustbox{max width=\linewidth}{%
 \begin{tabular}{lllll}
@@ -65,7 +68,7 @@ Grok / Kimi / GLM / Nova & xAI / Moonshot / Zhipu / AWS & Large API or MoE syste
 
 \subsection{Classification Conventions}
 \label{subsec:ecosystem_classification}
-The inventory drafts used the following practical conventions, which also informed the model-selection narrative in this paper:
+The inventory uses the following practical conventions, which also govern model selection throughout this paper:
 \begin{itemize}
     \item Dense models at roughly 20B parameters or below were treated as \glspl{slm} when they remained plausibly deployable on modest hardware.
     \item Mixture-of-Experts models were interpreted using \emph{active} parameters for deployment reasoning, because active parameters better capture per-token compute and memory cost.
@@ -74,7 +77,7 @@ The inventory drafts used the following practical conventions, which also inform
 
 \subsection{Generated Variant Inventory}
 \label{subsec:ecosystem_generated_inventory}
-The following inventory is generated directly from \texttt{merged\_llm\_database.json} using \texttt{scripts/generate\_model\_tables.py}. The database covers 123 \gls{slm} variants and 238 \gls{llm} variants (361 entries in total, snapshot September~2026); only the \gls{slm} inventory is reproduced here, organized chronologically by release year and then by family, with parameter size as an explicit comparison column. The corresponding \gls{llm} inventory is available in the source database.
+The following inventory is generated directly from \texttt{merged\_llm\_database.json} using \texttt{scripts/generate\_model\_tables.py}. The database covers 126 \gls{slm} variants and 238 \gls{llm} variants (364 entries in total, snapshot September~2026); only the \gls{slm} inventory is reproduced here, organized chronologically by release year and then by family, with parameter size as an explicit comparison column. The corresponding \gls{llm} inventory is available in the source database.
 
 {\footnotesize\noindent\textbf{Chronology.} \hyperref[tab:model_inventory_slm_by_year]{SLM inventory}: \hyperlink{model-year-slm-2026}{2026}, \hyperlink{model-year-slm-2025}{2025}, \hyperlink{model-year-slm-2024}{2024}, \hyperlink{model-year-slm-2023-and-earlier}{2023 and earlier}.\par}
 \input{partials/model_inventory_slm_by_year}

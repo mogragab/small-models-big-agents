@@ -4,9 +4,93 @@
 
 This appendix supports the reproducibility of the \emph{review itself}: it documents the sources of the reported figures consolidated in Sections~\ref{sec:reported}--\ref{sec:deployment}, and provides the reference prompt templates and quantization-pipeline specifications under which those figures were reported. (The \gls{qlora} adaptation recipe appears in Section~\ref{sec:reported}, Table~\ref{tab:hyperparam_search}; detailed device specifications appear in Section~\ref{sec:deployment}, Table~\ref{tab:appendix_hardware}.) The appendix does not report original experimental runs.
 
-\subsection{Per-Figure Provenance Table}
+\subsection{Provenance of the Consolidated Figures}
 \label{subsec:appendix_provenance_table}
-\textit{To be populated at submission:} a per-figure provenance table listing, for every reported performance value appearing in Sections~\ref{sec:reported}--\ref{sec:deployment}, the following fields: (a)~model (name + Hugging~Face commit hash or release version); (b)~benchmark and metric variant; (c)~quantization precision and toolchain; (d)~hardware configuration; (e)~source citation (vendor technical report, model card, leaderboard entry, or third-party study) with a stable identifier (DOI, arXiv ID, or archival URL); (f)~extraction date; and (g)~any conflict-resolution decision applied under the rules of Section~\ref{subsec:reported_sources}.
+
+% -----------------------------------------------------------------------------
+% AUTHOR ACTION REQUIRED BEFORE SUBMISSION.
+% Table \ref{tab:provenance_models} below records model-level provenance, which is
+% complete. Per-cell attribution for Tables \ref{tab:finetuning},
+% \ref{tab:edge_deployment}, \ref{tab:energy} and \ref{tab:latency_compare} is NOT
+% yet reproduced anywhere in this manuscript. Either (a) supply the per-cell
+% source ledger for those four tables, or (b) withdraw them and the claims that
+% depend on them. Section \ref{subsec:appendix_provenance_status} states the
+% current position honestly, but it is not a substitute for (a) or (b).
+% -----------------------------------------------------------------------------
+
+Provenance is recorded at two levels. \emph{Model-level} provenance fixes, for
+each model in the cohort, the primary release document from which its
+architectural specification and headline benchmark scores derive
+(Table~\ref{tab:provenance_models}). \emph{Source-class} provenance records, for
+each consolidated table, the categories of source the figures are drawn from and
+the reconciliation rules applied
+(Section~\ref{subsec:appendix_provenance_status}). Benchmark definitions and
+metric variants follow the originating task papers cited in
+Section~\ref{subsec:reported_benchmarks}.
+
+\begin{table}[ht]
+\centering
+\caption{Model-level provenance for the reviewed cohort: the primary release document from which each model's architectural specification and headline reported scores derive.}
+\label{tab:provenance_models}
+\footnotesize\adjustbox{max width=\linewidth}{%
+\begin{tabular}{llll}
+\toprule
+\textbf{Model(s)} & \textbf{Developer} & \textbf{Primary source} & \textbf{Source type} \\
+\midrule
+TinyLlama-1.1B & --- & \citet{zhang2024tinyllama} & Technical report \\
+SmolLM2-1.7B, -360M & Hugging Face & \citet{allal2025smollm2} & Technical report \\
+StableLM 2-1.6B & Stability AI & \citet{stabilityai2024stablelm} & Technical report \\
+Qwen2.5-0.5B/1.5B/3B/7B & Alibaba & \citet{qwen2024qwen25} & Technical report \\
+Llama 3.2-1B/3B & Meta & \citet{grattafiori2024llama3} & Technical report \\
+Gemma 2-2B/9B & Google DeepMind & \citet{gemma2team2024} & Technical report \\
+Gemma 3-1B/4B & Google DeepMind & \citet{team2025gemma3} & Technical report \\
+Mistral 7B & Mistral AI & \citet{jiang2023mistral} & Technical report \\
+Phi-3-mini & Microsoft & \citet{abdin2024phi3} & Technical report \\
+Phi-3.5-mini & Microsoft & \citet{abdin2024phi35} & Technical report \\
+Phi-4-mini & Microsoft & \citet{microsoft2025phi4mini} & Technical report \\
+Phi-4 & Microsoft & \citet{abdin2024phi4} & Technical report \\
+Ministral 8B & Mistral AI & Vendor model card & Model card \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Provenance Status by Table}
+\label{subsec:appendix_provenance_status}
+
+The consolidated tables do not all rest on an equally firm reporting base, and
+the distinction matters for how much weight each should carry.
+
+\emph{Architectural and accuracy figures.} The specifications in
+Table~\ref{tab:model_specs} and the accuracy figures in
+Tables~\ref{tab:zero_shot} and~\ref{tab:appendix_zero_shot_extended} derive from
+the primary release documents in Table~\ref{tab:provenance_models}, supplemented
+where a model's report omits a task by standardized community evaluations
+(the Open \gls{llm} Leaderboard and \texttt{lm-evaluation-harness}-based reports
+\citep{gao2023harness}). These are the best-supported figures in the review.
+
+\emph{Compression and quantization figures.} The degradation figures in
+Table~\ref{tab:quantization} and the footprints in
+Table~\ref{tab:memory_footprint} derive from the quantization-method literature
+\citep{frantar2023gptq,lin2024awq,kim2024squeezellm} and from published
+quantized artifact sizes. The comparative characteristics in
+Table~\ref{tab:compression_compare} are a synthesis of the compression
+literature reviewed in Section~\ref{sec:compression} rather than measurements of
+a single cohort, and the retention column should be read as an indicative band
+rather than a measured quantity.
+
+\emph{Adaptation, efficiency, and energy figures.} Tables~\ref{tab:finetuning},
+\ref{tab:edge_deployment}, \ref{tab:energy} and~\ref{tab:latency_compare} rest on
+a materially thinner base. Public reporting of fine-tuning gains, edge
+throughput, and per-inference energy is sparse, is rarely produced under a common
+protocol, and in several cases exists only for a subset of the cohort; some
+entries are consequently aggregates or interpolations across sources rather than
+single quoted values, and this manuscript does not reproduce a per-cell ledger
+for them. They are offered as indicative orders of magnitude that establish
+relative position, not as measurements, and no claim in this paper should be
+read as resting on their precise values. Converting them into measured
+quantities is the first item on the verification agenda of
+Section~\ref{subsec:challenges_verification}.
 
 The remaining subsections of this appendix document the reference conditions---prompt formats, quantization toolchains, adaptation hyperparameters---that the reviewed sources most commonly report; these are preserved here so that readers can interpret any individual reported figure against the conditions it was measured under.
 
@@ -40,7 +124,7 @@ To complement the methodology section, the compression workflows reported across
     \item[bitsandbytes NF4] 4-bit NormalFloat quantization with double quantization, matching the \gls{qlora} training regime.
 \end{description}
 
-For compression stress tests, the sources report SparseGPT~\cite{frantar2023sparsegpt}-induced 50\% unstructured sparsity applied before 4-bit quantization. Reported figures for this combined pruning-plus-quantization setting are retained in the provenance tables for sensitivity analysis rather than the main comparative tables, because support for sparse inference remains hardware dependent and is not uniformly reported across the reviewed sources.
+For compression stress tests, the sources report SparseGPT~\citep{frantar2023sparsegpt}-induced 50\% unstructured sparsity applied before 4-bit quantization. Reported figures for this combined pruning-plus-quantization setting are retained in the provenance tables for sensitivity analysis rather than the main comparative tables, because support for sparse inference remains hardware dependent and is not uniformly reported across the reviewed sources.
 
 \subsection{Edge Measurement Protocols Reported in the Source Literature}
 \label{subsec:appendix_edge_protocol}

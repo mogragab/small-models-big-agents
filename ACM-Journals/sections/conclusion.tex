@@ -7,25 +7,27 @@ the first, we cataloged 126 documented \gls{slm} variants under a four-dimension
 tracked the 2025--2026 shift toward hybrid state-space architectures, unified
 reasoning models, and mobile-first multimodal families, reviewed the compression
 techniques specific to the sub-10B regime---where quantization consistently
-outperforms pruning \cite{kurz2025pruning_vs_quant}---and consolidated publicly
+outperforms pruning \citep{kurz2025pruning_vs_quant}---and consolidated publicly
 reported performance for an 18-model cohort across 12 tasks, six hardware tiers,
-and three precisions, with every figure traced to a dated source rather than an
-original run.
+and three precisions, every figure of which is a value reported in a dated public
+source rather than an original run.
 
 On the second: the ``less is more'' thesis is no longer only about efficiency. The
 consumer of language intelligence that is growing fastest is the AI agent, and the
 agent does not want a generalist. It issues many narrow, repetitive,
 format-constrained calls, and for those calls a small specialized model is
 sufficiently capable, 10--30$\times$ cheaper to serve, cheaper to adapt, and
-easier to hold to a code interface \cite{belcak2025slm_agentic}. The consolidated
+easier to hold to a code interface \citep{belcak2025slm_agentic}. The consolidated
 evidence in this paper supports each premise of that argument, and two
 production-scale deployments---Apple's on-device/server split and the
 routing-based systems surveyed in Section~\ref{sec:agentic}---already embody it.
 The barriers that remain are those of sunk infrastructure, benchmark
 mis-measurement, and attention, not of capability.
 
-The work ahead is concrete. Reasoning still shows a performance cliff below
-roughly 7B parameters that inference-time compute only partly closes;
+The work ahead is concrete. Below roughly 3B parameters, task-specific
+adaptation stops being optional and becomes a precondition for reliable
+delegated work, and inference-time compute only partly closes the remaining
+reasoning gap;
 hallucination is worse at small scale; compression can amplify bias; hardware and
 model architecture are still designed separately; and the consolidated evidence
 base needs controlled verification of the handful of claims that practitioners

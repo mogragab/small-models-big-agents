@@ -15,9 +15,10 @@ from vendor technical reports, official model cards, community leaderboards, and
 third-party evaluations. We first document the protocol used to collect and
 reconcile these figures (Section~\ref{subsec:reported_protocol}), then present
 the consolidated synthesis (Sections~\ref{subsec:reported_overall}--\ref{subsec:reported_safety}).
-Every table entry traces to a dated, citable origin recorded in
-Appendix~\ref{app:provenance}; where sources disagree, the reconciliation rule
-of Section~\ref{subsec:reported_sources} applies.
+Appendix~\ref{app:provenance} records the provenance of these figures at the
+level of model and source class, together with the reference conditions under
+which they were reported; where sources disagree, the reconciliation rule of
+Section~\ref{subsec:reported_sources} applies.
 
 \subsection{Data-Collection Protocol}
 \label{subsec:reported_protocol}
@@ -66,7 +67,7 @@ Phi-4-mini & 3.8B & 32 & 3,072 & GQA-24/8 & 128K & 200K & 5.0T \\
 Phi-4 & 14.0B & 40 & 5,120 & GQA & 16K & 100K & $\sim$10T \\
 \bottomrule
 \end{tabular}%
-}\\[5pt]
+}\par\vskip 4pt\relax
 {\raggedright \small \textit{Note:} MHA = Multi-Head Attention; \gls{gqa} = Grouped-Query Attention (Q/KV heads); GQA-LG = \gls{gqa} with local--global interleaving. Training-token counts are reported or estimated values from each model's official technical report or model card.\par}
 \end{table}
 
@@ -118,10 +119,10 @@ figures share a framework or are explicitly flagged.
 \midrule
 Cloud GPU & NVIDIA A100 80GB & 80 GB HBM2e & 300W & Training + serving \\
 High-end Consumer & NVIDIA RTX 4090 & 24 GB GDDR6X & 450W & Local inference \\
-CPU/iGPU Laptop & AMD Ryzen 7 7840HS & 32 GB DDR5 & 45W & Laptop deployment \\
+CPU/iGPU Laptop & AMD Ryzen 7 7840HS & 32 GB DDR5 & 35--54W & Laptop deployment \\
 Edge GPU Module & NVIDIA Jetson Orin Nano & 8 GB LPDDR5 & 25W & Edge AI / robotics \\
-Edge SBC & Raspberry Pi 5 & 8 GB LPDDR4X & 15W & Embedded IoT \\
-Mobile SoC & Snapdragon 8 Gen 3 & 12 GB LPDDR5X & $\sim$10W & Smartphone \\
+Edge SBC & Raspberry Pi 5 & 8 GB LPDDR4X & 12W & Embedded IoT \\
+Mobile SoC & Snapdragon 8 Gen 3 & 12 GB LPDDR5X & $\sim$8W sustained & Smartphone \\
 \bottomrule
 \end{tabular}%
 }
@@ -171,7 +172,7 @@ Section~\ref{subsec:challenges_verification}.
 
 \begin{table}[t]
 \centering
-\caption{Reported zero-shot FP16 benchmark scores (instruction-tuned variants). \textbf{Bold} = best among SLMs. All values are reported figures; per-figure sources in Appendix~\ref{app:provenance}. The MATH column and the extended task set appear in Table~\ref{tab:appendix_zero_shot_extended}.}
+\caption{Reported zero-shot FP16 benchmark scores (instruction-tuned variants). \textbf{Bold} = best among SLMs. All values are reported figures; provenance recorded in Appendix~\ref{app:provenance}. The MATH column and the extended task set appear in Table~\ref{tab:appendix_zero_shot_extended}.}
 \label{tab:zero_shot}
 \footnotesize\adjustbox{max width=\linewidth}{%
 \begin{tabular}{lcccccc}
@@ -222,7 +223,7 @@ MBPP, SST-2, and MNLI and does not change these orderings.
 
 \begin{table}[ht]
 \centering
-\caption{Reported zero-shot, 5-shot, and QLoRA fine-tuned accuracy for selected model--task pairs. HellaSwag and MMLU are reported for the 5-shot setting only in the sources compiled here. Values are reported figures.}
+\caption{Zero-shot, 5-shot, and QLoRA fine-tuned accuracy for selected model--task pairs. HellaSwag and MMLU are reported for the 5-shot setting only in the sources compiled here. Public reporting of fine-tuning gains is sparse and is not produced under a common recipe; several entries are consolidated across sources rather than quoted from one, and the table should be read for the direction and rough magnitude of the adaptation effect (Appendix~\ref{subsec:appendix_provenance_status}).}
 \label{tab:finetuning}
 \footnotesize\adjustbox{max width=\linewidth}{%
 \begin{tabular}{llccccccc}
@@ -246,7 +247,7 @@ SmolLM2-1.7B & Zero-shot & 82.6 & 54.2 & 59.8 & \textendash & 42.6 & \textendash
  & QLoRA & \textbf{93.2} & \textbf{72.5} & 65.8 & \textendash & 48.2 & \textendash & \textbf{68.4} \\
 \bottomrule
 \end{tabular}%
-}\\[4pt]
+}\par\vskip 4pt\relax
 {\raggedright \small \textit{Note:} \textendash\ marks a setting not reported for that task in the sources compiled here (not a zero value).\par}
 \end{table}
 
@@ -289,9 +290,9 @@ Scheduler & \{cosine, linear\} & cosine \\
 
 The right-hand column records the \gls{qlora} configuration that the reviewed
 sources most commonly report; where a source used a different rank,
-target-module set, or schedule, the deviation is noted in the per-figure
-provenance table (Appendix~\ref{app:provenance}) so that its reported gain is not
-compared directly against gains obtained under the common recipe.
+target-module set, or schedule, the deviation is noted in the provenance record
+(Appendix~\ref{app:provenance}) so that its reported gain is not compared
+directly against gains obtained under the common recipe.
 
 \subsection{Quantization Impact}
 \label{subsec:reported_quantization}
@@ -329,13 +330,15 @@ benchmarks). INT4 costs roughly 1--4~points on average, and the loss is
 \emph{not} uniform: smaller models degrade more, consistent with the argument
 that each weight in a small model carries more information
 \citep{slmquant2025}. Mathematical reasoning is reported to degrade faster
-than knowledge recall under INT4, by a factor of roughly 1.7--2.2. Among INT4
+than knowledge recall under INT4, by a factor of roughly 1.5--2.1 across the
+model--method pairs in Table~\ref{tab:quantization}. Among INT4
 methods, \gls{awq} is reported to retain slightly more
 accuracy than GPTQ for \glspl{slm} \citep{lin2024awq}, and \gls{gguf}'s Q4\_K\_M offers the
 best size--quality balance for CPU and edge backends. Reported model-size
-reductions are close to the theoretical 4$\times$: a 7B model drops from roughly
-15~GB to roughly 4.5~GB, and a 3.8B model to roughly 2.4~GB
-(Table~\ref{tab:memory_footprint}).
+reductions fall somewhat short of the theoretical 4$\times$, at roughly
+3.2--3.4$\times$, because embedding and normalization tensors are commonly left at
+higher precision: a 7B model drops from roughly 15~GB to roughly 4.5~GB, and a
+3.8B model from 7.6~GB to roughly 2.4~GB (Table~\ref{tab:memory_footprint}).
 
 \begin{table}[ht]
 \centering
@@ -360,7 +363,7 @@ TinyLlama-1.1B & 2.2 & 0.7 & 0.8 & 0.8 \\
 
 \begin{table}[t]
 \centering
-\caption{Reported edge-deployment figures (INT4/Q4\_K\_M unless noted). Status labels indicate reported practical interactivity on the tested device.}
+\caption{Reported edge-deployment figures (INT4/Q4\_K\_M unless noted). Status labels indicate reported practical interactivity on the tested device. Figures are consolidated from community benchmark reports produced under differing warm-up, prompt-length, and backend conditions; they are indicative of tier boundaries rather than precisely comparable (Appendix~\ref{subsec:appendix_provenance_status}).}
 \label{tab:edge_deployment}
 \footnotesize\adjustbox{max width=\linewidth}{%
 \begin{tabular}{llccccl}
@@ -387,18 +390,19 @@ Phi-4-mini & Galaxy S24+ (CPU) & 12.8 & 380 & 3.0 & 8.5 & Good \\
 Qwen2.5-7B & Galaxy S24+ (CPU) & 5.4 & 920 & 5.5 & 18.2 & Marginal \\
 \bottomrule
 \end{tabular}%
-}\\[4pt]
+}\par\vskip 4pt\relax
 {\raggedright \small $^*$Reported with a 4-bit \gls{npu} backend (ExecuTorch/SpinQuant).\par}
 \end{table}
 
 The reported edge figures (Table~\ref{tab:edge_deployment}) draw clear
 boundaries. An 8~GB Raspberry~Pi~5 is reported to run INT4 models up to about 3B
 at marginally interactive speeds and sub-2B models comfortably. The Jetson Orin
-Nano handles everything up to 9B at useful speeds. Snapdragon-class smartphones
+Nano is comfortable up to about 4B, marginal at 7B, and below interactive
+throughput at 9B. Snapdragon-class smartphones
 with \gls{npu} delegation are reported to run models up to 7B, with interactive use
 practical below 4B. Time-to-first-token, dominated by prefill, is the binding
 constraint for conversational use: reported \gls{ttft} for a 3B INT4 model is around
-4~s on the Pi but around 1~s on the Jetson. \gls{gqa} and local--global attention
+1.5~s on the Pi but around 0.2~s on the Jetson. \gls{gqa} and local--global attention
 substantially reduce the reported KV-cache footprint, which otherwise dominates
 memory at long context.
 
@@ -407,7 +411,7 @@ memory at long context.
 
 \begin{table}[ht]
 \centering
-\caption{Reported energy-per-inference estimates (joules per 1{,}000 completions, 512-token generation).}
+\caption{Energy-per-inference estimates (joules per 1{,}000 completions, 512-token generation). These are derived estimates, obtained by combining reported sustained throughput with device power envelopes, not direct instrumented measurements; they are included to show the shape of the cost surface across tiers and should not be quoted as measured values (Appendix~\ref{subsec:appendix_provenance_status}).}
 \label{tab:energy}
 \footnotesize\adjustbox{max width=\linewidth}{%
 \begin{tabular}{lccccc}
@@ -437,13 +441,24 @@ into cost-per-token comparisons.
 \subsection{Multilingual and Safety Reporting}
 \label{subsec:reported_safety}
 
-Reported multilingual scores (FLORES-200, XQuAD, MGSM) place Qwen2.5-7B ahead of
-other \glspl{slm}, reflecting its large multilingual training corpus, with a wide gap to
-English-centric models on non-English mathematical reasoning. Reported toxicity
-evaluations (ToxiGen, RealToxicityPrompts) show substantially higher toxicity for
-the smallest models (TinyLlama, sub-1B variants), consistent with the argument
-that safety alignment is harder to preserve at reduced scale and is often absent
-from research-grade small models. Both observations carry directly into
+Multilingual and safety reporting is markedly sparser than benchmark reporting
+across the cohort, and the coverage that exists is not comparable across models;
+we therefore report the direction of the evidence rather than tabulating it.
+On multilingual capability, the models whose technical reports document
+large non-English pretraining mixtures---Qwen2.5 \citep{qwen2024qwen25}, Gemma~3
+\citep{team2025gemma3}, and Aya \citep{ustun2024aya}---report substantially
+stronger non-English performance than the English-centric families, and the gap
+is widest on non-English mathematical reasoning, where both language coverage and
+reasoning capacity bind at once. On safety, per-model toxicity evaluations are
+reported inconsistently and are frequently absent altogether from research-grade
+small models, so the cohort cannot be ranked; what the literature does establish
+is that alignment is harder to preserve at reduced scale and that fine-tuning can
+erode what alignment exists \citep{qi2023finetuning}, and that compression
+degrades performance unevenly across languages and dialects
+\citep{blodgett2020language,kurz2025pruning_vs_quant}. The absence of
+comparable safety reporting is itself a finding, and it is one of the
+verification gaps named in Section~\ref{subsec:challenges_verification}.
+Both observations carry directly into
 Section~\ref{sec:agentic}: an agent that routes non-English or safety-sensitive
 calls to a small English-centric model inherits these gaps, which is an argument
 for capability-aware rather than size-only routing.

@@ -249,4 +249,13 @@
   \fi
 }
 
+% ---------------------------------------------------------------------------
+% Compatibility shim for the shared section files.
+% The section files are also compiled against ACM's acmart class, which requires
+% a \Description{} alt-text declaration inside every figure for accessibility.
+% acmart defines \Description itself; here it is a no-op so the same section
+% files build unchanged under this template.
+% ---------------------------------------------------------------------------
+\providecommand{\Description}[1]{}
+
 \endinput
