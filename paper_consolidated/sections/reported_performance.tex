@@ -29,11 +29,13 @@ documented evaluation card; (2)~parameter count below 10~billion, with Phi-4 at
 14B retained as an upper-bound reference; (3)~at least one reported score on an
 established benchmark used here; and (4)~representation of diverse training
 methodologies (synthetic-data-centric, web-scale pretraining, distillation).
-Table~\ref{tab:model_specs} lists the resulting 17-model cohort with
+Table~\ref{tab:model_specs} lists the resulting 18-model cohort with
 architectural specifications as reported by each model's release materials. The
-cohort spans four orders of magnitude in parameter count and six developer
-organizations, enabling analysis of how training methodology, architecture, and
-scale interact to determine reported performance.
+cohort spans from 0.5B to 14B parameters and eight developer organizations,
+enabling analysis of how training methodology, architecture, and scale interact
+to determine reported performance. Two further models---Ministral~8B and
+SmolLM2-360M---appear only in the extended results of
+Appendix~\ref{subsec:appendix_extended_results}.
 
 \begin{table}[ht]
 \centering
@@ -46,10 +48,11 @@ scale interact to determine reported performance.
 \midrule
 TinyLlama-1.1B & 1.1B & 22 & 2,048 & MHA-32h & 2K & 32K & 3.0T \\
 SmolLM2-1.7B & 1.7B & 24 & 2,048 & MHA-32h & 2K & 49K & 11.0T \\
+StableLM 2-1.6B & 1.6B & 24 & 2,048 & MHA-32h & 4K & 100K & 2.0T \\
 Qwen2.5-0.5B & 0.5B & 24 & 896 & GQA-14/2 & 32K & 152K & 18.0T \\
 Qwen2.5-1.5B & 1.5B & 28 & 1,536 & GQA-12/2 & 32K & 152K & 18.0T \\
 Qwen2.5-3B & 3.0B & 36 & 2,048 & GQA-16/2 & 32K & 152K & 18.0T \\
-Qwen2.5-7B & 7.0B & 28 & 3,584 & GQA-28/4 & 128K & 152K & 18.0T \\
+Qwen2.5-7B & 7.6B & 28 & 3,584 & GQA-28/4 & 128K & 152K & 18.0T \\
 Llama 3.2-1B & 1.2B & 16 & 2,048 & GQA-32/8 & 128K & 128K & 9.0T \\
 Llama 3.2-3B & 3.2B & 28 & 3,072 & GQA-24/8 & 128K & 128K & 9.0T \\
 Gemma 2-2B & 2.6B & 26 & 2,304 & GQA-8/4 & 8K & 256K & 2.0T \\
@@ -69,22 +72,24 @@ Phi-4 & 14.0B & 40 & 5,120 & GQA & 16K & 100K & $\sim$10T \\
 
 \subsubsection{Benchmark Tasks and Metrics}
 \label{subsec:reported_benchmarks}
-Fifteen benchmark tasks across seven \gls{nlp} categories were included: \gls{mmlu}
-\citep{hendrycks2021mmlu}, HellaSwag \citep{zellers2019hellaswag}, Winogrande
-\citep{sakaguchi2020winogrande}, ARC-Challenge \citep{clark2018arc}, PIQA
-\citep{bisk2020piqa}, and BoolQ \citep{clark2019boolq} for commonsense and
-language reasoning; \gls{gsm8k} \citep{cobbe2021gsm8k} and MATH \citep{hendrycks2021math}
-for mathematical reasoning; HumanEval \citep{chen2021humaneval} and MBPP
-\citep{austin2021mbpp} for code generation; MNLI \citep{williams2018mnli} and ANLI
-\citep{nie2020anli} for natural language inference; TriviaQA \citep{joshi2017triviaqa}
-and SQuAD~2.0 \citep{rajpurkar2018squad2} for question answering; CNN/DailyMail
-\citep{hermann2015cnndm} and XSum \citep{narayan2018xsum} for summarization; and
-MT-Bench \citep{zheng2023mtbench} for instruction following. Inclusion of a task
-required that at least three reviewed models have publicly reported scores under
-compatible settings. Reported figures correspond to each benchmark's standard
-metric (accuracy for multiple choice; EM/F1 for QA; pass@1 for code; ROUGE-L for
-summarization; GPT-4 judge score for MT-Bench; exact match for \gls{gsm8k}; symbolic
-equivalence for MATH). Efficiency metrics---tokens per second, time-to-first-token,
+Twelve benchmark tasks with sufficient cross-model reporting were consolidated,
+spanning seven capability areas: \gls{mmlu} \citep{hendrycks2021mmlu} for broad
+knowledge; ARC-Easy and ARC-Challenge \citep{clark2018arc} and HellaSwag
+\citep{zellers2019hellaswag} for commonsense and language reasoning; \gls{gsm8k}
+\citep{cobbe2021gsm8k} and MATH \citep{hendrycks2021math} for mathematical
+reasoning; HumanEval \citep{chen2021humaneval} and MBPP \citep{austin2021mbpp}
+for code generation; TriviaQA \citep{joshi2017triviaqa} and SQuAD~2.0
+\citep{rajpurkar2018squad2} for question answering; MNLI \citep{williams2018mnli}
+for natural language inference; and SST-2 \citep{socher2013sst} for sentiment
+classification. Inclusion of a task required that at least three reviewed models
+have publicly reported scores under compatible settings; instruction-following
+(MT-Bench-style \citep{zheng2023mtbench}) and summarization benchmarks were reported
+too sparsely and too heterogeneously across the cohort to tabulate and are discussed only
+qualitatively (Section~\ref{subsec:reported_safety},
+Appendix~\ref{subsec:appendix_human_eval}). Reported figures correspond to each
+benchmark's standard metric (accuracy for multiple choice; EM/F1 for QA; pass@1
+for code; exact match for \gls{gsm8k}; symbolic equivalence for MATH). Efficiency
+metrics---tokens per second, time-to-first-token,
 peak memory, on-disk size, and reported energy---are each annotated in
 Appendix~\ref{app:provenance} with the measurement conditions given by their
 source, because these numbers are especially sensitive to hardware, batch size,
@@ -113,8 +118,8 @@ figures share a framework or are explicitly flagged.
 \midrule
 Cloud GPU & NVIDIA A100 80GB & 80 GB HBM2e & 300W & Training + serving \\
 High-end Consumer & NVIDIA RTX 4090 & 24 GB GDDR6X & 450W & Local inference \\
-Mid-range Consumer & NVIDIA RTX 3060 & 12 GB GDDR6 & 170W & Budget GPU \\
-CPU-only (Laptop) & Intel i7-13700H & 32 GB DDR5 & 45W & Laptop deployment \\
+CPU/iGPU Laptop & AMD Ryzen 7 7840HS & 32 GB DDR5 & 45W & Laptop deployment \\
+Edge GPU Module & NVIDIA Jetson Orin Nano & 8 GB LPDDR5 & 25W & Edge AI / robotics \\
 Edge SBC & Raspberry Pi 5 & 8 GB LPDDR4X & 15W & Embedded IoT \\
 Mobile SoC & Snapdragon 8 Gen 3 & 12 GB LPDDR5X & $\sim$10W & Smartphone \\
 \bottomrule
@@ -166,7 +171,7 @@ Section~\ref{subsec:challenges_verification}.
 
 \begin{table}[t]
 \centering
-\caption{Reported zero-shot FP16 benchmark scores (instruction-tuned variants). \textbf{Bold} = best among SLMs. All values are reported figures; per-figure sources in Appendix~\ref{app:provenance}. MATH and MT-Bench columns and the extended task set appear in Table~\ref{tab:appendix_zero_shot_extended}.}
+\caption{Reported zero-shot FP16 benchmark scores (instruction-tuned variants). \textbf{Bold} = best among SLMs. All values are reported figures; per-figure sources in Appendix~\ref{app:provenance}. The MATH column and the extended task set appear in Table~\ref{tab:appendix_zero_shot_extended}.}
 \label{tab:zero_shot}
 \footnotesize\adjustbox{max width=\linewidth}{%
 \begin{tabular}{lcccccc}
@@ -176,7 +181,7 @@ Section~\ref{subsec:challenges_verification}.
 Phi-4-mini-Inst. & 3.8B & 83.7 & 69.1 & \textbf{88.6} & 72.0 & 67.3 \\
 Qwen2.5-7B-Inst. & 7.6B & \textbf{90.1} & 80.0 & 88.7 & \textbf{84.8} & \textbf{72.6} \\
 Gemma 2-9B-Inst. & 9.2B & 89.8 & \textbf{87.1} & 84.9 & 68.9 & 71.3 \\
-Gemma 3-4B-Inst. & 4.0B & 85.2 & 78.4 & 82.1 & 64.6 & 65.8 \\
+Gemma 3-4B-Inst. & 4.3B & 85.2 & 78.4 & 82.1 & 64.6 & 65.8 \\
 LLaMA 3.2-3B-Inst. & 3.2B & 76.1 & 77.2 & 75.6 & 58.5 & 61.8 \\
 LLaMA 3.2-1B-Inst. & 1.2B & 62.3 & 63.8 & 47.2 & 35.4 & 48.6 \\
 Mistral 7B-Inst. v0.3 & 7.3B & 82.7 & 73.5 & 81.9 & 66.5 & 63.0 \\

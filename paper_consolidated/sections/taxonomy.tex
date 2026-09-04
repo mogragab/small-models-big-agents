@@ -173,7 +173,7 @@ General-purpose \glspl{slm} are trained on diverse data and evaluated on multi-d
 Domain-specific \glspl{slm} sacrifice breadth for depth, outperforming general-purpose models on narrow tasks:
 
 \begin{description}
-    \item[Healthcare] Meerkat (7B) \cite{kim2025meerkat}, fine-tuned on clinical QA datasets, surpasses GPT-4 on the USMLE Step 1 benchmark while running on a single A100 GPU. OptimCLM \cite{hasan2024optimclm} applies combined compression (distillation + quantization + pruning) to clinical language models without sacrificing diagnostic accuracy.
+    \item[Healthcare] Meerkat (7B) \cite{kim2025meerkat}, fine-tuned on synthesized clinical reasoning traces, was the first 7B model to clear the USMLE pass threshold (70.6\% on MedQA) while running on a single A100 GPU; its 70B sibling edges GPT-4 on average across six medical-licensing exams. OptimCLM \cite{hasan2024optimclm} applies combined compression (distillation + quantization + pruning) to clinical language models without sacrificing diagnostic accuracy.
 
     \item[Code] Code LLaMA \cite{roziere2023codellama}, StarCoder2 \cite{lozhkov2024starcoder2}, and DeepSeek-Coder \cite{zhu2024deepseek_coder} represent a mature class of code-focused \glspl{slm} with strong HumanEval and MBPP performance.
 

@@ -39,7 +39,7 @@ KD + Pruning + Quant  & Yes & $40\times+$        & ${\sim}90\%$   & High \\
 
 \subsubsection{White-Box vs.\ Black-Box KD}
 
-The survey by Yang et al.\ \cite{yang2024kd_survey} classifies \gls{llm} distillation into two paradigms:
+The survey by \citet{yang2024kd_survey} classifies \gls{llm} distillation into two paradigms:
 
 \emph{White-box \gls{kd}} has access to the teacher's intermediate representations. TinyBERT \cite{jiao2020tinybert} pioneered layer-by-layer feature alignment, matching student hidden states, attention matrices, and embedding layers to teacher counterparts via MSE loss. In the decoder-only \gls{llm} setting, this requires pairing student and teacher layers—a non-trivial task when sizes differ substantially—and is computationally expensive but yields superior retention of teacher capabilities.
 
@@ -47,7 +47,7 @@ The survey by Yang et al.\ \cite{yang2024kd_survey} classifies \gls{llm} distill
 
 \subsubsection{Chain-of-Thought Distillation}
 
-A particularly productive form of black-box \gls{kd} is \gls{cot} distillation \cite{wei2022cot}: the teacher model generates explicit reasoning steps, and the student learns to produce or internalize these steps. Feng et al.\ \cite{feng2024counterfactual} demonstrate counterfactual distillation—augmenting \gls{cot} traces with contrastive incorrect reasoning—as a way to sharpen the student's reasoning boundaries. Liao et al.\ \cite{liao2024nesycd} propose Neural-Symbolic Collaborative Distillation, using a neuro-symbolic teacher to provide structured reasoning supervision that is more transferable to small students than purely neural \gls{cot}.
+A particularly productive form of black-box \gls{kd} is \gls{cot} distillation \cite{wei2022cot}: the teacher model generates explicit reasoning steps, and the student learns to produce or internalize these steps. \citet{feng2024counterfactual} demonstrate counterfactual distillation—augmenting \gls{cot} traces with contrastive incorrect reasoning—as a way to sharpen the student's reasoning boundaries. \citet{liao2024nesycd} propose Neural-Symbolic Collaborative Distillation, using a neuro-symbolic teacher to provide structured reasoning supervision that is more transferable to small students than purely neural \gls{cot}.
 
 \subsubsection{Data Augmentation in KD}
 
@@ -55,7 +55,7 @@ The survey by Xu et al.\ \cite{xu2024kd_survey} highlights data augmentation (DA
 
 \subsubsection{Self-Distillation}
 
-An emerging approach eliminates the external teacher entirely. Fu et al.\ \cite{fu2024dynamic_selfd} propose Dynamic Self-Distillation, in which the model uses its own predictions from previous mini-batches as soft targets during fine-tuning, providing a form of implicit regularization that reduces overfitting on small fine-tuning datasets—a critical challenge for \glspl{slm}.
+An emerging approach eliminates the external teacher entirely. \citet{fu2024dynamic_selfd} propose Dynamic Self-Distillation, in which the model uses its own predictions from previous mini-batches as soft targets during fine-tuning, providing a form of implicit regularization that reduces overfitting on small fine-tuning datasets—a critical challenge for \glspl{slm}.
 
 % ----------------------------------------------------------------
 \subsection{Quantization}
@@ -83,7 +83,7 @@ QAT integrates simulated quantization into the training loop, allowing the model
 
 \subsubsection{Quantization versus Pruning in the Sub-10B Regime}
 
-Kurz and Zhao \cite{kurz2025pruning_vs_quant} conducted the first systematic comparison of \gls{ptq} quantization (GPTQ, \gls{awq}) against post-training pruning (SparseGPT, Wanda) specifically in the \gls{slm} regime (0.5B--3.8B parameters, six models, seven languages, seven downstream tasks). Their primary conclusion: \emph{quantization consistently outperforms pruning in preserving model fidelity, multilingual perplexity, and reasoning accuracy}. \gls{awq} at 4-bit outperforms 50\% Wanda pruning on 6 of 7 tasks. Quantization's advantage is most pronounced on language modeling and multilingual tasks; the gap narrows on complex knowledge tasks, where both methods show similar degradation under high compression.
+\citet{kurz2025pruning_vs_quant} report a systematic comparison of \gls{ptq} quantization (GPTQ, \gls{awq}) against post-training pruning (SparseGPT, Wanda) specifically in the \gls{slm} regime (0.5B--3.8B parameters, six models, seven languages, seven downstream tasks). Their primary conclusion: \emph{quantization consistently outperforms pruning in preserving model fidelity, multilingual perplexity, and reasoning accuracy}. \gls{awq} at 4-bit outperforms 50\% Wanda pruning on 6 of 7 tasks. Quantization's advantage is most pronounced on language modeling and multilingual tasks; the gap narrows on complex knowledge tasks, where both methods show similar degradation under high compression.
 
 % ----------------------------------------------------------------
 \subsection{Pruning}

@@ -1,11 +1,11 @@
 {
  "metadata": {
   "title": "Complete AI Model Inventory: SLMs & LLMs (Merged)",
-  "snapshot_date": "2026-09-03",
-  "version": "3.1",
-  "total_slm_variants": 123,
+  "snapshot_date": "2026-09-04",
+  "version": "3.2",
+  "total_slm_variants": 126,
   "total_llm_variants": 238,
-  "total_models": 361,
+  "total_models": 364,
   "total_model_families": 103,
   "classification_rules": {
    "SLM": "≤20B dense parameters OR ≤20B active parameters in MoE architectures",
@@ -595,7 +595,7 @@
   {
    "name": "Qwen3.5",
    "developer": "Alibaba",
-   "latest_version": "Qwen3.5 (Feb 2026)",
+   "latest_version": "Qwen3.5 (Mar 2026)",
    "url": "https://qwen.ai/blog?id=qwen3.5"
   },
   {
@@ -3873,28 +3873,28 @@
     "variants": []
    },
    {
-    "id": "214",
-    "name": "Nemotron-2-Nano-8B",
+    "id": "nvidia-nemotron-nano-2-9b",
+    "name": "NVIDIA Nemotron Nano 2",
     "family": "Nemotron",
     "type": "SLM",
     "access": "OW",
     "developer": "NVIDIA",
-    "release_date": "2025-03-18",
+    "release_date": "2025-08-18",
     "status": "active",
     "parameters": {
      "total": {
-      "total_params": "8B",
-      "active_params": "8B",
-      "architecture": "Transformer"
+      "total_params": "9B",
+      "active_params": "9B",
+      "architecture": "Hybrid Mamba-2/Transformer"
      },
      "active_per_token": {
-      "total_params": "8B",
-      "active_params": "8B",
-      "architecture": "Transformer"
+      "total_params": "9B",
+      "active_params": "9B",
+      "architecture": "Hybrid Mamba-2/Transformer"
      },
      "is_moe": false
     },
-    "context_window_tokens": null,
+    "context_window_tokens": 131072,
     "modalities": [
      "text"
     ],
@@ -3904,11 +3904,11 @@
      "efficient",
      "reasoning"
     ],
-    "reference_url": "https://developer.nvidia.com/nemotron",
-    "huggingface_url": "https://huggingface.co/nvidia/Nemotron-2-Nano-8B",
-    "paper_url": "https://arxiv.org/abs/2505.00949",
+    "reference_url": "https://research.nvidia.com/labs/adlr/NVIDIA-Nemotron-Nano-2/",
+    "huggingface_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Nano-9B-v2",
+    "paper_url": "https://arxiv.org/abs/2508.14444",
     "pricing_usd_per_million_tokens": null,
-    "architecture_notes": "",
+    "architecture_notes": "Hybrid Mamba-2/Transformer (6 attention, 28 Mamba-2, 28 FFN across 62 layers); 12B base pre-trained on 20T tokens then compressed/distilled via the Minitron pipeline; up to ~6x higher reasoning throughput than Qwen3-8B",
     "languages_supported": null,
     "benchmarks": {
      "MMLU": "N/A",
@@ -4613,7 +4613,7 @@
     "type": "SLM",
     "access": "OW",
     "developer": "Alibaba",
-    "release_date": "2026-02-16",
+    "release_date": "2026-03-02",
     "status": "active",
     "parameters": {
      "total": "0.8B",
@@ -4623,7 +4623,8 @@
     "context_window_tokens": 262144,
     "modalities": [
      "text",
-     "vision"
+     "vision",
+     "video"
     ],
     "license": "Apache 2.0",
     "use_cases": [
@@ -4634,7 +4635,7 @@
     "reference_url": "https://qwen.ai/blog?id=qwen3.5",
     "huggingface_url": "https://huggingface.co/Qwen/Qwen3.5-0.8B",
     "pricing_usd_per_million_tokens": null,
-    "architecture_notes": null,
+    "architecture_notes": "Gated DeltaNet hybrid attention (3:1 linear-to-full ratio); multi-token prediction; 262K native context (1M extended on 9B); natively multimodal; trained from scratch for on-device use",
     "languages_supported": "201",
     "benchmarks": null,
     "paper_url": null,
@@ -4649,7 +4650,7 @@
     "type": "SLM",
     "access": "OW",
     "developer": "Alibaba",
-    "release_date": "2026-02-16",
+    "release_date": "2026-03-02",
     "status": "active",
     "parameters": {
      "total": "2B",
@@ -4659,7 +4660,8 @@
     "context_window_tokens": 262144,
     "modalities": [
      "text",
-     "vision"
+     "vision",
+     "video"
     ],
     "license": "Apache 2.0",
     "use_cases": [
@@ -4670,7 +4672,7 @@
     "reference_url": "https://qwen.ai/blog?id=qwen3.5",
     "huggingface_url": "https://huggingface.co/Qwen/Qwen3.5-2B",
     "pricing_usd_per_million_tokens": null,
-    "architecture_notes": null,
+    "architecture_notes": "Gated DeltaNet hybrid attention (3:1 linear-to-full ratio); multi-token prediction; 262K native context (1M extended on 9B); natively multimodal; trained from scratch for on-device use",
     "languages_supported": "201",
     "benchmarks": null,
     "paper_url": null,
@@ -4685,7 +4687,7 @@
     "type": "SLM",
     "access": "OW",
     "developer": "Alibaba",
-    "release_date": "2026-02-16",
+    "release_date": "2026-03-02",
     "status": "active",
     "parameters": {
      "total": "4B",
@@ -4695,7 +4697,8 @@
     "context_window_tokens": 262144,
     "modalities": [
      "text",
-     "vision"
+     "vision",
+     "video"
     ],
     "license": "Apache 2.0",
     "use_cases": [
@@ -4706,7 +4709,7 @@
     "reference_url": "https://qwen.ai/blog?id=qwen3.5",
     "huggingface_url": "https://huggingface.co/Qwen/Qwen3.5-4B",
     "pricing_usd_per_million_tokens": null,
-    "architecture_notes": null,
+    "architecture_notes": "Gated DeltaNet hybrid attention (3:1 linear-to-full ratio); multi-token prediction; 262K native context (1M extended on 9B); natively multimodal; trained from scratch for on-device use",
     "languages_supported": "201",
     "benchmarks": null,
     "paper_url": null,
@@ -4721,7 +4724,7 @@
     "type": "SLM",
     "access": "OW",
     "developer": "Alibaba",
-    "release_date": "2026-02-16",
+    "release_date": "2026-03-02",
     "status": "active",
     "parameters": {
      "total": "9B",
@@ -4731,7 +4734,8 @@
     "context_window_tokens": 262144,
     "modalities": [
      "text",
-     "vision"
+     "vision",
+     "video"
     ],
     "license": "Apache 2.0",
     "use_cases": [
@@ -4743,7 +4747,7 @@
     "reference_url": "https://qwen.ai/blog?id=qwen3.5",
     "huggingface_url": "https://huggingface.co/Qwen/Qwen3.5-9B",
     "pricing_usd_per_million_tokens": null,
-    "architecture_notes": null,
+    "architecture_notes": "Gated DeltaNet hybrid attention (3:1 linear-to-full ratio); multi-token prediction; 262K native context (1M extended on 9B); natively multimodal; trained from scratch for on-device use",
     "languages_supported": "201",
     "benchmarks": null,
     "paper_url": null,
@@ -4752,17 +4756,17 @@
     "variants": []
    },
    {
-    "id": "nemotron3-voicechat",
-    "name": "Nemotron 3 VoiceChat",
+    "id": "nvidia-nemotronlabs-voicechat-11b",
+    "name": "NemotronLabs VoiceChat 11B",
     "family": "NVIDIA Nemotron",
     "type": "SLM",
     "access": "OW",
     "developer": "NVIDIA",
-    "release_date": "2026-03",
+    "release_date": "2026-08-03",
     "status": "active",
     "parameters": {
-     "total": "~12B",
-     "active_per_token": "~12B",
+     "total": "11B",
+     "active_per_token": "11B",
      "is_moe": false
     },
     "context_window_tokens": 131072,
@@ -4775,10 +4779,10 @@
      "voice interaction",
      "on-device speech"
     ],
-    "reference_url": "https://developer.nvidia.com/blog/introducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning/",
-    "huggingface_url": null,
+    "reference_url": "https://developer.nvidia.com/blog/building-nvidia-nemotron-3-agents-for-reasoning-multimodal-rag-voice-and-safety/",
+    "huggingface_url": "https://huggingface.co/nvidia/NVIDIA-NemotronLabs-VoiceChat-11B",
     "pricing_usd_per_million_tokens": null,
-    "architecture_notes": null,
+    "architecture_notes": "Open full-duplex speech-to-speech model: Fast Conformer speech encoder + Nemotron Nano v2 backbone + TTS decoder/codec; ~450 ms turn-taking; live tool calling",
     "languages_supported": null,
     "benchmarks": null,
     "paper_url": null,
@@ -4793,7 +4797,7 @@
     "type": "SLM",
     "access": "Both",
     "developer": "Mistral AI",
-    "release_date": "2026-03-26",
+    "release_date": "2026-03-16",
     "status": "active",
     "parameters": {
      "total": "119B",
@@ -5436,6 +5440,115 @@
     "huggingface_url": "https://huggingface.co/LiquidAI/LFM2-8B-A1.5B",
     "pricing_usd_per_million_tokens": null,
     "architecture_notes": "Mixture-of-experts LFM2; 1.5B active of 8.3B total",
+    "languages_supported": null,
+    "benchmarks": null,
+    "paper_url": null,
+    "training_data": null,
+    "base_or_instruct": "instruct",
+    "variants": []
+   },
+   {
+    "id": "gemma4-12b",
+    "name": "Gemma 4 12B",
+    "family": "Gemma 4",
+    "type": "SLM",
+    "access": "OW",
+    "developer": "Google DeepMind",
+    "release_date": "2026-04-02",
+    "status": "active",
+    "parameters": {
+     "total": "12B",
+     "active_per_token": "12B",
+     "is_moe": false
+    },
+    "context_window_tokens": 262144,
+    "modalities": [
+     "text",
+     "vision",
+     "audio"
+    ],
+    "license": "Apache 2.0",
+    "use_cases": [
+     "multimodal",
+     "reasoning",
+     "long context"
+    ],
+    "reference_url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/",
+    "huggingface_url": "https://huggingface.co/google/gemma-4-12b",
+    "pricing_usd_per_million_tokens": null,
+    "architecture_notes": "Encoder-free: ingests raw audio and image patches directly; integrated thinking mode",
+    "languages_supported": null,
+    "benchmarks": null,
+    "paper_url": "https://arxiv.org/abs/2607.02770",
+    "training_data": null,
+    "base_or_instruct": "instruct",
+    "variants": []
+   },
+   {
+    "id": "apple-afm2-ondevice",
+    "name": "Apple Foundation Model (On-Device, 2nd gen)",
+    "family": "AFM",
+    "type": "SLM",
+    "access": "API",
+    "developer": "Apple",
+    "release_date": "2025-06-09",
+    "status": "active",
+    "parameters": {
+     "total": "~3B",
+     "active_per_token": "~3B",
+     "is_moe": false
+    },
+    "context_window_tokens": 65536,
+    "modalities": [
+     "text",
+     "vision"
+    ],
+    "license": "Proprietary",
+    "use_cases": [
+     "on-device assistant",
+     "writing tools",
+     "summarization"
+    ],
+    "reference_url": "https://arxiv.org/abs/2507.13575",
+    "huggingface_url": null,
+    "pricing_usd_per_million_tokens": null,
+    "architecture_notes": "~3B on-device model with KV-cache sharing and 2-bit QAT; paired with a Parallel-Track MoE server model on Private Cloud Compute; competitive with Qwen3-4B / Gemma-3-4B on target tasks",
+    "languages_supported": null,
+    "benchmarks": null,
+    "paper_url": "https://arxiv.org/abs/2507.13575",
+    "training_data": null,
+    "base_or_instruct": "instruct",
+    "variants": []
+   },
+   {
+    "id": "apple-afm3-core-advanced",
+    "name": "Apple AFM 3 Core Advanced",
+    "family": "AFM",
+    "type": "SLM",
+    "access": "API",
+    "developer": "Apple",
+    "release_date": "2026-06-08",
+    "status": "active",
+    "parameters": {
+     "total": "20B",
+     "active_per_token": "1-4B",
+     "is_moe": true
+    },
+    "context_window_tokens": 65536,
+    "modalities": [
+     "text",
+     "vision"
+    ],
+    "license": "Proprietary",
+    "use_cases": [
+     "on-device assistant",
+     "multimodal understanding",
+     "agentic"
+    ],
+    "reference_url": "https://machinelearning.apple.com/research/introducing-third-generation-of-apple-foundation-models",
+    "huggingface_url": null,
+    "pricing_usd_per_million_tokens": null,
+    "architecture_notes": "Natively multimodal sparse on-device model; activates 1-4B of 20B parameters per request via Instruction-Following Pruning; runs on Apple silicon; third-party cloud models can register behind the same API",
     "languages_supported": null,
     "benchmarks": null,
     "paper_url": null,

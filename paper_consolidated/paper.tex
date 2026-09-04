@@ -18,46 +18,40 @@
 \MakeJournalFrontMatter{
   \begin{abstract}
   Large Language Models (LLMs) with hundreds of billions of parameters
-  have advanced natural language processing dramatically, but their
-  computational cost, memory demand, and latency make them a poor fit for
-  the fastest-growing consumer of language intelligence: the AI agent,
-  which issues many narrow, repetitive, well-specified model calls rather
-  than a few open-ended ones. Small Language Models
-  (SLMs)---here, decoder-only or hybrid transformers with roughly twenty
-  billion parameters or fewer, counting active parameters for
-  mixture-of-experts models---have closed much of the capability gap
-  through knowledge distillation, synthetic-data curation, and
-  post-training quantization, and are now the natural default for agentic
-  workloads. This paper is a combined survey and position statement. We
-  catalog 123 publicly documented SLM variants released between 2022 and 2026,
-  including the 2025--2026 wave of hybrid state-space models (Falcon-H1,
-  IBM Granite~4.0, NVIDIA Nemotron Nano~2), unified reasoning models
-  (Qwen3, Phi-4-mini-reasoning, SmolLM3), and mobile-first multimodal
-  families (Gemma~3n, Gemma~4, Apple Foundation Models). We organize the
-  landscape along a four-dimensional taxonomy---\emph{architecture},
-  \emph{training strategy}, \emph{modality}, and \emph{application
-  domain}---and review the compression-technique literature specific to
-  the sub-10B regime, in which quantization consistently outperforms
-  pruning. We then consolidate publicly \emph{reported} performance for a
-  17-model cohort across 15 benchmark tasks, three evaluation paradigms,
-  six hardware tiers, and three quantization precisions, under a
-  documented grey-literature protocol; every figure is a reported value
-  traced to a dated source rather than an original benchmark run. Building
-  on this evidence, we argue that SLMs are the substrate of agentic AI:
-  they meet the capability threshold for the sub-tasks agents actually
-  delegate, they cost 10--30$\times$ less to serve, they are cheaper to
-  specialize, and their behavior is easier to constrain to tool and code
-  interfaces. We survey heterogeneous SLM--LLM architectures, learned
-  routing, and the LLM-to-SLM conversion pipeline, and close with the
-  open problems---reasoning under parameter constraints, hallucination,
-  hardware co-design, fairness under compression, and empirical
-  verification of the consolidated evidence base---that stand between the
-  current state of the art and that future.
+  have advanced natural language processing dramatically, but their cost,
+  memory demand, and latency make them a poor fit for the fastest-growing
+  consumer of language intelligence: the AI agent, which issues many
+  narrow, repetitive, well-specified model calls rather than a few
+  open-ended ones. Small Language Models (SLMs)---here, decoder-only or
+  hybrid transformers of roughly twenty billion parameters or fewer,
+  counting active parameters for mixture-of-experts models---have closed
+  much of the capability gap through knowledge distillation, synthetic-data
+  curation, and post-training quantization, and are now a natural default
+  for agentic workloads. This paper is a combined survey and position
+  statement. We catalog 126 publicly documented SLM variants (2022--2026),
+  including the 2025--2026 wave of hybrid state-space, unified-reasoning,
+  and mobile-first multimodal families, and organize them along a
+  four-dimensional taxonomy of \emph{architecture}, \emph{training
+  strategy}, \emph{modality}, and \emph{application domain}. We review
+  compression for the sub-10B regime, where quantization consistently
+  outperforms pruning, and consolidate publicly \emph{reported}
+  performance for an 18-model cohort across 12 benchmark tasks, three
+  evaluation paradigms, six hardware tiers, and three precisions under a
+  documented protocol in which every figure is a reported value traced to
+  a dated source rather than an original run. Building on this evidence, we
+  argue that SLMs are the substrate of agentic AI: they are sufficiently
+  capable for the sub-tasks agents delegate, roughly 10--30$\times$
+  cheaper to serve, cheaper to specialize, and easier to constrain to tool
+  interfaces. We survey heterogeneous SLM--LLM routing and the
+  LLM-to-SLM conversion pipeline, and close with the open problems---%
+  reasoning under parameter constraints, hallucination, hardware
+  co-design, fairness under compression, and empirical verification of the
+  consolidated evidence---that stand between the present and that future.
   \end{abstract}
 
   \begin{highlights}
-  \item Surveys 123 documented small language model variants (2022--2026), including the 2025--2026 hybrid state-space, unified-reasoning, and mobile-multimodal waves, under a taxonomy of architecture, training strategy, modality, and application domain.
-  \item Consolidates publicly reported performance for 17 SLMs across 15 tasks, six hardware tiers, and FP16/INT8/INT4 precision, with every figure traced to a dated source via a documented protocol.
+  \item Surveys 126 documented small language model variants (2022--2026), including the 2025--2026 hybrid state-space, unified-reasoning, and mobile-multimodal waves, under a taxonomy of architecture, training strategy, modality, and application domain.
+  \item Consolidates publicly reported performance for 18 SLMs across 12 tasks, six hardware tiers, and FP16/INT8/INT4 precision, with every figure traced to a dated source via a documented protocol.
   \item Reviews compression for the sub-10B regime and the finding that quantization consistently outperforms pruning below 4B parameters.
   \item Argues that SLMs are the substrate of agentic AI on grounds of capability sufficiency, 10--30$\times$ lower serving cost, cheaper specialization, and tighter behavioral alignment to tool interfaces.
   \item Surveys heterogeneous SLM--LLM routing and the LLM-to-SLM conversion pipeline, and sets an empirical-verification agenda for the consolidated claims.
