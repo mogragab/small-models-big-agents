@@ -10,13 +10,14 @@
 % Foundation Models and LLMs
 % ============================================================
 
-@article{anthropic2024claude,
-  title={The {Claude} Model Family},
-  author={{Anthropic}},
-  journal={Anthropic Technical Report},
-  year={2024},
-  url = {https://www.anthropic.com/news/claude-3-family}
+@misc{anthropic2024claude,
+  author       = {{Anthropic}},
+  title        = {The {Claude} 3 Model Family: Opus, Sonnet, Haiku},
+  howpublished = {Anthropic technical report},
+  year         = {2024},
+  url          = {https://www.anthropic.com/news/claude-3-family}
 }
+
 @article{brown2020gpt3,
   title={Language Models are Few-Shot Learners},
   author={Brown, Tom B and Mann, Benjamin and Ryder, Nick and others},
@@ -38,22 +39,21 @@
 }
 @misc{gemini2023,
   title={Gemini: A Family of Highly Capable Multimodal Models},
-  author={{Gemini Team} and Anil, Rohan and Borgeaud, Sebastian and others},
+  author={{Gemini Team, Google}},
   howpublished={arXiv:2312.11805},
   year={2023},
   url = {https://arxiv.org/abs/2312.11805}
 }
 @inproceedings{hoffmann2022chinchilla,
-  url = {https://arxiv.org/abs/2203.15556},
-  title={Training Compute-Optimal Large Language Models},
-  author={Hoffmann, Jordan and Borgeaud, Sebastian and Mensch, Arthur and others},
-  booktitle={Advances in Neural Information Processing Systems},
-  volume={35},
-  pages={30016--30030},
-  year={2022}
+  author    = {Hoffmann, Jordan and Borgeaud, Sebastian and Mensch, Arthur and others},
+  title     = {Training Compute-Optimal Large Language Models},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {35},
+  publisher = {Curran Associates, Inc.},
+  address   = {New Orleans, Louisiana, USA},
+  year      = {2022},
+  url       = {https://arxiv.org/abs/2203.15556}
 }
-
-% === SLM Families: Phi ===
 
 @misc{kaplan2020scaling,
   title={Scaling Laws for Neural Language Models},
@@ -69,13 +69,14 @@
   year={2023},
   url = {https://arxiv.org/abs/2303.08774}
 }
-@article{radford2019gpt2,
-  title={Language Models are Unsupervised Multitask Learners},
-  author={Radford, Alec and Wu, Jeffrey and Child, Rewon and Luan, David and Amodei, Dario and Sutskever, Ilya},
-  journal={OpenAI Blog},
-  year={2019},
-  url = {https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf}
+@misc{radford2019gpt2,
+  author       = {Radford, Alec and Wu, Jeffrey and Child, Rewon and Luan, David and Amodei, Dario and Sutskever, Ilya},
+  title        = {Language Models are Unsupervised Multitask Learners},
+  howpublished = {OpenAI technical report},
+  year         = {2019},
+  url          = {https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf}
 }
+
 @misc{abdin2024phi3,
   title={{Phi-3} Technical Report: A Highly Capable Language Model Locally on Your Phone},
   author={Abdin, Marah and Aneja, Jyoti and Awadalla, Hany and others},
@@ -83,13 +84,14 @@
   year={2024},
   url = {https://arxiv.org/abs/2404.14219}
 }
-@article{abdin2024phi35,
-  title={{Phi-3.5-MoE}: Mixture of Experts for Efficient Language Models},
-  author={Abdin, Marah and others},
-  journal={Microsoft Research Technical Report},
-  year={2024},
-  url = {https://huggingface.co/microsoft/Phi-3.5-mini-instruct}
+@misc{abdin2024phi35,
+  author       = {Abdin, Marah and others},
+  title        = {{Phi-3.5}: Small Language Models with Extended Context and Multilingual Support},
+  howpublished = {Microsoft technical report},
+  year         = {2024},
+  url          = {https://huggingface.co/microsoft/Phi-3.5-mini-instruct}
 }
+
 @misc{abdin2024phi4,
   title={{Phi-4} Technical Report},
   author={Abdin, Marah and others},
@@ -122,13 +124,14 @@
 
 % -------- Gemma Family --------
 
-@article{microsoft2023phi2,
-  title={{Phi-2}: The Surprising Power of Small Language Models},
-  author={{Microsoft Research}},
-  journal={Microsoft Research Blog},
-  year={2023},
-  url = {https://www.microsoft.com/en-us/research/blog/phi-2-the-surprising-power-of-small-language-models/}
+@misc{microsoft2023phi2,
+  author       = {{Microsoft Research}},
+  title        = {{Phi-2}: The Surprising Power of Small Language Models},
+  howpublished = {Microsoft Research Blog},
+  year         = {2023},
+  url          = {https://www.microsoft.com/en-us/research/blog/phi-2-the-surprising-power-of-small-language-models/}
 }
+
 @misc{microsoft2025phi4mini,
   title={{Phi-4-Mini} Technical Report: Compact yet Powerful Multimodal Language Models via Mixture-of-{LoRAs}},
   author={{Microsoft Research}},
@@ -146,14 +149,14 @@
 
 @misc{gemma2024,
   title={Gemma: Open Models Based on {Gemini} Research and Technology},
-  author={{Gemma Team} and Riviere, Morgane and Pathak, Shreya and others},
+  author={{Gemma Team, Google DeepMind}},
   howpublished={arXiv:2403.08295},
   year={2024},
   url = {https://arxiv.org/abs/2403.08295}
 }
 @misc{gemma2team2024,
   title={{Gemma} 2: Improving Open Language Models at a Practical Size},
-  author={{Gemma Team} and Riviere, Morgane and Pathak, Shreya and others},
+  author={{Gemma Team, Google DeepMind}},
   howpublished={arXiv:2408.00118},
   year={2024},
   url = {https://arxiv.org/abs/2408.00118}
@@ -176,7 +179,7 @@
 % === Evaluation Frameworks ===
 
 @misc{team2025gemma3,
-  author    = {{Gemma Team} and others},
+  author    = {{Gemma Team, Google DeepMind}},
   title     = {Gemma 3 Technical Report},
   howpublished   = {arXiv:2503.19786},
   year      = {2025},
@@ -197,7 +200,7 @@
 }
 
 @misc{grattafiori2024llama3,
-  author    = {Aaron Grattafiori and others},
+  author    = {{Llama Team, AI @ Meta}},
   title     = {The Llama 3 Herd of Models},
   howpublished   = {arXiv:2407.21783},
   year      = {2024},
@@ -249,7 +252,7 @@
 
 @misc{qwen2024qwen25,
   title={{Qwen2.5} Technical Report},
-  author={{Qwen Team} and Yang, An and Yang, Baosong and others},
+  author={{Qwen Team, Alibaba Group}},
   howpublished={arXiv:2412.15115},
   year={2024},
   url={https://arxiv.org/abs/2412.15115}
@@ -282,19 +285,13 @@
 
 % -------- Qwen Family --------
 
-@article{mistral2024codestral,
-  author    = {{Mistral AI}},
-  title     = {Codestral: Hello, World!},
-  journal   = {Mistral AI Blog},
-  year      = {2024},
-  url       = {https://mistral.ai/news/codestral}
+@misc{mistral2024codestral,
+  author       = {{Mistral AI}},
+  title        = {Codestral: Hello, World!},
+  howpublished = {Mistral AI Blog},
+  year         = {2024},
+  url          = {https://mistral.ai/news/codestral}
 }
-
-% -------- Multimodal SLMs --------
-
-% ============================================================
-% Other SLM Families
-% ============================================================
 
 @misc{allal2024smollm,
   author    = {Loubna Ben Allal and Anton Lozhkov and Elie Bakouch and Gabriel Martín Blanco and Lewis Tunstall and Agustín Piqueres Lajarín and Andrés Marafioti and Cyril Zakka and Leandro von Werra and Thomas Wolf},
@@ -406,13 +403,14 @@
   year         = {2025}
 }
 
-@article{stabilityai2024stablelm,
-  title={{StableLM} 2 1.6B Technical Report},
-  author={{Stability AI}},
-  journal={Stability AI Technical Report},
-  year={2024},
-  url = {https://arxiv.org/abs/2402.17834}
+@misc{stabilityai2024stablelm,
+  author       = {{Stability AI}},
+  title        = {{StableLM} 2 1.6B Technical Report},
+  howpublished = {arXiv:2402.17834},
+  year         = {2024},
+  url          = {https://arxiv.org/abs/2402.17834}
 }
+
 @misc{zhu2024deepseek_coder,
   author    = {Zhuang Liu and others},
   title     = {{DeepSeek-Coder}: When the Large Language Model Meets Programming -- The Rise of Code Intelligence},
@@ -434,11 +432,15 @@
 }
 
 @inproceedings{feng2024counterfactual,
-  author    = {Xin Feng and Ruifeng Xu and Yang Liu},
+  author    = {Feng, Tao and Li, Yicheng and Chenglin, Li and Chen, Hao and Yu, Fei and Zhang, Yin},
   title     = {Teaching Small Language Models Reasoning through Counterfactual Distillation},
-  booktitle = {Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  booktitle = {Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing},
+  pages     = {5831--5842},
+  publisher = {Association for Computational Linguistics},
+  address   = {Miami, Florida, USA},
   year      = {2024},
-  url       = {https://aclanthology.org/2024.emnlp-main.000}
+  doi       = {10.18653/v1/2024.emnlp-main.333},
+  url       = {https://aclanthology.org/2024.emnlp-main.333/}
 }
 
 @misc{fu2024dynamic_selfd,
@@ -465,11 +467,15 @@
 }
 
 @inproceedings{jiao2020tinybert,
-  author    = {Xiaoqi Jiao and Yichun Yin and Lifeng Shang and Xin Jiang and Xiao Chen and Linlin Li and Fang Wang and Qun Liu},
+  author    = {Jiao, Xiaoqi and Yin, Yichun and Shang, Lifeng and Jiang, Xin and Chen, Xiao and Li, Linlin and Wang, Fang and Liu, Qun},
   title     = {{TinyBERT}: Distilling {BERT} for Natural Language Understanding},
-  booktitle = {Findings of EMNLP 2020},
+  booktitle = {Findings of the Association for Computational Linguistics: EMNLP 2020},
+  pages     = {4163--4174},
+  publisher = {Association for Computational Linguistics},
+  address   = {Online},
   year      = {2020},
-  url       = {https://arxiv.org/abs/1909.10351}
+  doi       = {10.18653/v1/2020.findings-emnlp.372},
+  url       = {https://aclanthology.org/2020.findings-emnlp.372/}
 }
 
 @misc{liao2024nesycd,
@@ -526,23 +532,26 @@
 % ============================================================
 
 @inproceedings{dettmers2023qlora,
-  url = {https://arxiv.org/abs/2305.14314},
-  title={{QLoRA}: Efficient Finetuning of Quantized {LLMs}},
-  author={Dettmers, Tim and Pagnoni, Artidoro and Holtzman, Ari and Zettlemoyer, Luke},
-  booktitle={Advances in Neural Information Processing Systems},
-  volume={36},
-  year={2023}
+  author    = {Dettmers, Tim and Pagnoni, Artidoro and Holtzman, Ari and Zettlemoyer, Luke},
+  title     = {{QLoRA}: Efficient Finetuning of Quantized {LLMs}},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {36},
+  publisher = {Curran Associates, Inc.},
+  address   = {New Orleans, Louisiana, USA},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2305.14314}
 }
-
-% === Transformers and BERT ===
 
 @inproceedings{frantar2023gptq,
-  title={{GPTQ}: Accurate Post-Training Quantization for Generative Pre-trained Transformers},
-  author={Frantar, Elias and Ashkboos, Saleh and Hoefler, Torsten and Alistarh, Dan},
-  booktitle={Proceedings of the International Conference on Learning Representations},
-  year={2023},
-  url = {https://arxiv.org/abs/2210.17323}
+  author    = {Frantar, Elias and Ashkboos, Saleh and Hoefler, Torsten and Alistarh, Dan},
+  title     = {{GPTQ}: Accurate Post-Training Quantization for Generative Pre-trained Transformers},
+  booktitle = {11th International Conference on Learning Representations (ICLR)},
+  publisher = {OpenReview.net},
+  address   = {Kigali, Rwanda},
+  year      = {2023},
+  url       = {https://openreview.net/forum?id=tcbBPnfwxS}
 }
+
 @misc{kim2024squeezellm,
   title={{SqueezeLLM}: Dense-and-Sparse Quantization},
   author={Kim, Sehoon and Hooper, Coleman and others},
@@ -551,32 +560,38 @@
   url = {https://arxiv.org/abs/2306.07629}
 }
 @inproceedings{lin2024awq,
-  url = {https://arxiv.org/abs/2306.00978},
-  title={{AWQ}: Activation-Aware Weight Quantization for On-Device {LLM} Compression and Acceleration},
-  author={Lin, Ji and Tang, Jiaming and Tang, Haotian and Yang, Shang and Chen, Wei-Ming and Wang, Wei-Chen and Xiao, Guangxuan and Dang, Xingyu and Gan, Chuang and Han, Song},
-  booktitle={Proceedings of Machine Learning and Systems},
-  year={2024}
+  author    = {Lin, Ji and Tang, Jiaming and Tang, Haotian and Yang, Shang and Chen, Wei-Ming and Wang, Wei-Chen and Xiao, Guangxuan and Dang, Xingyu and Gan, Chuang and Han, Song},
+  title     = {{AWQ}: Activation-Aware Weight Quantization for On-Device {LLM} Compression and Acceleration},
+  booktitle = {Proceedings of Machine Learning and Systems},
+  volume    = {6},
+  publisher = {MLSys},
+  address   = {Santa Clara, California, USA},
+  year      = {2024},
+  url       = {https://proceedings.mlsys.org/paper_files/paper/2024/hash/42a452cbafa9dd64e9ba4aa95cc1ef21-Abstract-Conference.html}
 }
-
-% ============================================================
-% Pruning
-% ============================================================
 
 @inproceedings{frantar2023sparsegpt,
-  title={{SparseGPT}: Massive Language Models Can Be Accurately Pruned in One-Shot},
-  author={Frantar, Elias and Alistarh, Dan},
-  booktitle={Proceedings of the International Conference on Machine Learning},
-  pages={10323--10337},
-  year={2023},
-  url = {https://arxiv.org/abs/2301.00774}
+  author    = {Frantar, Elias and Alistarh, Dan},
+  title     = {{SparseGPT}: Massive Language Models Can Be Accurately Pruned in One-Shot},
+  booktitle = {Proceedings of the 40th International Conference on Machine Learning},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {202},
+  pages     = {10323--10337},
+  publisher = {PMLR},
+  address   = {Honolulu, Hawaii, USA},
+  year      = {2023},
+  url       = {https://proceedings.mlr.press/v202/frantar23a.html}
 }
+
 @inproceedings{kurz2025pruning_vs_quant,
-  author    = {Zihan Zhou and Simon Kurz and Zhixue Zhao},
+  author    = {Zhou, Zihan and Kurz, Simon and Zhao, Zhixue},
   title     = {Revisiting Pruning vs Quantization for Small Language Models},
   booktitle = {Findings of the Association for Computational Linguistics: EMNLP 2025},
   pages     = {12055--12070},
+  publisher = {Association for Computational Linguistics},
   address   = {Suzhou, China},
   year      = {2025},
+  doi       = {10.18653/v1/2025.findings-emnlp.645},
   url       = {https://aclanthology.org/2025.findings-emnlp.645/}
 }
 
@@ -591,24 +606,24 @@
 % -------- Phi Family --------
 
 @inproceedings{sun2024wanda,
-  author    = {Mingjie Sun and Zhuang Liu and Anna Bair and J. Zico Kolter},
+  author    = {Sun, Mingjie and Liu, Zhuang and Bair, Anna and Kolter, J. Zico},
   title     = {A Simple and Effective Pruning Approach for Large Language Models},
-  booktitle = {International Conference on Learning Representations (ICLR 2024)},
+  booktitle = {12th International Conference on Learning Representations (ICLR)},
+  publisher = {OpenReview.net},
+  address   = {Vienna, Austria},
   year      = {2024},
-  url       = {https://arxiv.org/abs/2306.11695}
+  url       = {https://openreview.net/forum?id=PxoFut3dWW}
 }
-
-% ============================================================
-% Fine-Tuning and PEFT
-% ============================================================
 
 @inproceedings{hu2022lora,
-  title={{LoRA}: Low-Rank Adaptation of Large Language Models},
-  author={Hu, Edward J. and Shen, Yelong and Wallis, Phillip and Allen-Zhu, Zeyuan and Li, Yuanzhi and Wang, Shean and Wang, Lu and Chen, Weizhu},
-  booktitle={Proceedings of the International Conference on Learning Representations},
-  year={2022},
-  url = {https://arxiv.org/abs/2106.09685}
+  author    = {Hu, Edward J. and Shen, Yelong and Wallis, Phillip and Allen-Zhu, Zeyuan and Li, Yuanzhi and Wang, Shean and Wang, Lu and Chen, Weizhu},
+  title     = {{LoRA}: Low-Rank Adaptation of Large Language Models},
+  booktitle = {10th International Conference on Learning Representations (ICLR)},
+  publisher = {OpenReview.net},
+  year      = {2022},
+  url       = {https://openreview.net/forum?id=nZeVKeeFYf9}
 }
+
 @misc{austin2021mbpp,
   title={Program Synthesis with Large Language Models},
   author={Austin, Jacob and Odena, Augustus and Nye, Maxwell and others},
@@ -644,76 +659,107 @@
   year={2023},
   url = {https://github.com/EleutherAI/lm-evaluation-harness}
 }
-@article{hendrycks2021math,
-  title={Measuring Mathematical Problem Solving With the {MATH} Dataset},
-  author={Hendrycks, Dan and Burns, Collin and Kadavath, Saurav and Arora, Akul and Basart, Steven and Tang, Eric and Song, Dawn and Steinhardt, Jacob},
-  journal={Proceedings of NeurIPS},
-  year={2021},
-  url = {https://arxiv.org/abs/2103.03874}
+@inproceedings{hendrycks2021math,
+  author    = {Hendrycks, Dan and Burns, Collin and Kadavath, Saurav and Arora, Akul and Basart, Steven and Tang, Eric and Song, Dawn and Steinhardt, Jacob},
+  title     = {Measuring Mathematical Problem Solving With the {MATH} Dataset},
+  booktitle = {Advances in Neural Information Processing Systems, Datasets and Benchmarks Track},
+  volume    = {34},
+  publisher = {Curran Associates, Inc.},
+  year      = {2021},
+  url       = {https://arxiv.org/abs/2103.03874}
 }
-@article{hendrycks2021mmlu,
-  title={Measuring Massive Multitask Language Understanding},
-  author={Hendrycks, Dan and Burns, Collin and Basart, Steven and Zou, Andy and Mazeika, Mantas and Song, Dawn and Steinhardt, Jacob},
-  journal={Proceedings of the International Conference on Learning Representations},
-  year={2021},
-  url = {https://arxiv.org/abs/2009.03300}
+
+@inproceedings{hendrycks2021mmlu,
+  author    = {Hendrycks, Dan and Burns, Collin and Basart, Steven and Zou, Andy and Mazeika, Mantas and Song, Dawn and Steinhardt, Jacob},
+  title     = {Measuring Massive Multitask Language Understanding},
+  booktitle = {9th International Conference on Learning Representations (ICLR)},
+  publisher = {OpenReview.net},
+  year      = {2021},
+  url       = {https://openreview.net/forum?id=d7KBjmI3GmQ}
 }
-@article{joshi2017triviaqa,
-  title={{TriviaQA}: A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension},
-  author={Joshi, Mandar and Choi, Eunsol and Weld, Daniel S and Zettlemoyer, Luke},
-  journal={Proceedings of the Annual Meeting of the Association for Computational Linguistics},
-  year={2017},
-  url = {https://arxiv.org/abs/1705.03551}
+
+@inproceedings{joshi2017triviaqa,
+  author    = {Joshi, Mandar and Choi, Eunsol and Weld, Daniel S. and Zettlemoyer, Luke},
+  title     = {{TriviaQA}: A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension},
+  booktitle = {Proceedings of the 55th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  pages     = {1601--1611},
+  publisher = {Association for Computational Linguistics},
+  address   = {Vancouver, Canada},
+  year      = {2017},
+  doi       = {10.18653/v1/P17-1147},
+  url       = {https://aclanthology.org/P17-1147/}
 }
-@article{kwon2023vllm,
-  title={Efficient Memory Management for Large Language Model Serving with {PagedAttention}},
-  author={Kwon, Woosuk and Li, Zhuohan and Zhuang, Siyuan and Sheng, Ying and Zheng, Lianmin and Yu, Cody Hao and Gonzalez, Joseph E. and Zhang, Hao and Stoica, Ion},
-  journal={Proceedings of SOSP},
-  year={2023},
-  url = {https://arxiv.org/abs/2309.06180}
+
+@inproceedings{kwon2023vllm,
+  author    = {Kwon, Woosuk and Li, Zhuohan and Zhuang, Siyuan and Sheng, Ying and Zheng, Lianmin and Yu, Cody Hao and Gonzalez, Joseph E. and Zhang, Hao and Stoica, Ion},
+  title     = {Efficient Memory Management for Large Language Model Serving with {PagedAttention}},
+  booktitle = {Proceedings of the 29th Symposium on Operating Systems Principles},
+  pages     = {611--626},
+  publisher = {Association for Computing Machinery},
+  address   = {Koblenz, Germany},
+  year      = {2023},
+  doi       = {10.1145/3600006.3613165},
+  url       = {https://doi.org/10.1145/3600006.3613165}
 }
-@article{rajpurkar2018squad2,
-  title={Know What You Don't Know: Unanswerable Questions for {SQuAD}},
-  author={Rajpurkar, Pranav and Jia, Robin and Liang, Percy},
-  journal={Proceedings of the Annual Meeting of the Association for Computational Linguistics},
-  year={2018},
-  url = {https://arxiv.org/abs/1806.03822}
+
+@inproceedings{rajpurkar2018squad2,
+  author    = {Rajpurkar, Pranav and Jia, Robin and Liang, Percy},
+  title     = {Know What You Don't Know: Unanswerable Questions for {SQuAD}},
+  booktitle = {Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Papers)},
+  pages     = {784--789},
+  publisher = {Association for Computational Linguistics},
+  address   = {Melbourne, Australia},
+  year      = {2018},
+  doi       = {10.18653/v1/P18-2124},
+  url       = {https://aclanthology.org/P18-2124/}
 }
+
 @inproceedings{socher2013sst,
-  title={Recursive Deep Models for Semantic Compositionality Over a Sentiment Treebank},
-  author={Socher, Richard and Perelygin, Alex and Wu, Jean and Chuang, Jason and Manning, Christopher D. and Ng, Andrew Y. and Potts, Christopher},
-  booktitle={Proceedings of the 2013 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
-  pages={1631--1642},
-  year={2013},
-  url={https://aclanthology.org/D13-1170/}
+  author    = {Socher, Richard and Perelygin, Alex and Wu, Jean and Chuang, Jason and Manning, Christopher D. and Ng, Andrew and Potts, Christopher},
+  title     = {Recursive Deep Models for Semantic Compositionality Over a Sentiment Treebank},
+  booktitle = {Proceedings of the 2013 Conference on Empirical Methods in Natural Language Processing},
+  pages     = {1631--1642},
+  publisher = {Association for Computational Linguistics},
+  address   = {Seattle, Washington, USA},
+  year      = {2013},
+  doi       = {10.18653/v1/D13-1170},
+  url       = {https://aclanthology.org/D13-1170/}
 }
-@article{williams2018mnli,
-  title={A Broad-Coverage Challenge Corpus for Sentence Understanding through Inference},
-  author={Williams, Adina and Nangia, Nikita and Bowman, Samuel R},
-  journal={Proceedings of NAACL},
-  year={2018},
-  url = {https://arxiv.org/abs/1704.05426}
+
+@inproceedings{williams2018mnli,
+  author    = {Williams, Adina and Nangia, Nikita and Bowman, Samuel R.},
+  title     = {A Broad-Coverage Challenge Corpus for Sentence Understanding through Inference},
+  booktitle = {Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long Papers)},
+  pages     = {1112--1122},
+  publisher = {Association for Computational Linguistics},
+  address   = {New Orleans, Louisiana},
+  year      = {2018},
+  doi       = {10.18653/v1/N18-1101},
+  url       = {https://aclanthology.org/N18-1101/}
 }
+
 @inproceedings{zellers2019hellaswag,
-  title={{HellaSwag}: Can a Machine Really Finish Your Sentence?},
-  author={Zellers, Rowan and Holtzman, Ari and Bisk, Yonatan and Farhadi, Ali and Choi, Yejin},
-  booktitle={Proceedings of the Annual Meeting of the Association for Computational Linguistics},
-  year={2019},
-  url = {https://arxiv.org/abs/1905.07830}
-}
-@article{zheng2023mtbench,
-  url = {https://arxiv.org/abs/2306.05685},
-  title={Judging {LLM}-as-a-Judge with {MT-Bench} and Chatbot Arena},
-  author={Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P. and Zhang, Hao and Gonzalez, Joseph E. and Stoica, Ion},
-  journal={Advances in Neural Information Processing Systems},
-  year={2023}
+  author    = {Zellers, Rowan and Holtzman, Ari and Bisk, Yonatan and Farhadi, Ali and Choi, Yejin},
+  title     = {{HellaSwag}: Can a Machine Really Finish Your Sentence?},
+  booktitle = {Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics},
+  pages     = {4791--4800},
+  publisher = {Association for Computational Linguistics},
+  address   = {Florence, Italy},
+  year      = {2019},
+  doi       = {10.18653/v1/P19-1472},
+  url       = {https://aclanthology.org/P19-1472/}
 }
 
-% === Deployment Frameworks ===
-
-% ============================================================
-% Edge Deployment and Frameworks
-% ============================================================
+@inproceedings{zheng2023mtbench,
+  author    = {Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P. and Zhang, Hao and Gonzalez, Joseph E. and Stoica, Ion},
+  title     = {Judging {LLM}-as-a-Judge with {MT-Bench} and Chatbot Arena},
+  booktitle = {Advances in Neural Information Processing Systems, Datasets and Benchmarks Track},
+  volume    = {36},
+  publisher = {Curran Associates, Inc.},
+  address   = {New Orleans, Louisiana, USA},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2306.05685}
+}
 
 @techreport{apple2024intelligence,
   author    = {{Apple Inc.}},
@@ -748,32 +794,28 @@
   year={2024}
 }
 
-@article{nvidia_tensorrt2024,
-  author    = {{NVIDIA Corporation}},
-  title     = {{TensorRT-LLM}: Accelerating Large Language Model Inference},
-  journal   = {NVIDIA Developer Blog},
-  year      = {2024},
-  url       = {https://developer.nvidia.com/tensorrt}
+@misc{nvidia_tensorrt2024,
+  author       = {{NVIDIA Corporation}},
+  title        = {{TensorRT-LLM}: Accelerating Large Language Model Inference},
+  howpublished = {NVIDIA Developer documentation},
+  year         = {2024},
+  url          = {https://developer.nvidia.com/tensorrt}
 }
 
-% -------- Healthcare SLMs --------
-
-@article{qualcomm2024ondevice,
-  author    = {{Qualcomm Technologies}},
-  title     = {On-Device {AI}: Enabling the Next Generation of Mobile Intelligence},
-  journal   = {Qualcomm White Paper},
-  year      = {2024},
-  url       = {https://www.qualcomm.com/research/artificial-intelligence/on-device-ai}
+@misc{qualcomm2024ondevice,
+  author       = {{Qualcomm Technologies}},
+  title        = {On-Device {AI}: Enabling the Next Generation of Mobile Intelligence},
+  howpublished = {Qualcomm white paper},
+  year         = {2024},
+  url          = {https://www.qualcomm.com/research/artificial-intelligence/on-device-ai}
 }
 
-% -------- Other SLMs --------
-
-@article{samsung2023gauss,
-  author    = {{Samsung Research}},
-  title     = {Samsung Gauss: Language Model for Everyday Life},
-  journal   = {Samsung AI Report},
-  year      = {2023},
-  url       = {https://arxiv.org/abs/2312.04913}
+@misc{samsung2023gauss,
+  author       = {{Samsung Research}},
+  title        = {Samsung Gauss: Language Model for Everyday Life},
+  howpublished = {Samsung AI report},
+  year         = {2023},
+  url          = {https://arxiv.org/abs/2312.04913}
 }
 
 @misc{webllm2024,
@@ -799,32 +841,39 @@
   url = {https://doi.org/10.1016/j.joule.2023.09.004}
 }
 @article{hasan2024optimclm,
-  author    = {Moaiz Hasan and others},
+  author    = {Hasan, Mohammad Junayed and Rahman, Fuad and Mohammed, Nabeel},
   title     = {{OptimCLM}: Optimizing Clinical Language Models for Predicting Patient Outcomes via Knowledge Distillation, Pruning, and Quantization},
   journal   = {International Journal of Medical Informatics},
-  year      = {2024},
-  url       = {https://arxiv.org/abs/2406.15627}
+  volume    = {195},
+  pages     = {105764},
+  year      = {2025},
+  publisher = {Elsevier},
+  doi       = {10.1016/j.ijmedinf.2024.105764},
+  url       = {https://doi.org/10.1016/j.ijmedinf.2024.105764}
 }
 
 @article{kim2025meerkat,
-  author    = {Hyunjae Kim and Hyeon Hwang and Jiwoo Lee and Sihyeon Park and Dain Kim and Taewhoo Lee and Chanwoong Yoon and Jiwoong Sohn and Donghee Choi and Jaewoo Kang},
-  title     = {Small language models learn enhanced reasoning skills from medical textbooks},
+  author    = {Kim, Hyunjae and Hwang, Hyeon and Lee, Jiwoo and Park, Sihyeon and Kim, Dain and Lee, Taewhoo and Yoon, Chanwoong and Sohn, Jiwoong and Park, Jungwoo and Reykhart, Olga and Fetherston, Thomas and Choi, Donghee and Kwak, Soo Heon and Chen, Qingyu and Kang, Jaewoo},
+  title     = {Small Language Models Learn Enhanced Reasoning Skills from Medical Textbooks},
   journal   = {npj Digital Medicine},
   volume    = {8},
+  pages     = {240},
   year      = {2025},
+  publisher = {Nature Publishing Group},
   doi       = {10.1038/s41746-025-01653-8},
-  url       = {https://www.nature.com/articles/s41746-025-01653-8}
+  url       = {https://doi.org/10.1038/s41746-025-01653-8}
 }
 
 @inproceedings{lewis2020rag,
-  author    = {Patrick Lewis and Ethan Perez and Aleksandra Piktus and Fabio Petroni and Vladimir Karpukhin and Naman Goyal and Heinrich Küttler and Mike Lewis and Wen-tau Yih and Tim Rocktäschel and others},
+  author    = {Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and K{\"u}ttler, Heinrich and Lewis, Mike and Yih, Wen-tau and Rockt{\"a}schel, Tim and Riedel, Sebastian and Kiela, Douwe},
   title     = {Retrieval-Augmented Generation for Knowledge-Intensive {NLP} Tasks},
-  booktitle = {Advances in Neural Information Processing Systems (NeurIPS 2020)},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {33},
+  pages     = {9459--9474},
+  publisher = {Curran Associates, Inc.},
   year      = {2020},
-  url       = {https://arxiv.org/abs/2005.11401}
+  url       = {https://proceedings.neurips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html}
 }
-
-% -------- Chain of Thought --------
 
 @misc{ustun2024aya,
   author    = {Ahmet Üstün and Viraat Aryabumi and Zheng-Xin Yong and Wei-Yin Ko and Daniel D'souza and Gbemileke Onilude and Neel Bhandari and Shivalika Singh and Hui-Lee Ooi and Amr Kayid and others},
@@ -848,11 +897,16 @@
   url = {https://arxiv.org/abs/2104.10350}
 }
 @article{patterson2022carbon,
-  author    = {David Patterson and Joseph Gonzalez and Urs Hölzle and Quoc Le and Chen Liang and Lluis-Miquel Munguia and Daniel Rothchild and David So and Maud Texier and Jeff Dean},
+  author    = {Patterson, David and Gonzalez, Joseph and H{\"o}lzle, Urs and Le, Quoc and Liang, Chen and Munguia, Lluis-Miquel and Rothchild, Daniel and So, David and Texier, Maud and Dean, Jeff},
   title     = {The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink},
-  journal   = {IEEE Computer},
+  journal   = {Computer},
+  volume    = {55},
+  number    = {7},
+  pages     = {18--28},
   year      = {2022},
-  url       = {https://arxiv.org/abs/2204.05149}
+  publisher = {IEEE},
+  doi       = {10.1109/MC.2022.3148714},
+  url       = {https://doi.org/10.1109/MC.2022.3148714}
 }
 
 @misc{tinystories2023,
@@ -870,15 +924,16 @@
 % ============================================================
 
 @inproceedings{devlin2019bert,
-  url = {https://arxiv.org/abs/1810.04805},
-  title={{BERT}: Pre-training of Deep Bidirectional Transformers for Language Understanding},
-  author={Devlin, Jacob and Chang, Ming-Wei and Lee, Kenton and Toutanova, Kristina},
-  booktitle={Proceedings of NAACL},
-  pages={4171--4186},
-  year={2019}
+  author    = {Devlin, Jacob and Chang, Ming-Wei and Lee, Kenton and Toutanova, Kristina},
+  title     = {{BERT}: Pre-training of Deep Bidirectional Transformers for Language Understanding},
+  booktitle = {Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers)},
+  pages     = {4171--4186},
+  publisher = {Association for Computational Linguistics},
+  address   = {Minneapolis, Minnesota},
+  year      = {2019},
+  doi       = {10.18653/v1/N19-1423},
+  url       = {https://aclanthology.org/N19-1423/}
 }
-
-% === Benchmarks ===
 
 @article{fedus2022switch,
   author    = {William Fedus and Barret Zoph and Noam Shazeer},
@@ -891,48 +946,51 @@
 }
 
 @inproceedings{leviathan2023speculative,
-  author    = {Yaniv Leviathan and Matan Kalman and Yossi Matias},
+  author    = {Leviathan, Yaniv and Kalman, Matan and Matias, Yossi},
   title     = {Fast Inference from Transformers via Speculative Decoding},
-  booktitle = {International Conference on Machine Learning (ICML 2023)},
+  booktitle = {Proceedings of the 40th International Conference on Machine Learning},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {202},
+  pages     = {19274--19286},
+  publisher = {PMLR},
+  address   = {Honolulu, Hawaii, USA},
   year      = {2023},
-  url       = {https://arxiv.org/abs/2211.17192}
+  url       = {https://proceedings.mlr.press/v202/leviathan23a.html}
 }
 
-% -------- Hardware / NPU --------
-
 @inproceedings{shazeer2017moe,
-  author    = {Noam Shazeer and Azalia Mirhoseini and Krzysztof Maziarz and Andy Davis and Quoc Le and Geoffrey Hinton and Jeff Dean},
+  author    = {Shazeer, Noam and Mirhoseini, Azalia and Maziarz, Krzysztof and Davis, Andy and Le, Quoc and Hinton, Geoffrey and Dean, Jeff},
   title     = {Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer},
-  booktitle = {International Conference on Learning Representations (ICLR 2017)},
+  booktitle = {5th International Conference on Learning Representations (ICLR)},
+  publisher = {OpenReview.net},
+  address   = {Toulon, France},
   year      = {2017},
-  url       = {https://arxiv.org/abs/1701.06538}
+  url       = {https://openreview.net/forum?id=B1ckMDqlg}
 }
 
 @inproceedings{vaswani2017attention,
-  url = {https://arxiv.org/abs/1706.03762},
-  title={Attention is All You Need},
-  author={Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N. and Kaiser, Lukasz and Polosukhin, Illia},
-  booktitle={Advances in Neural Information Processing Systems},
-  volume={30},
-  pages={5998--6008},
-  year={2017}
+  author    = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N. and Kaiser, Lukasz and Polosukhin, Illia},
+  title     = {Attention is All You Need},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {30},
+  pages     = {5998--6008},
+  publisher = {Curran Associates, Inc.},
+  address   = {Long Beach, California, USA},
+  year      = {2017},
+  url       = {https://proceedings.neurips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html}
 }
 
-% ============================================================
-% Surveys and Taxonomies
-% ============================================================
-
 @inproceedings{demystifying2025slm,
-  author    = {Zhenyan Lu and Xiang Li and Dongqi Cai and Rongjie Yi and Fangming Liu and Wei Liu and Jian Luan and Xiwen Zhang and Nicholas D. Lane and Mengwei Xu},
+  author    = {Lu, Zhenyan and Li, Xiang and Cai, Dongqi and Yi, Rongjie and Liu, Fangming and Liu, Wei and Luan, Jian and Zhang, Xiwen and Lane, Nicholas D. and Xu, Mengwei},
   title     = {Demystifying Small Language Models for Edge Deployment},
   booktitle = {Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
   pages     = {14747--14764},
+  publisher = {Association for Computational Linguistics},
   address   = {Vienna, Austria},
   year      = {2025},
+  doi       = {10.18653/v1/2025.acl-long.718},
   url       = {https://aclanthology.org/2025.acl-long.718/}
 }
-
-% -------- Knowledge Distillation --------
 
 @misc{lu2024slmsurvey,
   title={Small Language Models: Survey, Measurements, and Insights},
@@ -951,25 +1009,28 @@
 }
 
 @inproceedings{blodgett2020language,
-  author    = {Su Lin Blodgett and Solon Barocas and Hal Daumé III and Hanna Wallach},
+  author    = {Blodgett, Su Lin and Barocas, Solon and Daum{\'e} III, Hal and Wallach, Hanna},
   title     = {Language (Technology) is Power: A Critical Survey of ``Bias'' in {NLP}},
-  booktitle = {Proceedings of ACL 2020},
+  booktitle = {Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics},
+  pages     = {5454--5476},
+  publisher = {Association for Computational Linguistics},
+  address   = {Online},
   year      = {2020},
-  url       = {https://arxiv.org/abs/2005.14050}
+  doi       = {10.18653/v1/2020.acl-main.485},
+  url       = {https://aclanthology.org/2020.acl-main.485/}
 }
 
-% -------- Speculative Decoding --------
-
-@article{strubell2019energy,
-  url = {https://arxiv.org/abs/1906.02243},
-  title={Energy and Policy Considerations for Deep Learning in {NLP}},
-  author={Strubell, Emma and Ganesh, Ananya and McCallum, Andrew},
-  journal={Proceedings of ACL},
-  pages={3645--3650},
-  year={2019}
+@inproceedings{strubell2019energy,
+  author    = {Strubell, Emma and Ganesh, Ananya and McCallum, Andrew},
+  title     = {Energy and Policy Considerations for Deep Learning in {NLP}},
+  booktitle = {Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics},
+  pages     = {3645--3650},
+  publisher = {Association for Computational Linguistics},
+  address   = {Florence, Italy},
+  year      = {2019},
+  doi       = {10.18653/v1/P19-1355},
+  url       = {https://aclanthology.org/P19-1355/}
 }
-
-% === Surveys ===
 
 @misc{zhang2023siren,
   author    = {Yue Zhang and Yafu Li and Leyang Cui and Deng Cai and Lemao Liu and Tingchen Fu and Xinting Huang and Enbo Zhao and Yu Zhang and Yulong Chen and others},
@@ -985,19 +1046,20 @@
 % Miscellaneous
 % ============================================================
 
-@article{mit2025breakthrough,
-  title={10 Breakthrough Technologies 2025},
-  author={{MIT Technology Review}},
-  journal={MIT Technology Review},
-  year={2025},
-  url = {https://www.technologyreview.com/2025/01/03/1108883/10-breakthrough-technologies-2025/}
+@misc{mit2025breakthrough,
+  author       = {{MIT Technology Review}},
+  title        = {10 Breakthrough Technologies 2025},
+  howpublished = {MIT Technology Review},
+  year         = {2025},
+  url          = {https://www.technologyreview.com/2025/01/03/1108883/10-breakthrough-technologies-2025/}
 }
-@article{mlx2023,
-  author    = {{Apple ML Research}},
-  title     = {{MLX}: An Array Framework for {Apple} Silicon},
-  journal   = {GitHub Repository},
-  year      = {2023},
-  url       = {https://github.com/ml-explore/mlx}
+
+@misc{mlx2023,
+  author       = {{Apple Machine Learning Research}},
+  title        = {{MLX}: An Array Framework for {Apple} Silicon},
+  howpublished = {Software, GitHub repository},
+  year         = {2023},
+  url          = {https://github.com/ml-explore/mlx}
 }
 
 @misc{pal2025sambay,
@@ -1020,14 +1082,15 @@
 % === Future Work References ===
 
 @inproceedings{wei2022cot,
-  author    = {Jason Wei and Xuezhi Wang and Dale Schuurmans and Maarten Bosma and Fei Xia and Ed Chi and Quoc V. Le and Denny Zhou},
+  author    = {Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma, Maarten and Xia, Fei and Chi, Ed and Le, Quoc V. and Zhou, Denny},
   title     = {Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
-  booktitle = {Advances in Neural Information Processing Systems (NeurIPS 2022)},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {35},
+  publisher = {Curran Associates, Inc.},
+  address   = {New Orleans, Louisiana, USA},
   year      = {2022},
   url       = {https://arxiv.org/abs/2201.11903}
 }
-
-% -------- Hallucination --------
 
 @misc{xu2024device,
   author    = {Jingjing Xu and Chang Liu and Minghua Tan and others},
@@ -1102,7 +1165,7 @@
 }
 
 @misc{qwen3_2025,
-  author    = {{Qwen Team}},
+  author    = {{Qwen Team, Alibaba Group}},
   title     = {{Qwen3} Technical Report},
   howpublished   = {arXiv:2505.09388},
   year      = {2025},
@@ -1110,7 +1173,7 @@
 }
 
 @misc{qwen3_5_2026,
-  author       = {{Qwen Team}},
+  author       = {{Qwen Team, Alibaba Group}},
   title        = {{Qwen3.5} Small Models for On-Device Applications},
   howpublished = {\url{https://qwen.ai/blog?id=qwen3.5}},
   year         = {2026},
@@ -1118,7 +1181,7 @@
 }
 
 @misc{gemma4_2026,
-  author    = {{Gemma Team}},
+  author    = {{Gemma Team, Google DeepMind}},
   title     = {{Gemma} 4 Technical Report},
   howpublished   = {arXiv:2607.02770},
   year      = {2026},
@@ -1180,10 +1243,10 @@
 }
 
 @article{liang2023helm,
-  author  = {Percy Liang and Rishi Bommasani and Tony Lee and Dimitris Tsipras and Dilara Soylu and Michihiro Yasunaga and Yian Zhang and Deepak Narayanan and Yuhuai Wu and Ananya Kumar and Benjamin Newman and Binhang Yuan and Bobby Yan and Ce Zhang and Christian Cosgrove and Christopher D. Manning and Christopher R{\'e} and Diana Acosta-Navas and Drew A. Hudson and others},
-  title   = {Holistic Evaluation of Language Models},
-  journal = {Transactions on Machine Learning Research},
-  year    = {2023},
-  note    = {arXiv:2211.09110},
-  url     = {https://arxiv.org/abs/2211.09110}
+  author    = {Liang, Percy and Bommasani, Rishi and Lee, Tony and Tsipras, Dimitris and Soylu, Dilara and Yasunaga, Michihiro and Zhang, Yian and Narayanan, Deepak and Wu, Yuhuai and Kumar, Ananya and Newman, Benjamin and Yuan, Binhang and Yan, Bobby and Zhang, Ce and Cosgrove, Christian and Manning, Christopher D. and R{\'e}, Christopher and Acosta-Navas, Diana and Hudson, Drew A. and others},
+  title     = {Holistic Evaluation of Language Models},
+  journal   = {Transactions on Machine Learning Research},
+  year      = {2023},
+  url       = {https://openreview.net/forum?id=iO4LZibEqW}
 }
+
