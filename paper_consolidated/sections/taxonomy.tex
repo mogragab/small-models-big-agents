@@ -72,12 +72,14 @@ are quantities rather than categories.
 \centering
 \footnotesize
 % Palette shared with the generated figures (source/scripts/generate_figures_v2.py).
-\definecolor{txInk}{HTML}{2D3436}
+% Four categorical hues in the validated assignment order: blue, orange, aqua,
+% violet. Keep these in step with PALETTE in that script.
+\definecolor{txInk}{HTML}{1F2933}
 \definecolor{txSlate}{HTML}{7E8C9A}
-\definecolor{txIndigo}{HTML}{6C5B7B}
-\definecolor{txOcean}{HTML}{3D7EA6}
-\definecolor{txTeal}{HTML}{45B7A0}
-\definecolor{txCoral}{HTML}{E8836B}
+\definecolor{txIndigo}{HTML}{2A78D6}
+\definecolor{txOcean}{HTML}{EB6834}
+\definecolor{txTeal}{HTML}{1BAF7A}
+\definecolor{txCoral}{HTML}{4A3AA7}
 \newcommand{\txax}[2]{{\normalsize\bfseries\color{#1!88!black}#2}}
 \newcommand{\txcat}[1]{{\scriptsize\bfseries\color{txInk}#1}}
 \newcommand{\txsep}{{\color{txSlate}\,\textendash\,}}
@@ -126,7 +128,7 @@ Figure~\ref{fig:releases_by_size} shows how the size distribution of new \gls{sl
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{paper_slm_releases_by_size.pdf}
+  \includegraphics[width=\linewidth]{paper_slm_releases_by_size.png}
   \caption{Documented SLM variants by release year and parameter band. The 3--7B band has grown from a minority of releases in 2023 to the largest single band by 2025.}
   \Description{Stacked bar chart of documented small language model releases per year, split by parameter band. The sub-1B and 1-3B bands dominate 2023; the 3-7B band grows to become the largest single band by 2025.}
   \label{fig:releases_by_size}
@@ -134,7 +136,7 @@ Figure~\ref{fig:releases_by_size} shows how the size distribution of new \gls{sl
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{paper_slm_family_size_range.pdf}
+  \includegraphics[width=\linewidth]{paper_slm_family_size_range.png}
   \caption{Parameter span (minimum, median, maximum, in billions, log scale) of the principal SLM families in the inventory.}
   \Description{Horizontal range plot on a logarithmic axis showing the minimum, median, and maximum parameter count in billions for each principal small language model family.}
   \label{fig:family_size_range}
@@ -160,7 +162,7 @@ These changes, together with \gls{rope} base extension and positional interpolat
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{paper_slm_context_by_year.pdf}
+  \includegraphics[width=\linewidth]{paper_slm_context_by_year.png}
   \caption{Supported context window of documented SLM variants by release year (log scale). Each violin is the kernel-density estimate of the distribution; the inner box marks the interquartile range, the dashed line the mean, and the dots individual models. Long context has become standard in the sub-10B regime.}
   \Description{Violin plot of supported context window on a logarithmic axis against release year. The distribution shifts upward from a few thousand tokens in 2023 to a median above one hundred thousand tokens by 2025.}
   \label{fig:context_by_year}
@@ -193,7 +195,7 @@ Dense models still dominate the inventory numerically (Figure~\ref{fig:moe_vs_de
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{paper_slm_moe_vs_dense.pdf}
+  \includegraphics[width=\linewidth]{paper_slm_moe_vs_dense.png}
   \caption{Mixture-of-experts versus dense SLMs in the inventory: variant count (left), median total parameters (centre), and median \emph{active} parameters per token (right). MoE models carry a much larger total-parameter count but a per-token cost comparable to dense models.}
   \Description{Three side-by-side bar charts comparing mixture-of-experts and dense small language models on variant count, median total parameters, and median active parameters per token. Dense models are far more numerous; mixture-of-experts models carry much larger total parameter counts at comparable active parameter counts.}
   \label{fig:moe_vs_dense}
@@ -231,7 +233,7 @@ Text-only models still dominate the inventory (Figure~\ref{fig:modality}), proce
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{paper_slm_modality_distribution.pdf}
+  \includegraphics[width=\linewidth]{paper_slm_modality_distribution.png}
   \caption{Input modalities supported by documented SLM variants (a variant may support several). Vision has become common; audio and video remain a small but growing minority.}
   \Description{Bar chart of the number of documented small language model variants supporting each input modality. Text dominates, vision is common, and audio and video remain small but growing categories.}
   \label{fig:modality}

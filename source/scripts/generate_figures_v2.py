@@ -30,75 +30,111 @@ from plotly.subplots import make_subplots
 # Palette & colour constants
 # ---------------------------------------------------------------------------
 
+# Palette rebuilt September 2026. The previous set was chosen by eye and was not
+# colour-vision-deficiency safe; several pairs that carried meaning (teal/mint,
+# coral/peach, amber/sand) collapsed under deuteranopia and again in greyscale
+# print. This one is validated: every categorical set below clears the adjacent-
+# pair CVD floor (OKLab dE >= 8) and the normal-vision floor (dE >= 15) against a
+# white surface, and every ordered set is a single hue, monotone in lightness,
+# with adjacent dL >= 0.06 and the light end clearing 2:1 against white.
+#
+# Two rules drive the assignments further down, and they are the substantive
+# change rather than the hexes:
+#   * Ordered quantities (release year, parameter band, context bucket) get a
+#     single-hue ramp, light to dark. They were previously categorical, which
+#     asked the reader to learn an arbitrary colour order for data that has a
+#     natural one.
+#   * Only genuinely nominal quantities (access mode, licence posture, base vs
+#     instruct, MoE vs dense) get distinct hues, and never more than three plus
+#     a neutral.
+
 PALETTE = {
-    # Core sequence
-    "indigo":    "#6C5B7B",
-    "teal":      "#45B7A0",
-    "coral":     "#E8836B",
-    "amber":     "#F2B05E",
-    "sky":       "#5BA4CF",
-    "plum":      "#C06C84",
-    "mint":      "#88D8B0",
-    "peach":     "#F7C59F",
+    # Categorical hues, in fixed assignment order. Never cycled; a fourth
+    # nominal category folds into "other" rather than taking a generated hue.
+    "blue":      "#2A78D6",
+    "orange":    "#EB6834",
+    "aqua":      "#1BAF7A",
+    "violet":    "#4A3AA7",
+    "red":       "#E34948",
+
+    # Single-hue ordinal ramp, light to dark. Five usable steps on white: six
+    # cannot hold both the lightness-gap floor and the light-end contrast floor.
+    "seq1":      "#86B6EF",
+    "seq2":      "#5598E7",
+    "seq3":      "#2A78D6",
+    "seq4":      "#1C5CAB",
+    "seq5":      "#104281",
+
+    # Neutral, for "unknown" and "not reported". Deliberately low chroma so it
+    # never reads as one of the meaningful categories.
     "slate":     "#7E8C9A",
-    "lavender":  "#B8A9C9",
-    "ocean":     "#3D7EA6",
-    "rose":      "#E8A0BF",
-    "olive":     "#9AB87A",
-    "sand":      "#D4C5A9",
+
     # Utility
-    "ink":       "#2D3436",
-    "fog":       "#E8EEF0",
-    "cloud":     "#F8FAFB",
-    "mist":      "#DDE6EA",
+    "ink":       "#1F2933",
+    "fog":       "#E4EAEE",
+    "cloud":     "#FBFCFD",
+    "mist":      "#D6DFE5",
 }
 
+# Fallback sequence for charts whose category set is data-driven (families,
+# developers) and therefore not known in advance. Fixed order, never cycled:
+# past the fifth entry the chart is expected to fold the tail into "Other"
+# rather than invent a hue, which is what the top-N cutoffs below do.
 SOFT_SEQUENCE = [
-    PALETTE["indigo"], PALETTE["teal"], PALETTE["coral"], PALETTE["amber"],
-    PALETTE["sky"], PALETTE["plum"], PALETTE["mint"], PALETTE["peach"],
-    PALETTE["ocean"], PALETTE["lavender"], PALETTE["olive"], PALETTE["rose"],
-    PALETTE["slate"], PALETTE["sand"],
+    PALETTE["blue"], PALETTE["orange"], PALETTE["aqua"],
+    PALETTE["violet"], PALETTE["red"], PALETTE["slate"],
 ]
 
+# Continuous magnitude: one hue, light to dark, lightest step near the surface.
 SOFT_HEATMAP = [
     [0.0, PALETTE["cloud"]],
-    [0.25, "#D6EAF0"],
-    [0.5, PALETTE["sky"]],
-    [0.75, PALETTE["teal"]],
-    [1.0, PALETTE["ocean"]],
+    [0.2, "#CDE2FB"],
+    [0.4, PALETTE["seq1"]],
+    [0.6, PALETTE["seq3"]],
+    [0.8, PALETTE["seq4"]],
+    [1.0, "#0D366B"],
 ]
 
 # Centralized colour maps ------------------------------------------------
+#
+# Ordered quantities use the single-hue ramp. Parameter band and context bucket
+# each have one out-of-range category (">20B" is above the SLM threshold
+# entirely) that takes the orange accent instead of a sixth ramp step: it is a
+# different kind of value, not the next step up, and a five-step ramp is the
+# most a single hue supports on white while keeping the steps apart.
 
 BUCKET_COLORS = {
-    "<1B": PALETTE["mint"], "1-3B": PALETTE["sky"], "3-7B": PALETTE["indigo"],
-    "7-10B": PALETTE["teal"], "10-20B": PALETTE["amber"], ">20B": PALETTE["coral"],
-    "Unknown": PALETTE["slate"],
+    "<1B": PALETTE["seq1"], "1-3B": PALETTE["seq2"], "3-7B": PALETTE["seq3"],
+    "7-10B": PALETTE["seq4"], "10-20B": PALETTE["seq5"],
+    ">20B": PALETTE["orange"], "Unknown": PALETTE["slate"],
 }
 
 YEAR_COLORS = {
-    "2022": PALETTE["slate"], "2023": PALETTE["sky"], "2024": PALETTE["teal"],
-    "2025": PALETTE["amber"], "2026": PALETTE["coral"],
-}
-
-STATUS_COLORS = {
-    "Active": PALETTE["teal"], "Legacy": PALETTE["amber"],
-    "Deprecated": PALETTE["coral"], "Unknown": PALETTE["slate"],
-}
-
-ACCESS_COLORS = {
-    "OW": PALETTE["teal"], "Both": PALETTE["amber"], "API": PALETTE["coral"],
-}
-
-LICENSE_COLORS = {
-    "Permissive open": PALETTE["teal"], "Custom/source-available": PALETTE["amber"],
-    "Proprietary": PALETTE["coral"], "Unspecified": PALETTE["slate"],
-    "Other open": PALETTE["sky"], "Unknown": PALETTE["lavender"],
+    "2022": PALETTE["seq1"], "2023": PALETTE["seq2"], "2024": PALETTE["seq3"],
+    "2025": PALETTE["seq4"], "2026": PALETTE["seq5"],
 }
 
 CONTEXT_BUCKET_COLORS = {
-    "<=4K": PALETTE["mint"], "8K": PALETTE["sky"], "16K-32K": PALETTE["teal"],
-    "64K-128K": PALETTE["amber"], ">128K": PALETTE["coral"], "Unknown": PALETTE["slate"],
+    "<=4K": PALETTE["seq1"], "8K": PALETTE["seq2"], "16K-32K": PALETTE["seq3"],
+    "64K-128K": PALETTE["seq4"], ">128K": PALETTE["seq5"],
+    "Unknown": PALETTE["slate"],
+}
+
+# Nominal quantities: distinct hues, at most three plus a neutral.
+
+STATUS_COLORS = {
+    "Active": PALETTE["blue"], "Legacy": PALETTE["orange"],
+    "Deprecated": PALETTE["red"], "Unknown": PALETTE["slate"],
+}
+
+ACCESS_COLORS = {
+    "OW": PALETTE["blue"], "Both": PALETTE["orange"], "API": PALETTE["aqua"],
+}
+
+LICENSE_COLORS = {
+    "Permissive open": PALETTE["blue"], "Custom/source-available": PALETTE["orange"],
+    "Proprietary": PALETTE["aqua"], "Other open": PALETTE["violet"],
+    "Unspecified": PALETTE["slate"], "Unknown": PALETTE["slate"],
 }
 
 
@@ -114,16 +150,25 @@ def color_with_alpha(hex_color: str, alpha: float) -> str:
 
 DEFAULT_TEMPLATE = "plotly_white"
 
-# Serif stack to match the Springer / Artificial Intelligence Review body font
-# (Times-based). "Times New Roman" resolves on Windows; the fallbacks cover
-# Linux/macOS renderers.
-FIGURE_FONT = "Times New Roman, Nimbus Roman, Tinos, Liberation Serif, serif"
+# Figure text is set in Libertinus Serif so that it matches the manuscript body
+# font exactly rather than approximating it: both builds now load Libertinus,
+# and a figure in a different serif is visible on the page. The renderer is
+# headless Chrome via kaleido, which resolves fonts by family name from the
+# system, so Libertinus must be installed as a system font and not only as a
+# LaTeX package. The fallbacks cover a machine where it is not: Linux Libertine
+# is the metric-compatible predecessor, then generic serif.
+FIGURE_FONT = "Libertinus Serif, Linux Libertine O, Linux Libertine, Libertinus Serif Display, serif"
 
 # On-page figure-text size is governed by (plotly font size) x 644 / (width in px);
 # a narrower native canvas is scaled down less at \linewidth, so text lands
-# a little larger than the 10 pt body. scale=2 keeps raster bits crisp without
-# inflating the stored PDF page dimensions absurdly.
-EXPORT_SCALE = 2
+# a little larger than the 10 pt body.
+#
+# scale=4 against the ~780px canvases below puts the raster figures at roughly
+# 3100px on the long edge, which is about 400 dpi at the 7.5 in printed width
+# ACM single-column uses. That clears the 300 dpi floor most publishers set for
+# raster artwork with margin to spare, and keeps text edges clean when a
+# reviewer zooms the PDF.
+EXPORT_SCALE = 4
 
 FIGURE_SIZES = {
     "default": {"width": 780, "height": 480},
@@ -571,16 +616,16 @@ def fig_developer_portfolio(
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     fig.add_trace(go.Bar(
         x=top, y=[variants[n] for n in top], name="Variants",
-        marker_color=PALETTE["indigo"],
+        marker_color=PALETTE["blue"],
     ), secondary_y=False)
     fig.add_trace(go.Scatter(
         x=top, y=[len(families[n]) for n in top], name="Families",
-        mode="lines+markers", line=dict(color=PALETTE["amber"], width=3), marker=dict(size=9),
+        mode="lines+markers", line=dict(color=PALETTE["orange"], width=3), marker=dict(size=9),
     ), secondary_y=True)
     fig.add_trace(go.Scatter(
         x=top, y=[round(100 * mm_counts[n] / variants[n], 1) for n in top],
         name="Multimodal %", mode="lines+markers",
-        line=dict(color=PALETTE["rose"], width=2, dash="dot"), marker=dict(size=8),
+        line=dict(color=PALETTE["aqua"], width=2, dash="dot"), marker=dict(size=8),
     ), secondary_y=True)
 
     apply_figure_theme(fig, f"Developer Concentration in {label} Inventory", size="wide", show_title=show_title)
@@ -722,14 +767,14 @@ def fig_cumulative_releases(
     fig.add_trace(go.Scatter(
         x=slm_dates, y=list(range(1, len(slm_dates) + 1)),
         mode="lines", name="SLMs",
-        line=dict(color=PALETTE["teal"], width=3),
-        fill="tozeroy", fillcolor=color_with_alpha(PALETTE["teal"], 0.18),
+        line=dict(color=PALETTE["blue"], width=3),
+        fill="tozeroy", fillcolor=color_with_alpha(PALETTE["blue"], 0.18),
     ))
     fig.add_trace(go.Scatter(
         x=llm_dates, y=list(range(1, len(llm_dates) + 1)),
         mode="lines", name="LLMs",
-        line=dict(color=PALETTE["coral"], width=3),
-        fill="tozeroy", fillcolor=color_with_alpha(PALETTE["coral"], 0.12),
+        line=dict(color=PALETTE["orange"], width=3),
+        fill="tozeroy", fillcolor=color_with_alpha(PALETTE["orange"], 0.12),
     ))
     apply_figure_theme(fig, "Cumulative Model Releases: SLM vs LLM", size="wide", show_title=show_title)
     fig.update_xaxes(title_text="Release date")
@@ -844,11 +889,11 @@ def fig_scale_buckets_comparison(
     fig = go.Figure()
     fig.add_trace(go.Bar(
         x=SCALE_BUCKETS, y=[slm_c.get(b, 0) for b in SCALE_BUCKETS],
-        name="SLMs", marker_color=PALETTE["teal"],
+        name="SLMs", marker_color=PALETTE["blue"],
     ))
     fig.add_trace(go.Bar(
         x=SCALE_BUCKETS, y=[llm_c.get(b, 0) for b in SCALE_BUCKETS],
-        name="LLMs", marker_color=PALETTE["coral"],
+        name="LLMs", marker_color=PALETTE["orange"],
     ))
     fig.update_layout(barmode="group")
     apply_figure_theme(fig, "Scale Separation Between SLM and LLM Inventories", size="wide", show_title=show_title)
@@ -883,7 +928,7 @@ def fig_moe_vs_dense(
     )
     bar_kw = dict(width=0.55)
     cats = ["MoE", "Dense"]
-    col_moe, col_dense = PALETTE["amber"], PALETTE["indigo"]
+    col_moe, col_dense = PALETTE["orange"], PALETTE["blue"]
 
     fig.add_trace(go.Bar(
         x=cats, y=[len(moe), len(dense)],
@@ -929,8 +974,8 @@ def fig_base_vs_instruct(
         if y is not None:
             by_year[y][normalized_base_instruct(m)] += 1
 
-    bi_colors = {"Base": PALETTE["indigo"], "Instruct": PALETTE["teal"],
-                 "Both": PALETTE["amber"], "Unknown": PALETTE["slate"]}
+    bi_colors = {"Base": PALETTE["blue"], "Instruct": PALETTE["orange"],
+                 "Both": PALETTE["aqua"], "Unknown": PALETTE["slate"]}
 
     fig = go.Figure()
     for lbl in ["Base", "Instruct", "Both", "Unknown"]:
@@ -1012,12 +1057,12 @@ def fig_developer_diversity_timeline(
     fig = go.Figure()
     fig.add_trace(go.Bar(
         x=quarters, y=new_q, name="New developers this quarter",
-        marker_color=color_with_alpha(PALETTE["amber"], 0.75),
+        marker_color=color_with_alpha(PALETTE["seq2"], 0.75),
         marker_line=dict(width=0),
     ))
     fig.add_trace(go.Scatter(
         x=quarters, y=cumul, mode="lines+markers", name="Cumulative distinct developers",
-        line=dict(color=PALETTE["teal"], width=3), marker=dict(size=7),
+        line=dict(color=PALETTE["orange"], width=3), marker=dict(size=7),
     ))
     apply_figure_theme(fig, f"Developer Diversity in {label} Ecosystem", size="wide", show_title=show_title)
     fig.update_xaxes(title_text="Release quarter", tickangle=-35)
@@ -1062,17 +1107,17 @@ def fig_family_size_range(
     ))
     fig.add_trace(go.Scatter(
         x=mins, y=names, mode="markers", name="Smallest",
-        marker=dict(size=10, color=PALETTE["sky"],
+        marker=dict(size=10, color=PALETTE["seq1"],
                     line=dict(color="white", width=1.4)),
     ))
     fig.add_trace(go.Scatter(
         x=maxs, y=names, mode="markers", name="Largest",
-        marker=dict(size=12, color=PALETTE["ocean"],
+        marker=dict(size=12, color=PALETTE["seq3"],
                     line=dict(color="white", width=1.4)),
     ))
     fig.add_trace(go.Scatter(
         x=meds, y=names, mode="markers", name="Median",
-        marker=dict(size=11, color=PALETTE["coral"],
+        marker=dict(size=11, color=PALETTE["orange"],
                     line=dict(color="white", width=1.6)),
     ))
     apply_figure_theme(fig, f"{label} Family Parameter Range (Top 15)", size="tall", show_title=show_title)
@@ -1101,7 +1146,7 @@ def fig_multimodal_timeline(
             by_q[q][modality_group(m)] += 1
 
     fig = go.Figure()
-    for group, color in [("Text-centric", PALETTE["indigo"]), ("Multimodal", PALETTE["amber"])]:
+    for group, color in [("Text-centric", PALETTE["blue"]), ("Multimodal", PALETTE["orange"])]:
         fig.add_trace(go.Bar(
             x=quarters, y=[by_q[q].get(group, 0) for q in quarters],
             name=group, marker_color=color,

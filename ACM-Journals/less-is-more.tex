@@ -4,12 +4,59 @@
 %%
 %% Build:  pdflatex -> bibtex -> pdflatex -> pdflatex
 %%
+%% -------------------------------------------------------------------------
+%% Math fonts, set before the class is loaded.
+%%
+%% acmart's pdfLaTeX branch loads newtxmath with its libertine option, which
+%% pulls the old Linux Libertine faces into every formula. We want Libertinus
+%% throughout, so we mark newtxmath as already-loaded before acmart runs (its
+%% \RequirePackage then becomes a no-op) and load libertinust1math instead,
+%% which is the Libertinus-matched math font. Text, sans, mono and math then all
+%% come from one family.
+%%
+%% If a future acmart release starts calling newtxmath-specific macros, drop
+%% these two lines and the \usepackage{libertinust1math} below; the build falls
+%% back to Libertinus text with Libertine-matched math, which is close but not
+%% exact.
+%% -------------------------------------------------------------------------
+\expandafter\def\csname ver@newtxmath.sty\endcsname{9999/99/99}
+%% Record the option acmart will ask for, so its \RequirePackage[libertine]
+%% matches what LaTeX believes is already loaded and raises no option clash.
+\expandafter\def\csname opt@newtxmath.sty\endcsname{libertine}
+
 \documentclass[manuscript,screen,review]{acmart}
 
 %% -------------------------------------------------------------------------
 %% Packages required by the ported section files
 %% (acmart already provides amsmath, booktabs, graphicx, hyperref, natbib)
 %% -------------------------------------------------------------------------
+%% -------------------------------------------------------------------------
+%% Fonts. acmart loads Libertine plus newtxmath by default; we replace that
+%% whole stack with Libertinus, the maintained successor to Linux Libertine,
+%% so that text, math, sans and mono all come from one family and the figures
+%% (which set their text in Libertinus Serif via kaleido) match the body exactly.
+%%
+%% acmart has already loaded libertine + newtxmath by the time this file is
+%% read, and both resist being unloaded, so we override rather than replace:
+%% libertinus-type1 re-points the roman, sans and mono defaults at the
+%% Libertinus Type 1 families. Math stays on newtxmath, which acmart configured
+%% with its libertine option; since Libertinus is a direct fork of Linux
+%% Libertine the math glyphs remain metrically and visually consistent with the
+%% Libertinus text around them. Loading libertinust1math on top would clash with
+%% newtxmath (duplicate \widebar, \txvec and friends) for no visible gain.
+%% -------------------------------------------------------------------------
+\usepackage{libertinus-type1}
+\usepackage{libertinust1math}
+
+%% acmart defines \liningnums in terms of \libertineLF, which would drag the old
+%% Linux Libertine face back in for the few lining-figure runs that use it.
+%% Point it at the Libertinus lining figures instead, so no Libertine glyph is
+%% left anywhere in the document.
+\AtEndPreamble{%
+  \def\libertineLF{\LibertinusSerifLF}%
+  \DeclareTextFontCommand{\liningnums}{\LibertinusSerifLF}%
+}
+
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{makecell}
@@ -138,12 +185,12 @@
   \country{Malaysia}
 }
 
-\author{Ayed Alwadain}
-\email{aalwadain@ksu.edu.sa}
+\author{W. Eltayeb Ahmed}
+\email{waahmed@imamu.edu.sa}
 \affiliation{%
-  \department[0]{Department of Software Engineering}
-  \department[1]{College of Computer and Information Sciences}
-  \institution{King Saud University}
+  \department[0]{Department of Mathematics and Statistics}
+  \department[1]{College of Science}
+  \institution{Imam Mohammad Ibn Saud Islamic University (IMSIU)}
   \city{Riyadh}
   \country{Saudi Arabia}
 }

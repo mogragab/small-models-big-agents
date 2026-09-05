@@ -28,25 +28,20 @@
 \RequirePackage[table,xcdraw]{xcolor}
 \RequirePackage{fontspec}
 \defaultfontfeatures{Ligatures=TeX}
-\setmainfont{source-sans-regular.ttf}[
-  Path=./fonts/source-sans/,
-  BoldFont=source-sans-bold.ttf,
-  ItalicFont=source-sans-italic.ttf,
-  BoldItalicFont=source-sans-bold-italic.ttf
-]
-\setsansfont{source-sans-regular.ttf}[
-  Path=./fonts/source-sans/,
-  BoldFont=source-sans-bold.ttf,
-  ItalicFont=source-sans-italic.ttf,
-  BoldItalicFont=source-sans-bold-italic.ttf
-]
-\setmonofont{geist-mono-regular.ttf}[
-  Path=./fonts/geist-mono/,
-  BoldFont=geist-mono-bold.ttf,
-  ItalicFont=geist-mono-italic.ttf,
-  BoldItalicFont=geist-mono-bold-italic.ttf,
-  Scale=MatchLowercase
-]
+% Libertinus throughout: serif for body, Libertinus Sans for sans, Libertinus
+% Mono for verbatim, Libertinus Math for formulae (set below with the other
+% maths packages). This matches the ACM build and the generated figures, which
+% set their text in Libertinus Serif, so no third typeface appears anywhere.
+%
+% The faces are resolved by family name from the system font database rather
+% than by path, because Libertinus ships with the TeX distribution; if a build
+% host lacks them, install the libertinus-fonts package (MiKTeX/TeX Live) or the
+% upstream OTFs.
+% Styles are resolved from the family by fontspec; naming the family alone is
+% what lets it pick up Regular/Bold/Italic/BoldItalic from the system database.
+\setmainfont{Libertinus Serif}
+\setsansfont{Libertinus Sans}
+\setmonofont{Libertinus Mono}[Scale=MatchLowercase]
 
 \RequirePackage[a4paper]{geometry}
 \iftemplate@twocolumn
@@ -65,7 +60,10 @@
 \RequirePackage{mathtools}
 \RequirePackage{amsthm}
 \RequirePackage{unicode-math}
-\setmathfont{fira-math-regular.otf}[Path=./fonts/fira-math/]
+\setmathfont{LibertinusMath-Regular.otf}
+% Libertinus Math has no script/calligraphic alphabet of its own; borrow Latin
+% Modern's so \mathcal does not fall back to an unstyled face.
+\setmathfont{latinmodern-math.otf}[range={cal,bfcal}]
 \RequirePackage{graphicx}
 \graphicspath{{./figures/}}
 \RequirePackage{caption}

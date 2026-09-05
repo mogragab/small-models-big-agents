@@ -235,6 +235,58 @@ Database version 3.4. Every record now carries `meets_c1_active_le_20b`,
 `meets_c2_total_le_20b` and `slm_class`, so a reader can recompute the inventory
 under a different threshold.
 
+## Presentation pass, 6 September 2026
+
+**Typography.** Both builds are now set entirely in Libertinus, replacing the
+Linux Libertine + newtxmath stack acmart loads by default and the Source Sans +
+Fira Math stack the consolidated template used. `pdffonts` on the ACM build
+reports only `LibertinusSerif-{Regular,Bold,Italic}`, `LibertinusSans-*`,
+`LibertinusMono-Regular` and `LibertinusT1Math`; no other face appears. Getting
+math onto Libertinus under pdfLaTeX required marking `newtxmath` as
+pre-loaded before `\documentclass` so acmart's own `\RequirePackage` becomes a
+no-op; the two lines that do this are commented in `less-is-more.tex` with the
+fallback to use if a future acmart release needs newtxmath's macros. The figures
+set their text in Libertinus Serif too, so the page has one typeface throughout.
+
+**Figures: PNG at 400-480 dpi.** All 40 figures are now exported as PNG at
+`EXPORT_SCALE = 4`, roughly 3100-3600 px on the long edge, which is about
+400-480 dpi at the printed column width and clears the usual 300 dpi floor for
+raster artwork. The PDF versions are removed and all `\includegraphics` calls
+updated. `ACM-Journals/figures/README.md` documents the regeneration command and
+the font dependency.
+
+**Palette rebuilt and validated.** The previous palette was chosen by eye and was
+not colour-vision-deficiency safe: teal/mint, coral/peach and amber/sand
+collapsed under deuteranopia and again in greyscale. The replacement was
+validated rather than eyeballed, and clears the adjacent-pair CVD floor
+(OKLab ΔE ≥ 8), the normal-vision floor (ΔE ≥ 15) and the chroma floor against a
+white surface.
+
+The substantive change is not the hexes but the encoding. Ordered quantities
+(release year, parameter band, context bucket) now use a single-hue ramp, light
+to dark, instead of arbitrary categorical hues: those data have a natural order
+and the old colours asked the reader to memorise one. Only genuinely nominal
+quantities (access mode, licence posture, base vs instruct, MoE vs dense) get
+distinct hues, never more than three plus a neutral. Two details worth recording:
+a single hue supports only five ordered steps on white before either the
+lightness gaps or the light-end contrast fails, so the `>20B` band takes the
+orange accent instead of a sixth step, which is also semantically right since it
+is the out-of-scope band rather than the next size up; and the low-contrast hues
+are only used on charts that carry direct value labels, which is the relief the
+contrast warning requires.
+
+The TikZ taxonomy figure in `sections/taxonomy.tex` was updated to the same four
+categorical hues, since it claims to share the generated palette.
+
+**Authorship.** The fourth author is now W. Eltayeb Ahmed (Department of
+Mathematics and Statistics, College of Science, Imam Mohammad Ibn Saud Islamic
+University, Riyadh; waahmed@imamu.edu.sa), replacing the previous fourth author
+in both builds and in the consolidated `metadata.tex`. The Funding statement now
+records IMSIU grant IMSIU-DDRSP2602 in place of "no funding was received", an
+Acknowledgements subsection carries the same statement, and "Funding
+acquisition" is restored to the fourth author's CRediT line, which resolves the
+inconsistency flagged in the declarations file.
+
 ## Build status
 
 | | Pages | Undefined refs | Overfull boxes | References |
