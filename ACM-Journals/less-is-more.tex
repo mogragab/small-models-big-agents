@@ -58,8 +58,7 @@
 %% -------------------------------------------------------------------------
 \begin{document}
 
-\title{Less is More: Small Language Models as the Substrate of Agentic AI---A
-  Survey of Architectures, Compression, Deployment, and Reported Performance}
+\title{Less is More: Small Language Models as the Substrate of Agentic AI}
 \titlenote{Preprint / manuscript version prepared for ACM Computing Surveys.}
 
 \author{Mohammed Gamal Ragab}
@@ -115,9 +114,9 @@
   their cost, memory footprint, and latency are a poor match for the
   fastest-growing consumer of language intelligence: the AI agent, which issues
   many narrow, repetitive, well-specified model calls rather than a few
-  open-ended ones. Small language models (SLMs)---decoder-only or hybrid
+  open-ended ones. Small language models (SLMs), meaning decoder-only or hybrid
   transformers of roughly twenty billion parameters or fewer, counting active
-  parameters for mixture-of-experts models---have closed much of the capability
+  parameters for mixture-of-experts models, have closed much of the capability
   gap through knowledge distillation, synthetic-data curation, and post-training
   quantization. This article is both a survey and a position statement. We
   catalog 126 documented SLM variants (2022--2026), including the 2025--2026
@@ -136,9 +135,10 @@
   the sub-tasks agents delegate, roughly 10--30$\times$ cheaper to serve, cheaper
   to specialize, and easier to constrain to tool interfaces. We survey
   heterogeneous SLM--LLM routing and the LLM-to-SLM conversion pipeline, and close
-  with the open problems---reasoning under parameter constraints, hallucination,
-  hardware co-design, fairness under compression, and empirical verification of
-  the consolidated evidence---that stand between the present and that future.
+  with the open problems that stand between the present and that future:
+  reasoning under parameter constraints, hallucination, hardware co-design,
+  fairness under compression, and the construction of an evaluation base this
+  field does not yet have.
 \end{abstract}
 
 %%

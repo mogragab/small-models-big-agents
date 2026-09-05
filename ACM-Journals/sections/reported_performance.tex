@@ -58,7 +58,7 @@ Gemma 2-2B & 2.6B & 26 & 2,304 & GQA-8/4 & 8K & 256K & 2.0T \\
 Gemma 2-9B & 9.2B & 42 & 3,584 & GQA-16/8 & 8K & 256K & 8.0T \\
 Gemma 3-1B & 1.0B & 26 & 1,536 & GQA-LG & 32K & 262K & 2.0T \\
 Gemma 3-4B & 4.3B & 34 & 2,560 & GQA-LG & 128K & 262K & 4.0T \\
-Mistral 7B & 7.3B & 32 & 4,096 & GQA-32/8 & 8K & 32K & --- \\
+Mistral 7B & 7.3B & 32 & 4,096 & GQA-32/8 & 8K & 32K & n/a \\
 Phi-3-mini & 3.8B & 32 & 3,072 & MHA-32h & 128K & 32K & 3.3T \\
 Phi-3.5-mini & 3.8B & 32 & 3,072 & MHA-32h & 128K & 32K & 3.4T \\
 Phi-4-mini & 3.8B & 32 & 3,072 & GQA-24/8 & 128K & 200K & 5.0T \\
@@ -281,8 +281,8 @@ Multilingual and safety reporting is markedly sparser than benchmark reporting
 across the cohort, and the coverage that exists is not comparable across models;
 we therefore report the direction of the evidence rather than tabulating it.
 On multilingual capability, the models whose technical reports document
-large non-English pretraining mixtures---Qwen2.5 \citep{qwen2024qwen25}, Gemma~3
-\citep{team2025gemma3}, and Aya \citep{ustun2024aya}---report substantially
+large non-English pretraining mixtures, namely Qwen2.5 \citep{qwen2024qwen25}, Gemma~3
+\citep{team2025gemma3}, and Aya \citep{ustun2024aya}, report substantially
 stronger non-English performance than the English-centric families, and the gap
 is widest on non-English mathematical reasoning, where both language coverage and
 reasoning capacity bind at once. On safety, per-model toxicity evaluations are

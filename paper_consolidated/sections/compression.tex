@@ -41,21 +41,21 @@ KD + Pruning + Quant  & Yes & $40\times+$        & ${\sim}90\%$   & High \\
 
 The survey by \citet{yang2024kd_survey} classifies \gls{llm} distillation into two paradigms:
 
-\emph{White-box \gls{kd}} has access to the teacher's intermediate representations. TinyBERT \citep{jiao2020tinybert} pioneered layer-by-layer feature alignment, matching student hidden states, attention matrices, and embedding layers to teacher counterparts via MSE loss. In the decoder-only \gls{llm} setting, this requires pairing student and teacher layers—a non-trivial task when sizes differ substantially—and is computationally expensive but yields superior retention of teacher capabilities.
+\emph{White-box \gls{kd}} has access to the teacher's intermediate representations. TinyBERT \citep{jiao2020tinybert} pioneered layer-by-layer feature alignment, matching student hidden states, attention matrices, and embedding layers to teacher counterparts via MSE loss. In the decoder-only \gls{llm} setting, this requires pairing student and teacher layers, which is non-trivial when sizes differ substantially, and is computationally expensive but yields superior retention of teacher capabilities.
 
-\emph{Black-box \gls{kd}} uses only the teacher's generated outputs---either token probabilities or free-form text---as the supervision signal. Orca \citep{ho2022orca} exemplifies text-output black-box \gls{kd}: GPT-4 generates step-by-step reasoning traces, which a LLaMA-based student learns to replicate. DeepSeek-R1 \citep{deepseek2025r1} extends this to long chain-of-thought reasoning distillation, producing 7B and 14B students that dramatically outperform identically-sized from-scratch models on mathematical reasoning.
+\emph{Black-box \gls{kd}} uses only the teacher's generated outputs, either token probabilities or free-form text, as the supervision signal. Orca \citep{ho2022orca} exemplifies text-output black-box \gls{kd}: GPT-4 generates step-by-step reasoning traces, which a LLaMA-based student learns to replicate. DeepSeek-R1 \citep{deepseek2025r1} extends this to long chain-of-thought reasoning distillation, producing 7B and 14B students that dramatically outperform identically-sized from-scratch models on mathematical reasoning.
 
 \subsubsection{Chain-of-Thought Distillation}
 
-A particularly productive form of black-box \gls{kd} is \gls{cot} distillation \citep{wei2022cot}: the teacher model generates explicit reasoning steps, and the student learns to produce or internalize these steps. \citet{feng2024counterfactual} demonstrate counterfactual distillation—augmenting \gls{cot} traces with contrastive incorrect reasoning—as a way to sharpen the student's reasoning boundaries. \citet{liao2024nesycd} propose Neural-Symbolic Collaborative Distillation, using a neuro-symbolic teacher to provide structured reasoning supervision that is more transferable to small students than purely neural \gls{cot}.
+A particularly productive form of black-box \gls{kd} is \gls{cot} distillation \citep{wei2022cot}: the teacher model generates explicit reasoning steps, and the student learns to produce or internalize these steps. \citet{feng2024counterfactual} demonstrate counterfactual distillation, which augments \gls{cot} traces with contrastive incorrect reasoning, as a way to sharpen the student's reasoning boundaries. \citet{liao2024nesycd} propose Neural-Symbolic Collaborative Distillation, using a neuro-symbolic teacher to provide structured reasoning supervision that is more transferable to small students than purely neural \gls{cot}.
 
 \subsubsection{Data Augmentation in KD}
 
-The survey by \citet{xu2024kd_survey} highlights data augmentation (DA) as a central paradigm within \gls{kd} frameworks. When the student lacks sufficient coverage of the teacher's knowledge space, the teacher can generate synthetic training instances targeting specific skill gaps—the mechanism underlying the Phi family's success \citep{gunasekar2023phi1}. The efficient \gls{kd} approach of \citet{ballout2024efficient_kd} demonstrates that targeted data augmentation can reduce the student training compute by 60\% while preserving 95\% of the teacher's task-specific accuracy.
+The survey by \citet{xu2024kd_survey} highlights data augmentation (DA) as a central paradigm within \gls{kd} frameworks. When the student lacks sufficient coverage of the teacher's knowledge space, the teacher can generate synthetic training instances targeting specific skill gaps, the mechanism underlying the Phi family's success \citep{gunasekar2023phi1}. The efficient \gls{kd} approach of \citet{ballout2024efficient_kd} demonstrates that targeted data augmentation can reduce the student training compute by 60\% while preserving 95\% of the teacher's task-specific accuracy.
 
 \subsubsection{Self-Distillation}
 
-An emerging approach eliminates the external teacher entirely. \citet{fu2024dynamic_selfd} propose Dynamic Self-Distillation, in which the model uses its own predictions from previous mini-batches as soft targets during fine-tuning, providing a form of implicit regularization that reduces overfitting on small fine-tuning datasets—a critical challenge for \glspl{slm}.
+An emerging approach eliminates the external teacher entirely. \citet{fu2024dynamic_selfd} propose Dynamic Self-Distillation, in which the model uses its own predictions from previous mini-batches as soft targets during fine-tuning, providing a form of implicit regularization that reduces overfitting on small fine-tuning datasets, a critical challenge for \glspl{slm}.
 
 % ----------------------------------------------------------------
 \subsection{Quantization}
@@ -79,7 +79,7 @@ SqueezeLLM \citep{kim2024squeezellm} introduced sensitivity-based non-uniform qu
 \subsubsection{Quantization-Aware Training (QAT)}
 \glsunset{qat}
 
-QAT integrates simulated quantization into the training loop, allowing the model to learn weight values that are robust to quantization error. This is particularly valuable for aggressive quantization (2-bit, 3-bit) where \gls{ptq} accuracy drops unacceptably. \gls{qat} recovers a meaningful part of the accuracy that \gls{ptq} loses at the same bit-width, and the margin widens as bit-width falls, but it requires access to training data and significant compute---which is why it appears mainly in vendor pipelines with control of the full training stack, such as Apple's 2-bit on-device quantization \citep{gunter2025afm}.
+QAT integrates simulated quantization into the training loop, allowing the model to learn weight values that are robust to quantization error. This is particularly valuable for aggressive quantization (2-bit, 3-bit) where \gls{ptq} accuracy drops unacceptably. \gls{qat} recovers a meaningful part of the accuracy that \gls{ptq} loses at the same bit-width, and the margin widens as bit-width falls, but it requires access to training data and significant compute, which is why it appears mainly in vendor pipelines with control of the full training stack, such as Apple's 2-bit on-device quantization \citep{gunter2025afm}.
 
 \subsubsection{Quantization versus Pruning in the Sub-10B Regime}
 
@@ -99,7 +99,7 @@ Pruning by weights and activations (Wanda) \citep{sun2024wanda} proposes a simpl
 
 \subsubsection{Structured Pruning}
 
-Structured pruning removes entire attention heads, MLP channels, or transformer layers, yielding immediately deployable models without special sparsity libraries. Layer pruning—removing the least important layers as measured by cosine similarity between adjacent layer outputs—can remove a modest fraction of a model's depth with limited benchmark degradation, though the tolerable fraction falls sharply as the base model gets smaller. The Minitron pipeline \citep{minitron2024} applies depth and width pruning simultaneously, guided by importance scores derived from activation magnitudes over a calibration set, and is the best-documented instance of the approach at \gls{slm} scale.
+Structured pruning removes entire attention heads, MLP channels, or transformer layers, yielding immediately deployable models without special sparsity libraries. Layer pruning, which removes the least important layers as measured by cosine similarity between adjacent layer outputs, can remove a modest fraction of a model's depth with limited benchmark degradation, though the tolerable fraction falls sharply as the base model gets smaller. The Minitron pipeline \citep{minitron2024} applies depth and width pruning simultaneously, guided by importance scores derived from activation magnitudes over a calibration set, and is the best-documented instance of the approach at \gls{slm} scale.
 
 % ----------------------------------------------------------------
 \subsection{Combined Compression Pipelines}

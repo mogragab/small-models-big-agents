@@ -36,7 +36,7 @@ Section~\ref{subsec:reported_benchmarks}.
 \toprule
 \textbf{Model(s)} & \textbf{Developer} & \textbf{Primary source} & \textbf{Source type} \\
 \midrule
-TinyLlama-1.1B & --- & \citet{zhang2024tinyllama} & Technical report \\
+TinyLlama-1.1B & StatNLP / SUTD & \citet{zhang2024tinyllama} & Technical report \\
 SmolLM2-1.7B, -360M & Hugging Face & \citet{allal2025smollm2} & Technical report \\
 StableLM 2-1.6B & Stability AI & \citet{stabilityai2024stablelm} & Technical report \\
 Qwen2.5-0.5B/1.5B/3B/7B & Alibaba & \citet{qwen2024qwen25} & Technical report \\
@@ -124,4 +124,4 @@ For compression stress tests, the sources report SparseGPT~\citep{frantar2023spa
 
 \subsection{Human-Evaluation Conventions in the Source Literature}
 \label{subsec:appendix_human_eval}
-For subjective tasks such as summarization quality and instruction following, the reviewed sources that report human judgments typically rate outputs along three axes---\textbf{relevance}, \textbf{coherence}, and \textbf{factual accuracy}---on a 1--5 Likert scale, with model identity hidden from annotators and inter-annotator reliability reported via a Krippendorff-style coefficient. MT-Bench-style results substitute a strong \gls{llm} judge for human raters. Because these protocols differ across sources in rubric wording and judge model---and because per-model coverage is sparse---instruction-following and summarization are not tabulated in this review and are discussed only qualitatively.
+For subjective tasks such as summarization quality and instruction following, the reviewed sources that report human judgments typically rate outputs along three axes (\textbf{relevance}, \textbf{coherence}, and \textbf{factual accuracy}) on a 1--5 Likert scale, with model identity hidden from annotators and inter-annotator reliability reported via a Krippendorff-style coefficient. MT-Bench-style results substitute a strong \gls{llm} judge for human raters. Because these protocols differ across sources in rubric wording and judge model, and because per-model coverage is sparse, instruction-following and summarization are not tabulated in this review and are discussed only qualitatively.

@@ -6,21 +6,22 @@ landscape as it stands in 2026, and argue a position about where it is going. On
 the first, we cataloged 126 documented \gls{slm} variants under a four-dimensional taxonomy,
 tracked the 2025--2026 shift toward hybrid state-space architectures, unified
 reasoning models, and mobile-first multimodal families, reviewed the compression
-techniques specific to the sub-10B regime---where quantization consistently
-outperforms pruning \citep{kurz2025pruning_vs_quant}---and consolidated publicly
-audited the public evaluation record for an 18-model cohort and found that it
-does not currently support the cross-model accuracy comparison that surveys in
-this area routinely present.
+techniques specific to the sub-10B regime, where quantization consistently
+outperforms pruning \citep{kurz2025pruning_vs_quant}, and audited the public
+evaluation record for an 18-model cohort. That audit returned a negative result:
+the record does not currently support the cross-model accuracy comparison that
+surveys in this area routinely present.
 
 On the second: the ``less is more'' thesis is no longer only about efficiency. The
 consumer of language intelligence that is growing fastest is the AI agent, and the
 agent does not want a generalist. It issues many narrow, repetitive,
 format-constrained calls, and for those calls a small specialized model is
 sufficiently capable, 10--30$\times$ cheaper to serve, cheaper to adapt, and
-easier to hold to a code interface \citep{belcak2025slm_agentic}. The consolidated
-evidence in this paper supports each premise of that argument, and two
-production-scale deployments---Apple's on-device/server split and the
-routing-based systems surveyed in Section~\ref{sec:agentic}---already embody it.
+easier to hold to a code interface \citep{belcak2025slm_agentic}. The evidence
+reviewed here supports each premise of that argument, and Apple's
+on-device and server split \citep{gunter2025afm}, together with the routing
+systems surveyed in Section~\ref{sec:agentic}, already embodies it at production
+scale.
 The barriers that remain are those of sunk infrastructure, benchmark
 mis-measurement, and attention, not of capability.
 

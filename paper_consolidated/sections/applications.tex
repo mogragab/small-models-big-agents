@@ -8,8 +8,8 @@
 
 The domains below are where \gls{slm} deployment is most advanced, and each is an
 agentic setting in the sense of Section~\ref{sec:agentic}: a workflow of bounded,
-repeated language operations---extract a diagnosis code, classify a clause,
-complete a function, translate a passage---executed under regulatory or cost
+repeated language operations (extract a diagnosis code, classify a clause,
+complete a function, translate a passage) executed under regulatory or cost
 constraints that make a cloud frontier model impractical. Domain fine-tuning of a
 small model is the LLM-to-SLM conversion pipeline
 (Section~\ref{subsec:agentic_conversion}) applied to a vertical.
@@ -19,16 +19,16 @@ small model is the LLM-to-SLM conversion pipeline
 
 Healthcare \gls{nlp} presents unique requirements: high factual accuracy, interpretability, HIPAA/GDPR compliance, and compatibility with clinical workflows. Large general-purpose \glspl{llm} are increasingly restricted from processing identifiable patient data due to data residency regulations, creating a strong pull toward on-premises \glspl{slm}.
 
-The Meerkat family \citep{kim2025meerkat} demonstrates the potential of domain-specific \gls{slm} fine-tuning. Built on a 7B base with instruction fine-tuning on curated clinical QA data and chain-of-thought traces synthesized from medical textbooks, Meerkat-7B reports 70.6\% on MedQA (USMLE-style) and a 64.5\% average across six medical-licensing benchmarks---the first 7B model to clear the 60\% USMLE pass threshold, and well ahead of other open 7--8B models and GPT-3.5 (54.8\%), though still below GPT-4. The larger Meerkat-70B edges GPT-4 by roughly 1~point on the same average and matches it on a set of 38 complex clinical vignettes (21 vs.\ 21.8 correct), with both models well above the physician baseline. Either variant runs on a single A100 GPU rather than a multi-GPU cloud cluster.
+The Meerkat family \citep{kim2025meerkat} demonstrates the potential of domain-specific \gls{slm} fine-tuning. Built on a 7B base with instruction fine-tuning on curated clinical QA data and chain-of-thought traces synthesized from medical textbooks, Meerkat-7B reports 70.6\% on MedQA (USMLE-style) and a 64.5\% average across six medical-licensing benchmarks, making it the first 7B model to clear the 60\% USMLE pass threshold, and well ahead of other open 7--8B models and GPT-3.5 (54.8\%), though still below GPT-4. The larger Meerkat-70B edges GPT-4 by roughly 1~point on the same average and matches it on a set of 38 complex clinical vignettes (21 vs.\ 21.8 correct), with both models well above the physician baseline. Either variant runs on a single A100 GPU rather than a multi-GPU cloud cluster.
 
-OptimCLM \citep{hasan2024optimclm} applies the full compression pipeline---knowledge distillation, structured pruning, and 4-bit quantization---to clinical language models, reducing a 7B model to under 1B while preserving 95\% of its accuracy on ICD coding and discharge summary generation tasks. This makes clinical \gls{nlp} feasible on hospital workstations without GPU infrastructure.
+OptimCLM \citep{hasan2024optimclm} applies the full compression pipeline of knowledge distillation, structured pruning, and 4-bit quantization to clinical language models, reducing a 7B model to under 1B while preserving 95\% of its accuracy on ICD coding and discharge summary generation tasks. This makes clinical \gls{nlp} feasible on hospital workstations without GPU infrastructure.
 
 The broader \gls{slm} healthcare ecosystem includes domain-pretrained biomedical models in the 2--3B range, clinical note generation models, and radiology-specific models. A key trend is the use of \gls{rag} \citep{lewis2020rag} to anchor \gls{slm} outputs to verified clinical knowledge bases, reducing hallucination rates in patient-facing applications.
 
 \subsection{Legal NLP}
 \label{subsec:applications_legal}
 
-Legal document processing---contract review, compliance monitoring, regulatory change analysis, case law search---involves long, precisely structured documents where hallucination is particularly dangerous. \glspl{slm} address legal \gls{nlp} deployment constraints in two ways: (1)~by enabling on-premises deployment to satisfy attorney-client privilege and data security requirements; and (2)~by enabling cost-effective processing of the massive volumes of routine legal work that would be prohibitively expensive with frontier \glspl{llm}.
+Legal document processing, which covers contract review, compliance monitoring, regulatory change analysis, and case law search, involves long and precisely structured documents where hallucination is particularly dangerous. \glspl{slm} address legal \gls{nlp} deployment constraints in two ways: (1)~by enabling on-premises deployment to satisfy attorney-client privilege and data security requirements; and (2)~by enabling cost-effective processing of the massive volumes of routine legal work that would be prohibitively expensive with frontier \glspl{llm}.
 
 The argument for domain-adapted \glspl{slm} (3B--7B, fine-tuned on contract corpora) in this vertical is structural rather than empirical: contract review, compliance triage, and regulatory monitoring consist of bounded, highly repetitive classification and extraction operations over documents that frequently cannot leave the client's infrastructure, which is precisely the profile the conversion pipeline of Section~\ref{subsec:agentic_conversion} targets. Narrow fine-tuning on a specific regulatory regime concentrates in-domain knowledge that a generalist model must retrieve or infer. We note, however, that legal \gls{nlp} lacks the standardized public benchmarks that healthcare and code enjoy, so claims of parity with frontier models in this domain rest largely on vendor-reported pilot results that are not independently verifiable; establishing comparable legal-domain benchmarks is an open need.
 
@@ -50,7 +50,7 @@ Code-focused \glspl{slm} have matured into a category distinct from general \gls
 \subsection{Education and Multilingual NLP}
 \label{subsec:applications_multilingual}
 
-Multilingual \glspl{slm} address the linguistic coverage gap in AI assistants: the majority of \gls{llm} pre-training data is English, leaving speakers of lower-resource languages with significantly degraded performance. Aya~8B \citep{ustun2024aya} is fine-tuned on 204 million multilingual instructions spanning 101 languages, with strong performance across African, South Asian, and Southeast Asian languages that are severely underrepresented in standard benchmarks.
+Multilingual \glspl{slm} address the linguistic coverage gap in AI assistants: the majority of \gls{llm} pre-training data is English, leaving speakers of lower-resource languages with markedly worse performance. Aya~8B \citep{ustun2024aya} is fine-tuned on 204 million multilingual instructions spanning 101 languages, with strong performance across African, South Asian, and Southeast Asian languages that are severely underrepresented in standard benchmarks.
 
 Qwen2.5~7B \citep{qwen2024qwen25} is pre-trained on 18T tokens with strong multilingual coverage including Chinese, Japanese, Korean, Arabic, and multiple European languages, serving as the de facto open-weight \gls{slm} for multilingual enterprise deployments. Gemma~3's multilingual extension \citep{team2025gemma3} adds instruction-tuning data for 40+ languages at the 4B and 12B scales.
 
