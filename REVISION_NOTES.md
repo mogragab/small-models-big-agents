@@ -196,12 +196,53 @@ authority on inventory contents at any date.
 
 ---
 
+## Snapshot refresh, 5 September 2026
+
+After the revision above, the inventory was brought forward from its 2026-09-04
+state to 2026-09-05 and the paper regenerated from it. Two things changed the
+headline numbers.
+
+**The May-September 2026 release wave was added: 75 records.** Sources are
+OpenRouter's public model catalogue (retrieved 2026-09-05) for ids, dates,
+context lengths and Hugging Face ids, plus vendor announcements and model cards
+for parameter counts and licences. Fields no source states are null, not
+estimated. New entries include, at the small end, Granite 4.1 and 4.2 (3B/8B),
+LFM2.5 (230M through 8.3B-A1B), Hy-MT2 (1.8B, 7B) and Nemotron 3.5 Content
+Safety (4B); in the small-active-MoE band, Nemotron 3.5 Lightning (30B/3B),
+North Mini Code (30B/3B), Laguna XS 2.1 (33B/3B), Ling 3.0 Flash (124B/5.1B) and
+DeepSeek V4 Flash (284B/13B); and at the frontier, GPT-5.6 Sol/Terra/Luna and
+GPT-6 Astra, Claude Opus 4.8 / Fable 5 / Sonnet 5 / Opus 5 / Fable 5.1, the
+Gemini Flash line from 3.1 to 3.8, Grok 4.5/4.6, the Qwen3.7 and Qwen3.8 lines,
+GLM 5.2/5.3, Kimi K3, Meta's Muse Spark and Muse Glimmer 30B, and MAI-Thinking-1.
+
+**The inclusion rule was applied mechanically, which moved 64 records.** An audit
+against C1 and C2 found that the March 2026 merge had filed a large block of
+qualifying models outside the SLM inventory: Llama-2-7B, Llama-3-8B, Qwen2.5-14B,
+OLMo 2-7B, Pixtral-12B, Falcon 3, StarCoder and 57 others, none of them
+duplicates. Two 24B dense models (Mistral Small 3.1 and 3.2) had been filed
+inside it. Placement now derives from the rule rather than from the merge.
+
+The consequence is that the headline count moves from **126 to 215 SLM
+variants**: 183 satisfying both C1 and C2, 27 small-active-parameter MoE, and 5
+vendor-positioned small models with undisclosed parameters. Section 1.2 states
+the reconciliation in the paper itself rather than silently restating the
+number, and the released changelog lists the move per record. All 40 generated
+figures and both inventory tables were regenerated; the count was updated in the
+abstract, Section 1.1, Section 1.2, Section 1.5, the screening table, the
+conclusion and the appendix.
+
+Database version 3.4. Every record now carries `meets_c1_active_le_20b`,
+`meets_c2_total_le_20b` and `slm_class`, so a reader can recompute the inventory
+under a different threshold.
+
 ## Build status
 
 | | Pages | Undefined refs | Overfull boxes | References |
 |---|---|---|---|---|
-| `ACM-Journals/less-is-more.pdf` | 69 | 0 | 1 (1.0pt) | 149, all cited |
-| `paper_consolidated/paper.pdf` | 62 | 0 | 1 | 149, all cited |
+| `ACM-Journals/less-is-more.pdf` | 74 | 0 | 1 (1.0pt) | 149, all cited |
+| `paper_consolidated/paper.pdf` | 67 | 0 | 1 | 149, all cited |
+
+Inventory: 215 SLM + 224 LLM variants across 113 families, 439 records total.
 
 Fourteen references added (BFCL, Gorilla, ToolLLM, API-Bank, tau-bench,
 AgentBench, WebArena, GAIA, SWE-bench, guided generation, ThinkSLM, efficient

@@ -6,13 +6,13 @@ The landscape of \gls{nlp} has been reshaped by \glspl{llm}. Systems such as GPT
 \subsection{The Rise of Small Language Models}
 \label{subsec:intro_rise}
 
-Running against this trajectory is a counter-trend: \glspl{slm} that achieve disproportionately strong performance for their size. Section~\ref{subsec:intro_definition} fixes the definition we use throughout; informally, an \gls{slm} is an autoregressive language model small enough to be served on a single consumer accelerator, laptop, or phone. Where earlier compact models such as DistilBERT \citep{sanh2019distilbert} and TinyBERT \citep{jiao2020tinybert} were task-specific encoders, the current generation are general-purpose, instruction-following systems. The Chinchilla scaling analysis \citep{hoffmann2022chinchilla} showed that most large models were badly undertrained and that a smaller model given proportionally more data could match them; the Phi family then demonstrated that ``textbook-quality'' synthetic data lets a 3.8B model rival models an order of magnitude larger \citep{abdin2024phi3}, Gemma applied distillation from larger teachers \citep{gemma2024}, and Qwen2.5 pushed sub-7B training to 18~trillion tokens \citep{qwen2024qwen25}. MIT Technology Review named \glspl{slm} one of its 10 Breakthrough Technologies of 2025 \citep{mit2025breakthrough}. The 2025--2026 release wave adds hybrid state-space architectures \citep{falconh1_2025}, controllable-reasoning models \citep{qwen3_2025}, and mobile-first multimodal families \citep{gemma4_2026,gunter2025afm}. Figure~\ref{fig:cumulative_releases} shows the resulting acceleration: the cumulative count of documented open \gls{slm} variants has grown from a handful in 2023 to more than one hundred by early 2026.
+Running against this trajectory is a counter-trend: \glspl{slm} that achieve disproportionately strong performance for their size. Section~\ref{subsec:intro_definition} fixes the definition we use throughout; informally, an \gls{slm} is an autoregressive language model small enough to be served on a single consumer accelerator, laptop, or phone. Where earlier compact models such as DistilBERT \citep{sanh2019distilbert} and TinyBERT \citep{jiao2020tinybert} were task-specific encoders, the current generation are general-purpose, instruction-following systems. The Chinchilla scaling analysis \citep{hoffmann2022chinchilla} showed that most large models were badly undertrained and that a smaller model given proportionally more data could match them; the Phi family then demonstrated that ``textbook-quality'' synthetic data lets a 3.8B model rival models an order of magnitude larger \citep{abdin2024phi3}, Gemma applied distillation from larger teachers \citep{gemma2024}, and Qwen2.5 pushed sub-7B training to 18~trillion tokens \citep{qwen2024qwen25}. MIT Technology Review named \glspl{slm} one of its 10 Breakthrough Technologies of 2025 \citep{mit2025breakthrough}. The 2025--2026 release wave adds hybrid state-space architectures \citep{falconh1_2025}, controllable-reasoning models \citep{qwen3_2025}, and mobile-first multimodal families \citep{gemma4_2026,gunter2025afm}. Figure~\ref{fig:cumulative_releases} shows the resulting acceleration: the cumulative count of documented \gls{slm} variants has grown from one in 2022 to 215 by September 2026, with 43 of them released in 2026 alone.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{paper_combined_cumulative_releases.pdf}
-  \caption{Cumulative count of documented small (SLM) and large (LLM) language-model variants by release date, from the model inventory of Appendix~\ref{appendix:ecosystem} (snapshot September~2026). SLM releases accelerate sharply from mid-2024.}
-  \Description{Line chart of the cumulative number of documented small and large language model variants against release date from 2022 to early 2026. Both curves rise, but the small-model curve steepens sharply from mid-2024 and passes one hundred variants by early 2026.}
+  \caption{Cumulative count of documented small (SLM) and large (LLM) language-model variants by release date, from the model inventory of Appendix~\ref{appendix:ecosystem} (snapshot 5~September 2026). SLM releases accelerate sharply from mid-2024.}
+  \Description{Line chart of the cumulative number of documented small and large language model variants against release date from 2022 to September 2026. Both curves rise, but the small-model curve steepens sharply from mid-2024 and reaches 215 variants by September 2026.}
   \label{fig:cumulative_releases}
 \end{figure}
 
@@ -73,14 +73,27 @@ understates what it costs to put such a model on a device.
     memory, or on-device feasibility.
 \end{description}
 
-Of the 126 variants in the inventory (Appendix~\ref{appendix:ecosystem}), 13
-report a distinct active-parameter count and 6 of those exceed the C2 threshold
-on total parameters; the latter 6 are the small-active-parameter \gls{moe} group.
-The 18-model cohort whose public evaluation record is examined in
-Section~\ref{sec:reported} is a strict subset of the models satisfying both C1
-and C2, and is further restricted to below 10B total parameters with Phi-4 (14B)
-retained as a single upper-bound reference, because that is the band in which
-comparable public reporting actually exists.
+Of the 215 variants in the inventory (Appendix~\ref{appendix:ecosystem}), 183
+satisfy both C1 and C2 and are \glspl{slm} without qualification; 27 report an
+active-parameter count at or below the threshold against a total above it and
+are the small-active-parameter \gls{moe} group; and 5 are vendor-positioned
+small models whose parameter counts are not published at all, retained on the
+vendor's own positioning and marked as undisclosed rather than assumed. The
+18-model cohort whose public evaluation record is examined in
+Section~\ref{sec:reported} is a strict subset of the 183, and is further
+restricted to below 10B total parameters with Phi-4 (14B) retained as a single
+upper-bound reference, because that is the band in which comparable public
+reporting actually exists.
+
+One point about the count needs stating, because it changed during revision.
+Earlier drafts reported 126 variants. That figure reflected how records had been
+filed in the inventory rather than the inclusion rule as stated: an audit
+against C1 and C2 found 64 models that meet the rule, among them Llama-2-7B,
+Llama-3-8B, Qwen2.5-14B, OLMo~2-7B, Pixtral-12B, and Falcon~3, filed outside the
+\gls{slm} inventory, and two 24B dense models (Mistral Small 3.1 and 3.2) filed
+inside it. Placement is now derived from the rule rather than inherited, which
+is what takes the count to 215. The released inventory records the move
+per-record in its changelog, so the two counts can be reconciled exactly.
 
 \subsubsection{Reporting Dimensions}
 \label{subsubsec:intro_def_dimensions}
@@ -94,20 +107,20 @@ gives the coverage rates.
 
 \begin{table}[t]
 \centering
-\caption{Reporting dimensions for a small language model, the deployment question each answers, and the coverage achieved across the 126-variant inventory. ``Derived'' means the value follows arithmetically from others rather than being reported.}
+\caption{Reporting dimensions for a small language model, the deployment question each answers, and the coverage achieved across the 215-variant inventory. ``Derived'' means the value follows arithmetically from others rather than being reported.}
 \label{tab:reporting_dimensions}
 \footnotesize\adjustbox{max width=\linewidth}{%
 \begin{tabular}{@{}lllc@{}}
 \toprule
 \textbf{Dimension} & \textbf{Question it answers} & \textbf{Bounds} & \textbf{Inventory coverage} \\
 \midrule
-Total parameters            & How large is the download? & C2 & 126/126 \\
-Active parameters per token & What does one token cost? & C1 & 13/126 reported; else $=$ total \\
+Total parameters            & How large is the download? & C2 & 210/215 \\
+Active parameters per token & What does one token cost? & C1 & 35/215 stated; else $=$ total \\
 Weight memory at a precision & Will the weights fit? & C2 & Derived \\
 Peak runtime memory          & Will it fit while running? & C2 & Not reported by vendors \\
 FLOPs per token             & Compute cost per token & C1 & Derived (approximate) \\
 KV-cache size per token     & Cost of long context & C1, C2 & Derived from head config \\
-Context length              & Largest usable input & --- & 104/126 \\
+Context length              & Largest usable input & --- & 142/215 \\
 Target hardware             & What did the vendor test on? & --- & Vendor-stated only \\
 \bottomrule
 \end{tabular}%
@@ -188,7 +201,7 @@ the end-to-end claim.
 Existing \gls{slm} surveys \citep{lu2024slmsurvey,vannguyen2024slm_survey,wang2024comprehensive,srivastava2025thinkslm} provide taxonomies and measurements but either predate the 2025--2026 model wave or treat agentic deployment only in passing; agentic position pieces \citep{belcak2025slm_agentic} make the argument but do not ground it in a consolidated capability-and-deployment review. This paper joins the two. Its contributions are:
 
 \begin{description}
-  \item[Landscape and taxonomy] A catalog of 126 documented \gls{slm} variants (2022--2026), including the recent hybrid, reasoning, and mobile-multimodal families, organized under a multi-label faceted taxonomy (Section~\ref{sec:taxonomy} and Appendix~\ref{appendix:ecosystem}), with a machine-readable release (Section~\ref{subsec:intro_artifacts}).
+  \item[Landscape and taxonomy] A catalog of 215 documented \gls{slm} variants (2022--2026), including the recent hybrid, reasoning, and mobile-multimodal families, organized under a multi-label faceted taxonomy (Section~\ref{sec:taxonomy} and Appendix~\ref{appendix:ecosystem}), with a machine-readable release (Section~\ref{subsec:intro_artifacts}).
   \item[Compression review] A synthesis of distillation, quantization, pruning, and compound pipelines for the sub-10B regime, with the reduction achieved reported separately along parameter count, memory, training compute, and latency rather than collapsed into a single ratio, including the finding that quantization consistently outperforms pruning below 4B parameters \citep{kurz2025pruning_vs_quant} (Section~\ref{sec:compression}).
   \item[An audit of the public evaluation record] An examination of what the public reporting record can actually support for an 18-model cohort, and the finding that a cross-model accuracy comparison cannot be assembled from it without misrepresenting the sources, because vendors report non-intersecting benchmark sets, differing shot counts per benchmark, inconsistently labelled base and instruction-tuned checkpoints, and few matched baselines (Section~\ref{sec:reported}, Appendix~\ref{app:provenance}).
   \item[Deployment ecosystem] A survey of inference frameworks, quantization formats, and on-device platforms from Raspberry~Pi to Apple silicon, with calculated and measured quantities kept apart (Section~\ref{sec:deployment}).
@@ -314,7 +327,7 @@ Excluded at title/abstract screening               & \needsnum & \needsnum \\
 \quad reason: off-topic on screening               & \needsnum & ---       \\
 Read in full                                       & \needsnum & \needsnum \\
 Excluded at full-text stage                        & \needsnum & \needsnum \\
-\textbf{Retained}                                  & \needsnum & \textbf{126} \\
+\textbf{Retained}                                  & \needsnum & \textbf{215} \\
 \bottomrule
 \end{tabular}%
 }
@@ -341,8 +354,8 @@ Section~\ref{subsubsec:intro_snapshot} checkable rather than merely promised.
 \subsubsection{Snapshot and Update Policy}
 \label{subsubsec:intro_snapshot}
 
-This paper reports the state of the record as of 4~September 2026, with model
-releases through 31~August 2026. The field moves faster than a journal review
+This paper reports the state of the record as of 5~September 2026, with model
+releases through 4~September 2026. The field moves faster than a journal review
 cycle, so we state in advance how the snapshot is maintained. Releases appearing
 between submission and acceptance are added to the released inventory, with their
 addition recorded in the changelog, and are discussed in the text only where they

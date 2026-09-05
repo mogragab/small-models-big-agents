@@ -189,7 +189,7 @@ feasibility, storage, and resident memory. Models such as Granite~4.0 Tiny
 ($\sim$7B total, $\sim$1B active) satisfy both conditions and are \glspl{slm}
 without qualification.
 
-Dense models still dominate the inventory numerically (Figure~\ref{fig:moe_vs_dense}). The 13 inventory entries reporting a distinct active-parameter count carry a much larger median total-parameter count at comparable per-token cost, and 6 of them exceed the total-parameter threshold.
+Dense models still dominate the inventory numerically (Figure~\ref{fig:moe_vs_dense}), but the small-active-parameter design is where the 2026 releases concentrated: 27 of the 215 inventory entries now activate at most 20B parameters against a larger total, up from a handful two years earlier. Nemotron 3.5 Lightning (30B total, 3B active), Cohere's North Mini Code (30B/3B), Poolside's Laguna XS 2.1 (33B/3B), inclusionAI's Ling 3.0 Flash (124B/5.1B), and DeepSeek V4 Flash (284B/13B) all appeared between June and August 2026. Each has the per-token economics of a 3--13B model and the storage and residency economics of something an order of magnitude larger, which is precisely the split C1 and C2 exist to keep visible.
 
 \begin{figure}[t]
   \centering
