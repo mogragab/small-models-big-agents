@@ -31,6 +31,45 @@
 \newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 
+%% -------------------------------------------------------------------------
+%% Author-supplied placeholders.
+%%
+%% \needsdata{...} and \needsnum mark values that must be transcribed from the
+%% released screening ledger and the archival deposit before submission. They
+%% render conspicuously so that none can be overlooked. Setting \needsdatafinal
+%% to true turns them into a hard build error, which is the intended state for
+%% the camera-ready build.
+%% -------------------------------------------------------------------------
+\newif\ifneedsdatafinal
+\needsdatafinalfalse
+\newcommand{\needsdata}[1]{%
+  \ifneedsdatafinal
+    \GenericError{}{Unfilled placeholder: #1}{}{}%
+  \else
+    \textbf{\textsf{[TO SUPPLY: #1]}}%
+  \fi
+}
+\newcommand{\needsnum}{\needsdata{count}}
+
+%% -------------------------------------------------------------------------
+%% Evidence grading (Section 7.1.6). Each grade denotes the strongest kind of
+%% source standing behind a claim, not the claim's importance.
+%% -------------------------------------------------------------------------
+% \textnormal resets any surrounding italic/bold before applying small caps, so
+% the grade renders in every context (including inside \emph and table headers)
+% without requesting a small-caps-italic shape that the text fonts lack.
+\newcommand{\evgrade}[1]{\textnormal{\textsc{\small #1}}}
+\newcommand{\evA}{\evgrade{A}}   % controlled: one harness, matched baselines
+\newcommand{\evB}{\evgrade{B}}   % independent third-party evaluation
+\newcommand{\evC}{\evgrade{C}}   % vendor self-reported
+\newcommand{\evD}{\evgrade{D}}   % author interpretation / synthesis
+
+%% \file{...} typesets a filename in typewriter and permits a line break after
+%% each underscore, which plain \texttt does not; long script and dataset names
+%% otherwise overrun the column.
+\newcommand{\file}[1]{{\ttfamily\hyphenchar\font=-1
+  \def\_{\char`\_\allowbreak}#1}}
+
 \graphicspath{{figures/}}
 
 \input{abbreviations}
@@ -39,19 +78,19 @@
 %% Rights / journal metadata (placeholder values -- replace on submission)
 %% -------------------------------------------------------------------------
 \AtBeginDocument{\providecommand\BibTeX{{Bib\TeX}}}
-\setcopyright{acmlicensed}
+%% No licence has been granted yet, so none is asserted on the review build.
+%% Switch to \setcopyright{acmlicensed} once the ACM rights form is completed.
+\setcopyright{none}
 \copyrightyear{2026}
 \acmYear{2026}
-\acmDOI{XXXXXXX.XXXXXXX}
+%% The DOI, volume, number, article number, and the revised/accepted dates are
+%% assigned by ACM at acceptance. Until then acmart's "unpublished" defaults are
+%% used, which suppress the fabricated-looking XXXXXXX placeholders in the
+%% footer, and no revision or acceptance date is claimed.
 \acmJournal{CSUR}
-\acmVolume{1}
-\acmNumber{1}
-\acmArticle{1}
 \acmMonth{9}
 
 \received{4 September 2026}
-\received[revised]{XX XXXX 2026}
-\received[accepted]{XX XXXX 2026}
 
 %% -------------------------------------------------------------------------
 %% Front matter
@@ -116,31 +155,38 @@
   their cost, memory footprint, and latency are a poor match for the
   fastest-growing consumer of language intelligence: the AI agent, which issues
   many narrow, repetitive, well-specified model calls rather than a few
-  open-ended ones. Small language models (SLMs), meaning decoder-only or hybrid
-  transformers of roughly twenty billion parameters or fewer, counting active
-  parameters for mixture-of-experts models, have closed much of the capability
-  gap through knowledge distillation, synthetic-data curation, and post-training
-  quantization. This article is both a survey and a position statement. We
-  catalog 126 documented SLM variants (2022--2026), including the 2025--2026
-  hybrid state-space, unified-reasoning, and mobile-first multimodal families,
-  and organize them along a four-dimensional taxonomy of \emph{architecture},
-  \emph{training strategy}, \emph{modality}, and \emph{application domain}. We
-  review compression for the sub-10B regime, where quantization consistently
-  outperforms pruning. We then audit the public evaluation record for an 18-model
-  cohort and report a negative result that bears on how the field compares these
-  models: a cross-model accuracy table cannot be assembled from current public
+  open-ended ones. Small language models (SLMs) have closed much of the
+  capability gap through knowledge distillation, synthetic-data curation, and
+  post-training quantization. This article is both a survey and a position
+  statement, and it fixes a definition the literature currently leaves loose: an
+  SLM is a decoder-only or hybrid transformer bounded at roughly twenty billion
+  parameters on \emph{both} active parameters per token, which governs latency and
+  energy, and total parameters, which governs storage and resident memory. Models
+  meeting only the first bound are distinguished as small-active-parameter
+  mixtures of experts and excluded from on-device claims. We catalog 126
+  documented SLM variants (2022--2026), including the 2025--2026 hybrid
+  state-space, unified-reasoning, and mobile-first multimodal families, under a
+  multi-label faceted taxonomy, and release the inventory in machine-readable
+  form. We review compression for the sub-10B regime, reporting what each
+  technique reduces along five separate axes rather than as one ratio, and
+  finding that quantization outperforms pruning below 4B parameters. We then
+  audit the public evaluation record for an 18-model cohort and report a negative
+  result: a cross-model accuracy table cannot be assembled from current public
   reporting without misrepresenting its sources, because vendors report
   non-intersecting benchmark sets, shot counts that differ per benchmark and per
   vendor, base and instruction-tuned figures that are routinely conflated, and few
-  matched baselines. On the evidence that does hold we argue that SLMs are the
-  substrate of agentic AI: capable enough for
-  the sub-tasks agents delegate, roughly 10--30$\times$ cheaper to serve, cheaper
-  to specialize, and easier to constrain to tool interfaces. We survey
-  heterogeneous SLM--LLM routing and the LLM-to-SLM conversion pipeline, and close
-  with the open problems that stand between the present and that future:
-  reasoning under parameter constraints, hallucination, hardware co-design,
-  fairness under compression, and the construction of an evaluation base this
-  field does not yet have.
+  matched baselines. Against that record we state the agentic case as a
+  conditional hypothesis rather than a universal claim: for calls that are
+  bounded, recurrent, short-context, and cheaply verifiable, a specialized SLM is
+  the appropriate default execution substrate, with a frontier model on
+  escalation. We grade the evidence for each premise using function-calling,
+  tool-use, structured-output, and end-to-end agent benchmarks rather than
+  general model scores, finding it strong at the level of the individual call and
+  absent at the level of cost per completed task, and we state the workload
+  classes for which the hypothesis fails. We survey heterogeneous SLM--LLM routing
+  and the LLM-to-SLM conversion pipeline, and close with the open problems and a
+  specification of the six experiments that would supply the controlled evidence
+  this field does not yet have.
 \end{abstract}
 
 %%

@@ -293,14 +293,6 @@
   url          = {https://mistral.ai/news/codestral}
 }
 
-@misc{allal2024smollm,
-  author    = {Loubna Ben Allal and Anton Lozhkov and Elie Bakouch and Gabriel Martín Blanco and Lewis Tunstall and Agustín Piqueres Lajarín and Andrés Marafioti and Cyril Zakka and Leandro von Werra and Thomas Wolf},
-  title     = {{SmolLM2}: Small Language Models With Exceptional Reasoning},
-  howpublished   = {arXiv:2502.02737},
-  year      = {2025},
-  url       = {https://arxiv.org/abs/2502.02737}
-}
-
 @misc{allal2025smollm2,
   title={{SmolLM2}: When Smol Goes Big -- Data-Centric Training of a Small Language Model},
   author={Allal, Loubna Ben and Lozhkov, Anton and Penedo, Guilherme and others},
@@ -1250,3 +1242,137 @@
   url       = {https://openreview.net/forum?id=iO4LZibEqW}
 }
 
+
+% ============================================================
+% Agent-specific evaluation: function calling, tool use,
+% structured output, end-to-end agent benchmarks.
+% Added in response to peer review (September 2026).
+% ============================================================
+
+@inproceedings{patil2025bfcl,
+  author    = {Shishir G. Patil and Huanzhi Mao and Fanjia Yan and Charlie Cheng-Jie Ji and Vishnu Suresh and Ion Stoica and Joseph E. Gonzalez},
+  title     = {The {Berkeley} Function Calling Leaderboard ({BFCL}): From Tool Use to Agentic Evaluation of Large Language Models},
+  booktitle = {Proceedings of the 42nd International Conference on Machine Learning (ICML)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {267},
+  year      = {2025},
+  url       = {https://proceedings.mlr.press/v267/patil25a.html},
+  publisher = {PMLR}
+}
+
+@misc{patil2023gorilla,
+  author    = {Shishir G. Patil and Tianjun Zhang and Xin Wang and Joseph E. Gonzalez},
+  title     = {{Gorilla}: Large Language Model Connected with Massive {APIs}},
+  howpublished = {arXiv:2305.15334},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2305.15334}
+}
+
+@inproceedings{qin2024toolllm,
+  author    = {Yujia Qin and Shihao Liang and Yining Ye and Kunlun Zhu and Lan Yan and Yaxi Lu and Yankai Lin and Xin Cong and Xiangru Tang and Bill Qian and Sihan Zhao and Lauren Hong and Runchu Tian and Ruobing Xie and Jie Zhou and Mark Gerstein and Dahai Li and Zhiyuan Liu and Maosong Sun},
+  title     = {{ToolLLM}: Facilitating Large Language Models to Master 16000+ Real-World {APIs}},
+  booktitle = {Proceedings of the 12th International Conference on Learning Representations (ICLR)},
+  year      = {2024},
+  url       = {https://arxiv.org/abs/2307.16789},
+  address   = {Vienna, Austria}
+}
+
+@inproceedings{li2023apibank,
+  author    = {Minghao Li and Yingxiu Zhao and Bowen Yu and Feifan Song and Hangyu Li and Haiyang Yu and Zhoujun Li and Fei Huang and Yongbin Li},
+  title     = {{API-Bank}: A Comprehensive Benchmark for Tool-Augmented {LLMs}},
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  pages     = {3102--3116},
+  year      = {2023},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2023.emnlp-main.187},
+  url       = {https://aclanthology.org/2023.emnlp-main.187/}
+}
+
+@misc{yao2024taubench,
+  author    = {Shunyu Yao and Noah Shinn and Pedram Razavi and Karthik Narasimhan},
+  title     = {{$\tau$-bench}: A Benchmark for Tool-Agent-User Interaction in Real-World Domains},
+  howpublished = {arXiv:2406.12045},
+  year      = {2024},
+  url       = {https://arxiv.org/abs/2406.12045}
+}
+
+@inproceedings{liu2024agentbench,
+  author    = {Xiao Liu and Hao Yu and Hanchen Zhang and Yifan Xu and Xuanyu Lei and Hanyu Lai and Yu Gu and Hangliang Ding and Kaiwen Men and Kejuan Yang and Shudan Zhang and Xiang Deng and Aohan Zeng and Zhengxiao Du and Chenhui Zhang and Sheng Shen and Tianjun Zhang and Yu Su and Huan Sun and Minlie Huang and Yuxiao Dong and Jie Tang},
+  title     = {{AgentBench}: Evaluating {LLMs} as Agents},
+  booktitle = {Proceedings of the 12th International Conference on Learning Representations (ICLR)},
+  year      = {2024},
+  url       = {https://arxiv.org/abs/2308.03688},
+  address   = {Vienna, Austria}
+}
+
+@inproceedings{zhou2024webarena,
+  author    = {Shuyan Zhou and Frank F. Xu and Hao Zhu and Xuhui Zhou and Robert Lo and Abishek Sridhar and Xianyi Cheng and Tianyue Ou and Yonatan Bisk and Daniel Fried and Uri Alon and Graham Neubig},
+  title     = {{WebArena}: A Realistic Web Environment for Building Autonomous Agents},
+  booktitle = {Proceedings of the 12th International Conference on Learning Representations (ICLR)},
+  year      = {2024},
+  url       = {https://arxiv.org/abs/2307.13854},
+  address   = {Vienna, Austria}
+}
+
+@inproceedings{mialon2024gaia,
+  author    = {Gr\'{e}goire Mialon and Cl\'{e}mentine Fourrier and Craig Swift and Thomas Wolf and Yann LeCun and Thomas Scialom},
+  title     = {{GAIA}: A Benchmark for General {AI} Assistants},
+  booktitle = {Proceedings of the 12th International Conference on Learning Representations (ICLR)},
+  year      = {2024},
+  url       = {https://arxiv.org/abs/2311.12983},
+  address   = {Vienna, Austria}
+}
+
+@inproceedings{jimenez2024swebench,
+  author    = {Carlos E. Jimenez and John Yang and Alexander Wettig and Shunyu Yao and Kexin Pei and Ofir Press and Karthik Narasimhan},
+  title     = {{SWE-bench}: Can Language Models Resolve Real-World {GitHub} Issues?},
+  booktitle = {Proceedings of the 12th International Conference on Learning Representations (ICLR)},
+  year      = {2024},
+  url       = {https://arxiv.org/abs/2310.06770},
+  address   = {Vienna, Austria}
+}
+
+@misc{willard2023guided,
+  author    = {Brandon T. Willard and R\'{e}mi Louf},
+  title     = {Efficient Guided Generation for Large Language Models},
+  howpublished = {arXiv:2307.09702},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2307.09702}
+}
+
+% ============================================================
+% Additional 2024--2026 surveys used for the related-work
+% snapshot and update policy. Added in response to peer review.
+% ============================================================
+
+@misc{srivastava2025thinkslm,
+  author    = {Gaurav Srivastava and Shuxiang Cao and Xuan Wang},
+  title     = {Towards Reasoning Ability of Small Language Models},
+  howpublished = {arXiv:2502.11569},
+  year      = {2025},
+  url       = {https://arxiv.org/abs/2502.11569}
+}
+
+@misc{feng2025efficient_reasoning_survey,
+  author    = {Sicheng Feng and Gongfan Fang and Xinyin Ma and Xinchao Wang},
+  title     = {Efficient Reasoning Models: A Survey},
+  howpublished = {arXiv:2504.10903},
+  year      = {2025},
+  url       = {https://arxiv.org/abs/2504.10903}
+}
+
+@misc{chen2024mas_survey,
+  author    = {Shuaihang Chen and Yuanxing Liu and Wei Han and Weinan Zhang and Ting Liu},
+  title     = {A Survey on {LLM}-Based Multi-Agent System: Recent Advances and New Frontiers in Application},
+  howpublished = {arXiv:2412.17481},
+  year      = {2024},
+  url       = {https://arxiv.org/abs/2412.17481}
+}
+
+@misc{aryabumi2024aya23,
+  author    = {Viraat Aryabumi and John Dang and Dwarak Talupuru and Saurabh Dash and David Cairuz and Hangyu Lin and Bharat Venkitesh and Madeline Smith and Jon Ander Campos and Yi Chern Tan and Kelly Marchisio and Max Bartolo and Sebastian Ruder and Acyr Locatelli and Julia Kreutzer and Nick Frosst and Aidan Gomez and Phil Blunsom and Marzieh Fadaee and Ahmet {\"U}st{\"u}n and Sara Hooker},
+  title     = {{Aya} 23: Open Weight Releases to Further Multilingual Progress},
+  howpublished = {arXiv:2405.15032},
+  year      = {2024},
+  url       = {https://arxiv.org/abs/2405.15032}
+}

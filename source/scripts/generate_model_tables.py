@@ -538,7 +538,7 @@ def build_inventory_table(
             r"{\scriptsize",
             r"\setlength{\tabcolsep}{4pt}",
             r"\renewcommand{\arraystretch}{1.15}",
-            r"\begin{longtable}{@{}L{3.5cm}C{1.1cm}L{1.8cm}C{1.2cm}L{2.1cm}L{2.5cm}C{1.7cm}L{4.5cm}@{}}",
+            r"\begin{longtable}{@{}L{3.3cm}C{1.05cm}L{1.75cm}C{1.15cm}L{2.25cm}L{2.4cm}C{1.6cm}L{3.9cm}@{}}",
             rf"\caption{{Generated chronological {title} inventory from \texttt{{{latex_escape(source_name)}}}, grouped by release year and family.}}\label{{{label}}}\\",
             r"\toprule",
             r"\textbf{Model} & \textbf{Access} & \textbf{Params} & \textbf{Context} & \textbf{Modalities} & \textbf{License} & \textbf{Release} & \textbf{Notes} \\ \midrule",

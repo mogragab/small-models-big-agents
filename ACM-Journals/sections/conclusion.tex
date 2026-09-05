@@ -3,27 +3,36 @@
 
 This paper set out to do two things at once: survey the small-language-model
 landscape as it stands in 2026, and argue a position about where it is going. On
-the first, we cataloged 126 documented \gls{slm} variants under a four-dimensional taxonomy,
-tracked the 2025--2026 shift toward hybrid state-space architectures, unified
-reasoning models, and mobile-first multimodal families, reviewed the compression
-techniques specific to the sub-10B regime, where quantization consistently
-outperforms pruning \citep{kurz2025pruning_vs_quant}, and audited the public
-evaluation record for an 18-model cohort. That audit returned a negative result:
-the record does not currently support the cross-model accuracy comparison that
-surveys in this area routinely present.
+the first, we fixed a two-condition definition that separates the per-token cost
+of a model from its residency cost, cataloged 126 documented \gls{slm} variants
+under a multi-label faceted taxonomy, tracked the 2025--2026 shift toward hybrid
+state-space architectures, unified reasoning models, and mobile-first multimodal
+families, reviewed the compression techniques specific to the sub-10B regime,
+where quantization outperforms pruning \citep{kurz2025pruning_vs_quant}, and
+audited the public evaluation record for an 18-model cohort. That audit returned
+a negative result: the record does not currently support the cross-model accuracy
+comparison that surveys in this area routinely present.
 
-On the second: the ``less is more'' thesis is no longer only about efficiency. The
-consumer of language intelligence that is growing fastest is the AI agent, and the
-agent does not want a generalist. It issues many narrow, repetitive,
-format-constrained calls, and for those calls a small specialized model is
-sufficiently capable, 10--30$\times$ cheaper to serve, cheaper to adapt, and
-easier to hold to a code interface \citep{belcak2025slm_agentic}. The evidence
-reviewed here supports each premise of that argument, and Apple's
+On the second: the ``less is more'' thesis is no longer only about efficiency,
+and it is not a universal claim. The consumer of language intelligence that is
+growing fastest is the AI agent, and for a large share of what an agent
+delegates, a generalist is the wrong instrument. Where a call is bounded,
+recurrent, short-context, and cheaply verifiable, a small specialized model is
+sufficiently capable, substantially cheaper to serve, cheaper to adapt, and
+easier to hold to a code interface \citep{belcak2025slm_agentic}. Where it is
+not, and the counterexamples of
+Section~\ref{subsec:agentic_counterexamples} are neither few nor transitional,
+a frontier model remains the right choice. The evidence assembled here supports
+the premises unevenly, and we have graded them rather than averaging over them:
+independent leaderboards support per-call competence at this size, and no
+published study measures cost per completed task for a small-model agent against
+a large-model one, which is the measurement the economic premise turns on. Apple's
 on-device and server split \citep{gunter2025afm}, together with the routing
-systems surveyed in Section~\ref{sec:agentic}, already embodies it at production
-scale.
-The barriers that remain are those of sunk infrastructure, benchmark
-mis-measurement, and attention, not of capability.
+systems surveyed in Section~\ref{sec:agentic}, embodies the heterogeneous design
+at production scale.
+The barriers that remain are those of sunk infrastructure, measurement, and
+attention, and the measurement barrier is the one this paper finds to be a real
+evidential gap rather than only a misdirected emphasis.
 
 The work ahead is concrete. Below roughly 3B parameters, task-specific
 adaptation stops being optional and becomes a precondition for reliable
@@ -32,8 +41,12 @@ reasoning gap;
 hallucination is worse at small scale; compression can amplify bias; hardware and
 model architecture are still designed separately; and the consolidated evidence
 base needs controlled verification of the handful of claims that practitioners
-most depend on (Section~\ref{sec:challenges}). None of these is a reason to wait.
-The future of applied \gls{nlp} is not one frontier model answering every query through
-a cloud API. It is a fabric of small, specialized, mostly on-device models doing
-the ordinary work, calling a large model only when the task genuinely demands it.
-In that architecture, less is not a limitation. It is the design.
+most depend on (Section~\ref{sec:challenges}). None of these is a reason to wait,
+and the six experiments specified in
+Section~\ref{subsec:challenges_verification} are the shortest route from a survey
+of what has been reported to a body of what has been established.
+The future of applied \gls{nlp} is not one frontier model answering every query
+through a cloud API, and neither is it small models everywhere. It is a fabric of
+small, specialized, mostly on-device models doing the ordinary work, calling a
+large model on the planning, the long-context synthesis, and the calls nobody can
+check. In that architecture, less is not a limitation. It is the design.

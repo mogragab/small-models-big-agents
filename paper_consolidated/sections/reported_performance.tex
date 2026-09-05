@@ -66,7 +66,27 @@ Phi-4 & 14.0B & 40 & 5,120 & GQA & 16K & 100K & $\sim$10T \\
 \bottomrule
 \end{tabular}%
 }\par\vskip 4pt\relax
-{\raggedright \small \textit{Note:} MHA = Multi-Head Attention; \gls{gqa} = Grouped-Query Attention (Q/KV heads); GQA-LG = \gls{gqa} with local--global interleaving. Training-token counts are reported or estimated values from each model's official technical report or model card.\par}
+{\raggedright \small \textit{Note:} MHA = Multi-Head Attention; \gls{gqa} = Grouped-Query Attention (Q/KV heads); GQA-LG = \gls{gqa} with local--global interleaving. Every model in this cohort is dense, so total and active parameters coincide and a single parameter column suffices; no small-active-parameter \gls{moe} model (Section~\ref{subsubsec:intro_def_terms}) is in the cohort, because none has public reporting complete enough to include.
+
+\textit{On training-token counts.} These are the least reliable column in the
+table, and their status differs by row. Marked \emph{per-variant} where the
+source states a figure for that specific size: Gemma~2-2B (2.0T), Gemma~2-9B
+(8.0T), Gemma~3-1B (2.0T), Gemma~3-4B (4.0T), Phi-3-mini (3.3T), Phi-3.5-mini
+(3.4T), Phi-4-mini (5.0T), TinyLlama (3.0T), SmolLM2-1.7B (11.0T), StableLM~2
+(2.0T). Marked \emph{series-level} where the source reports one figure for the
+whole family and the individual sizes are not separately stated: Qwen2.5
+(18.0T across 0.5B--7B) and Llama~3.2 (9.0T across 1B and 3B). Phi-4's
+${\sim}10$T is an approximation given as such by its source. Mistral~7B's
+training-token count is not disclosed. We report series-level figures in the
+size rows they cover rather than omitting them, but they should not be read as
+independent per-model measurements, and no claim in this paper relies on
+comparing a series-level figure against a per-variant one.
+
+\textit{On context length.} The value is the maximum the primary source
+documents, which for several models is reached through position interpolation at
+inference rather than trained natively: Qwen2.5-7B is natively 32K and extended
+to 128K, and Phi-3-mini's 128K is a separate long-context checkpoint from the 4K
+base.\par}
 \end{table}
 
 \subsubsection{Benchmark Tasks and Metrics}
@@ -85,10 +105,30 @@ choice, exact match or F1 for question answering, pass@1 for code, exact match
 for \gls{gsm8k}, and symbolic equivalence for MATH. Instruction-following
 (MT-Bench-style \citep{zheng2023mtbench}) and summarization are reported too
 sparsely and too heterogeneously to compare at all, and the conventions behind
-them are described in Appendix~\ref{subsec:appendix_human_eval}. Which of these
-benchmarks any given vendor reports, and under how many shots, varies enough to
-prevent a common table; Section~\ref{subsec:reported_overall} sets out that
-finding in detail.
+them are described in Appendix~\ref{subsec:appendix_human_eval}. Section~\ref{subsec:reported_agentic_gap}
+takes up separately the question of whether any of these benchmarks bears on
+agentic suitability.
+
+Four conditions determine what a benchmark number means, and a source that omits
+any of them has not reported a comparable result. \emph{Benchmark version:}
+\gls{mmlu} exists in the original and in MMLU-Pro, ARC in Easy and Challenge
+splits, GSM8K in original and GSM8K-Platinum revisions, and HumanEval in the
+original and HumanEval+ forms, and these are not interchangeable.
+\emph{Prompt template:} whether the model's own chat template is applied,
+whether options are lettered or restated, and whether a system prompt is present.
+\emph{Answer extraction:} whether a multiple-choice answer is scored by
+comparing per-option log-likelihoods or by parsing a generated letter, which can
+differ by several points on the same model and benchmark, and for
+chain-of-thought tasks, which span of the generation is taken as the answer.
+\emph{Decoding settings:} greedy versus sampled, temperature, and for pass@$k$
+the number of samples. \emph{Harness:} the framework and its version, most often
+\texttt{lm-evaluation-harness} \citep{gao2023harness} or HELM
+\citep{liang2023helm}, each with its own defaults for all of the above.
+
+The coverage of these five conditions across the reviewed sources is what
+Section~\ref{subsec:reported_overall} reports on, and it is poor. Which
+benchmarks a vendor reports, in which version, under how many shots, and with
+which extraction rule varies enough to prevent a common table.
 
 \subsubsection{Hardware and Quantization Scope}
 \label{subsec:reported_hardware}
@@ -145,6 +185,69 @@ materially differed from the setting used by at least half the compared models
 and could not be normalized; or (c)~the source did not specify base versus
 instruction-tuned status.
 
+\subsubsection{Evidence Grading}
+\label{subsec:reported_grading}
+
+Because this survey mixes controlled studies, vendor self-reports, independent
+reproductions, and our own synthesis, and because those carry very different
+weight, every substantive quantitative claim in the paper is graded. The scheme
+has four levels, and the grade denotes the strongest class of source standing
+behind the claim, not the claim's importance:
+
+\begin{description}
+  \item[\evA{} Controlled] Measured under a single named harness, with the
+    compared conditions differing only in the variable of interest, and a matched
+    baseline reported. This is the standard a cross-model comparison would have
+    to meet. \emph{No claim in this paper carries grade~\evA}, which is the
+    principal finding of Section~\ref{subsec:reported_overall}.
+  \item[\evB{} Independent] Reported by a party with no stake in the result:
+    a peer-reviewed third-party study, a standardized community evaluation, or a
+    reproduction by an unaffiliated group.
+  \item[\evC{} Reported] Stated by the developer of the artifact or the author of
+    the technique, in a technical report, model card, or release paper, without
+    independent reproduction.
+  \item[\evD{} Interpretation] Our synthesis across sources, or an inference from
+    evidence that was not gathered to answer the question being asked. This grade
+    is applied wherever we combine figures across sources, and it is the correct
+    grade for most directional statements in this survey.
+\end{description}
+
+Grades appear in the tables that carry quantitative claims
+(Tables~\ref{tab:compression_quality} and~\ref{tab:agentic_evidence}) and against
+the main claims of the paper in Table~\ref{tab:claim_grades}. Two consequences
+are worth stating plainly. First, a grade~\evC{} claim is not thereby false; it
+is unverified, and vendor self-reports in this field are systematically more
+favorable than third-party reproductions, so the direction of the likely error is
+known. Second, the absence of any grade~\evA{} claim is not a defect peculiar to
+this survey but a property of the field's current evidence base, and it is the
+reason Section~\ref{subsec:challenges_verification} is written as a specification
+for experiments rather than a list of topics.
+
+\begin{table}[t]
+\centering
+\caption{Evidence grade for the principal claims of this survey. Grades follow Section~\ref{subsec:reported_grading}: \evA~controlled, \evB~independent, \evC~reported by the interested party, \evD~our interpretation.}
+\label{tab:claim_grades}
+\footnotesize\adjustbox{max width=\linewidth}{%
+\begin{tabular}{@{}p{9.2cm}cl@{}}
+\toprule
+\textbf{Claim} & \textbf{Grade} & \textbf{Where} \\
+\midrule
+A cross-model accuracy table cannot be assembled from current public reporting without misrepresenting its sources & \evB & \S\ref{subsec:reported_overall} \\
+The strongest 3--4B models of 2026 report scores that were state of the art for 13B-class models in 2023 & \evC & \S\ref{subsec:reported_overall} \\
+Within families that publish ablations, corpus composition moves results more than architecture at fixed scale & \evD & \S\ref{subsec:discussion_key_findings} \\
+INT8 post-training quantization is effectively lossless on knowledge and mathematical benchmarks & \evB & \S\ref{subsec:reported_quantization} \\
+INT4 accuracy loss grows as model size falls and is larger for multi-step reasoning & \evC & \S\ref{subsec:reported_quantization} \\
+Quantization preserves fidelity better than pruning below 4B parameters at matched compression & \evB & \S\ref{subsec:compression_quantization} \\
+Weight footprint at 4~bits is $3.2$--$3.4\times$ below FP16 & Derived & \S\ref{subsec:reported_quantization} \\
+Sub-10B function-calling models are competitive with far larger models on function-calling benchmarks & \evB & \S\ref{subsec:agentic_evidence} \\
+Serving a 7B model is 10--30$\times$ cheaper than serving a 70--175B model & \evC & \S\ref{subsubsec:agentic_economics} \\
+End-to-end agent success rates for sub-10B models on realistic multi-step benchmarks are low in absolute terms & \evB & \S\ref{subsec:agentic_evidence} \\
+Hypothesis~H: a specialized SLM is the appropriate default for bounded, recurrent, short-context, verifiable agent calls & \evD & \S\ref{subsec:intro_thesis} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
 \subsubsection{Limitations of the Evidence Base}
 \label{subsec:reported_limits}
 Because the figures are compiled from heterogeneous public sources rather than a
@@ -155,8 +258,13 @@ accuracy by several points under the same nominal benchmark. \textbf{Self-report
 bias:} vendor-reported scores are systematically more favorable than third-party
 reproductions; where third-party figures exist, comparisons preferentially use
 them and flag the divergence. \textbf{Condition-coverage sparsity:} not every
-model has reported scores for every task, tier, or precision; sparse tuples are
-marked, not imputed. \textbf{Snapshot staleness:} the ecosystem evolves monthly,
+model has reported scores for every task, tier, or precision. Missing values are
+never imputed, interpolated, or carried across from a sibling model size or from
+a base checkpoint to its instruction-tuned variant; a tuple with no qualifying
+source is recorded as absent, and absence is itself reported, since the pattern
+of what vendors decline to publish is part of the finding of
+Section~\ref{subsec:reported_overall}. No statistic in this paper is computed
+over a set from which absent tuples were silently dropped. \textbf{Snapshot staleness:} the ecosystem evolves monthly,
 and figures reflect the state of public reporting at the collection window. These
 limitations motivate the empirical-verification agenda of
 Section~\ref{subsec:challenges_verification}.
@@ -218,6 +326,36 @@ of variation among models of near-identical size is the training corpus rather
 than the architecture, a pattern visible in every family's own ablations even
 though it cannot be quantified across families.
 
+\subsection{Why These Benchmarks Do Not Answer the Agentic Question}
+\label{subsec:reported_agentic_gap}
+
+There is a second problem with the record, independent of its internal
+inconsistency, and it bears directly on the thesis of this paper. Every benchmark
+in Section~\ref{subsec:reported_benchmarks} measures a model answering a question
+in isolation. None measures what an agent actually asks a model to do.
+
+\gls{mmlu} measures recall of facts under a multiple-choice format. \gls{gsm8k}
+measures arithmetic word problems solved in one turn. HumanEval measures whether
+a standalone function passes unit tests. An agent, by contrast, asks the model to
+select one of several available tools, to emit arguments that satisfy a schema,
+to remain well-formed across a long tail of inputs, to recover when a tool
+returns an error, and to do so repeatedly without a single failure derailing the
+trajectory. A model can be strong on all three of the benchmarks above and still
+emit malformed JSON often enough to be unusable in a loop, and the reverse holds
+too: a small model tuned for function calling can be weak on \gls{mmlu} and
+entirely adequate as an agent's executor.
+
+The consequence is that the entire evaluation record examined in this section,
+even if it were internally consistent, would be the wrong evidence for
+hypothesis~H. Section~\ref{subsec:agentic_evidence} therefore assembles a
+separate body of agent-specific evidence, drawn from function-calling, tool-use,
+structured-output, and end-to-end agent benchmarks, and grades it under the same
+scheme. We flag here that this second body of evidence has its own gaps, which
+are different from and in some respects worse than the ones documented above:
+the agent benchmarks that exist report frontier models far more often than
+sub-10B ones, and almost none reports cost per completed task, which is the
+quantity the economic half of the thesis turns on.
+
 \subsection{Quantization Impact}
 \label{subsec:reported_quantization}
 
@@ -267,7 +405,7 @@ boundary.
 \midrule
 Qwen2.5-7B & 15.2 & 4.2 & 4.4 & 4.5 \\
 Phi-4-mini & 7.6 & 2.2 & 2.3 & 2.4 \\
-LLaMA 3.2-3B & 6.4 & 1.9 & 2.0 & 2.1 \\
+Llama 3.2-3B & 6.4 & 1.9 & 2.0 & 2.1 \\
 SmolLM2-1.7B & 3.4 & 1.1 & 1.1 & 1.2 \\
 TinyLlama-1.1B & 2.2 & 0.7 & 0.8 & 0.8 \\
 \bottomrule

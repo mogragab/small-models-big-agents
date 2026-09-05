@@ -10,7 +10,32 @@
 \subsection{On-Device and Mobile Deployment}
 \label{subsec:deployment_mobile}
 
-On-device deployment eliminates the latency, cost, and privacy exposure of cloud API inference. It enables AI functionality in offline and low-bandwidth environments and is a prerequisite for truly private personal assistants. The primary challenges are memory (RAM and storage), sustained inference throughput under thermal constraints, and battery impact.
+On-device deployment removes the network round trip, the per-token charge, and the transmission of prompt content to a third party. It enables functionality in offline and low-bandwidth environments and is a precondition, though not on its own a guarantee, of a private personal assistant. The primary challenges are memory (RAM and storage), sustained inference throughput under thermal constraints, and battery impact.
+
+\subsubsection{What ``On-Device'' Does and Does Not Guarantee}
+\label{subsec:deployment_privacy_scope}
+
+The claim that on-device inference means no data leaves the device is made
+frequently, including in earlier drafts of this paper, and it is a property of
+the \emph{application}, not of the model. Running weights locally establishes
+only that the prompt is not transmitted to an inference API. Whether user data
+leaves the device depends on four further things, none of which the model
+controls: whether the application emits telemetry, crash reports, or analytics
+that embed prompt content; whether it logs conversations to a cloud-synchronized
+store or a backup; whether the pipeline escalates to a cloud model, in which case
+the escalated calls are exactly the sensitive ones if routing is difficulty-based
+rather than sensitivity-based; and whether other stages of the pipeline, such as
+retrieval over a hosted index or a tool call to a remote API, transmit the same
+content the local model was chosen to protect.
+
+The correct statement is therefore conditional: on-device inference removes one
+specific egress channel, and eliminates data egress only in an application whose
+whole pipeline is local and whose telemetry is either absent or content-free.
+Apple's design \citep{gunter2025afm} is instructive precisely because it treats
+the escalation path as the hard part and builds Private Cloud Compute around it
+rather than claiming the on-device model makes the question moot. Every privacy
+claim in this paper should be read under this scope condition, including those in
+Sections~\ref{sec:applications} and~\ref{subsec:discussion_implications}.
 
 \subsubsection{Apple Intelligence (AFM)}
 
@@ -81,7 +106,7 @@ A mature ecosystem of open-source frameworks enables \gls{slm} deployment across
 \midrule
 llama.cpp \citep{gerganov2023llamacpp}   & CPU, Metal, CUDA, ROCm & GGUF (Q2--Q8)   & De facto standard; minimal dependencies; ecosystem includes Ollama, llamafile \\
 ONNX Runtime \citep{microsoft2019onnx} & GPU, CPU, NPU, WASM & INT4/INT8       & Cross-platform; DirectML/CoreML/CUDA backends; Phi-3-mini at 35~tok/s on Snapdragon NPU \\
-MLX \citep{mlx2023}             & Apple Silicon          & 4-bit           & Unified memory; eliminates GPU transfers; 55+ tok/s for LLaMA-3.2-3B on M3~Pro \\
+MLX \citep{mlx2023}             & Apple Silicon          & 4-bit           & Unified memory; eliminates GPU transfers; 55+ tok/s for Llama 3.2-3B on M3~Pro \\
 TensorRT-LLM \citep{nvidia_tensorrt2024} & NVIDIA GPUs   & INT4/INT8/FP16  & Continuous batching; kernel fusion; 2--3$\times$ over PyTorch for 7B models \\
 ExecuTorch \citep{meta2024executorch} & Mobile (iOS, Android) & INT4          & 50~KB base runtime; 12+ hardware backends; deployed in Instagram, WhatsApp \\
 MLC-LLM \citep{mlc2024}        & iOS, Android, web, MCU & 4-bit          & TVM compilation; WebGPU support; universal platform coverage \\
@@ -96,31 +121,68 @@ WebLLM \citep{webllm2024}       & Web browsers           & 4-bit WASM     & WebG
 \label{subsec:deployment_latency}
 
 The practical consequence of the preceding sections is a gap that is structural
-rather than marginal. A quantized 3B model occupies roughly 2~GB of weight
-memory and runs on hardware the user already owns, so its marginal cost per
-query is zero and no data leaves the device. A 70B model at FP16 needs roughly
-140~GB, which places it on multi-accelerator server hardware, and a frontier API
-model adds a network round trip and a per-token charge to every call. Between
-those two conditions there is no continuum: the small model is either adequate
-for the task or it is not, and where it is adequate the large model buys nothing
-that the task can use.
+rather than marginal. A quantized 3B model occupies roughly 2~GB of weight memory
+and runs on hardware the user already owns, so the operator pays no per-query
+charge for it and, subject to the scope conditions of
+Section~\ref{subsec:deployment_privacy_scope}, the prompt is not transmitted to
+an inference provider. A 70B model at FP16 needs roughly 140~GB, which places it
+on multi-accelerator server hardware, and a frontier API model adds a network
+round trip and a per-token charge to every call. Between those two conditions
+there is little continuum for a given task: the small model is either adequate
+for it or it is not, and where it is adequate the large model buys nothing that
+the task can use.
 
 Published cost estimates put the gap at one to two orders of magnitude.
 \citet{belcak2025slm_agentic} estimate that serving a 7B \gls{slm} is 10 to
 30$\times$ cheaper than serving a 70 to 175B \gls{llm} once latency, energy, and
 FLOPs are accounted for. On the latency side, the binding constraint on edge
-hardware is prefill rather than generation, because time-to-first-token
-dominates perceived responsiveness in interactive use, and prefill cost scales
-with context length. This is why \gls{gqa} and local-global attention
-interleaving, which cut \gls{kv}-cache traffic, matter more for on-device
-deployment than for server deployment.
+hardware is prefill rather than generation, because time-to-first-token dominates
+perceived responsiveness in interactive use, and prefill cost scales with context
+length. This is why \gls{gqa} and local-global attention interleaving, which cut
+\gls{kv}-cache traffic, matter more for on-device deployment than for server
+deployment.
 
-We do not tabulate per-scenario latency and cost figures here. Serving prices
-change faster than a survey's publication cycle, and published throughput
-figures are not measured under comparable batch sizes, context lengths, or
-backends, so a table of them would imply a precision the underlying reporting
-does not support. The relevant claim for the argument of
-Section~\ref{sec:agentic} is ordinal and robust to that imprecision: for a
-bounded, repetitive call that a small model can complete correctly, the small
-model is cheaper by a wide margin, lower in latency once the network hop is
-counted, and available offline.
+\subsubsection{Calculated Quantities Versus Measured Ones}
+\label{subsec:deployment_calc_vs_meas}
+
+Because the distinction is easy to lose and consequential, we state which of the
+quantities in this paper are computed and which would have to be measured.
+
+\emph{Computed, and therefore reliable within their stated assumptions:} weight
+memory at a given precision (Table~\ref{tab:memory_footprint}), which follows from
+parameter count and bit-width; \gls{kv}-cache size per token, which follows from
+the head configuration and context length; and the ratio between them. These are
+arithmetic, and we present them as such.
+
+\emph{Measured, and therefore dependent on conditions we do not control:}
+throughput, time-to-first-token, sustained versus peak rates under thermal
+load, energy per token, battery cost per interaction, and total cost of
+ownership. Every one of these depends on batch size, context length, kernel
+implementation, achieved memory-bandwidth utilization, driver and runtime
+version, thermal envelope, and, for energy, the grid mix and the amortization
+period assumed for device manufacture. Published figures for them are not
+comparable across sources, and we do not tabulate per-scenario latency, energy,
+or cost figures. Where a throughput figure appears in this paper it is attributed
+to the source and the hardware it names (Table~\ref{tab:deployment_frameworks}),
+and no cross-row comparison is drawn.
+
+One claim in this family needs particular care, because it is widely repeated and
+we have repeated it. Quantizing from 16 to 4 bits is often described as giving a
+near-linear $4\times$ speedup. That holds under a specific regime: single-stream
+autoregressive \emph{decoding}, at batch size~1, where the generation of each
+token requires reading the full weight set and the hardware is
+memory-bandwidth-bound rather than compute-bound. Outside that regime it does
+not. Under batching, arithmetic intensity rises and the bottleneck shifts toward
+compute, so the speedup shrinks. During prefill, which is compute-bound, it
+largely disappears. On hardware without native low-precision kernels the
+dequantization overhead can consume much of it. And the realized memory reduction
+is itself $3.2$--$3.4\times$, not $4\times$, because mixed schemes retain
+higher-precision tensors. The defensible statement is that 4-bit quantization
+converts a storage saving into a decode-time saving in proportion to the
+bandwidth it frees, and that on edge hardware in single-stream interactive use
+this is the dominant regime.
+
+Subject to all of this, the claim the argument of Section~\ref{sec:agentic}
+actually needs is ordinal and robust: for a bounded, repetitive call that a small
+model can complete correctly, the small model is cheaper by a wide margin, lower
+in latency once the network hop is counted, and available offline.

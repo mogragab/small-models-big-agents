@@ -18,22 +18,32 @@ builders is that data pipelines dominate architectural novelty as a lever on
 \gls{slm} quality.
 
 \textbf{Compression is a first-class capability, not an afterthought.} INT8 is
-effectively lossless and INT4 costs a small, non-uniform amount of accuracy, with
-smaller models and mathematical reasoning at the higher end. Because
-autoregressive inference is memory-bandwidth-bound, 4-bit quantization is
-simultaneously a storage optimization and a near-linear speedup on edge hardware.
+effectively lossless (\evB) and INT4 costs a small, non-uniform amount of
+accuracy, with smaller models and mathematical reasoning at the higher end
+(\evC). Because single-stream autoregressive decoding is memory-bandwidth-bound,
+4-bit quantization is simultaneously a storage optimization and a decode-time
+speedup on edge hardware, in proportion to the bandwidth it frees and subject to
+the regime conditions of Section~\ref{subsec:deployment_calc_vs_meas}.
 Quantization preserves fidelity better than pruning below 4B parameters
-\citep{kurz2025pruning_vs_quant}, which simplifies the practitioner's decision:
-quantize aggressively, and prune only when a structured size reduction is
-independently required.
+(\evB, \citealp{kurz2025pruning_vs_quant}), which simplifies the practitioner's
+decision: quantize aggressively, and prune only when a structured size reduction
+is independently required. What the literature does not support, and what
+Section~\ref{subsec:compression_reporting} withdraws, is a single accuracy-retention
+figure per technique: retention depends on baseline, model, size, task, and
+aggregation rule, and a number stated without them is not interpretable.
 
 \textbf{Right-sizing beats scaling for bounded tasks.} A quantized 3.8B model
 that clears a task's accuracy threshold, running on hardware that already exists
-in the user's hand, is preferable on cost, latency, energy, and privacy to a
-larger model that also clears it. A 3--4B model at INT4 occupies roughly 2~GB and
-runs at interactive speed on a phone or a Jetson-class module. The scaling-era
-assumption that a larger model is always the safer default is inverted for any
-task whose requirements can be stated in advance.
+in the user's hand, is preferable on cost, latency, energy, and data exposure to
+a larger model that also clears it. A 3--4B model at INT4 occupies roughly 2~GB
+and runs at interactive speed on a phone or a Jetson-class module. The
+scaling-era assumption that a larger model is always the safer default is
+inverted for any task whose requirements can be stated in advance \emph{and
+checked}. Both halves of that condition matter: where the requirement cannot be
+stated in advance, the task is not bounded, and where success cannot be checked,
+per-call errors compound silently across an agent trajectory
+(Section~\ref{subsubsec:agentic_ev_e2e}). Section~\ref{subsec:agentic_counterexamples}
+lists the workload classes where this claim does not apply.
 
 \textbf{The evaluation record is the weak point, and it is weaker than the field
 acknowledges.} Section~\ref{sec:reported} documents why a cross-model accuracy
@@ -71,26 +81,64 @@ pipeline of Section~\ref{subsec:agentic_conversion} produces.
 Deploying a 3B model that answers grade-school mathematics correctly on an
 \$80 single-board computer is a qualitative change in access. Organizations facing
 cloud-API cost, data-sovereignty rules, or unreliable connectivity can now run
-capable \gls{nlp} locally with no per-query cost and no data egress. The environmental
-case is directional rather than precise: reported per-inference energy for a small
-model on modest hardware is one to two orders of magnitude below a frontier-model
-query in a datacenter, and if even a modest fraction of today's classification,
-extraction, and short-generation traffic were served by right-sized \glspl{slm}, the
-aggregate saving would be large. These figures are estimates and should be treated
-as such.
+capable \gls{nlp} locally with no per-query charge and, subject to the scope
+conditions of Section~\ref{subsec:deployment_privacy_scope}, without transferring
+prompt content to a processor outside their control.
+
+The environmental case is narrower than it is usually stated and we state it
+narrowly. Reported per-inference energy for a small model on modest hardware is
+one to two orders of magnitude below a frontier-model query in a datacenter, so
+for a task the small model completes correctly, serving it small uses
+substantially less inference energy. Whether a wholesale shift reduces total
+system energy is a different question, and one no published accounting answers:
+it turns on teacher-training energy, the compression pipeline, device embodied
+carbon, regional grid intensity, update distribution, and the rebound effect, none
+of which the available reporting covers.
+Section~\ref{subsubsec:challenges_env_scope} sets out that accounting boundary in
+full. We therefore make the per-query claim and decline the aggregate one.
 
 \subsection{Limitations}
 \label{subsec:discussion_limitations}
 
 Beyond the evidence-base limitations already stated
-(Section~\ref{subsec:reported_limits}): the review is English-centric in its task
-coverage; the ecosystem moves faster than any static snapshot, so models released
-after the collection window are discussed only qualitatively; the taxonomy's
-boundaries (the 10B threshold, the treatment of \gls{moe} by active parameters) are
-pragmatic conventions, not natural kinds; and the agentic argument, while
-grounded in a production-scale position paper \citep{belcak2025slm_agentic} and two
-large deployments, is a projection about where the field is heading, not a
-measured outcome.
+(Section~\ref{subsec:reported_limits}), six bound this work.
+
+\emph{No original measurement.} No benchmark was executed for this survey. Every
+quantitative claim is therefore at best grade~\evB{}
+(Section~\ref{subsec:reported_grading}), and the paper contains no grade~\evA{}
+evidence. This is a deliberate choice, since we judged an audit of the record more
+useful than adding another unreplicated table to it, but it is a limitation and
+Section~\ref{subsec:challenges_verification} is written to be acted on rather than
+cited.
+
+\emph{The definitional boundaries are conventions.} The twenty-billion threshold,
+the split into conditions C1 and C2, and the sub-10B restriction on the evaluation
+cohort are pragmatic choices, not natural kinds. They are stated precisely
+(Section~\ref{subsec:intro_definition}) so that a reader can recompute under
+different ones, which is the most a threshold of this sort can offer.
+
+\emph{The thesis is a hypothesis.} The agentic argument is grounded in a
+production-scale position paper \citep{belcak2025slm_agentic}, two large
+deployments, and the agent-specific evidence of
+Section~\ref{subsec:agentic_evidence}, and its premises are graded individually in
+Table~\ref{tab:agentic_evidence}. The end-to-end claim, that a small-model agent
+completes realistic tasks at comparable rate and lower cost per completed task,
+is the one premise for which we found no evidence either way. It is a projection,
+and we mark it as one.
+
+\emph{Coverage is English-centric.} The task coverage, the benchmarks audited, and
+most of the compression literature are English-centric, which matters more here
+than usual because compression degrades non-English performance disproportionately
+(Section~\ref{subsec:discussion_ethics}).
+
+\emph{Domain sections are uneven.} Code and healthcare have public benchmarks and
+are treated evidentially; legal has neither, and
+Section~\ref{subsec:applications_legal} states a structural argument rather than a
+capability claim. Readers should not read the four verticals as equally supported.
+
+\emph{The snapshot ages.} The ecosystem moves faster than a review cycle. The
+update policy of Section~\ref{subsubsec:intro_snapshot} and the versioned deposit
+are how we bound this, not eliminate it.
 
 \subsection{Ethical Considerations}
 \label{subsec:discussion_ethics}
@@ -107,7 +155,7 @@ pruning is largest precisely on multilingual tasks \citep{kurz2025pruning_vs_qua
 which suggests pruning disproportionately harms non-English users. Fairness-aware
 compression objectives and per-group performance floors for high-stakes
 applications are open requirements. Against these risks, on-device \glspl{slm} advance
-privacy (no data leaves the device), accessibility (no connectivity required),
+privacy (one egress channel removed, subject to Section~\ref{subsec:deployment_privacy_scope}), accessibility (no connectivity required),
 and cost (no subscription), which matters most for the healthcare and
 educational applications of Section~\ref{sec:applications} in under-resourced
 settings.

@@ -1,4 +1,5 @@
 \section*{Declarations}
+\label{section:declarations}
 \addcontentsline{toc}{section}{Declarations}
 
 % -----------------------------------------------------------------------------
@@ -30,18 +31,44 @@ Not applicable.
 This paper is a review. All performance figures are \emph{reported} values
 compiled from public sources (vendor technical reports, official model cards,
 community leaderboards, and third-party evaluations) and are not the product of
-original benchmark runs. The provenance of the consolidated figures is
-documented in Appendix~\ref{app:provenance}. The model-ecosystem inventory analysed in
-Section~\ref{sec:taxonomy} and Appendix~\ref{appendix:ecosystem} is generated from
-the dataset \texttt{merged\_llm\_database.json} (snapshot September~2026), provided
-with the manuscript source files.
+original benchmark runs. The provenance of the consolidated figures is documented
+in Appendix~\ref{app:provenance}.
+
+Four artifacts supporting this review are deposited in a versioned archival
+repository under the persistent identifier
+\needsdata{archival DOI for the deposited artifacts}, and are also provided with
+the manuscript source files:
+
+\begin{description}
+  \item[The variant inventory] \file{merged\_llm\_database.json}, one record per
+    documented variant, carrying every field of Table~\ref{tab:reporting_dimensions}
+    together with the source URL, the date that source was retrieved, the licence,
+    the C1/C2 status (Section~\ref{subsubsec:intro_def_operative}), and the
+    inclusion decision. This dataset generates the inventory tables of
+    Appendix~\ref{appendix:ecosystem} and every generated figure in the paper.
+  \item[The screening ledger] every record retrieved by the searches of
+    Section~\ref{subsubsec:intro_search}, with its deduplication key, screening
+    decision, exclusion reason where applicable, and quality-appraisal scores on
+    the four criteria of Section~\ref{subsubsec:intro_screening}. This is the
+    source of the counts in Table~\ref{tab:screening}.
+  \item[The source ledger] for the 18-model evaluation cohort, the primary
+    document, model card, and any third-party evaluation consulted per model,
+    with retrieval dates and the reconciliation decisions of
+    Section~\ref{subsec:reported_sources}.
+  \item[A changelog] keyed to snapshot dates, recording every addition, removal,
+    and field correction between released versions, so that the update policy of
+    Section~\ref{subsubsec:intro_snapshot} can be audited rather than taken on
+    trust.
+\end{description}
 
 \subsection*{Code availability}
 The scripts that generate the ecosystem inventory tables and the figures
-(\texttt{generate\_model\_tables.py}, \texttt{generate\_figures\_v2.py}) are
-provided with the manuscript source files. No model-training or model-evaluation
-code was used to produce the results in this paper, which are compiled from the
-published literature.
+(\file{generate\_model\_tables.py}, \file{generate\_figures\_v2.py}) are
+deposited alongside the data under the identifier above and provided with the
+manuscript source files, so that every generated table and figure in this paper
+can be reproduced from the released inventory. No model-training or
+model-evaluation code was used to produce the results in this paper, which are
+compiled from the published literature.
 
 \subsection*{Author contributions}
 % CRediT taxonomy --- edit to reflect actual contributions.

@@ -72,15 +72,36 @@ storage bit-width and are not measurements. The device specifications in
 Table~\ref{tab:hardware_configs} and Table~\ref{tab:appendix_hardware} come from
 manufacturer datasheets.
 
-\emph{Qualitative synthesis of the reviewed literature.} The comparative
-characteristics in Table~\ref{tab:compression_compare}, the framework comparison
-in Table~\ref{tab:deployment_frameworks}, the survey comparison in
-Table~\ref{tab:survey_compare} and the taxonomy summary in
-Table~\ref{tab:taxonomy_summary} summarize the works cited in their respective
-sections. They are positional rather than metric, and the accuracy-retention
-column of Table~\ref{tab:compression_compare} in particular should be read as an
-indicative band drawn from across the compression literature, not as a
-measurement of any single cohort.
+\emph{Structural properties of a technique.} Table~\ref{tab:compression_axes}
+states what each compression technique reduces by construction. Its entries are
+consequences of how the technique works, not measurements: the memory factor of
+$n$-bit quantization follows from the bit-width, and the parameter factor of
+$s$-fraction pruning follows from the sparsity level. Where a cell reports a
+figure from a specific study, that study is cited in the cell.
+
+\emph{Qualitative synthesis of the reviewed literature.} The quality-cost
+statements in Table~\ref{tab:compression_quality}, the framework comparison in
+Table~\ref{tab:deployment_frameworks}, the survey comparison in
+Table~\ref{tab:survey_compare}, the taxonomy summary in
+Table~\ref{tab:taxonomy_summary}, and the agent-evidence summary in
+Table~\ref{tab:agentic_evidence} summarize the works cited in their respective
+sections. They are positional rather than metric, and each row of the two graded
+tables carries the class of evidence standing behind it
+(Section~\ref{subsec:reported_grading}).
+
+\emph{Withdrawn.} An earlier version of this paper carried a table giving a
+single ``compression ratio'' and a single ``accuracy retention'' percentage per
+technique. Both columns have been withdrawn.
+Section~\ref{subsec:compression_reporting} sets out the reasons: the compression
+ratio conflates reductions in parameters, memory, and training compute, which
+trade against different budgets, and is undefined for distillation, where the
+student size is a design choice rather than a property of the method; and an
+accuracy-retention percentage is uninterpretable without a baseline precision,
+model, size, task, metric, and aggregation rule, all of which the retained figure
+had averaged over. They are replaced by
+Tables~\ref{tab:compression_axes} and~\ref{tab:compression_quality}. They should
+not be reinstated without per-cell provenance of the kind
+Section~\ref{subsec:appendix_provenance_table} requires.
 
 No table in this paper reports a cross-model accuracy comparison. As
 Section~\ref{subsec:reported_overall} sets out, such a table cannot be assembled

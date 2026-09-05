@@ -6,26 +6,87 @@
 \section{Model Compression Techniques for SLMs}
 \label{sec:compression}
 
-Model compression is central to the \gls{slm} ecosystem: it is the primary pathway for reducing large pre-trained models to sizes deployable on edge hardware, and it provides a complementary route to training-from-scratch. The principal techniques are knowledge distillation, quantization, and pruning; in practice, compound pipelines combining all three have become the state of the art. Table~\ref{tab:compression_compare} summarizes the key characteristics of each approach.
+Model compression is central to the \gls{slm} ecosystem: it is the primary pathway for reducing large pre-trained models to sizes deployable on edge hardware, and it provides a complementary route to training-from-scratch. The principal techniques are knowledge distillation, quantization, and pruning; in practice, compound pipelines combining all three have become the state of the art.
 
-\begin{table}[ht]
-\small
-\caption{Comparison of model compression techniques for SLMs. Compression ratios follow directly from the bit-width or sparsity level; the accuracy-retention column is an indicative band synthesized across the studies reviewed in this section, not a measurement of a single cohort, and is qualified in Appendix~\ref{subsec:appendix_provenance_status}.}
-\label{tab:compression_compare}
+\subsection{How Compression Results Are Reported Here}
+\label{subsec:compression_reporting}
+
+Comparisons of compression techniques are routinely presented as a single
+``compression ratio'' set against a single ``accuracy retention'' percentage. An
+earlier version of this survey did the same, and the presentation does not
+survive scrutiny, so we set out here why and what replaces it.
+
+\emph{There is no single compression ratio.} Quantization reduces bits per
+weight, leaving the parameter count untouched; pruning reduces the parameter
+count, and reduces memory only where the sparsity pattern is one the runtime can
+actually exploit; distillation reduces the parameter count of the student but is
+better understood as reducing the training compute needed to reach a given
+quality, since a distilled 4B model and a from-scratch 4B model have the same
+deployment cost. Collapsing these into one number equates quantities that trade
+off against different budgets. Distillation in particular has no well-defined
+universal ratio at all: the student's size is chosen by the practitioner, so
+``$10$--$100\times$'' describes a range of design choices in the literature, not a
+property of the method.
+
+\emph{There is no baseline-free accuracy retention.} A statement that 4-bit
+quantization retains ``about 96\%'' of accuracy is uninterpretable without the
+baseline precision, the model, the model's size, the task, the metric, and the
+rule by which per-task retentions were aggregated. The dependence on each of
+these is large: retention under \gls{ptq} falls with model size
+\citep{slmquant2025}, differs by task family, with mathematical and multi-step
+reasoning degrading faster than knowledge recall, and differs by method at
+matched bit-width \citep{lin2024awq}. A single band averages across all of that
+variation and then presents the average with two significant figures.
+
+We therefore replace the single table with two. Table~\ref{tab:compression_axes}
+separates the reductions each technique delivers along five distinct axes, which
+are not interchangeable and are not summed. Table~\ref{tab:compression_quality}
+reports what the reviewed literature establishes about quality cost, stated as a
+direction and a scope condition with the source attached, rather than as a
+number without a baseline. Where the literature supports a numeric claim under
+stated conditions, the number appears in the text with its conditions; where it
+does not, no number is given, and Section~\ref{subsec:challenges_verification}
+specifies the experiment that would supply one.
+
+\begin{table}[t]
+\caption{What each compression technique reduces, by axis. Entries are what the technique does by construction, not measurements. ``Parameters'' counts stored weights; ``memory'' is realized weight footprint on a runtime that can exploit the format; ``training compute'' is the cost of producing the compressed artifact relative to training an equivalent model from scratch; ``latency'' is decode-time speedup on memory-bandwidth-bound hardware. A dash means the technique does not act on that axis.}
+\label{tab:compression_axes}
 \centering
 \footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{@{}lp{2.0cm}p{2.0cm}p{2.2cm}p{2.0cm}@{}}
+\begin{tabular}{@{}lp{1.7cm}p{1.9cm}p{2.1cm}p{2.4cm}p{2.1cm}@{}}
 \toprule
-\textbf{Method} & \textbf{Requires Retraining} & \textbf{Compression Ratio} & \textbf{Accuracy Retention} & \textbf{Hardware Req.} \\
+\textbf{Technique} & \textbf{Parameter reduction} & \textbf{Weight-memory reduction} & \textbf{Training-compute reduction} & \textbf{Decode latency effect} & \textbf{Retraining required} \\
 \midrule
-Quantization (8-bit)  & No  & $2\times$          & ${\sim}99\%$   & Low \\
-Quantization (4-bit)  & No  & $4\times$          & ${\sim}96\%$   & Low \\
-Quantization (2-bit)  & No  & $8\times$          & ${\sim}85\%$   & Low \\
-Pruning (50\% sparse) & Partial & $2\times$      & ${\sim}93\%$   & Medium \\
-Pruning (75\% sparse) & Partial & $4\times$      & ${\sim}82\%$   & Medium \\
-Structured Pruning    & Yes & $2$--$5\times$     & ${\sim}90\%$   & Medium \\
-Knowledge Distillation& Yes & $10$--$100\times$ & $85$--$95\%$   & High \\
-KD + Pruning + Quant  & Yes & $40\times+$        & ${\sim}90\%$   & High \\
+PTQ, 8-bit          & ---            & $2\times$ vs.\ FP16 & ---  & Proportional to bandwidth saved & No \\
+PTQ, 4-bit          & ---            & $3.2$--$3.4\times$ realized (Table~\ref{tab:memory_footprint}) & --- & Proportional to bandwidth saved, batch~1 & No \\
+PTQ, 2-bit          & ---            & ${\sim}6\times$ realized & --- & As above & No; \gls{qat} in practice \\
+Unstructured pruning, 50\% & $2\times$ & Only on sparse-capable runtimes & --- & None on dense kernels & Calibration only \\
+Structured pruning  & Set by target width/depth & Proportional to parameters removed & --- & Proportional to parameters removed & Yes, to recover quality \\
+Knowledge distillation & Set by student size & Proportional to student size & Large; the student is trained rather than the teacher & Proportional to student size & Yes, student training \\
+Prune + distill + quantize & Set by target & Product of the pruning and quantization factors & $40\times$ reported for Minitron \citep{minitron2024} & Product of the above & Yes \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{table}[t]
+\caption{What the reviewed literature establishes about the quality cost of each technique in the sub-10B regime, with the scope condition under which it was established. Claims are graded by evidence class (Section~\ref{subsec:reported_grading}): \evB~independent evaluation, \evC~vendor- or author-reported, \evD~synthesis across sources by the present authors.}
+\label{tab:compression_quality}
+\centering
+\footnotesize\adjustbox{max width=\linewidth}{%
+\begin{tabular}{@{}lp{6.4cm}p{3.2cm}c@{}}
+\toprule
+\textbf{Technique} & \textbf{What the literature supports} & \textbf{Scope of the evidence} & \textbf{Grade} \\
+\midrule
+PTQ, 8-bit & Effectively lossless on knowledge and mathematical benchmarks; no consistent degradation reported & Widely reproduced across model families & \evB \\
+PTQ, 4-bit & A small but real accuracy cost that grows as model size falls, and is larger on multi-step reasoning than on knowledge recall & Reported for the sub-4B band \citep{slmquant2025} & \evC \\
+PTQ, 4-bit, method comparison & \gls{awq} retains more accuracy than GPTQ at matched bit-width by protecting activation-salient channels & Author-reported, with independent reuse \citep{lin2024awq} & \evC \\
+PTQ, 2-bit & \gls{ptq} degrades unacceptably; \gls{qat} recovers a meaningful part of the loss, and the margin over \gls{ptq} widens as bit-width falls & Vendor pipelines with full training-stack control \citep{gunter2025afm} & \evC \\
+Unstructured pruning, 50\% & Perplexity increase below 1\% at 175B scale in one pass \citep{frantar2023sparsegpt}; the tolerable sparsity falls sharply as the base model shrinks & Established at large scale; extrapolation to sub-4B is not supported & \evC \\
+Quantization vs.\ pruning & Quantization preserves fidelity, multilingual perplexity, and reasoning accuracy better than pruning at matched compression; \gls{awq} 4-bit beats 50\% Wanda on 6 of 7 tasks & Controlled study: 6 models, 0.5--3.8B, 7 languages, 7 tasks \citep{kurz2025pruning_vs_quant} & \evB \\
+Prune + distill + quantize & A 4B Minitron matches from-scratch 4B models on commonsense, code, and math at $40\times$ less training compute & Single pipeline, single teacher \citep{minitron2024} & \evC \\
+Domain compound pipeline & A clinical model under 1B retains reported accuracy within 5\% of its 7B counterpart on ICD coding and discharge summarization & Single study, single domain \citep{hasan2024optimclm} & \evC \\
+Fairness under compression & Degradation is uneven across languages and dialects, and pruning is worse than quantization on multilingual tasks & Inferred across two sources \citep{blodgett2020language,kurz2025pruning_vs_quant} & \evD \\
 \bottomrule
 \end{tabular}%
 }
@@ -105,6 +166,6 @@ Structured pruning removes entire attention heads, MLP channels, or transformer 
 \subsection{Combined Compression Pipelines}
 \label{subsec:compression_combined}
 
-The state of the art in \gls{slm} compression combines pruning, distillation, and quantization in a multi-stage pipeline. NVIDIA Minitron \citep{minitron2024} achieves a $40\times$ reduction in training compute relative to training LLaMA-3.1-8B from scratch by: (1)~structured pruning to target size; (2)~knowledge distillation from the original 8B teacher to the pruned student; (3)~post-training quantization for deployment. The resulting 4B Minitron model matches the performance of 4B models trained from scratch on commonsense, code, and math benchmarks.
+The state of the art in \gls{slm} compression combines pruning, distillation, and quantization in a multi-stage pipeline. NVIDIA Minitron \citep{minitron2024} achieves a $40\times$ reduction in training compute relative to training Llama 3.1 8B from scratch by: (1)~structured pruning to target size; (2)~knowledge distillation from the original 8B teacher to the pruned student; (3)~post-training quantization for deployment. The resulting 4B Minitron model matches the performance of 4B models trained from scratch on commonsense, code, and math benchmarks.
 
 OptimCLM \citep{hasan2024optimclm} applies a similar pipeline to clinical language models, combining all three compression stages to produce models under 1B that achieve within 5\% of clinical \gls{nlp} accuracy of their 7B counterparts. These results suggest that the combination of pruning (for architectural reduction) + distillation (for capability recovery) + quantization (for memory reduction) represents the practical frontier of \gls{slm} compression.

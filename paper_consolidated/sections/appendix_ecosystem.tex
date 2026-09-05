@@ -17,7 +17,7 @@ Figure~\ref{fig:family_treemap} gives a size-proportional overview of the invent
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\linewidth]{paper_slm_family_treemap.pdf}
-  \caption{Documented SLM variants grouped by developer and family; area is proportional to the number of variants. Generated from \texttt{merged\_llm\_database.json} (snapshot September~2026).}
+  \caption{Documented SLM variants grouped by developer and family; area is proportional to the number of variants. Generated from \file{merged\_llm\_database.json} (snapshot September~2026).}
   \Description{Treemap of documented small language model variants grouped by developer and then by family, with rectangle area proportional to the number of variants in each group.}
   \label{fig:family_treemap}
 \end{figure}
@@ -77,7 +77,7 @@ The inventory uses the following practical conventions, which also govern model 
 
 \subsection{Generated Variant Inventory}
 \label{subsec:ecosystem_generated_inventory}
-The following inventory is generated directly from \texttt{merged\_llm\_database.json} using \texttt{scripts/generate\_model\_tables.py}. The database covers 126 \gls{slm} variants and 238 \gls{llm} variants (364 entries in total, snapshot September~2026); only the \gls{slm} inventory is reproduced here, organized chronologically by release year and then by family, with parameter size as an explicit comparison column. The corresponding \gls{llm} inventory is available in the source database.
+The following inventory is generated directly from \file{merged\_llm\_database.json} using \file{scripts/generate\_model\_tables.py}. The database covers 126 \gls{slm} variants and 238 \gls{llm} variants (364 entries in total, snapshot September~2026); only the \gls{slm} inventory is reproduced here, organized chronologically by release year and then by family, with parameter size as an explicit comparison column. The corresponding \gls{llm} inventory is available in the source database.
 
 {\footnotesize\noindent\textbf{Chronology.} \hyperref[tab:model_inventory_slm_by_year]{SLM inventory}: \hyperlink{model-year-slm-2026}{2026}, \hyperlink{model-year-slm-2025}{2025}, \hyperlink{model-year-slm-2024}{2024}, \hyperlink{model-year-slm-2023-and-earlier}{2023 and earlier}.\par}
 \input{partials/model_inventory_slm_by_year}
