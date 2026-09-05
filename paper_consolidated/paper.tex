@@ -34,11 +34,14 @@
   four-dimensional taxonomy of \emph{architecture}, \emph{training
   strategy}, \emph{modality}, and \emph{application domain}. We review
   compression for the sub-10B regime, where quantization consistently
-  outperforms pruning, and consolidate publicly \emph{reported}
-  performance for an 18-model cohort across 12 benchmark tasks, three
-  evaluation paradigms, six hardware tiers, and three precisions under a
-  documented protocol in which every figure is a reported value traced to
-  a dated source rather than an original run. Building on this evidence, we
+  outperforms pruning. We then audit the public evaluation record for an
+  18-model cohort and report a negative result that bears on how the field
+  compares these models: a cross-model accuracy table cannot be assembled
+  from current public reporting without misrepresenting its sources,
+  because vendors report non-intersecting benchmark sets, shot counts that
+  differ per benchmark and per vendor, base and instruction-tuned figures
+  that are routinely conflated, and few matched baselines. Building on the
+  evidence that does hold, we
   argue that SLMs are the substrate of agentic AI: they are sufficiently
   capable for the sub-tasks agents delegate, roughly 10--30$\times$
   cheaper to serve, cheaper to specialize, and easier to constrain to tool
@@ -51,7 +54,7 @@
 
   \begin{highlights}
   \item Surveys 126 documented small language model variants (2022--2026), including the 2025--2026 hybrid state-space, unified-reasoning, and mobile-multimodal waves, under a taxonomy of architecture, training strategy, modality, and application domain.
-  \item Consolidates publicly reported performance for 18 SLMs across 12 tasks, six hardware tiers, and FP16/INT8/INT4 precision, with every figure traced to a dated source via a documented protocol.
+  \item Audits the public evaluation record for 18 SLMs and shows that it does not support the cross-model accuracy comparisons routinely published in surveys, leaderboards, and secondary sources.
   \item Reviews compression for the sub-10B regime and the finding that quantization consistently outperforms pruning below 4B parameters.
   \item Argues that SLMs are the substrate of agentic AI on grounds of capability sufficiency, 10--30$\times$ lower serving cost, cheaper specialization, and tighter behavioral alignment to tool interfaces.
   \item Surveys heterogeneous SLM--LLM routing and the LLM-to-SLM conversion pipeline, and sets an empirical-verification agenda for the consolidated claims.

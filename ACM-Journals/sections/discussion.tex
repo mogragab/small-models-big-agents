@@ -1,50 +1,52 @@
 \section{Discussion}
 \label{section:discussion}
 
-\subsection{What the Consolidated Evidence Shows}
+\subsection{What the Evidence Supports}
 \label{subsec:discussion_key_findings}
 
 Read together, the taxonomy (Section~\ref{sec:taxonomy}), the compression review
-(Section~\ref{sec:compression}), and the consolidated reported performance
+(Section~\ref{sec:compression}), and the audit of the evaluation record
 (Section~\ref{sec:reported}) support four claims.
 
-\textbf{Capability per parameter has risen sharply, and unevenly.} The best
-reported 3--4B models now match the 2023 state of the art for 13B-class systems on
-mathematics, code, and knowledge benchmarks. The dominant explanatory variable in
-the reported record is not architecture but training data: models of near-identical
-size trained on different corpora differ by 15--25~points on knowledge tasks, a
-gap no architectural choice at this scale approaches. The practical implication
-for model builders is that data curation and synthetic-data pipelines dominate
-architectural novelty as a lever on \gls{slm} quality.
+\textbf{Capability per parameter has risen sharply.} The strongest 3--4B models
+of 2026 report scores on mathematics, code, and knowledge benchmarks that were
+state of the art for 13B-class systems in 2023. Within families that publish
+controlled ablations, the dominant explanatory variable is training data rather
+than architecture: corpus composition and curation move results more than any
+architectural choice available at this scale. The practical implication for model
+builders is that data pipelines dominate architectural novelty as a lever on
+\gls{slm} quality.
 
 \textbf{Compression is a first-class capability, not an afterthought.} INT8 is
-reported as effectively lossless and INT4 as costing 1--4~points, with smaller
-models and mathematical reasoning at the higher end. Because autoregressive
-inference is memory-bandwidth-bound, 4-bit quantization is simultaneously a
-storage optimization and a near-linear speedup on edge hardware. Quantization
-consistently outperforms pruning below 4B parameters \citep{kurz2025pruning_vs_quant},
-which simplifies the practitioner's decision: quantize aggressively, prune only
-when a structured size reduction is independently required.
+effectively lossless and INT4 costs a small, non-uniform amount of accuracy, with
+smaller models and mathematical reasoning at the higher end. Because
+autoregressive inference is memory-bandwidth-bound, 4-bit quantization is
+simultaneously a storage optimization and a near-linear speedup on edge hardware.
+Quantization preserves fidelity better than pruning below 4B parameters
+\citep{kurz2025pruning_vs_quant}, which simplifies the practitioner's decision:
+quantize aggressively, and prune only when a structured size reduction is
+independently required.
 
-\textbf{Right-sizing beats scaling for bounded tasks.} A quantized 3.8B model that
-clears a task's accuracy threshold, running on hardware that already exists in the
-user's hand, is preferable on every axis---cost, latency, energy, privacy---to a
-larger model that also clears it. The reported numbers make this concrete: a 3--4B
-model at INT4 occupies roughly 2~GB, runs at interactive speed on a phone or a
-Jetson, and costs a small fraction of a 70B model per token. The scaling-era
+\textbf{Right-sizing beats scaling for bounded tasks.} A quantized 3.8B model
+that clears a task's accuracy threshold, running on hardware that already exists
+in the user's hand, is preferable on cost, latency, energy, and privacy to a
+larger model that also clears it. A 3--4B model at INT4 occupies roughly 2~GB and
+runs at interactive speed on a phone or a Jetson-class module. The scaling-era
 assumption that a larger model is always the safer default is inverted for any
-task whose requirements can be stated.
+task whose requirements can be stated in advance.
 
-\textbf{The evidence base itself is the weak point.} Every figure in
-Section~\ref{sec:reported} is a reported value drawn from heterogeneous sources
-with different harnesses, prompt formats, and self-reporting incentives. The
-consolidated tables are internally reconciled and their provenance is documented
-at the level of model and source class (Appendix~\ref{app:provenance}), but they
-are not a substitute for a controlled re-evaluation, and the efficiency,
-edge-throughput, and energy figures in particular rest on a thinner and less
-uniformly documented reporting base than the accuracy figures do. Section~\ref{subsec:challenges_verification} specifies the
-verification studies that would convert the load-bearing claims from ``reported''
-to ``measured.''
+\textbf{The evaluation record is the weak point, and it is weaker than the field
+acknowledges.} Section~\ref{sec:reported} documents why a cross-model accuracy
+comparison cannot be built from current public reporting: benchmark sets do not
+intersect across vendors, shot counts vary per benchmark and per vendor, base and
+instruction-tuned figures are conflated, and matched baselines are rarely
+published. This is not a limitation peculiar to this survey. It applies equally
+to the comparison tables circulated in secondary sources, community leaderboards,
+and prior surveys, which are widely reproduced without these caveats and which
+practitioners use to make procurement decisions. Establishing a shared,
+independently run evaluation for this model class would be a more valuable
+contribution to the field than another survey, and
+Section~\ref{subsec:challenges_verification} specifies what it would require.
 
 \subsection{Implications for Agentic Systems}
 \label{subsec:discussion_agentic}
@@ -58,10 +60,10 @@ default. Two cross-cutting observations sharpen the picture. First, routing must
 be capability-aware, not size-aware: the reported multilingual and safety gaps
 (Section~\ref{subsec:reported_safety}) mean that a naive ``small model unless
 hard'' router will silently degrade non-English and safety-sensitive calls.
-Second, the specialization threshold near 3B (Section~\ref{subsec:reported_finetuning})
-implies that the economical unit in an agent is often a \emph{fine-tuned} sub-3B
-model per recurring call type, not a single general SLM---exactly the target of
-the LLM-to-SLM conversion pipeline.
+Second, adaptation matters more as models get smaller, so the economical unit in
+an agent is often a \emph{fine-tuned} small model per recurring call type rather
+than a single general \gls{slm}, which is exactly what the LLM-to-SLM conversion
+pipeline of Section~\ref{subsec:agentic_conversion} produces.
 
 \subsection{Democratization and Sustainability}
 \label{subsec:discussion_implications}

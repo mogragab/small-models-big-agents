@@ -29,7 +29,7 @@ Existing \gls{slm} surveys \citep{lu2024slmsurvey,vannguyen2024slm_survey,wang20
 \begin{description}
   \item[Landscape and taxonomy] A catalog of 126 documented \gls{slm} variants (2022--2026), including the recent hybrid, reasoning, and mobile-multimodal families, organized along a four-dimensional taxonomy of architecture, training strategy, modality, and application domain (Section~\ref{sec:taxonomy} and Appendix~\ref{appendix:ecosystem}).
   \item[Compression review] A synthesis of distillation, quantization, pruning, and compound pipelines for the sub-10B regime, including the finding that quantization consistently outperforms pruning below 4B parameters \citep{kurz2025pruning_vs_quant} (Section~\ref{sec:compression}).
-  \item[Consolidated reported performance] A comparison of 18 \glspl{slm} across 12 tasks, three evaluation paradigms, six hardware tiers, and three precisions, assembled under a documented grey-literature protocol in which every figure is a \emph{reported} value drawn from a dated public source rather than an original run, with provenance recorded by model and source class (Section~\ref{sec:reported}, Appendix~\ref{app:provenance}).
+  \item[An audit of the public evaluation record] An examination of what the public reporting record can actually support for an 18-model cohort, and the finding that a cross-model accuracy comparison cannot be assembled from it without misrepresenting the sources, because vendors report non-intersecting benchmark sets, differing shot counts per benchmark, inconsistently labelled base and instruction-tuned checkpoints, and few matched baselines (Section~\ref{sec:reported}, Appendix~\ref{app:provenance}).
   \item[Deployment ecosystem] A survey of inference frameworks, quantization formats, and on-device platforms from Raspberry~Pi to Apple silicon (Section~\ref{sec:deployment}).
   \item[The agentic argument] A structured case that \glspl{slm} are the default execution substrate for agents, covering capability sufficiency, economics, behavioral alignment, heterogeneous SLM--LLM routing, and the LLM-to-SLM conversion pipeline (Section~\ref{sec:agentic}).
   \item[Open problems and verification] An agenda of open research problems and targeted empirical-verification opportunities for the consolidated evidence base (Section~\ref{sec:challenges}).
@@ -64,13 +64,14 @@ and expanded by forward and backward citation tracing. A work was retained when 
 concerned models at or below roughly twenty billion parameters, or a compression
 or deployment technique material to that regime.
 
-\emph{Reported performance.} The quantitative comparison in
-Section~\ref{sec:reported} consolidates \emph{reported} figures---values published
-in vendor technical reports, official model cards, standardized community
-evaluations, and third-party studies---under the collection, extraction, and
-reconciliation protocol set out in Section~\ref{subsec:reported_protocol}. No
-benchmark was executed for this survey; the provenance of the consolidated
-figures is recorded in Appendix~\ref{app:provenance}.
+\emph{The evaluation record.} Section~\ref{sec:reported} examines the figures
+published in vendor technical reports, official model cards, standardized
+community evaluations, and third-party studies, under the collection and
+appraisal protocol set out in Section~\ref{subsec:reported_protocol}. No
+benchmark was executed for this survey, and where the record proved too
+inconsistent to support a comparison we report that rather than presenting one.
+The provenance of every quantitative table retained in the paper is recorded in
+Appendix~\ref{app:provenance}.
 
 \subsection{Paper Organization}
 \label{subsec:intro_organization}

@@ -1,15 +1,15 @@
 % ================================================================
-% Section: Consolidated Reported Performance
-% Replaces the former methods.tex + results.tex.
-% Framing follows paper2 (meta-analysis): reported values with
-% provenance, NOT original benchmark runs.
+% Section: The Public Evaluation Record
+% Documents what the public reporting record can and cannot support,
+% and why a cross-model accuracy table cannot be built from it.
+% No original benchmark runs.
 % ================================================================
 
-\section{Consolidated Reported Performance}
+\section{The Public Evaluation Record for Small Language Models}
 \label{sec:reported}
 
-This section assembles a comparative picture of \gls{slm} capability and deployment
-behavior from the public record. In contrast to an original benchmarking study,
+This section examines what the public record can support about \gls{slm} capability and deployment
+behavior. In contrast to an original benchmarking study,
 the performance values analyzed here are \emph{reported} figures, synthesized
 from vendor technical reports, official model cards, community leaderboards, and
 third-party evaluations. We first document the protocol used to collect and
@@ -34,9 +34,7 @@ Table~\ref{tab:model_specs} lists the resulting 18-model cohort with
 architectural specifications as reported by each model's release materials. The
 cohort spans from 0.5B to 14B parameters and eight developer organizations,
 enabling analysis of how training methodology, architecture, and scale interact
-to determine reported performance. Two further models---Ministral~8B and
-SmolLM2-360M---appear only in the extended results of
-Appendix~\ref{subsec:appendix_extended_results}.
+to determine reported capability.
 
 \begin{table}[ht]
 \centering
@@ -73,28 +71,24 @@ Phi-4 & 14.0B & 40 & 5,120 & GQA & 16K & 100K & $\sim$10T \\
 
 \subsubsection{Benchmark Tasks and Metrics}
 \label{subsec:reported_benchmarks}
-Twelve benchmark tasks with sufficient cross-model reporting were consolidated,
-spanning seven capability areas: \gls{mmlu} \citep{hendrycks2021mmlu} for broad
-knowledge; ARC-Easy and ARC-Challenge \citep{clark2018arc} and HellaSwag
+The benchmarks that recur across the reviewed release documents span seven
+capability areas: \gls{mmlu} \citep{hendrycks2021mmlu} for broad knowledge;
+ARC-Easy and ARC-Challenge \citep{clark2018arc} and HellaSwag
 \citep{zellers2019hellaswag} for commonsense and language reasoning; \gls{gsm8k}
 \citep{cobbe2021gsm8k} and MATH \citep{hendrycks2021math} for mathematical
 reasoning; HumanEval \citep{chen2021humaneval} and MBPP \citep{austin2021mbpp}
 for code generation; TriviaQA \citep{joshi2017triviaqa} and SQuAD~2.0
 \citep{rajpurkar2018squad2} for question answering; MNLI \citep{williams2018mnli}
 for natural language inference; and SST-2 \citep{socher2013sst} for sentiment
-classification. Inclusion of a task required that at least three reviewed models
-have publicly reported scores under compatible settings; instruction-following
-(MT-Bench-style \citep{zheng2023mtbench}) and summarization benchmarks were reported
-too sparsely and too heterogeneously across the cohort to tabulate and are discussed only
-qualitatively (Section~\ref{subsec:reported_safety},
-Appendix~\ref{subsec:appendix_human_eval}). Reported figures correspond to each
-benchmark's standard metric (accuracy for multiple choice; EM/F1 for QA; pass@1
-for code; exact match for \gls{gsm8k}; symbolic equivalence for MATH). Efficiency
-metrics---tokens per second, time-to-first-token,
-peak memory, on-disk size, and reported energy---are each annotated in
-Appendix~\ref{app:provenance} with the measurement conditions given by their
-source, because these numbers are especially sensitive to hardware, batch size,
-context length, and backend.
+classification. Each benchmark carries a standard metric: accuracy for multiple
+choice, exact match or F1 for question answering, pass@1 for code, exact match
+for \gls{gsm8k}, and symbolic equivalence for MATH. Instruction-following
+(MT-Bench-style \citep{zheng2023mtbench}) and summarization are reported too
+sparsely and too heterogeneously to compare at all, and the conventions behind
+them are described in Appendix~\ref{subsec:appendix_human_eval}. Which of these
+benchmarks any given vendor reports, and under how many shots, varies enough to
+prevent a common table; Section~\ref{subsec:reported_overall} sets out that
+finding in detail.
 
 \subsubsection{Hardware and Quantization Scope}
 \label{subsec:reported_hardware}
@@ -167,182 +161,104 @@ and figures reflect the state of public reporting at the collection window. Thes
 limitations motivate the empirical-verification agenda of
 Section~\ref{subsec:challenges_verification}.
 
-\subsection{Overall Benchmark Performance}
+\subsection{Why a Common Benchmark Table Cannot Be Built from Public Reporting}
 \label{subsec:reported_overall}
 
-\begin{table}[t]
-\centering
-\caption{Reported zero-shot FP16 benchmark scores (instruction-tuned variants). \textbf{Bold} = best among SLMs. All values are reported figures; provenance recorded in Appendix~\ref{app:provenance}. The MATH column and the extended task set appear in Table~\ref{tab:appendix_zero_shot_extended}.}
-\label{tab:zero_shot}
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{lcccccc}
-\toprule
-\textbf{Model} & \textbf{Params} & \textbf{ARC-C} & \textbf{HellaSwag} & \textbf{GSM8K} & \textbf{HumanEval} & \textbf{MMLU} \\
-\midrule
-Phi-4-mini-Inst. & 3.8B & 83.7 & 69.1 & \textbf{88.6} & 72.0 & 67.3 \\
-Qwen2.5-7B-Inst. & 7.6B & \textbf{90.1} & 80.0 & 88.7 & \textbf{84.8} & \textbf{72.6} \\
-Gemma 2-9B-Inst. & 9.2B & 89.8 & \textbf{87.1} & 84.9 & 68.9 & 71.3 \\
-Gemma 3-4B-Inst. & 4.3B & 85.2 & 78.4 & 82.1 & 64.6 & 65.8 \\
-LLaMA 3.2-3B-Inst. & 3.2B & 76.1 & 77.2 & 75.6 & 58.5 & 61.8 \\
-LLaMA 3.2-1B-Inst. & 1.2B & 62.3 & 63.8 & 47.2 & 35.4 & 48.6 \\
-Mistral 7B-Inst. v0.3 & 7.3B & 82.7 & 73.5 & 81.9 & 66.5 & 63.0 \\
-Qwen2.5-3B-Inst. & 3.0B & 78.6 & 72.1 & 79.8 & 65.2 & 65.6 \\
-Qwen2.5-1.5B-Inst. & 1.5B & 68.4 & 64.2 & 61.8 & 42.8 & 58.3 \\
-Qwen2.5-0.5B-Inst. & 0.5B & 52.1 & 48.3 & 38.5 & 22.0 & 47.5 \\
-SmolLM2-1.7B-Inst. & 1.7B & 59.8 & 60.2 & 42.6 & 28.7 & 50.1 \\
-TinyLlama-1.1B & 1.1B & 47.5 & 53.8 & 18.4 & 12.2 & 36.2 \\
-StableLM 2-1.6B & 1.6B & 55.2 & 57.6 & 32.1 & 22.5 & 44.3 \\
-\midrule
-\textit{GPT-4o (reference)} & \textit{---} & \textit{96.4} & \textit{95.3} & \textit{95.8} & \textit{90.2} & \textit{88.7} \\
-\textit{LLaMA 3.1-70B-Inst.} & \textit{70B} & \textit{92.8} & \textit{88.5} & \textit{93.2} & \textit{80.5} & \textit{82.2} \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
+Our original intent for this section was a single consolidated accuracy table
+placing all eighteen models side by side on a shared benchmark set. Assembling it
+from the public record proved impossible without misrepresenting the sources, and
+the reasons are systematic rather than incidental. Because that finding bears
+directly on how practitioners should read vendor claims, we report it in place of
+the table.
 
-Several patterns are consistent across the sources reviewed
-(Table~\ref{tab:zero_shot}). No single \gls{slm} leads on every task. In the 3--4B band,
-Phi-4-mini is reported strongest on mathematical reasoning (\gls{gsm8k}) and MATH, while
-Qwen2.5-3B is close behind with broader consistency. In the 7--10B band,
-Qwen2.5-7B is reported ahead of Mistral~7B and Gemma~2-9B on knowledge and code
-benchmarks. Phi-4 (14B) serves as an upper-bound reference. The most striking
-regularity is the effect of training data: models of near-identical size but
-different training corpora---Qwen2.5-1.5B versus SmolLM2-1.7B, or Qwen2.5-0.5B
-versus older 500M-class models---differ by 15--25~points on knowledge benchmarks,
-a gap far larger than any attributable to architecture at this scale. A Pareto
-view of reported \gls{mmlu} against parameter count places Phi-4-mini and Qwen2.5-3B on
-the sub-4B efficient frontier and Qwen2.5-7B and Gemma~2-9B on the 7--10B
-frontier.
+\emph{Vendors do not report a common benchmark set.} Microsoft reports
+\gls{mmlu}, \gls{gsm8k}, ARC-Challenge, HellaSwag and MATH for Phi-4-mini
+\citep{microsoft2025phi4mini}. Alibaba's instruction-tuned Qwen2.5 evaluations
+report MMLU-Pro, \gls{gsm8k}, MATH and HumanEval, but not ARC-Challenge or
+HellaSwag \citep{qwen2024qwen25}. Google reports ARC-c, HellaSwag, \gls{mmlu},
+\gls{gsm8k}, MATH, HumanEval and MBPP for Gemma, but its headline tables cover
+the pre-trained checkpoints \citep{gemma2team2024,team2025gemma3}. The
+intersection across any six vendors is close to empty, so a full matrix can only
+be completed by mixing sources of different provenance into the same row.
 
-The extended task set (Appendix~\ref{subsec:appendix_extended_results},
-Table~\ref{tab:appendix_zero_shot_extended}) adds ARC-E, TriviaQA, SQuAD~2.0,
-MBPP, SST-2, and MNLI and does not change these orderings.
+\emph{Shot counts differ per benchmark and per vendor.} Within a single Phi-4-mini
+model card, \gls{mmlu} is 5-shot, \gls{gsm8k} is 8-shot with chain-of-thought,
+ARC-Challenge is 10-shot and HellaSwag is 5-shot. Gemma reports ARC-c at 25-shot,
+HellaSwag at 10-shot, MATH at 4-shot and MBPP at 3-shot. Llama~3.2 reports
+ARC-Challenge and HellaSwag zero-shot but \gls{mmlu} at 5-shot. A column headed
+with a single evaluation protocol is therefore false for most of its cells, and
+the differences are large: shot count alone moves reported accuracy by several
+points on multiple-choice tasks.
 
-\subsection{Fine-Tuning versus Prompting}
-\label{subsec:reported_finetuning}
+\emph{Base and instruction-tuned figures are routinely conflated.} Several
+families publish their most complete benchmark tables for the pre-trained
+checkpoint while shipping the instruction-tuned variant as the artifact
+practitioners actually deploy. Gemma~3-4B is reported at 59.6 \gls{mmlu} and 38.4
+\gls{gsm8k} after pre-training \citep{team2025gemma3}; the instruction-tuned model
+is described qualitatively as far stronger, without an equivalently detailed
+table. Any row that silently mixes the two overstates the weaker model and
+understates the stronger one.
 
-\begin{table}[ht]
-\centering
-\caption{Zero-shot, 5-shot, and QLoRA fine-tuned accuracy for selected model--task pairs. HellaSwag and MMLU are reported for the 5-shot setting only in the sources compiled here. Public reporting of fine-tuning gains is sparse and is not produced under a common recipe; several entries are consolidated across sources rather than quoted from one, and the table should be read for the direction and rough magnitude of the adaptation effect (Appendix~\ref{subsec:appendix_provenance_status}).}
-\label{tab:finetuning}
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{llccccccc}
-\toprule
-\textbf{Model} & \textbf{Setting} & \textbf{SST-2} & \textbf{MNLI} & \textbf{ARC-C} & \textbf{HellaSwag} & \textbf{GSM8K} & \textbf{MMLU} & \textbf{SQuAD 2.0 (F1)} \\
-\midrule
-Phi-4-mini & Zero-shot & 92.4 & 72.1 & 83.7 & \textendash & 88.6 & \textendash & 74.2 \\
- & 5-shot & 94.1 & 75.8 & 85.2 & 71.4 & 89.3 & 69.8 & 77.8 \\
- & QLoRA & \textbf{96.8} & \textbf{82.4} & 86.1 & \textendash & 89.8 & \textendash & \textbf{83.6} \\
-\midrule
-Qwen2.5-7B & Zero-shot & 93.8 & 74.6 & 90.1 & \textendash & 88.7 & \textendash & 76.8 \\
- & 5-shot & 95.2 & 77.3 & 91.2 & 81.5 & 89.5 & 74.2 & 79.4 \\
- & QLoRA & \textbf{97.3} & \textbf{84.1} & 91.5 & \textendash & 90.1 & \textendash & \textbf{85.2} \\
-\midrule
-LLaMA 3.2-3B & Zero-shot & 88.2 & 63.5 & 76.1 & \textendash & 75.6 & \textendash & 65.4 \\
- & 5-shot & 91.5 & 68.2 & 78.8 & 79.1 & 77.4 & 64.5 & 70.2 \\
- & QLoRA & \textbf{95.4} & \textbf{78.6} & 80.3 & \textendash & 79.8 & \textendash & \textbf{78.5} \\
-\midrule
-SmolLM2-1.7B & Zero-shot & 82.6 & 54.2 & 59.8 & \textendash & 42.6 & \textendash & 52.3 \\
- & 5-shot & 86.4 & 59.8 & 63.1 & 63.5 & 44.8 & 53.4 & 57.6 \\
- & QLoRA & \textbf{93.2} & \textbf{72.5} & 65.8 & \textendash & 48.2 & \textendash & \textbf{68.4} \\
-\bottomrule
-\end{tabular}%
-}\par\vskip 4pt\relax
-{\raggedright \small \textit{Note:} \textendash\ marks a setting not reported for that task in the sources compiled here (not a zero value).\par}
-\end{table}
+\emph{Matched baselines are rarely published.} Quantized, fine-tuned and
+long-context variants are seldom reported alongside an FP16 baseline evaluated
+under the same harness, so the deltas that matter most for deployment decisions
+cannot be recovered from the sources at all.
 
-Across sources that report all three paradigms for a common model--task pair
-(Table~\ref{tab:finetuning}), \gls{qlora} adaptation yields the largest gains for the
-smallest models and for tasks where the base model is weak: reported sub-3B gains
-average roughly 8--10~percentage points over zero-shot, against roughly
-4--5~points at 7B. Few-shot prompting is reported to add a smaller, consistent
-1.5--4~points but consumes context and raises latency, making it less attractive
-for on-device agents. The practical reading, and the one most relevant to
-Section~\ref{sec:agentic}, is a specialization threshold near 3B: below it,
-task-specific fine-tuning is close to mandatory for delegated agent sub-tasks;
-above it, few-shot prompting is often sufficient for well-represented tasks.
-
-Table~\ref{tab:hyperparam_search} gives the \gls{qlora} configuration underlying
-the fine-tuned rows above.
-
-\begin{table}[ht]
-\centering
-\caption{QLoRA hyperparameter configuration most commonly reported by sources.}
-\label{tab:hyperparam_search}
-\footnotesize
-\begin{tabular}{lcc}
-\toprule
-\textbf{Hyperparameter} & \textbf{Search Space} & \textbf{Selected Value} \\
-\midrule
-LoRA rank $r$ & \{16, 32, 64, 128\} & 64 \\
-LoRA scaling $\alpha$ & \{16, 32, 64, 128, 256\} & 128 \\
-LoRA dropout & \{0.0, 0.05, 0.1\} & 0.05 \\
-Learning rate & \{$10^{-5}$, $5\times10^{-5}$, $10^{-4}$, $2\times10^{-4}$, $5\times10^{-4}$\} & $2\times10^{-4}$ \\
-Effective batch size & \{8, 16, 32\} & 16 \\
-Max epochs & \{3, 5, 10\} & 5 \\
-Warmup steps & \{50, 100, 200\} & 100 \\
-Target modules & \{q,v\}, \{q,k,v,o\}, \{all linear\} & \{q,k,v,o\} \\
-Weight decay & \{0.0, 0.01, 0.1\} & 0.01 \\
-Scheduler & \{cosine, linear\} & cosine \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-The right-hand column records the \gls{qlora} configuration that the reviewed
-sources most commonly report; where a source used a different rank,
-target-module set, or schedule, the deviation is noted in the provenance record
-(Appendix~\ref{app:provenance}) so that its reported gain is not compared
-directly against gains obtained under the common recipe.
+The consequence is that the widely circulated cross-model \gls{slm} comparison
+tables, including those in secondary sources and community leaderboards, should
+be treated as approximate at best. Where a genuine comparison is needed, the only
+sound basis is a controlled re-run under one harness, which is why
+Section~\ref{subsec:challenges_verification} sets that out as the first item of
+the verification agenda rather than as an optional extension. What can be stated
+from the public record without distortion is qualitative and still substantial:
+the strongest 3--4B models of 2026 report scores on mathematics, code and
+knowledge benchmarks that were state of the art for 13B-class systems in 2023;
+no single \gls{slm} leads across all task families; and the largest single source
+of variation among models of near-identical size is the training corpus rather
+than the architecture, a pattern visible in every family's own ablations even
+though it cannot be quantified across families.
 
 \subsection{Quantization Impact}
 \label{subsec:reported_quantization}
 
-\begin{table}[ht]
-\centering
-\caption{Reported effect of INT4 quantization on benchmark accuracy. Subscripts show the reported percentage-point change from the FP16 baseline.}
-\label{tab:quantization}
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{llccccc}
-\toprule
-\textbf{Model} & \textbf{Precision} & \textbf{ARC-C} & \textbf{HellaSwag} & \textbf{GSM8K} & \textbf{MMLU} & \textbf{Avg.\ Retention} \\
-\midrule
-Qwen2.5-7B & FP16 & 90.1 & 80.0 & 88.7 & 72.6 & 100.0\% \\
- & AWQ-4bit & 88.9\textsubscript{$-1.2$} & 79.5\textsubscript{$-0.5$} & 87.2\textsubscript{$-1.5$} & 71.8\textsubscript{$-0.8$} & 98.8\% \\
- & Q4\_K\_M & 88.1\textsubscript{$-2.0$} & 78.8\textsubscript{$-1.2$} & 86.1\textsubscript{$-2.6$} & 70.9\textsubscript{$-1.7$} & 97.7\% \\
-\midrule
-Phi-4-mini & FP16 & 83.7 & 69.1 & 88.6 & 67.3 & 100.0\% \\
- & AWQ-4bit & 82.6\textsubscript{$-1.1$} & 68.6\textsubscript{$-0.5$} & 86.9\textsubscript{$-1.7$} & 66.5\textsubscript{$-0.8$} & 98.6\% \\
- & Q4\_K\_M & 81.8\textsubscript{$-1.9$} & 67.9\textsubscript{$-1.2$} & 85.8\textsubscript{$-2.8$} & 65.8\textsubscript{$-1.5$} & 97.6\% \\
-\midrule
-LLaMA 3.2-3B & FP16 & 76.1 & 77.2 & 75.6 & 61.8 & 100.0\% \\
- & Q4\_K\_M & 73.2\textsubscript{$-2.9$} & 75.4\textsubscript{$-1.8$} & 71.8\textsubscript{$-3.8$} & 59.6\textsubscript{$-2.2$} & 96.3\% \\
-\midrule
-SmolLM2-1.7B & FP16 & 59.8 & 60.2 & 42.6 & 50.1 & 100.0\% \\
- & Q4\_K\_M & 55.4\textsubscript{$-4.4$} & 56.8\textsubscript{$-3.4$} & 37.2\textsubscript{$-5.4$} & 46.5\textsubscript{$-3.6$} & 92.4\% \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
+Across the compression literature reviewed in Section~\ref{sec:compression}, the
+reported picture for the sub-10B regime is consistent on four points. INT8
+post-training quantization is effectively lossless on knowledge and mathematical
+benchmarks. INT4 costs a small but real amount of accuracy, and the loss is
+\emph{not} uniform across model sizes: smaller models degrade more, consistent
+with the argument that each weight in a small model carries proportionally more
+information \citep{slmquant2025}. Mathematical and multi-step reasoning degrade
+faster than knowledge recall under INT4, which matters directly for agentic use,
+since arithmetic and tool-argument construction are exactly the operations agents
+delegate. Among INT4 methods, \gls{awq} retains more accuracy than GPTQ by
+protecting the small fraction of activation-salient channels
+\citep{lin2024awq}, while \gls{gguf}'s Q4\_K\_M mixed-precision scheme gives the
+best size-quality balance on CPU and edge backends
+\citep{gerganov2023llamacpp}. Across the sub-4B range, quantization preserves
+fidelity better than pruning at matched compression
+\citep{kurz2025pruning_vs_quant}.
 
-The sources converge on three points (Table~\ref{tab:quantization}). INT8 is
-reported as effectively lossless (sub-point degradation on knowledge and math
-benchmarks). INT4 costs roughly 1--4~points on average, and the loss is
-\emph{not} uniform: smaller models degrade more, consistent with the argument
-that each weight in a small model carries more information
-\citep{slmquant2025}. Mathematical reasoning is reported to degrade faster
-than knowledge recall under INT4, by a factor of roughly 1.5--2.1 across the
-model--method pairs in Table~\ref{tab:quantization}. Among INT4
-methods, \gls{awq} is reported to retain slightly more
-accuracy than GPTQ for \glspl{slm} \citep{lin2024awq}, and \gls{gguf}'s Q4\_K\_M offers the
-best size--quality balance for CPU and edge backends. Reported model-size
-reductions fall somewhat short of the theoretical 4$\times$, at roughly
-3.2--3.4$\times$, because embedding and normalization tensors are commonly left at
-higher precision: a 7B model drops from roughly 15~GB to roughly 4.5~GB, and a
-3.8B model from 7.6~GB to roughly 2.4~GB (Table~\ref{tab:memory_footprint}).
+Per-model, per-benchmark degradation figures are not reported consistently
+enough across this cohort to tabulate: sources differ in harness, calibration
+set, and group size, and few publish a matched FP16 baseline alongside the
+quantized result. Measuring them under a single toolchain is one of the
+verification studies proposed in
+Section~\ref{subsec:challenges_verification}.
+
+The memory consequence, by contrast, is firmly established, because it follows
+from the storage format rather than from measurement.
+Table~\ref{tab:memory_footprint} gives weight footprints computed from parameter
+count and bit-width. The realized reduction falls short of the nominal
+4$\times$, at roughly 3.2 to 3.4$\times$, because embedding, normalization, and
+in mixed schemes a subset of attention tensors are retained at higher precision.
+A 7B model drops from about 15~GB to about 4.5~GB, and a 3.8B model from 7.6~GB
+to about 2.4~GB, which is what moves each of them across a hardware tier
+boundary.
+
 
 \begin{table}[ht]
 \centering
-\caption{Reported model-weight memory footprint by precision (GB).}
+\caption{Model-weight memory footprint by precision (GB), computed from parameter count and storage bit-width. Four-bit columns include the higher-precision tensors each scheme retains, which is why the reduction is below the nominal 4$\times$. Activation and KV-cache memory are additional and depend on context length and batch size.}
 \label{tab:memory_footprint}
 \footnotesize
 \begin{tabular}{lcccc}
@@ -357,86 +273,6 @@ TinyLlama-1.1B & 2.2 & 0.7 & 0.8 & 0.8 \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-\subsection{Edge Deployment}
-\label{subsec:reported_edge}
-
-\begin{table}[t]
-\centering
-\caption{Reported edge-deployment figures (INT4/Q4\_K\_M unless noted). Status labels indicate reported practical interactivity on the tested device. Figures are consolidated from community benchmark reports produced under differing warm-up, prompt-length, and backend conditions; they are indicative of tier boundaries rather than precisely comparable (Appendix~\ref{subsec:appendix_provenance_status}).}
-\label{tab:edge_deployment}
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{llccccl}
-\toprule
-\textbf{Model} & \textbf{Device} & \textbf{tok/s} & \textbf{TTFT (ms)} & \textbf{Peak RAM (GB)} & \textbf{Load (s)} & \textbf{Status} \\
-\midrule
-SmolLM2-1.7B & Raspberry Pi 5 & 8.2 & 890 & 1.4 & 4.2 & Good \\
-TinyLlama-1.1B & Raspberry Pi 5 & 10.5 & 680 & 1.0 & 3.1 & Good \\
-LLaMA 3.2-1B & Raspberry Pi 5 & 9.8 & 720 & 1.1 & 3.4 & Good \\
-LLaMA 3.2-3B & Raspberry Pi 5 & 4.8 & 1,450 & 2.3 & 7.8 & Marginal \\
-Phi-4-mini & Raspberry Pi 5 & 3.2 & 2,100 & 2.6 & 9.5 & Marginal \\
-Qwen2.5-7B & Raspberry Pi 5 & 1.2 & 5,800 & 5.1 & 22.4 & No \\
-\midrule
-SmolLM2-1.7B & Jetson Orin Nano & 42.5 & 125 & 1.6 & 2.8 & Good \\
-TinyLlama-1.1B & Jetson Orin Nano & 54.2 & 98 & 1.2 & 2.1 & Good \\
-LLaMA 3.2-3B & Jetson Orin Nano & 28.4 & 210 & 2.5 & 4.5 & Good \\
-Phi-4-mini & Jetson Orin Nano & 22.8 & 285 & 2.8 & 5.2 & Good \\
-Qwen2.5-7B & Jetson Orin Nano & 11.5 & 620 & 5.3 & 12.8 & Marginal \\
-Gemma 2-9B & Jetson Orin Nano & 6.2 & 1,150 & 6.4 & 18.5 & No \\
-\midrule
-LLaMA 3.2-1B$^*$ & Galaxy S24+ (NPU) & 45.2 & 85 & 1.2 & 3.8 & Good \\
-LLaMA 3.2-3B$^*$ & Galaxy S24+ (NPU) & 22.5 & 165 & 2.4 & 6.2 & Good \\
-Phi-4-mini & Galaxy S24+ (CPU) & 12.8 & 380 & 3.0 & 8.5 & Good \\
-Qwen2.5-7B & Galaxy S24+ (CPU) & 5.4 & 920 & 5.5 & 18.2 & Marginal \\
-\bottomrule
-\end{tabular}%
-}\par\vskip 4pt\relax
-{\raggedright \small $^*$Reported with a 4-bit \gls{npu} backend (ExecuTorch/SpinQuant).\par}
-\end{table}
-
-The reported edge figures (Table~\ref{tab:edge_deployment}) draw clear
-boundaries. An 8~GB Raspberry~Pi~5 is reported to run INT4 models up to about 3B
-at marginally interactive speeds and sub-2B models comfortably. The Jetson Orin
-Nano is comfortable up to about 4B, marginal at 7B, and below interactive
-throughput at 9B. Snapdragon-class smartphones
-with \gls{npu} delegation are reported to run models up to 7B, with interactive use
-practical below 4B. Time-to-first-token, dominated by prefill, is the binding
-constraint for conversational use: reported \gls{ttft} for a 3B INT4 model is around
-1.5~s on the Pi but around 0.2~s on the Jetson. \gls{gqa} and local--global attention
-substantially reduce the reported KV-cache footprint, which otherwise dominates
-memory at long context.
-
-\subsection{Cost and Energy}
-\label{subsec:reported_energy}
-
-\begin{table}[ht]
-\centering
-\caption{Energy-per-inference estimates (joules per 1{,}000 completions, 512-token generation). These are derived estimates, obtained by combining reported sustained throughput with device power envelopes, not direct instrumented measurements; they are included to show the shape of the cost surface across tiers and should not be quoted as measured values (Appendix~\ref{subsec:appendix_provenance_status}).}
-\label{tab:energy}
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{lccccc}
-\toprule
-\textbf{Model} & \textbf{A100} & \textbf{RTX 4090} & \textbf{Laptop CPU} & \textbf{Jetson} & \textbf{RPi 5} \\
-\midrule
-Qwen2.5-0.5B & 180 & 320 & 410 & 280 & 612 \\
-Qwen2.5-3B & 420 & 680 & 1,250 & 580 & 2,760 \\
-Phi-4-mini & 510 & 780 & 1,480 & 650 & 3,180 \\
-Qwen2.5-7B & 720 & 1,100 & 2,340 & 1,020 & --- \\
-Phi-4 (14B) & 1,350 & 1,850 & --- & --- & --- \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-
-Reported energy figures (Table~\ref{tab:energy}) show that a datacenter GPU,
-despite its high power draw, achieves the lowest energy \emph{per inference} for
-any given model because of its throughput; an edge board consumes more energy per
-inference but roughly 20$\times$ less absolute power, which favors it for
-always-on, low-duty-cycle workloads. Normalizing accuracy by energy, a small
-model on cheap hardware delivers markedly more benchmark points per joule than a
-large model on a datacenter GPU, provided its accuracy clears the task threshold.
-Table~\ref{tab:latency_compare} in Section~\ref{sec:deployment} translates these
-into cost-per-token comparisons.
 
 \subsection{Multilingual and Safety Reporting}
 \label{subsec:reported_safety}

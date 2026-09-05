@@ -125,10 +125,14 @@
   and organize them along a four-dimensional taxonomy of \emph{architecture},
   \emph{training strategy}, \emph{modality}, and \emph{application domain}. We
   review compression for the sub-10B regime, where quantization consistently
-  outperforms pruning, and consolidate publicly reported performance for an
-  18-model cohort across 12 benchmarks, six hardware tiers, and three precisions,
-  with every figure traced to a dated source rather than an original run. On this
-  evidence we argue that SLMs are the substrate of agentic AI: capable enough for
+  outperforms pruning. We then audit the public evaluation record for an 18-model
+  cohort and report a negative result that bears on how the field compares these
+  models: a cross-model accuracy table cannot be assembled from current public
+  reporting without misrepresenting its sources, because vendors report
+  non-intersecting benchmark sets, shot counts that differ per benchmark and per
+  vendor, base and instruction-tuned figures that are routinely conflated, and few
+  matched baselines. On the evidence that does hold we argue that SLMs are the
+  substrate of agentic AI: capable enough for
   the sub-tasks agents delegate, roughly 10--30$\times$ cheaper to serve, cheaper
   to specialize, and easier to constrain to tool interfaces. We survey
   heterogeneous SLM--LLM routing and the LLM-to-SLM conversion pipeline, and close

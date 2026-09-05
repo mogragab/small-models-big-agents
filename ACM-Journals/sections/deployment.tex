@@ -31,9 +31,9 @@ Samsung Gauss \citep{samsung2023gauss} is a family of language models for Galaxy
 Below smartphone-class hardware lies a diverse ecosystem of edge devices: Raspberry Pi single-board computers, NVIDIA Jetson modules, and microcontrollers. \glspl{slm} targeting this tier typically require:
 
 \begin{description}
-    \item[Sub-1B or extreme quantization] A Raspberry Pi~5 (8~GB RAM, Cortex-A76 CPU) runs Q4-quantized 1B models at around 10~tokens per second (Table~\ref{tab:edge_deployment}), with sub-500M models comfortably faster. Benchmarking shows that llamafile achieves up to $4\times$ higher throughput and 30--40\% lower power consumption than Ollama for equivalent models on single-board computers \citep{costa2025sbc}.
+    \item[Sub-1B or extreme quantization] A Raspberry Pi~5 (8~GB RAM, Cortex-A76 CPU) runs Q4-quantized 1B models at roughly ten tokens per second, with sub-500M models comfortably faster. Benchmarking shows that llamafile achieves up to $4\times$ higher throughput and 30--40\% lower power consumption than Ollama for equivalent models on single-board computers \citep{costa2025sbc}.
 
-    \item[Jetson Orin] NVIDIA's Jetson Orin modules with TensorRT-LLM \citep{nvidia_tensorrt2024} serve quantized 3--7B models at interactive rates---the Orin Nano figures in Table~\ref{tab:edge_deployment} are the conservative end of the range, with the larger-memory NX and AGX parts faster---enabling real-time local inference for industrial and robotics applications.
+    \item[Jetson Orin] NVIDIA's Jetson Orin modules with TensorRT-LLM \citep{nvidia_tensorrt2024} serve quantized 3 to 7B models at interactive rates, with the larger-memory NX and AGX parts faster than the Orin Nano, enabling real-time local inference for industrial and robotics applications.
 
     \item[Microcontrollers (MCU)] Sub-100M models using aggressive quantization (INT4/INT2) can run on ARM Cortex-M series MCUs with 512~KB--2~MB SRAM for specialized tasks like keyword detection and sensor data analysis.
 \end{description}
@@ -92,40 +92,35 @@ WebLLM \citep{webllm2024}       & Web browsers           & 4-bit WASM     & WebG
 \end{table}
 
 % ----------------------------------------------------------------
-\subsection{Latency Comparison: SLMs vs.\ LLMs}
+\subsection{Why the Deployment Gap Matters}
 \label{subsec:deployment_latency}
 
-Table~\ref{tab:latency_compare} illustrates the practical latency implications of \gls{slm} vs.\ \gls{llm} deployment for three representative real-world scenarios.
+The practical consequence of the preceding sections is a gap that is structural
+rather than marginal. A quantized 3B model occupies roughly 2~GB of weight
+memory and runs on hardware the user already owns, so its marginal cost per
+query is zero and no data leaves the device. A 70B model at FP16 needs roughly
+140~GB, which places it on multi-accelerator server hardware, and a frontier API
+model adds a network round trip and a per-token charge to every call. Between
+those two conditions there is no continuum: the small model is either adequate
+for the task or it is not, and where it is adequate the large model buys nothing
+that the task can use.
 
-\begin{table}[ht]
-\small
-\caption{Latency and cost comparison: SLMs vs.\ LLMs for representative use cases. Entries are indicative operating ranges assembled from framework documentation and published serving prices, not measurements; they establish relative position and order of magnitude only (Appendix~\ref{subsec:appendix_provenance_status}).}
-\label{tab:latency_compare}
-\centering
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{@{}lp{2.5cm}p{2.5cm}p{2.5cm}@{}}
-\toprule
-\textbf{Metric} & \textbf{Real-time Chatbot} & \textbf{Code Completion} & \textbf{Edge IoT} \\
-\midrule
-\multicolumn{4}{@{}l}{\textit{SLM (3B, Q4, consumer GPU)}} \\
-TTFT               & 80--150 ms    & 30--80 ms     & 50--120 ms  \\
-Throughput         & 200--400 tok/s & 300--500 tok/s & 100--300 tok/s \\
-Memory             & ${\sim}2$~GB  & ${\sim}2$~GB  & ${\sim}1$~GB \\
-Cost/1M tokens     & \$0.05--0.2   & \$0.05--0.2   & \$0 (on-device) \\
-\midrule
-\multicolumn{4}{@{}l}{\textit{LLM (70B, FP16, multi-GPU)}} \\
-TTFT               & 500--2000 ms  & 200--800 ms   & Not feasible \\
-Throughput         & 30--80 tok/s  & 60--150 tok/s & N/A \\
-Memory             & ${\sim}140$~GB & ${\sim}140$~GB & N/A \\
-Cost/1M tokens     & \$3--10       & \$3--10        & N/A \\
-\midrule
-\multicolumn{4}{@{}l}{\textit{Frontier API (GPT-4o, cloud)}} \\
-TTFT               & 300--1500 ms  & 200--600 ms   & Requires internet \\
-Throughput         & 80--200 tok/s & 80--200 tok/s & N/A \\
-Cost/1M tokens     & \$5--15       & \$5--15        & N/A \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
+Published cost estimates put the gap at one to two orders of magnitude.
+\citet{belcak2025slm_agentic} estimate that serving a 7B \gls{slm} is 10 to
+30$\times$ cheaper than serving a 70 to 175B \gls{llm} once latency, energy, and
+FLOPs are accounted for. On the latency side, the binding constraint on edge
+hardware is prefill rather than generation, because time-to-first-token
+dominates perceived responsiveness in interactive use, and prefill cost scales
+with context length. This is why \gls{gqa} and local-global attention
+interleaving, which cut \gls{kv}-cache traffic, matter more for on-device
+deployment than for server deployment.
 
-The data in Table~\ref{tab:latency_compare} illustrate a 5--20$\times$ cost advantage and comparable or superior latency for \glspl{slm} in chatbot and code-completion scenarios, with an absolute deployment advantage in offline edge contexts where \glspl{llm} are simply infeasible.
+We do not tabulate per-scenario latency and cost figures here. Serving prices
+change faster than a survey's publication cycle, and published throughput
+figures are not measured under comparable batch sizes, context lengths, or
+backends, so a table of them would imply a precision the underlying reporting
+does not support. The relevant claim for the argument of
+Section~\ref{sec:agentic} is ordinal and robust to that imprecision: for a
+bounded, repetitive call that a small model can complete correctly, the small
+model is cheaper by a wide margin, lower in latency once the network hop is
+counted, and available offline.
