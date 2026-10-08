@@ -1,0 +1,45 @@
+% Supplementary material: facet detail for Section 3 of the main text.
+
+\section{Taxonomy Facets in Detail}
+\label{supp:taxonomy}
+
+This section expands Section~\ref{sec:taxonomy} of the main text.
+
+\subsection{Architecture}
+\label{supp:taxonomy_architecture}
+
+\emph{Dense transformers.} Most \glspl{slm} use a dense decoder in which every parameter is active for every token, from SmolLM2-135M \citep{allal2025smollm2} to 7--14B models such as Mistral~7B \citep{jiang2023mistral} and Phi-4. SmolLM3-3B \citep{smollm3} uses grouped-query attention with no positional encoding in a share of its layers and a three-stage curriculum over 11.2T tokens; Qwen3's dense line \citep{qwen3_2025} spans 0.6B--32B with a switch between thinking and non-thinking modes. Three refinements recur. Grouped-query attention \citep{ainslie2023gqa}, adopted by Mistral~7B and most later \glspl{slm}, divides the \gls{kv} cache by the ratio of query to \gls{kv} heads. Long context is reached by raising the rotary base or rescaling positions: Llama~3.2 uses a base of 500{,}000 to reach 128K tokens, Gemma~3 uses 1{,}000{,}000 on its global-attention layers, Phi-4 uses 250{,}000 with a 16K context, and Phi-3-mini's 128K checkpoint uses LongRoPE rescaling. Gated feed-forward layers are standard, SwiGLU in most families and GeGLU in Gemma.
+
+\emph{Mixtures of experts.} \gls{moe} layers \citep{shazeer2017moe,fedus2022switch} activate a subset of expert feed-forward blocks per token through a learned router, so total and active parameters differ. Mixtral~8$\times$7B \citep{jiang2024mixtral} (46.7B total, 12.9B active) is the canonical example; DeepSeek-MoE \citep{dai2024deepseekmoe} uses finer-grained and shared experts (about 2.8B active of 16B); Qwen3-30B-A3B \citep{qwen3_2025} activates 3B of 30B; and Llama~4 Scout \citep{llama4_2025} activates 17B of 109B. All of these are small-active-parameter \glspl{moe} under C1 and C2, while Granite~4.0 Tiny (about 7B total, 1B active) \citep{granite4_2025} is an \gls{slm}. Apple's third-generation on-device model is a 20B-total sparse model that activates 1--4B parameters and keeps its full weights in flash, swapping experts into DRAM on demand \citep{apple2026afm3}; its total count meets C2 at the bound, and its resident memory is set by the swapping policy rather than by the total.
+
+\emph{Hybrid state-space models.} Mamba \citep{gu2023mamba} introduced hardware-aware selective state-space layers that process sequences in linear time. Jamba \citep{lieber2024jamba} interleaves Mamba and attention blocks (one attention layer in eight) and reports a \gls{kv} cache eight times smaller than Mixtral's at 256K context. Falcon-H1 \citep{falconh1_2025} spans 0.5B--34B with parallel Mamba-2 and attention blocks; IBM's Granite~4.0 \citep{granite4_2025} interleaves Mamba-2 and attention at roughly 9:1 with a fine-grained \gls{moe} and reports over 70\% memory reduction for long-context and multi-session inference relative to transformer-only models (\evC); NVIDIA's Nemotron Nano~2 \citep{nvidia2025nemotron_nano2} replaces most attention layers with Mamba-2 in a 9--12B model and reports up to $6\times$ the throughput of Qwen3-8B on long reasoning traces (\evC); and the Qwen3.5 small series uses Gated DeltaNet layers with one full-attention layer in four \citep{qwen3_5_2026}. Linear-time layers matter most where \glspl{slm} are deployed: long, streaming, memory-bound contexts on edge hardware.
+
+\subsection{Training Strategy}
+\label{supp:taxonomy_training}
+
+\emph{Trained from scratch.} Phi showed that ``textbook-quality'' synthetic and curated data yields large gains at fixed size \citep{gunasekar2023phi1,li2023phi2}: Phi-1 (1.3B) was trained on under 8B tokens yet reached competitive Python results. Gemma~3 \citep{team2025gemma3} scales its token budget with size, from 2T tokens for the 1B variant to 14T for the 27B, under a curriculum that increases the share of mathematics, code, and multilingual data. Recurring practices are classifier-based quality filtering, synthetic data from larger teachers \citep{tinystories2023,mukherjee2023orca}, curricula that move toward harder data late in training, and continued pre-training for long context.
+
+\emph{Distilled.} Distillation \citep{hinton2015distilling} transfers capability from a teacher, through its internal representations (white-box) or its outputs and generated text (black-box). Orca \citep{mukherjee2023orca} distilled GPT-4 explanation traces into a 13B student. The DeepSeek-R1 distillations \citep{deepseek2025r1} fine-tune Qwen2.5 and Llama students from 1.5B to 70B on long chain-of-thought traces from DeepSeek-R1, and Phi-4-mini-reasoning \citep{xu2025phi4mini_reasoning} combines distillation from a reasoning teacher with reinforcement learning at 3.8B. Gemma~3 and Gemma~4 \citep{team2025gemma3,gemma4_2026} distill every size from a larger teacher.
+
+\emph{Pruned and distilled.} NVIDIA's Minitron pipeline \citep{minitron2024} prunes Nemotron-4 15B in depth and width, guided by activation-based importance, and retrains the pruned 8B and 4B students by distillation from the unpruned model, needing up to $40\times$ fewer training tokens per derived model than training from scratch (a $1.8\times$ compute saving for the family); a follow-up applies the recipe to Llama~3.1 8B and Mistral NeMo 12B \citep{sreenivas2024llmpruning}. Meta derived Llama~3.2 1B and 3B by pruning Llama~3.1 8B and distilling from the 8B and 70B models \citep{meta2024llama32}.
+
+\subsection{Modality}
+\label{supp:taxonomy_modality}
+
+\emph{Text-only.} Most families ship text-only variants, and text-only models dominate the inventory (Figure~\ref{fig:modality}).
+
+\emph{Vision--language.} PaliGemma (3B) \citep{beyer2024paligemma} combines a SigLIP image encoder with a Gemma decoder and reports strong transfer after fine-tuning. Phi-3-vision (4.2B) \citep{abdin2024phi3} adds an image encoder to Phi-3-mini for document and chart understanding. Gemma~3 \citep{team2025gemma3} attaches a SigLIP-based encoder, operating on $896 \times 896$ inputs with Pan-and-Scan cropping, to its 4B, 12B, and 27B variants; the 1B variant is text-only with a 32K context. Qwen2.5-VL \citep{bai2025qwen25vl} at 3B and 7B supports documents, charts, and video.
+
+\emph{Audio and multimodal.} Gemma~3n \citep{google2025gemma3n} nests a 2B-effective sub-model inside a 4B-effective one (MatFormer) and keeps per-layer embeddings off the accelerator, so that its 5B and 8B raw models run with the resident memory of roughly 2B and 4B models. Gemma~4 \citep{gemma4_2026} spans 2.3B-effective to 31B with dense and \gls{moe} variants and a thinking mode. Voxtral Mini~3B (4.7B including its audio encoder) adds speech understanding and transcription to a 3B decoder under an open licence \citep{mistral2025voxtral}, and Apple's on-device models are multimodal \citep{gunter2025afm,apple2026afm3}.
+
+\subsection{Application Domains}
+\label{supp:taxonomy_domain}
+
+Most \glspl{slm} are general-purpose models evaluated on broad benchmarks. Developer-trained domain models target narrow tasks:
+
+\begin{description}
+  \item[Healthcare] Meerkat-7B \citep{kim2025meerkat}, fine-tuned on chain-of-thought traces synthesized from medical textbooks, reports 70.6\% on MedQA, which its authors describe as the first 7B result above the roughly 60\% USMLE pass threshold (\evC). OptimCLM \citep{hasan2024optimclm} compresses clinical BERT encoders with under 5\% macro-AUROC loss on outcome prediction (\evC).
+  \item[Code] Code Llama \citep{roziere2023codellama}, StarCoder2 \citep{lozhkov2024starcoder2}, and DeepSeek-Coder \citep{zhu2024deepseek_coder} are code-specialized families evaluated on HumanEval and MBPP (\suppsec~\ref{subsec:applications_code}).
+  \item[Legal] Small models fine-tuned on statutes, case law, and contracts target clause classification, obligation extraction, and regulatory triage. On-premises deployment can help meet privilege and data-residency obligations, subject to the scope conditions of Section~\ref{subsec:deployment_privacy_scope}; public evaluation of current small models in this domain is sparse (\suppsec~\ref{subsec:applications_legal}).
+  \item[Multilingual] Aya~23 \citep{aryabumi2024aya23} allocates the capacity of an 8B decoder to 23 languages and reports outperforming the 13B Aya-101 \citep{ustun2024aya} on the languages both cover (\evC); Aya-101 is an mT5-based encoder-decoder, outside C1. Qwen2.5-7B \citep{qwen2024qwen25} documents coverage of Chinese, Japanese, Korean, Arabic, and the major European languages.
+\end{description}

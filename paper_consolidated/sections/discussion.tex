@@ -4,158 +4,48 @@
 \subsection{What the Evidence Supports}
 \label{subsec:discussion_key_findings}
 
-Read together, the taxonomy (Section~\ref{sec:taxonomy}), the compression review
-(Section~\ref{sec:compression}), and the audit of the evaluation record
-(Section~\ref{sec:reported}) support four claims.
+Four conclusions follow from the preceding sections, each at the grade stated.
 
-\textbf{Capability per parameter has risen sharply.} The strongest 3--4B models
-of 2026 report scores on mathematics, code, and knowledge benchmarks that were
-state of the art for 13B-class systems in 2023. Within families that publish
-controlled ablations, the dominant explanatory variable is training data rather
-than architecture: corpus composition and curation move results more than any
-architectural choice available at this scale. The practical implication for model
-builders is that data pipelines dominate architectural novelty as a lever on
-\gls{slm} quality.
+\textbf{Capability per parameter has risen, and training data is the main lever.} The strongest 3--4B models of 2024--2025 report scores that 13B-class models of 2023 did not report, an across-source comparison whose direction alone we assert (\evD); a single-harness benchmark of 72 small models finds that reasoning tracks training method and data quality more than scale \citep{srivastava2025thinkslm} (\evB).
 
-\textbf{Compression is a first-class capability, not an afterthought.} INT8 is
-effectively lossless (\evB) and INT4 costs a small, non-uniform amount of
-accuracy, with smaller models and mathematical reasoning at the higher end
-(\evC). Because single-stream autoregressive decoding is memory-bandwidth-bound,
-4-bit quantization is simultaneously a storage optimization and a decode-time
-speedup on edge hardware, in proportion to the bandwidth it frees and subject to
-the regime conditions of Section~\ref{subsec:deployment_calc_vs_meas}.
-Quantization preserves fidelity better than pruning below 4B parameters
-(\evB, \citealp{kurz2025pruning_vs_quant}), which simplifies the practitioner's
-decision: quantize aggressively, and prune only when a structured size reduction
-is independently required. What the literature does not support, and what
-Section~\ref{subsec:compression_reporting} withdraws, is a single accuracy-retention
-figure per technique: retention depends on baseline, model, size, task, and
-aggregation rule, and a number stated without them is not interpretable.
+\textbf{To compress an existing small model, quantize first.} Post-training quantization preserves fidelity better than post-training pruning at 0.5--3.8B (\evA), 4-bit weights are $2.8$--$3.6\times$ smaller than FP16, and the decode speedup that follows is real only in single-stream, bandwidth-bound use, as Meta's measured $2.6\times$ on a phone illustrates (Section~\ref{subsec:deployment_calc_vs_meas}). A single accuracy-retention figure per technique is not supported (Section~\ref{subsec:compression_reporting}).
 
-\textbf{Right-sizing beats scaling for bounded tasks.} A quantized 3.8B model
-that clears a task's accuracy threshold, running on hardware that already exists
-in the user's hand, is preferable on cost, latency, energy, and data exposure to
-a larger model that also clears it. A 3--4B model at INT4 occupies roughly 2~GB
-and runs at interactive speed on a phone or a Jetson-class module. The
-scaling-era assumption that a larger model is always the safer default is
-inverted for any task whose requirements can be stated in advance \emph{and
-checked}. Both halves of that condition matter: where the requirement cannot be
-stated in advance, the task is not bounded, and where success cannot be checked,
-per-call errors compound silently across an agent trajectory
-(Section~\ref{subsubsec:agentic_ev_e2e}). Section~\ref{subsec:agentic_counterexamples}
-lists the workload classes where this claim does not apply.
+\textbf{The vendor evaluation record cannot support cross-model comparison.} For the 14 cohort models of the four largest vendors, no benchmark is reported for all of them and no stated protocol is shared by more than five (\evB). Comparison tables built from vendor figures, including those in secondary sources, inherit this; single-harness third-party evaluations are the basis on which comparison should rest.
 
-\textbf{The evaluation record is the weak point, and it is weaker than the field
-acknowledges.} Section~\ref{sec:reported} documents why a cross-model accuracy
-comparison cannot be built from current public reporting: benchmark sets do not
-intersect across vendors, shot counts vary per benchmark and per vendor, base and
-instruction-tuned figures are conflated, and matched baselines are rarely
-published. This is not a limitation peculiar to this survey. It applies equally
-to the comparison tables circulated in secondary sources, community leaderboards,
-and prior surveys, which are widely reproduced without these caveats and which
-practitioners use to make procurement decisions. Establishing a shared,
-independently run evaluation for this model class would be a more valuable
-contribution to the field than another survey, and
-Section~\ref{subsec:challenges_verification} specifies what it would require.
+\textbf{Right-sizing is a conditional design rule, not a general one.} For a call type meeting H1--H4, a specialized small model is plausibly the right default: it is cheaper per call, faster once the network hop is counted, available offline, and its errors are caught by the check. That conclusion is graded \evD{}, because the quantity that decides it, cost per completed task against cached, batched, hosted, and frontier alternatives, has not been measured (Section~\ref{subsubsec:agentic_ev_routing}), and Section~\ref{subsec:agentic_counterexamples} names the workloads where it fails.
 
 \subsection{Implications for Agentic Systems}
 \label{subsec:discussion_agentic}
 
-The agentic argument of Section~\ref{sec:agentic} rests on these claims rather
-than restating them. Capability-per-parameter growth is what makes an \gls{slm}
-\emph{sufficient} for a delegated sub-task; compression and edge deployability are
-what make it \emph{cheap} and \emph{private}; right-sizing is the design
-discipline that turns a heterogeneous SLM--LLM system from an option into the
-default. Two cross-cutting observations sharpen the picture. First, routing must
-be capability-aware, not size-aware: the reported multilingual and safety gaps
-(Section~\ref{subsec:reported_safety}) mean that a naive ``small model unless
-hard'' router will silently degrade non-English and safety-sensitive calls.
-Second, adaptation matters more as models get smaller, so the economical unit in
-an agent is often a \emph{fine-tuned} small model per recurring call type rather
-than a single general \gls{slm}, which is exactly what the LLM-to-SLM conversion
-pipeline of Section~\ref{subsec:agentic_conversion} produces.
+Three implications follow for agent builders. Routing must be capability-aware, not size-aware: a ``small model unless hard'' router degrades non-English and safety-sensitive calls silently (Section~\ref{subsec:reported_safety}). The economical unit is often a fine-tuned small model per recurring call type rather than one general \gls{slm}, which is what the conversion pipeline produces. And the check is part of the design, not an implementation detail: without a correctness check (H4b), an \gls{slm}-first system inherits the compounding of per-call errors that the cascade was meant to stop.
 
-\subsection{Democratization and Sustainability}
+\subsection{Domain Applications}
+\label{sec:applications}
+\label{subsec:discussion_applications}
+
+The domains where \gls{slm} deployment is most advanced are each a workflow of bounded, repeated language operations under regulatory or cost constraints, and \suppsec~\ref{supp:applications} reviews them with the state of the evidence for each. Healthcare is the best evidenced: Meerkat-7B reports 70.6\% on MedQA \citep{kim2025meerkat} and compressed clinical encoders lose under 5\% in macro-AUROC \citep{hasan2024optimclm} (\evC), but exam benchmarks are not deployment evidence, and on-premises hosting removes one data-transfer question without satisfying HIPAA or the GDPR. Legal NLP has public benchmarks, including LegalBench \citep{guha2023legalbench}, LexGLUE \citep{chalkidis2022lexglue}, and CUAD \citep{hendrycks2021cuad}, but we found no evaluation of current sub-10B decoder models across them under one protocol, so its case for small on-premises models is structural rather than evidential. Code has mature small models evaluated on public benchmarks \citep{roziere2023codellama,lozhkov2024starcoder2,zhu2024deepseek_coder}, and multilingual coverage trades breadth against depth at this size \citep{aryabumi2024aya23}. In every vertical, deployment interest runs ahead of the evidence.
+
+\subsection{Access and Sustainability}
 \label{subsec:discussion_implications}
 
-Deploying a 3B model that answers grade-school mathematics correctly on an
-\$80 single-board computer is a qualitative change in access. Organizations facing
-cloud-API cost, data-sovereignty rules, or unreliable connectivity can now run
-capable \gls{nlp} locally with no per-query charge and, subject to the scope
-conditions of Section~\ref{subsec:deployment_privacy_scope}, without transferring
-prompt content to a processor outside their control.
-
-The environmental case is narrower than it is usually stated and we state it
-narrowly. Reported per-inference energy for a small model on modest hardware is
-one to two orders of magnitude below a frontier-model query in a datacenter, so
-for a task the small model completes correctly, serving it small uses
-substantially less inference energy. Whether a wholesale shift reduces total
-system energy is a different question, and one no published accounting answers:
-it turns on teacher-training energy, the compression pipeline, device embodied
-carbon, regional grid intensity, update distribution, and the rebound effect, none
-of which the available reporting covers.
-Section~\ref{subsubsec:challenges_env_scope} sets out that accounting boundary in
-full. We therefore make the per-query claim and decline the aggregate one.
+Running a capable 3B model on inexpensive hardware, with no per-query charge and, within the scope conditions of Section~\ref{subsec:deployment_privacy_scope}, no transfer of prompt content, widens access for organizations facing cloud cost, data-sovereignty rules, or unreliable connectivity. The environmental case is narrower than usually stated. Per-query compute scales with active parameters, but per-query energy also depends on utilization, and a well-batched server can be more efficient per token than an idle device; aggregate effects depend further on teacher training, device manufacture, grid intensity, update distribution, and rebound. We therefore make no aggregate energy claim (\suppsec~\ref{supp:energy}).
 
 \subsection{Limitations}
 \label{subsec:discussion_limitations}
 
-Beyond the evidence-base limitations already stated
-(Section~\ref{subsec:reported_limits}), six bound this work.
+\emph{No original measurement.} No benchmark was executed for this survey; the one grade-\evA{} claim rests on cited controlled studies, and Section~\ref{subsec:challenges_verification} is written to be acted on.
 
-\emph{No original measurement.} No benchmark was executed for this survey. Every
-quantitative claim is therefore at best grade~\evB{}
-(Section~\ref{subsec:reported_grading}), and the paper contains no grade~\evA{}
-evidence. This is a deliberate choice, since we judged an audit of the record more
-useful than adding another unreplicated table to it, but it is a limitation and
-Section~\ref{subsec:challenges_verification} is written to be acted on rather than
-cited.
+\emph{Inventory provenance.} The inventory began from secondary listings, and 205 records were first compiled with the assistance of a language model. Every included record now links a developer source checked on 8~October 2026, but coverage of models no listing surfaced, especially from smaller developers, is not guaranteed, and the change of seed source in 2026 affects year-to-year comparisons.
 
-\emph{The definitional boundaries are conventions.} The twenty-billion threshold,
-the split into conditions C1 and C2, and the sub-10B restriction on the evaluation
-cohort are pragmatic choices, not natural kinds. They are stated precisely
-(Section~\ref{subsec:intro_definition}) so that a reader can recompute under
-different ones, which is the most a threshold of this sort can offer.
+\emph{Literature search.} The technique literature was not screened under a recorded protocol, so statements that no study exists are bounded by the search described in Section~\ref{subsec:intro_method}.
 
-\emph{The thesis is a hypothesis.} The agentic argument is grounded in a
-production-scale position paper \citep{belcak2025slm_agentic}, two large
-deployments, and the agent-specific evidence of
-Section~\ref{subsec:agentic_evidence}, and its premises are graded individually in
-Table~\ref{tab:agentic_evidence}. The end-to-end claim, that a small-model agent
-completes realistic tasks at comparable rate and lower cost per completed task,
-is the one premise for which we found no evidence either way. It is a projection,
-and we mark it as one.
+\emph{Definitional conventions.} The twenty-billion threshold, the C1/C2 split, and the sub-10B cohort are conventions; Section~\ref{subsubsec:intro_def_operative} gives the counts under other thresholds.
 
-\emph{Coverage is English-centric.} The task coverage, the benchmarks audited, and
-most of the compression literature are English-centric, which matters more here
-than usual because compression degrades non-English performance disproportionately
-(Section~\ref{subsec:discussion_ethics}).
+\emph{Scope of H's evidence.} Every agent-specific result concerns models below 10B, and H relies on C1 more than C2: for server-side calls a small-active-parameter \gls{moe} has small-model per-call cost, so it is a comparator in the test of H rather than part of H.
 
-\emph{Domain sections are uneven.} Code and healthcare have public benchmarks and
-are treated evidentially; legal has neither, and
-Section~\ref{subsec:applications_legal} states a structural argument rather than a
-capability claim. Readers should not read the four verticals as equally supported.
-
-\emph{The snapshot ages.} The ecosystem moves faster than a review cycle. The
-update policy of Section~\ref{subsubsec:intro_snapshot} and the versioned deposit
-are how we bound this, not eliminate it.
+\emph{Coverage.} The benchmarks audited and most of the compression literature are English-centric, the audit covers 2023--2025 releases, and the snapshot ages; the update policy of \suppsec~\ref{subsubsec:intro_snapshot} bounds rather than removes this.
 
 \subsection{Ethical Considerations}
 \label{subsec:discussion_ethics}
 
-Safety alignment is proportionally harder at small scale: several research-grade
-\glspl{slm} lack the safety training of their larger siblings, and fine-tuning can erode
-what alignment exists \citep{qi2023finetuning}. Practitioners deploying SLMs, and
-especially those wiring them into agents with tool access, should treat
-application-level safety filtering and output monitoring as mandatory, not
-optional. Compression carries its own risk: pruning and quantization can degrade
-performance unevenly across dialects, languages, and demographic groups
-\citep{blodgett2020language}, and the reported advantage of quantization over
-pruning is largest precisely on multilingual tasks \citep{kurz2025pruning_vs_quant},
-which suggests pruning disproportionately harms non-English users. Fairness-aware
-compression objectives and per-group performance floors for high-stakes
-applications are open requirements. Against these risks, on-device \glspl{slm} advance
-privacy (one egress channel removed, subject to Section~\ref{subsec:deployment_privacy_scope}), accessibility (no connectivity required),
-and cost (no subscription), which matters most for the healthcare and
-educational applications of Section~\ref{sec:applications} in under-resourced
-settings.
+Alignment is harder to preserve at small scale, several research-grade \glspl{slm} ship without safety training, and fine-tuning can erode what exists \citep{qi2023finetuning}; deployments that give small models tool access should treat output filtering and monitoring as mandatory. Compression can degrade performance unevenly across languages and dialects \citep{blodgett2020language}, and pruning more than quantization \citep{kurz2025pruning_vs_quant}, so high-stakes applications need per-group performance floors. Against these risks, on-device \glspl{slm} remove one egress channel, work without connectivity, and need no subscription, which matters most in under-resourced healthcare and education settings.

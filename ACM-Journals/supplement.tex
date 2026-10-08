@@ -1,0 +1,254 @@
+%%
+%% A Survey of Small Language Models for Agentic AI
+%% ACM Journals (acmart) version -- content ported from paper_consolidated/paper.tex
+%%
+%% Build:  pdflatex -> bibtex -> pdflatex -> pdflatex
+%%
+%% -------------------------------------------------------------------------
+%% Math fonts, set before the class is loaded.
+%%
+%% acmart's pdfLaTeX branch loads newtxmath with its libertine option, which
+%% pulls the old Linux Libertine faces into every formula. We want Libertinus
+%% throughout, so we mark newtxmath as already-loaded before acmart runs (its
+%% \RequirePackage then becomes a no-op) and load libertinust1math instead,
+%% which is the Libertinus-matched math font. Text, sans, mono and math then all
+%% come from one family.
+%%
+%% If a future acmart release starts calling newtxmath-specific macros, drop
+%% these two lines and the \usepackage{libertinust1math} below; the build falls
+%% back to Libertinus text with Libertine-matched math, which is close but not
+%% exact.
+%% -------------------------------------------------------------------------
+\expandafter\def\csname ver@newtxmath.sty\endcsname{9999/99/99}
+%% Record the option acmart will ask for, so its \RequirePackage[libertine]
+%% matches what LaTeX believes is already loaded and raises no option clash.
+\expandafter\def\csname opt@newtxmath.sty\endcsname{libertine}
+
+\documentclass[acmsmall,screen,review]{acmart}
+
+%% -------------------------------------------------------------------------
+%% Packages required by the ported section files
+%% (acmart already provides amsmath, booktabs, graphicx, hyperref, natbib)
+%% -------------------------------------------------------------------------
+%% -------------------------------------------------------------------------
+%% Fonts. acmart loads Libertine plus newtxmath by default; we replace that
+%% whole stack with Libertinus, the maintained successor to Linux Libertine,
+%% so that text, math, sans and mono all come from one family and the figures
+%% (which set their text in Libertinus Serif via kaleido) match the body exactly.
+%%
+%% acmart has already loaded libertine + newtxmath by the time this file is
+%% read, and both resist being unloaded, so we override rather than replace:
+%% libertinus-type1 re-points the roman, sans and mono defaults at the
+%% Libertinus Type 1 families. Math stays on newtxmath, which acmart configured
+%% with its libertine option; since Libertinus is a direct fork of Linux
+%% Libertine the math glyphs remain metrically and visually consistent with the
+%% Libertinus text around them. Loading libertinust1math on top would clash with
+%% newtxmath (duplicate \widebar, \txvec and friends) for no visible gain.
+%% -------------------------------------------------------------------------
+\usepackage{libertinus-type1}
+\usepackage{libertinust1math}
+
+%% acmart defines \liningnums in terms of \libertineLF, which would drag the old
+%% Linux Libertine face back in for the few lining-figure runs that use it.
+%% Point it at the Libertinus lining figures instead, so no Libertine glyph is
+%% left anywhere in the document.
+\AtEndPreamble{%
+  \def\libertineLF{\LibertinusSerifLF}%
+  \DeclareTextFontCommand{\liningnums}{\LibertinusSerifLF}%
+}
+
+%% Cross-references into the electronic supplement (supplement.tex), resolved
+%% from its .aux file. Build order: main, supplement, main.
+\usepackage{xr}
+\externaldocument{less-is-more}
+\newcommand{\suppsec}{Supplementary Section}
+
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{threeparttable}
+\usepackage{adjustbox}
+\usepackage{pdflscape}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+
+%% Acronyms / glossaries (same setup as the source manuscript)
+\usepackage[acronym,nomain,nonumberlist,nopostdot]{glossaries}
+\setacronymstyle{long-short}
+%% No glossary is printed, so acronym uses must not become hyperlinks to it.
+\glsdisablehyper
+
+%% Column types used by the ported tables
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+%% -------------------------------------------------------------------------
+%% Evidence grading (Section 7.1.6). Each grade denotes the strongest kind of
+%% source standing behind a claim, not the claim's importance.
+%% -------------------------------------------------------------------------
+% \textnormal resets any surrounding italic/bold before applying small caps, so
+% the grade renders in every context (including inside \emph and table headers)
+% without requesting a small-caps-italic shape that the text fonts lack.
+\newcommand{\evgrade}[1]{\textnormal{\textsc{\small #1}}}
+\newcommand{\evA}{\evgrade{A}}   % controlled: one harness, matched baselines
+\newcommand{\evB}{\evgrade{B}}   % independent third-party evaluation
+\newcommand{\evC}{\evgrade{C}}   % vendor self-reported
+\newcommand{\evD}{\evgrade{D}}   % author interpretation / synthesis
+
+%% \file{...} typesets a filename in typewriter and permits a line break after
+%% each underscore, which plain \texttt does not; long script and dataset names
+%% otherwise overrun the column.
+\newcommand{\file}[1]{{\ttfamily\hyphenchar\font=-1
+  \def\_{\char`\_\allowbreak}#1}}
+
+\graphicspath{{figures/}}
+
+\input{abbreviations}
+
+%% -------------------------------------------------------------------------
+%% Rights / journal metadata (placeholder values -- replace on submission)
+%% -------------------------------------------------------------------------
+\AtBeginDocument{\providecommand\BibTeX{{Bib\TeX}}}
+%% No licence has been granted yet, so none is asserted on the review build.
+%% Switch to \setcopyright{acmlicensed} once the ACM rights form is completed.
+\setcopyright{none}
+\copyrightyear{2026}
+\acmYear{2026}
+%% The DOI, volume, number, article number, and dates are assigned by ACM. For
+%% the submission build the ACM reference block is suppressed and no date is
+%% claimed.
+\acmJournal{CSUR}
+\settopmatter{printacmref=false}
+%% No DOI is assigned before acceptance: clear acmart's placeholder and let
+%% the footnote omit the DOI line when it is empty.
+\acmDOI{}
+\makeatletter
+\def\@formatdoi#1{\if\relax\detokenize{#1}\relax\else\url{https://doi.org/#1}\fi}
+\makeatother
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+
+%% -------------------------------------------------------------------------
+%% Front matter
+%% -------------------------------------------------------------------------
+\begin{document}
+
+\title[A Survey of Small Language Models for Agentic AI: Supplement]{Supplementary Material for
+  ``A Survey of Small Language Models for Agentic AI: Architectures, Compression,
+  Deployment, and Evaluation''}
+
+\author{Mohammed Gamal Ragab}
+\authornote{Corresponding authors.}
+\orcid{0000-0001-5226-4962}
+\email{mohammed.ragab@utp.edu.my}
+\affiliation{%
+  \department[0]{Department of Computer and Information Sciences}
+  \department[1]{Center for Research in Data Science (CeRDaS)}
+  \institution{Universiti Teknologi PETRONAS}
+  \city{Seri Iskandar}
+  \state{Perak}
+  \country{Malaysia}
+}
+
+\author{Hitham Alhussian}
+\authornotemark[1]
+\orcid{0000-0003-3947-269X}
+\email{seddig.alhussian@utp.edu.my}
+\affiliation{%
+  \department[0]{Department of Computer and Information Sciences}
+  \department[1]{Center for Research in Data Science (CeRDaS)}
+  \institution{Universiti Teknologi PETRONAS}
+  \city{Seri Iskandar}
+  \state{Perak}
+  \country{Malaysia}
+}
+
+\author{Said Jadid Abdulkadir}
+\orcid{0000-0003-0038-3702}
+\email{saidjadid.a@utp.edu.my}
+\affiliation{%
+  \department[0]{Department of Computer and Information Sciences}
+  \department[1]{Center for Research in Data Science (CeRDaS)}
+  \institution{Universiti Teknologi PETRONAS}
+  \city{Seri Iskandar}
+  \state{Perak}
+  \country{Malaysia}
+}
+
+\author{W. Eltayeb Ahmed}
+\email{waahmed@imamu.edu.sa}
+\affiliation{%
+  \department[0]{Department of Mathematics and Statistics}
+  \department[1]{College of Science}
+  \institution{Imam Mohammad Ibn Saud Islamic University (IMSIU)}
+  \city{Riyadh}
+  \country{Saudi Arabia}
+}
+
+\renewcommand{\shortauthors}{Ragab et al.}
+
+\begin{abstract}
+  This electronic supplement contains the material referred to from the main
+  text as Supplementary Sections S1--S18: the reporting dimensions and artifact
+  vocabulary; the inclusion criteria, source verification, released artifacts,
+  and update policy; the key model families; the technical background; the
+  inventory figures; the taxonomy facets and architectural detail; compression
+  methods and distillation variants; the audit protocol and coverage ledger;
+  reference tables; deployment platforms; the conversion pipeline and routing
+  designs; domain applications; model-level challenges; open research
+  directions; the environmental accounting boundary; data provenance; and the
+  generated variant inventory.
+\end{abstract}
+
+\begin{CCSXML}
+<ccs2012>
+   <concept>
+       <concept_id>10010147.10010178.10010179</concept_id>
+       <concept_desc>Computing methodologies~Natural language processing</concept_desc>
+       <concept_significance>500</concept_significance>
+   </concept>
+   <concept>
+       <concept_id>10010520.10010553</concept_id>
+       <concept_desc>Computer systems organization~Embedded and cyber-physical systems</concept_desc>
+       <concept_significance>300</concept_significance>
+   </concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Computing methodologies~Natural language processing}
+\ccsdesc[300]{Computer systems organization~Embedded and cyber-physical systems}
+
+\keywords{Small language models, agentic AI, model inventory, evaluation
+  reporting, model compression}
+
+\maketitle
+\glsresetall
+
+\input{sections/supp_definitions}
+\input{sections/supp_method}
+\input{sections/supp_families}
+\input{sections/supp_background}
+\input{sections/supp_figures}
+\input{sections/supp_taxonomy}
+\input{sections/supp_compression}
+\input{sections/supp_kd}
+\input{sections/supp_audit}
+\input{sections/supp_tables}
+\input{sections/supp_deployment}
+\input{sections/supp_agentic}
+\input{sections/supp_applications}
+\input{sections/supp_challenges}
+\input{sections/supp_directions}
+\input{sections/supp_energy}
+\input{sections/appendix_supplementary}
+\input{sections/appendix_ecosystem}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{bibliography}
+
+\end{document}

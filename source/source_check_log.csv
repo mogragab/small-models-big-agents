@@ -1,0 +1,326 @@
+array,name,developer,slm_class,reference_class,reference_domain,hub_repo,hub_exists,hub_author,hub_created,hub_license,hub_params_b,recorded_total_b,hub_to_recorded_ratio,developer_source_found
+slm,Ling 3.0 Flash Fin,inclusionAI,small-active-moe,hub_model,huggingface.co,inclusionAI/Ling-3.0-flash-Fin,True,inclusionAI,2026-09-03,mit,127.486,124.0,1.028,True
+slm,Granite 4.2 8B,IBM,slm,hub_page,huggingface.co,ibm-granite/granite-4.2-8b,True,ibm-granite,2026-08-07,apache-2.0,8.792,8.0,1.099,True
+slm,Granite 4.2 3B,IBM,slm,hub_page,huggingface.co,ibm-granite/granite-4.2-3b,True,ibm-granite,2026-08-07,apache-2.0,3.66,3.0,1.22,True
+slm,DeepSeek V4 Flash Vision Exp,DeepSeek,small-active-moe,hub_model,huggingface.co,deepseek-ai/DeepSeek-V4-Flash-Vision-Exp,True,deepseek-ai,2026-08-31,mit,304.647,284.0,1.073,True
+slm,Hy-MT2-30B-A3B,Tencent,small-active-moe,hub_model,huggingface.co,tencent/Hy-MT2-30B-A3B,True,tencent,2026-05-11,apache-2.0,30.065,30.0,1.002,True
+slm,Hy-MT2-1.8B,Tencent,slm,hub_model,huggingface.co,tencent/Hy-MT2-1.8B,True,tencent,2026-05-11,apache-2.0,2.039,1.8,1.133,True
+slm,Hy-MT2-7B,Tencent,slm,hub_model,huggingface.co,tencent/Hy-MT2-7B,True,tencent,2026-05-11,apache-2.0,8.03,7.0,1.147,True
+slm,Dots3-Note Preview,Dots Studio,small-active-moe,hub_model,huggingface.co,dots-studio/dots3-note-prev,True,dots-studio,2026-08-09,apache-2.0,288.443,280.0,1.03,True
+slm,Nemotron 3.5 Lightning 30B-A3B,NVIDIA,small-active-moe,developer,developer.nvidia.com,nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-BF16,True,nvidia,2026-08-01,other,31.578,30.0,1.053,True
+slm,LFM2.5-2.6B,Liquid AI,slm,hub_model,huggingface.co,LiquidAI/LFM2.5-2.6B,True,LiquidAI,2026-07-28,other,2.697,2.69,1.003,True
+slm,NemotronLabs VoiceChat 11B,NVIDIA,slm,developer,developer.nvidia.com,nvidia/NVIDIA-NemotronLabs-VoiceChat-11B,True,nvidia,2026-07-29,openmdw-1.1,11.095,11.0,1.009,True
+slm,DeepSeek V4 Flash 0731,DeepSeek,small-active-moe,hub_model,huggingface.co,deepseek-ai/DeepSeek-V4-Flash-0731,True,deepseek-ai,2026-07-31,mit,304.18,284.0,1.071,True
+slm,Inkling Small,Thinking Machines Lab,small-active-moe,hub_model,huggingface.co,thinkingmachines/Inkling-Small,True,thinkingmachines,2026-07-27,apache-2.0,265.956,276.0,0.964,True
+slm,Ling 3.0 Flash,inclusionAI,small-active-moe,hub_model,huggingface.co,inclusionAI/Ling-3.0-flash,True,inclusionAI,2026-08-02,mit,127.486,124.0,1.028,True
+slm,Laguna S 2.1,Poolside,small-active-moe,hub_model,huggingface.co,poolside/Laguna-S-2.1,True,poolside,2026-07-13,openmdw-1.1,117.562,118.0,0.996,True
+slm,Laguna XS 2.1,Poolside,small-active-moe,hub_model,huggingface.co,poolside/Laguna-XS-2.1,True,poolside,2026-06-20,openmdw-1.1,33.443,33.0,1.013,True
+slm,North Mini Code 1.0,Cohere,small-active-moe,hub_model,huggingface.co,CohereLabs/North-Mini-Code-1.0,True,CohereLabs,2026-06-05,apache-2.0,30.484,30.0,1.016,True
+slm,Nex-N2-Pro,Nex AGI,small-active-moe,hub_model,huggingface.co,nex-agi/Nex-N2-Pro,True,nex-agi,2026-06-03,apache-2.0,396.802,397.0,1.0,True
+slm,Apple AFM 3 Core Advanced,Apple,slm,developer,machinelearning.apple.com,,,,,,,20.0,,True
+slm,Nemotron 3.5 Content Safety,NVIDIA,slm,hub_model,huggingface.co,nvidia/Nemotron-3.5-Content-Safety,True,nvidia,2026-05-22,other,4.3,4.0,1.075,True
+slm,LFM2.5-8B-A1B,Liquid AI,slm,developer,liquid.ai,,,,,,,8.3,,True
+slm,Granite 4.1 8B,IBM,slm,hub_model,huggingface.co,ibm-granite/granite-4.1-8b,True,ibm-granite,2026-04-06,apache-2.0,8.792,8.0,1.099,True
+slm,Granite 4.1 3B,IBM,slm,hub_model,huggingface.co,ibm-granite/granite-4.1-3b,True,ibm-granite,2026-04-06,apache-2.0,3.403,3.0,1.134,True
+slm,Gemma 4 E4B,Google DeepMind,slm,developer,blog.google,google/gemma-4-E4B,True,google,2026-03-02,apache-2.0,7.996,8.0,1.0,True
+slm,Gemma 4 E2B,Google DeepMind,slm,developer,blog.google,google/gemma-4-E2B,True,google,2026-03-02,apache-2.0,5.123,5.0,1.025,True
+slm,Gemma 4 26B (MoE),Google DeepMind,small-active-moe,developer,blog.google,google/gemma-4-26B,True,google,,,,26.0,,True
+slm,Gemma 4 12B,Google DeepMind,slm,developer,blog.google,google/gemma-4-12b,True,google,2026-05-23,apache-2.0,11.96,12.0,0.997,True
+slm,Mistral Small 4 (119B),Mistral AI,small-active-moe,developer,mistral.ai,mistralai/Mistral-Small-4-119B-2603,True,mistralai,2026-01-23,apache-2.0,119.401,119.0,1.003,True
+slm,Qwen3.5-9B,Alibaba,slm,developer,qwen.ai,Qwen/Qwen3.5-9B,True,Qwen,2026-02-27,apache-2.0,9.653,9.0,1.073,True
+slm,Qwen3.5-4B,Alibaba,slm,developer,qwen.ai,Qwen/Qwen3.5-4B,True,Qwen,2026-02-27,apache-2.0,4.66,4.0,1.165,True
+slm,Qwen3.5-2B,Alibaba,slm,developer,qwen.ai,Qwen/Qwen3.5-2B,True,Qwen,2026-02-28,apache-2.0,2.274,2.0,1.137,True
+slm,Qwen3.5-0.8B,Alibaba,slm,developer,qwen.ai,Qwen/Qwen3.5-0.8B,True,Qwen,2026-02-28,apache-2.0,0.873,0.8,1.091,True
+slm,Nemotron 3 Super,NVIDIA,small-active-moe,developer,developer.nvidia.com,nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16,True,nvidia,2026-03-10,other,123.611,120.0,1.03,True
+slm,Qwen3.5-397B-A17B,Alibaba,small-active-moe,developer,qwen.ai,Qwen/Qwen3.5-397B-A17B,True,Qwen,2026-02-16,apache-2.0,403.398,397.0,1.016,True
+slm,Qwen3.5-35B-A3B,Alibaba,small-active-moe,developer,qwen.ai,Qwen/Qwen3.5-35B-A3B,True,Qwen,2026-02-24,apache-2.0,35.952,35.0,1.027,True
+slm,Qwen3.5-122B-A10B,Alibaba,small-active-moe,developer,qwen.ai,Qwen/Qwen3.5-122B-A10B,True,Qwen,2026-02-24,apache-2.0,125.086,122.0,1.025,True
+slm,MiMo-V2-Flash,Xiaomi,small-active-moe,hub_model,huggingface.co,XiaomiMiMo/MiMo-V2-Flash,True,XiaomiMiMo,2025-12-16,mit,309.785,309.0,1.003,True
+slm,LFM2.5-VL-3B,Liquid AI,slm,developer,liquid.ai,,,,,,,3.0,,True
+slm,LFM2.5-Audio-1.5B,Liquid AI,slm,developer,liquid.ai,,,,,,,1.5,,True
+slm,LFM2.5-350M,Liquid AI,slm,developer,liquid.ai,,,,,,,0.35,,True
+slm,LFM2.5-1.2B,Liquid AI,slm,developer,liquid.ai,,,,,,,1.2,,True
+slm,Nemotron 3 Nano-30B,NVIDIA,small-active-moe,developer,nvidianews.nvidia.com,nvidia/Nemotron-3-Nano-30B,True,nvidia,,,,30.0,,True
+slm,Ministral 3 (14B),Mistral AI,slm,developer,mistral.ai,mistralai/Ministral-3-14B-Instruct-2512,True,mistralai,2025-10-31,apache-2.0,13.945,14.0,0.996,True
+slm,Ministral-3B-Instruct-2512,Mistral AI,slm,developer,docs.mistral.ai,mistralai/Ministral-3B-instruct-2512,True,mistralai,,,,3.8,,True
+slm,Granite 4.0 Nano 350M,IBM,slm,hub_model,huggingface.co,ibm-granite/granite-4.0-nano-350m,True,ibm-granite,,,,0.35,,True
+slm,Granite 4.0 Nano 1B,IBM,slm,hub_model,huggingface.co,ibm-granite/granite-4.0-nano-1b,True,ibm-granite,2025-10-07,apache-2.0,1.632,1.0,1.632,True
+slm,Granite 4.0 Micro,IBM,slm,developer,ibm.com,ibm-granite/granite-4.0-micro,True,ibm-granite,2025-09-16,apache-2.0,3.403,3.0,1.134,True
+slm,Granite 4.0 H-Tiny,IBM,slm,developer,ibm.com,ibm-granite/granite-4.0-h-tiny,True,ibm-granite,2025-09-16,apache-2.0,6.939,7.0,0.991,True
+slm,Granite 4.0 H-Small,IBM,small-active-moe,developer,ibm.com,ibm-granite/granite-4.0-h-small,True,ibm-granite,2025-09-16,apache-2.0,32.207,32.0,1.006,True
+slm,Granite 4.0 H-Micro,IBM,slm,developer,ibm.com,ibm-granite/granite-4.0-h-micro,True,ibm-granite,2025-09-16,apache-2.0,3.191,3.0,1.064,True
+slm,NVIDIA Nemotron Nano 2,NVIDIA,slm,developer,research.nvidia.com,nvidia/NVIDIA-Nemotron-Nano-9B-v2,True,nvidia,2025-08-12,other,8.888,9.0,0.988,True
+slm,LFM2-8B-A1.5B (MoE),Liquid AI,slm,developer,liquid.ai,LiquidAI/LFM2-8B-A1.5B,True,LiquidAI,,,,8.3,,True
+slm,LFM2-2.6B,Liquid AI,slm,developer,liquid.ai,LiquidAI/LFM2-2.6B,True,LiquidAI,2025-09-22,other,2.569,2.6,0.988,True
+slm,Falcon-H1-7B,Technology Innovation Institute,slm,developer,falcon-lm.github.io,tiiuae/Falcon-H1-7B-Instruct,True,tiiuae,2025-05-01,other,7.586,7.0,1.084,True
+slm,Falcon-H1-3B,Technology Innovation Institute,slm,developer,falcon-lm.github.io,tiiuae/Falcon-H1-3B-Instruct,True,tiiuae,2025-05-01,other,3.149,3.0,1.05,True
+slm,Falcon-H1-1.5B,Technology Innovation Institute,slm,developer,falcon-lm.github.io,tiiuae/Falcon-H1-1.5B-Instruct,True,tiiuae,2025-05-01,other,1.555,1.5,1.037,True
+slm,Falcon-H1-0.5B,Technology Innovation Institute,slm,developer,falcon-lm.github.io,tiiuae/Falcon-H1-0.5B-Instruct,True,tiiuae,2025-05-01,other,0.521,0.5,1.042,True
+slm,Voxtral Mini 3B,Mistral AI,slm,developer,mistral.ai,mistralai/Voxtral-Mini-3B-2507,True,mistralai,2025-07-01,apache-2.0,4.676,4.7,0.995,True
+slm,LFM2-700M,Liquid AI,slm,developer,liquid.ai,LiquidAI/LFM2-700M,True,LiquidAI,2025-07-10,other,0.742,0.7,1.06,True
+slm,LFM2-350M,Liquid AI,slm,developer,liquid.ai,LiquidAI/LFM2-350M,True,LiquidAI,2025-07-10,other,0.354,0.35,1.011,True
+slm,LFM2-1.2B,Liquid AI,slm,developer,liquid.ai,LiquidAI/LFM2-1.2B,True,LiquidAI,2025-07-10,other,1.17,1.2,0.975,True
+slm,Qwen3-4B-Instruct-2507,Alibaba,slm,developer,github.com,Qwen/Qwen3-4B-Instruct-2507,True,Qwen,2025-08-05,apache-2.0,4.022,4.0,1.006,True
+slm,"Apple Foundation Model (On-Device, 2nd gen)",Apple,slm,paper,arxiv.org,,,,,,,3.0,,True
+slm,Qwen3-8B-Instruct,Alibaba,slm,developer,github.com,Qwen/Qwen3-8B-Instruct,True,Qwen,,,,8.0,,True
+slm,Qwen3-4B-Instruct,Alibaba,slm,developer,github.com,Qwen/Qwen3-4B-Instruct,True,Qwen,,,,4.0,,True
+slm,Qwen3-30B-A3B,Alibaba,small-active-moe,developer,github.com,Qwen/Qwen3-30B-A3B,True,Qwen,2025-04-27,apache-2.0,30.532,30.0,1.018,True
+slm,Qwen3-14B-Instruct,Alibaba,slm,developer,github.com,Qwen/Qwen3-14B-Instruct,True,Qwen,,,,14.0,,True
+slm,Qwen3-1.7B,Alibaba,slm,developer,github.com,Qwen/Qwen3-1.7B,True,Qwen,2025-04-27,apache-2.0,2.032,1.7,1.195,True
+slm,Qwen3-0.6B,Alibaba,slm,developer,github.com,Qwen/Qwen3-0.6B,True,Qwen,2025-04-27,apache-2.0,0.752,0.6,1.253,True
+slm,BitNet b1.58 2B4T,Microsoft,slm,hub_model,huggingface.co,microsoft/bitnet-b1.58-2B-4T,True,microsoft,2025-04-15,mit,0.85,2.0,0.425,True
+slm,Llama 4 Scout,Meta AI,small-active-moe,developer,ai.meta.com,meta-llama/Llama-4-Scout-17B-16E-Instruct,True,meta-llama,2025-04-02,other,108.642,109.0,0.997,True
+slm,Llama 4 Maverick,Meta AI,small-active-moe,developer,ai.meta.com,meta-llama/Llama-4-Maverick-17B-128E-Instruct,True,meta-llama,2025-04-01,other,401.584,400.0,1.004,True
+slm,Phi-4-reasoning-plus,Microsoft,slm,hub_model,huggingface.co,microsoft/Phi-4-reasoning-plus,True,microsoft,2025-04-17,mit,14.66,14.0,1.047,True
+slm,Phi-4-reasoning,Microsoft,slm,hub_model,huggingface.co,microsoft/Phi-4-reasoning,True,microsoft,2025-04-09,mit,14.66,14.0,1.047,True
+slm,Phi-4-mini-reasoning,Microsoft,slm,hub_model,huggingface.co,microsoft/Phi-4-mini-reasoning,True,microsoft,2025-04-29,mit,3.836,3.8,1.009,True
+slm,Phi-4-mini-flash-reasoning,Microsoft,slm,developer,build.nvidia.com,microsoft/Phi-4-mini-flash-reasoning,True,microsoft,2025-06-19,mit,3.853,3.8,1.014,True
+slm,Granite 3.3-8B-Instruct,IBM,slm,hub_page,huggingface.co,ibm-granite/granite-3.3-8b-instruct,True,ibm-granite,2025-04-09,apache-2.0,8.171,8.0,1.021,True
+slm,Granite 3.3-2B-Instruct,IBM,slm,hub_page,huggingface.co,ibm-granite/granite-3.3-2b-instruct,True,ibm-granite,2025-04-09,apache-2.0,2.534,2.0,1.267,True
+slm,Qwen2.5-Omni-7B,Alibaba,slm,developer,qwenlm.github.io,Qwen/Qwen2.5-Omni-7B,True,Qwen,2025-03-22,other,10.732,7.0,1.533,True
+slm,Gemma 3 4B-IT,Google DeepMind,slm,hub_page,huggingface.co,google/gemma-3-4b-it,True,google,2025-02-20,gemma,4.3,4.0,1.075,True
+slm,Gemma 3 270M-IT,Google DeepMind,slm,hub_page,huggingface.co,google/gemma-3-270m-it,True,google,2025-07-30,gemma,0.268,0.27,0.993,True
+slm,Gemma 3 1B-IT,Google DeepMind,slm,hub_page,huggingface.co,google/gemma-3-1b-it,True,google,2025-03-10,gemma,1.0,1.0,1.0,True
+slm,Gemma 3 12B-IT,Google DeepMind,slm,hub_page,huggingface.co,google/gemma-3-12b-it,True,google,2025-03-01,gemma,12.187,12.0,1.016,True
+slm,Granite 3.2-8B,IBM,slm,developer,ibm.com,ibm-granite/granite-3.2-8b-instruct,True,ibm-granite,2025-02-17,apache-2.0,8.171,8.0,1.021,True
+slm,Granite 3.2-2B,IBM,slm,developer,ibm.com,ibm-granite/granite-3.2-2b-instruct,True,ibm-granite,2025-02-17,apache-2.0,2.534,2.0,1.267,True
+slm,Phi-4-mini-instruct,Microsoft,slm,hub_model,huggingface.co,microsoft/Phi-4-mini-instruct,True,microsoft,2025-02-19,mit,3.836,3.8,1.009,True
+slm,Qwen2.5-VL-7B,Alibaba,slm,developer,qwenlm.github.io,Qwen/Qwen2.5-VL-7B-Instruct,True,Qwen,2025-01-26,apache-2.0,8.292,7.0,1.185,True
+slm,DeepSeek-R1-Distill-Qwen-7B,DeepSeek,slm,hub_page,huggingface.co,deepseek-ai/DeepSeek-R1-Distill-Qwen-7B,True,deepseek-ai,2025-01-20,mit,7.616,7.0,1.088,True
+slm,DeepSeek-R1-Distill-Qwen-14B,DeepSeek,slm,hub_page,huggingface.co,deepseek-ai/DeepSeek-R1-Distill-Qwen-14B,True,deepseek-ai,2025-01-20,mit,14.77,14.0,1.055,True
+slm,DeepSeek-R1-Distill-Qwen-1.5B,DeepSeek,slm,hub_page,huggingface.co,deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B,True,deepseek-ai,2025-01-20,mit,1.777,1.5,1.185,True
+slm,DeepSeek-R1-Distill-Llama-8B,DeepSeek,slm,hub_page,huggingface.co,deepseek-ai/DeepSeek-R1-Distill-Llama-8B,True,deepseek-ai,2025-01-20,mit,8.03,8.0,1.004,True
+slm,InternLM3-8B,Shanghai AI Laboratory,slm,developer,github.com,internlm/internlm3-8b-instruct,True,internlm,2025-01-13,apache-2.0,8.804,8.0,1.101,True
+slm,gpt-oss-20b,OpenAI,small-active-moe,developer,openai.com,openai/gpt-oss-20b,True,openai,2025-08-04,apache-2.0,20.915,21.0,0.996,True
+slm,gpt-oss-120b,OpenAI,small-active-moe,developer,openai.com,openai/gpt-oss-120b,True,openai,2025-08-04,apache-2.0,116.829,117.0,0.999,True
+slm,SmolLM3-3B,Hugging Face,slm,hub_page,huggingface.co,HuggingFaceTB/SmolLM3-3B,True,HuggingFaceTB,2025-07-08,apache-2.0,3.075,3.0,1.025,True
+slm,MiniCPM-o 3.0,OpenBMB,slm,developer,github.com,,,,,,,9.0,,True
+slm,MiniCPM-V 4.5,OpenBMB,slm,developer,github.com,openbmb/MiniCPM-V-4_5,True,openbmb,2025-08-24,apache-2.0,8.696,8.0,1.087,True
+slm,Gemma-3n-E4B-IT,Google DeepMind,slm,developer,ai.google.dev,google/gemma-3n-E4B-it,True,google,2025-06-03,gemma,7.85,8.0,0.981,True
+slm,Gemma-3n-E2B-IT,Google DeepMind,slm,developer,ai.google.dev,google/gemma-3n-E2B-it,True,google,2025-06-12,gemma,5.439,5.0,1.088,True
+slm,Phi-4,Microsoft,slm,hub_model,huggingface.co,microsoft/phi-4,True,microsoft,2024-12-11,mit,14.66,14.0,1.047,True
+slm,Falcon 3,Technology Innovation Institute (TII),slm,developer,falconllm.tii.ae,tiiuae/Falcon3-10B-Instruct,True,tiiuae,2024-12-14,other,10.306,10.0,1.031,True
+slm,Command R7B,Cohere,slm,developer,docs.cohere.com,CohereForAI/c4ai-command-r7b-12-2024,True,CohereLabs,2024-12-11,cc-by-nc-4.0,8.028,7.0,1.147,True
+slm,OLMo 2-7B,Allen Institute for AI (Ai2),slm,developer,allenai.org,allenai/OLMo-2-1124-7B,True,allenai,2024-10-29,apache-2.0,7.299,7.0,1.043,True
+slm,OLMo 2-13B,Allen Institute for AI (Ai2),slm,developer,allenai.org,allenai/OLMo-2-1124-13B,True,allenai,2024-11-19,apache-2.0,13.716,13.0,1.055,True
+slm,Tülu 3-8B,Allen Institute for AI (Ai2),slm,developer,allenai.org,allenai/Llama-3.1-Tulu-3-8B,True,allenai,2024-11-20,llama3.1,8.03,8.0,1.004,True
+slm,Qwen2.5-Coder-1.5B,Alibaba,slm,developer,qwenlm.github.io,Qwen/Qwen2.5-Coder-1.5B-Instruct,True,Qwen,2024-09-18,apache-2.0,1.544,1.5,1.029,True
+slm,Qwen2.5-Coder-7B-Instruct,Alibaba,slm,hub_page,huggingface.co,Qwen/Qwen2.5-Coder-7B-Instruct,True,Qwen,2024-09-17,apache-2.0,7.616,7.0,1.088,True
+slm,Qwen2.5-Coder-14B-Instruct,Alibaba,slm,hub_page,huggingface.co,Qwen/Qwen2.5-Coder-14B-Instruct,True,Qwen,2024-11-06,apache-2.0,14.77,14.0,1.055,True
+slm,SmolLM2-360M-Instruct,Hugging Face,slm,hub_model,huggingface.co,HuggingFaceTB/SmolLM2-360M-Instruct,True,HuggingFaceTB,2024-10-31,apache-2.0,0.362,0.36,1.006,True
+slm,SmolLM2-135M,Hugging Face,slm,hub_model,huggingface.co,HuggingFaceTB/SmolLM2-135M,True,HuggingFaceTB,2024-10-31,apache-2.0,0.135,0.135,1.0,True
+slm,SmolLM2-1.7B-Instruct,Hugging Face,slm,hub_model,huggingface.co,HuggingFaceTB/SmolLM2-1.7B-Instruct,True,HuggingFaceTB,2024-10-31,apache-2.0,1.711,1.7,1.006,True
+slm,Aya Expanse-8B,Cohere,slm,developer,cohere.com,CohereForAI/aya-expanse-8b,True,CohereLabs,2024-10-23,cc-by-nc-4.0,8.028,8.0,1.004,True
+slm,Ministral-8B-Instruct-2410,Mistral AI,slm,developer,docs.mistral.ai,mistralai/Ministral-8B-Instruct-2410,True,mistralai,2024-10-15,other,8.02,8.0,1.002,True
+slm,Llama 3.2-3B-Instruct,Meta AI,slm,developer,ai.meta.com,meta-llama/Llama-3.2-3B-Instruct,True,meta-llama,2024-09-18,llama3.2,3.213,3.0,1.071,True
+slm,Llama 3.2-1B-Instruct,Meta AI,slm,developer,ai.meta.com,meta-llama/Llama-3.2-1B-Instruct,True,meta-llama,2024-09-18,llama3.2,1.236,1.0,1.236,True
+slm,Llama 3.2-11B-Vision-Instruct,Meta AI,slm,developer,ai.meta.com,meta-llama/Llama-3.2-11B-Vision-Instruct,True,meta-llama,2024-09-18,llama3.2,10.67,11.0,0.97,True
+slm,Qwen2.5-7B-Instruct,Alibaba,slm,hub_page,huggingface.co,Qwen/Qwen2.5-7B-Instruct,True,Qwen,2024-09-16,apache-2.0,7.616,7.0,1.088,True
+slm,Qwen2.5-3B-Instruct,Alibaba,slm,hub_page,huggingface.co,Qwen/Qwen2.5-3B-Instruct,True,Qwen,2024-09-17,other,3.086,3.0,1.029,True
+slm,Qwen2.5-14B,Alibaba,slm,developer,qwenlm.github.io,Qwen/Qwen2.5-14B,True,Qwen,2024-09-15,apache-2.0,14.77,14.0,1.055,True
+slm,Qwen2.5-1.5B-Instruct,Alibaba,slm,hub_page,huggingface.co,Qwen/Qwen2.5-1.5B-Instruct,True,Qwen,2024-09-17,apache-2.0,1.544,1.5,1.029,True
+slm,Qwen2.5-0.5B-Instruct,Alibaba,slm,hub_page,huggingface.co,Qwen/Qwen2.5-0.5B-Instruct,True,Qwen,2024-09-16,apache-2.0,0.494,0.5,0.988,True
+slm,Pixtral-12B,Mistral AI,slm,developer,mistral.ai,mistralai/Pixtral-12B-2409,True,mistralai,2024-09-11,apache-2.0,,12.0,,True
+slm,Qwen2-VL-7B,Alibaba,slm,developer,qwenlm.github.io,Qwen/Qwen2-VL-7B-Instruct,True,Qwen,2024-08-28,apache-2.0,8.291,7.0,1.184,True
+slm,Phi-3.5-MoE,Microsoft,small-active-moe,developer,azure.microsoft.com,microsoft/Phi-3.5-MoE-instruct,True,microsoft,2024-08-17,mit,41.873,41.9,0.999,True
+slm,Falcon Mamba-7B,Technology Innovation Institute (TII),slm,developer,falconllm.tii.ae,tiiuae/falcon-mamba-7b,True,tiiuae,2024-07-17,other,7.273,7.0,1.039,True
+slm,Qwen2-Audio-7B,Alibaba,slm,developer,qwenlm.github.io,Qwen/Qwen2-Audio-7B-Instruct,True,Qwen,2024-07-31,apache-2.0,8.397,7.0,1.2,True
+slm,Phi-3.5-mini-instruct,Microsoft,slm,developer,azure.microsoft.com,microsoft/Phi-3.5-mini-instruct,True,microsoft,2024-08-16,mit,3.821,3.8,1.006,True
+slm,Gemma 2-2B,Google DeepMind,slm,developer,blog.google,google/gemma-2-2b,True,google,2024-07-16,gemma,2.614,2.0,1.307,True
+slm,Llama 3.1-8B-Instruct,Meta AI,slm,hub_model,huggingface.co,meta-llama/Meta-Llama-3.1-8B-Instruct,True,meta-llama,2024-07-18,llama3.1,8.03,8.0,1.004,True
+slm,SmolLM-135M,Hugging Face,slm,hub_page,huggingface.co,HuggingFaceTB/SmolLM-135M,True,HuggingFaceTB,2024-07-14,apache-2.0,0.135,0.135,1.0,True
+slm,Minitron-8B,NVIDIA,slm,paper,arxiv.org,nvidia/Minitron-8B-Base,True,nvidia,2024-07-19,other,,8.0,,True
+slm,SmolLM,Hugging Face,slm,hub_page,huggingface.co,HuggingFaceTB/SmolLM-1.7B,True,HuggingFaceTB,2024-07-14,apache-2.0,1.711,1.7,1.006,True
+slm,InternLM2.5-7B,Shanghai AI Laboratory,slm,developer,github.com,internlm/internlm2_5-7b-chat,True,internlm,2024-06-27,other,7.738,7.0,1.105,True
+slm,InternLM2.5-20B,Shanghai AI Laboratory,slm,developer,github.com,internlm/internlm2_5-20b-chat,True,internlm,2024-07-30,other,19.861,20.0,0.993,True
+slm,Mistral NeMo 12B,Mistral AI,slm,developer,docs.mistral.ai,mistralai/Mistral-Nemo-Instruct-2407,True,mistralai,2024-07-17,apache-2.0,12.248,12.0,1.021,True
+slm,Gemma 2-9B,Google DeepMind,slm,developer,blog.google,google/gemma-2-9b,True,google,2024-06-24,gemma,9.242,9.0,1.027,True
+slm,Apple Foundation Model (On-Device),Apple,slm,developer,machinelearning.apple.com,,,,,,,3.0,,True
+slm,Qwen2-7B,Alibaba,slm,developer,qwenlm.github.io,Qwen/Qwen2-7B,True,Qwen,2024-06-04,apache-2.0,7.616,7.0,1.088,True
+slm,Qwen2-57B-A14B,Alibaba,small-active-moe,developer,qwenlm.github.io,Qwen/Qwen2-57B-A14B,True,Qwen,2024-05-22,apache-2.0,57.409,57.0,1.007,True
+slm,Qwen2-1.5B,Alibaba,slm,developer,qwenlm.github.io,Qwen/Qwen2-1.5B,True,Qwen,2024-05-31,apache-2.0,1.544,1.5,1.029,True
+slm,Qwen2-0.5B,Alibaba,slm,developer,qwenlm.github.io,Qwen/Qwen2-0.5B,True,Qwen,2024-05-31,apache-2.0,0.494,0.5,0.988,True
+slm,GLM-4-9B,Zhipu AI,slm,developer,github.com,THUDM/glm-4-9b,True,zai-org,2024-06-04,other,9.4,9.0,1.044,True
+slm,CogVLM2-19B,Zhipu AI,slm,developer,github.com,THUDM/cogvlm2-llama3-chat-19B,True,zai-org,2024-05-16,other,19.503,19.0,1.026,True
+slm,Aya 23-8B,Cohere,slm,developer,cohere.com,CohereForAI/aya-23-8B,True,CohereLabs,2024-05-19,cc-by-nc-4.0,8.028,8.0,1.004,True
+slm,Mistral 7B v0.3,Mistral AI,slm,developer,docs.mistral.ai,mistralai/Mistral-7B-v0.3,True,mistralai,2024-05-22,apache-2.0,7.248,7.3,0.993,True
+slm,PaliGemma,Google DeepMind,slm,developer,ai.google.dev,google/paligemma-3b-pt-224,True,google,2024-05-12,gemma,2.923,3.0,0.974,True
+slm,Falcon 2-11B,Technology Innovation Institute (TII),slm,developer,falconllm.tii.ae,tiiuae/falcon-11B,True,tiiuae,2024-05-09,unknown,11.103,11.0,1.009,True
+slm,Yi-1.5-9B,01.AI,slm,developer,github.com,01-ai/Yi-1.5-9B,True,01-ai,2024-05-11,apache-2.0,8.829,9.0,0.981,True
+slm,Yi-1.5-6B,01.AI,slm,developer,github.com,01-ai/Yi-1.5-6B,True,01-ai,2024-05-11,apache-2.0,6.061,6.0,1.01,True
+slm,Snowflake Arctic,Snowflake,small-active-moe,developer,snowflake.com,Snowflake/snowflake-arctic-instruct,True,Snowflake,2024-04-21,apache-2.0,478.585,480.0,0.997,True
+slm,OpenELM,Apple,slm,developer,machinelearning.apple.com,apple/OpenELM-3B,True,apple,2024-04-12,apple-amlr,3.037,3.0,1.012,True
+slm,Phi-3-small-128k-instruct,Microsoft,slm,developer,azure.microsoft.com,microsoft/Phi-3-small-128k-instruct,True,microsoft,2024-05-07,mit,7.392,7.0,1.056,True
+slm,Phi-3-mini-128k-instruct,Microsoft,slm,developer,azure.microsoft.com,microsoft/Phi-3-mini-128k-instruct,True,microsoft,2024-04-22,mit,3.821,3.8,1.006,True
+slm,Phi-3-medium-128k-instruct,Microsoft,slm,developer,azure.microsoft.com,microsoft/Phi-3-medium-128k-instruct,True,microsoft,2024-05-07,mit,13.96,14.0,0.997,True
+slm,Llama-3-8B,Meta AI,slm,developer,ai.meta.com,meta-llama/Meta-Llama-3-8B,True,meta-llama,2024-04-17,llama3,8.03,8.0,1.004,True
+slm,RecurrentGemma-2B,Google DeepMind,slm,developer,ai.google.dev,google/recurrentgemma-2b,True,google,2024-04-06,gemma,2.683,2.0,1.341,True
+slm,CodeGemma-7B,Google DeepMind,slm,developer,ai.google.dev,google/codegemma-7b,True,google,2024-03-21,gemma,8.538,7.0,1.22,True
+slm,Qwen1.5-MoE-A2.7B,Alibaba,slm,developer,qwenlm.github.io,Qwen/Qwen1.5-MoE-A2.7B,True,Qwen,2024-02-29,other,14.316,14.3,1.001,True
+slm,Nemotron-4-15B,NVIDIA,slm,paper,arxiv.org,nvidia/Nemotron-4-15B-Base,True,nvidia,,,,15.0,,True
+slm,DeepSeek-VL-7B,DeepSeek,slm,developer,github.com,deepseek-ai/deepseek-vl-7b-chat,True,deepseek-ai,2024-03-07,other,7.344,7.0,1.049,True
+slm,Gemma-7B,Google DeepMind,slm,developer,blog.google,google/gemma-7b,True,google,2024-02-08,gemma,8.538,7.0,1.22,True
+slm,Gemma-2B,Google DeepMind,slm,developer,blog.google,google/gemma-2b,True,google,2024-02-08,gemma,2.506,2.0,1.253,True
+slm,StableLM 2 12B,Stability AI,slm,developer,stability.ai,stabilityai/stablelm-2-12b,True,stabilityai,2024-03-21,other,12.143,12.0,1.012,True
+slm,Reka Edge,Reka AI,slm,developer,reka.ai,RekaAI/reka-edge-2603,True,RekaAI,2026-03-11,other,7.129,7.0,1.018,True
+slm,Qwen1.5-7B,Alibaba,slm,developer,qwenlm.github.io,Qwen/Qwen1.5-7B,True,Qwen,2024-01-22,other,7.721,7.0,1.103,True
+slm,Qwen1.5-14B,Alibaba,slm,developer,qwenlm.github.io,Qwen/Qwen1.5-14B,True,Qwen,2024-01-22,other,14.167,14.0,1.012,True
+slm,Qwen1.5-0.5B,Alibaba,slm,developer,qwenlm.github.io,Qwen/Qwen1.5-0.5B,True,Qwen,2024-01-22,other,0.62,0.5,1.24,True
+slm,DeepSeek-Math-7B,DeepSeek,slm,paper,arxiv.org,deepseek-ai/deepseek-math-7b-instruct,True,deepseek-ai,2024-02-05,other,,7.0,,True
+slm,OLMo-7B,Allen Institute for AI (Ai2),slm,developer,allenai.org,allenai/OLMo-7B,True,allenai,2024-01-09,apache-2.0,6.888,7.0,0.984,True
+slm,OLMo-1B,Allen Institute for AI (Ai2),slm,developer,allenai.org,allenai/OLMo-1B,True,allenai,2024-01-26,apache-2.0,1.177,1.0,1.177,True
+slm,StableLM 2 1.6B,Stability AI,slm,hub_model,huggingface.co,stabilityai/stablelm-2-1_6b,True,stabilityai,2024-01-18,other,1.645,1.6,1.028,True
+slm,InternLM2-20B,Shanghai AI Laboratory,slm,developer,github.com,internlm/internlm2-20b,True,internlm,2024-01-12,other,,20.0,,True
+slm,TinyLlama-1.1B-Chat,Community,slm,hub_model,huggingface.co,TinyLlama/TinyLlama-1.1B-Chat-v1.0,True,TinyLlama,2023-12-30,apache-2.0,1.1,1.1,1.0,True
+slm,SOLAR-10.7B,Upstage,slm,paper,arxiv.org,upstage/SOLAR-10.7B-Instruct-v1.0,True,upstage,2023-12-12,cc-by-nc-4.0,10.732,10.7,1.003,True
+slm,Phi-2,Microsoft,slm,hub_model,huggingface.co,microsoft/phi-2,True,microsoft,2023-12-13,mit,2.78,2.7,1.03,True
+slm,Mixtral-8x7B,Mistral AI,small-active-moe,developer,mistral.ai,mistralai/Mixtral-8x7B-v0.1,True,mistralai,2023-12-01,apache-2.0,46.703,46.7,1.0,True
+slm,Gemini 1.0 Nano,Google DeepMind,slm,developer,deepmind.google,,,,,,,3.25,,True
+slm,Qwen-Audio,Alibaba,slm,developer,github.com,Qwen/Qwen-Audio,True,Qwen,2023-11-30,,8.396,7.0,1.199,True
+slm,StableLM-Zephyr-3B,Stability AI,slm,developer,stability.ai,stabilityai/stablelm-zephyr-3b,True,stabilityai,2023-11-21,other,2.795,3.0,0.932,True
+slm,Yi-6B,01.AI,slm,hub_model,huggingface.co,01-ai/Yi-6B,True,01-ai,2023-11-01,apache-2.0,6.061,6.0,1.01,True
+slm,DeepSeek-Coder-6.7B,DeepSeek,slm,developer,github.com,deepseek-ai/deepseek-coder-6.7b-instruct,True,deepseek-ai,2023-10-29,other,6.741,6.7,1.006,True
+slm,DeepSeek-Coder-1.3B,DeepSeek,slm,developer,github.com,deepseek-ai/deepseek-coder-1.3b-instruct,True,deepseek-ai,2023-10-29,other,1.346,1.3,1.035,True
+slm,ChatGLM3-6B,Zhipu AI,slm,developer,github.com,THUDM/chatglm3-6b,True,zai-org,2023-10-25,,6.244,6.0,1.041,True
+slm,Fuyu-8B,Adept AI,slm,developer,adept.ai,adept/fuyu-8b,True,adept,2023-10-17,cc-by-nc-4.0,9.408,8.0,1.176,True
+slm,Qwen-14B,Alibaba,slm,developer,github.com,Qwen/Qwen-14B,True,Qwen,2023-09-24,,14.167,14.0,1.012,True
+slm,InternLM-20B,Shanghai AI Laboratory,slm,developer,github.com,internlm/internlm-20b,True,internlm,2023-09-18,apache-2.0,,20.0,,True
+slm,Phi-1.5,Microsoft,slm,paper,arxiv.org,microsoft/phi-1_5,True,microsoft,2023-09-10,mit,1.418,1.3,1.091,True
+slm,Baichuan-2-13B,Baichuan Inc.,slm,developer,github.com,baichuan-inc/Baichuan2-13B-Chat,True,baichuan-inc,2023-08-29,other,,13.0,,True
+slm,Jais-13B,Inception / Core42 / Cerebras,slm,paper,arxiv.org,core42/jais-13b-chat,True,inception42,2023-08-23,apache-2.0,,13.0,,True
+slm,Qwen-VL,Alibaba,slm,developer,github.com,Qwen/Qwen-VL,True,Qwen,2023-08-18,,,9.6,,True
+slm,Code Llama-7B,Meta AI,slm,developer,ai.meta.com,codellama/CodeLlama-7b-hf,True,codellama,2023-08-24,llama2,6.739,7.0,0.963,True
+slm,Qwen-7B,Alibaba,slm,developer,github.com,Qwen/Qwen-7B,True,Qwen,2023-08-03,other,7.721,7.0,1.103,True
+slm,Llama-2-7B,Meta AI,slm,developer,ai.meta.com,meta-llama/Llama-2-7b-hf,True,meta-llama,2023-07-13,llama2,6.738,7.0,0.963,True
+slm,Llama-2-13B,Meta AI,slm,developer,ai.meta.com,meta-llama/Llama-2-13b-hf,True,meta-llama,2023-07-13,llama2,13.016,13.0,1.001,True
+slm,Baichuan-13B,Baichuan Inc.,slm,developer,github.com,baichuan-inc/Baichuan-13B-Chat,True,baichuan-inc,2023-07-08,,,13.0,,True
+slm,InternLM-7B,Shanghai AI Laboratory,slm,developer,github.com,internlm/internlm-7b,True,internlm,2023-07-06,,,7.0,,True
+slm,ChatGLM2-6B,Zhipu AI,slm,developer,github.com,THUDM/chatglm2-6b,True,zai-org,2023-06-24,,,6.0,,True
+slm,Phi-1,Microsoft,slm,paper,arxiv.org,microsoft/phi-1,True,microsoft,2023-09-10,mit,1.418,1.3,1.091,True
+slm,Baichuan-7B,Baichuan Inc.,slm,developer,github.com,baichuan-inc/Baichuan-7B,True,baichuan-inc,2023-06-13,,,7.0,,True
+slm,Falcon-7B,Technology Innovation Institute (TII),slm,developer,falconllm.tii.ae,tiiuae/falcon-7b,True,tiiuae,2023-04-24,apache-2.0,7.217,7.0,1.031,True
+slm,RedPajama-INCITE-7B,Together AI,slm,developer,together.ai,togethercomputer/RedPajama-INCITE-7B-Instruct,True,togethercomputer,2023-05-05,apache-2.0,,7.0,,True
+slm,MPT-7B,MosaicML (Databricks),slm,developer,mosaicml.com,mosaicml/mpt-7b,True,mosaicml,,,,7.0,,True
+slm,StarCoder,Hugging Face / BigCode,slm,hub_model,huggingface.co,bigcode/starcoder,True,bigcode,2023-04-24,bigcode-openrail-m,15.819,15.5,1.021,True
+slm,StableLM-Alpha,Stability AI,slm,developer,stability.ai,stabilityai/stablelm-tuned-alpha-7b,True,stabilityai,2023-04-19,cc-by-nc-sa-4.0,,7.0,,True
+slm,Pythia-12B,EleutherAI,slm,developer,github.com,EleutherAI/pythia-12b,True,EleutherAI,2023-02-28,apache-2.0,11.997,12.0,1.0,True
+slm,Cerebras-GPT-13B,Cerebras Systems,slm,hub_model,huggingface.co,cerebras/Cerebras-GPT-13B,True,cerebras,,,,13.0,,True
+slm,ChatGLM-6B,Zhipu AI,slm,developer,github.com,THUDM/chatglm-6b,True,zai-org,2023-03-13,,,6.0,,True
+slm,LLaMA-7B,Meta AI,slm,paper,arxiv.org,huggyllama/llama-7b,True,huggyllama,2023-04-03,other,6.738,7.0,0.963,True
+slm,LLaMA-13B,Meta AI,slm,paper,arxiv.org,huggyllama/llama-13b,True,huggyllama,2023-04-03,other,13.016,13.0,1.001,True
+excluded,Ling 3.0 Flash Sante,inclusionAI,small-active-moe,secondary,openrouter.ai,,,,,,,124.0,,False
+excluded,Jan-v1-4B,Jan.ai,slm,hub_model,huggingface.co,janhq/Jan-v1-4B,True,janhq,2025-08-08,apache-2.0,4.022,4.0,1.006,True
+excluded,Nous Hermes 2 Mixtral,Nous Research,small-active-moe,hub_model,huggingface.co,NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO,True,NousResearch,2024-01-11,apache-2.0,46.703,46.7,1.0,True
+excluded,Mistral Tiny (Mistral-7B-Instruct),Mistral AI,slm,developer,docs.mistral.ai,mistralai/Mistral-7B-Instruct-v0.3,True,mistralai,2024-05-22,apache-2.0,7.248,7.0,1.035,True
+excluded,Vicuna-7B v1.5,LMSYS,slm,hub_model,huggingface.co,lmsys/vicuna-7b-v1.5,True,lmsys,2023-07-29,llama2,,7.0,,True
+excluded,Vicuna-13B,LMSYS,slm,developer,lmsys.org,lmsys/vicuna-13b-delta-v0,True,lmsys,2023-04-03,,,13.0,,True
+excluded,Flan-T5,Google,slm,paper,arxiv.org,google/flan-t5-xxl,True,google,2022-10-21,apache-2.0,11.267,11.0,1.024,True
+llm,Hy4 preview,Tencent,llm,secondary,openrouter.ai,,,,,,,770.0,,False
+llm,Qwen3.8 27B,Alibaba,llm,secondary,openrouter.ai,Qwen/Qwen3.8-27B,True,Qwen,2026-08-05,apache-2.0,27.781,27.0,1.029,True
+llm,Qwen3.8 2.4T A95B,Alibaba,llm,secondary,openrouter.ai,Qwen/Qwen3.8-2.4T-A95B,True,Qwen,2026-08-08,other,2446.183,2400.0,1.019,True
+llm,Muse Glimmer 30B,Meta Superintelligence Labs,llm,developer,research.meta.ai,meta-models/Muse-Glimmer-30B,True,meta-models,2026-08-09,apache-2.0,29.777,30.0,0.993,True
+llm,Qwen3.8 Max,Alibaba,llm,secondary,openrouter.ai,,,,,,,2400.0,,False
+llm,LongCat 2.0,Meituan,llm,secondary,openrouter.ai,meituan-longcat/LongCat-2.0,True,meituan-longcat,2026-07-05,mit,1775.56,1600.0,1.11,True
+llm,Inkling,Thinking Machines Lab,llm,secondary,openrouter.ai,thinkingmachines/Inkling,True,thinkingmachines,2026-07-14,apache-2.0,952.378,975.0,0.977,True
+llm,Kimi K3,Moonshot AI,llm,secondary,openrouter.ai,moonshotai/Kimi-K3,True,moonshotai,2026-06-13,other,2779.932,2800.0,0.993,True
+llm,Hy3,Tencent,llm,secondary,openrouter.ai,tencent/Hy3,True,tencent,2026-07-02,apache-2.0,298.786,295.0,1.013,True
+llm,Nemotron 3 Ultra 550B-A55B,NVIDIA,llm,secondary,openrouter.ai,nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16,True,nvidia,2026-06-03,other,560.525,550.0,1.019,True
+llm,MAI-Thinking-1,Microsoft AI,llm,developer,microsoft.ai,,,,,,,1000.0,,True
+llm,Step 3.7 Flash,StepFun,llm,secondary,openrouter.ai,stepfun-ai/Step-3.7-Flash,True,stepfun-ai,2026-05-23,apache-2.0,201.365,196.0,1.027,True
+llm,Mistral Medium 3.5,Mistral AI,llm,developer,hidekazu-konishi.com,,,,,,,128.0,,True
+llm,MiMo-V2-Pro,Xiaomi,llm,developer,mimo.xiaomi.com,,,,,,,1000.0,,True
+llm,Grok 4.20 Beta,xAI,llm,developer,docs.x.ai,,,,,,,3000.0,,True
+llm,Qwen3.5-27B,Alibaba,llm,developer,qwen.ai,Qwen/Qwen3.5-27B,True,Qwen,2026-02-24,apache-2.0,27.781,27.0,1.029,True
+llm,MiniMax-M2.5,MiniMax,undisclosed,hub_model,huggingface.co,MiniMaxAI/MiniMax-M2.5,True,MiniMaxAI,2026-02-12,other,228.704,230.0,0.994,True
+llm,GLM-5,Zhipu AI,llm,developer,github.com,zai-org/GLM-5,True,zai-org,2026-02-11,mit,753.864,744.0,1.013,True
+llm,Kimi K2.5,Moonshot AI,llm,hub_model,huggingface.co,moonshotai/Kimi-K2.5,True,moonshotai,2026-01-01,other,1026.879,1000.0,1.027,True
+llm,Ling-1T,01.AI / Manus,llm,hub_model,huggingface.co,01ai/Ling-1T,True,01ai,,,,1000.0,,True
+llm,Devstral 2,Mistral AI,llm,developer,mistral.ai,mistralai/Devstral-2-123B-Instruct-2512,True,mistralai,2025-11-28,other,125.026,123.0,1.016,True
+llm,Mistral Large 3,Mistral AI,llm,developer,mistral.ai,mistralai/Mistral-Large-3-675B-Instruct-2512,True,mistralai,2025-11-28,apache-2.0,,675.0,,True
+llm,DeepSeek-V3.2,DeepSeek,llm,hub_model,huggingface.co,deepseek-ai/DeepSeek-V3.2,True,deepseek-ai,2025-12-01,mit,685.355,685.0,1.001,True
+llm,GLM-4.5,Zhipu AI,llm,developer,z.ai,zai-org/GLM-4.5,True,zai-org,2025-07-20,mit,358.338,355.0,1.009,True
+llm,Qwen3-235B-A22B-Instruct-2507,Alibaba,llm,developer,github.com,Qwen/Qwen3-235B-A22B-Instruct-2507,True,Qwen,2025-07-21,apache-2.0,235.094,235.0,1.0,True
+llm,Mistral Small 3.2 (24B),Mistral AI,llm,developer,docs.mistral.ai,mistralai/Mistral-Small-3.2-24B-Instruct-2506,True,mistralai,2025-06-19,apache-2.0,24.011,24.0,1.0,True
+llm,Falcon-H1,Technology Innovation Institute (TII),llm,developer,falconllm.tii.ae,tiiuae/Falcon-H1-34B-Instruct,True,tiiuae,2025-05-01,other,33.643,34.0,0.99,True
+llm,Devstral Small,Mistral AI,llm,developer,mistral.ai,mistralai/Devstral-Small-2505,True,mistralai,2025-05-12,apache-2.0,23.572,24.0,0.982,True
+llm,Qwen3-72B-Instruct,Alibaba,llm,developer,github.com,Qwen/Qwen3-72B-Instruct,True,Qwen,,,,72.0,,True
+llm,Qwen3-32B-Instruct,Alibaba,llm,developer,github.com,Qwen/Qwen3-32B-Instruct,True,Qwen,,,,32.0,,True
+llm,Qwen3-235B-A22B,Alibaba,llm,developer,github.com,Qwen/Qwen3-235B-A22B,True,Qwen,2025-04-27,apache-2.0,235.094,235.0,1.0,True
+llm,Qwen2.5-VL-32B,Alibaba,llm,developer,qwenlm.github.io,Qwen/Qwen2.5-VL-32B-Instruct,True,Qwen,2025-03-21,apache-2.0,33.453,32.0,1.045,True
+llm,Command A,Cohere,llm,developer,cohere.com,CohereLabs/c4ai-command-a-03-2025,True,CohereLabs,2025-03-11,cc-by-nc-4.0,111.058,111.0,1.001,True
+llm,QwQ-32B,Alibaba,llm,developer,qwenlm.github.io,Qwen/QwQ-32B,True,Qwen,2025-03-05,apache-2.0,32.764,32.0,1.024,True
+llm,Mistral Small 3.1 (24B),Mistral AI,llm,developer,docs.mistral.ai,mistralai/Mistral-Small-3.1-24B-Instruct-2503,True,mistralai,2025-03-11,apache-2.0,24.011,24.0,1.0,True
+llm,Gemma 3 27B-IT,Google DeepMind,llm,hub_page,huggingface.co,google/gemma-3-27b-it,True,google,2025-03-01,gemma,27.432,27.0,1.016,True
+llm,OLMo 2-32B,Allen Institute for AI (Ai2),llm,developer,allenai.org,allenai/OLMo-2-0325-32B,True,allenai,2025-02-23,apache-2.0,32.234,32.0,1.007,True
+llm,Mistral Saba,Mistral AI,llm,developer,mistral.ai,,,,,,,24.0,,True
+llm,Qwen2.5-Max,Alibaba,undisclosed,developer,alibabacloud.com,,,,,,,600.0,,True
+llm,Qwen2.5-VL-72B,Alibaba,llm,developer,qwenlm.github.io,Qwen/Qwen2.5-VL-72B-Instruct,True,Qwen,2025-01-27,other,73.411,72.0,1.02,True
+llm,DeepSeek-R1-Distill-Qwen-32B,DeepSeek,llm,hub_page,huggingface.co,deepseek-ai/DeepSeek-R1-Distill-Qwen-32B,True,deepseek-ai,2025-01-20,mit,32.764,32.0,1.024,True
+llm,DeepSeek-R1-Distill-Llama-70B,DeepSeek,llm,hub_page,huggingface.co,deepseek-ai/DeepSeek-R1-Distill-Llama-70B,True,deepseek-ai,2025-01-20,mit,70.554,70.0,1.008,True
+llm,DeepSeek-R1,DeepSeek,llm,hub_model,huggingface.co,deepseek-ai/DeepSeek-R1,True,deepseek-ai,2025-01-20,mit,684.49,671.0,1.02,True
+llm,MiniMax-01,MiniMax,llm,developer,minimax.io,MiniMaxAI/MiniMax-Text-01,True,MiniMaxAI,2025-01-12,,456.09,456.0,1.0,True
+llm,Codestral 2501,Mistral AI,llm,developer,mistral.ai,mistralai/Codestral-2501,True,mistralai,,,,22.0,,True
+llm,Qwen3-Coder-480B-A35B,Alibaba,llm,developer,github.com,Qwen/Qwen3-Coder,True,Qwen,,,,480.0,,True
+llm,Llama 4 Behemoth,Meta AI,undisclosed,developer,ai.meta.com,,,,,,,2000.0,,True
+llm,Jamba 1.6 Large,AI21 Labs,llm,hub_model,huggingface.co,ai21labs/AI21-Jamba-1.6-Large,True,ai21labs,,,,398.0,,True
+llm,GLM-4.7,Zhipu AI,undisclosed,developer,github.com,zai-org/GLM-4.7,True,zai-org,2025-12-22,mit,358.338,30.0,11.945,True
+llm,DeepSeek-V3,DeepSeek,llm,hub_model,huggingface.co,deepseek-ai/DeepSeek-V3,True,deepseek-ai,2024-12-25,,684.531,671.0,1.02,True
+llm,QvQ-72B-Preview,Alibaba,llm,developer,qwenlm.github.io,Qwen/QVQ-72B-Preview,True,Qwen,2024-12-24,other,73.406,72.0,1.02,True
+llm,Llama 3.3-70B-Instruct,Meta AI,llm,developer,llama.com,meta-llama/Llama-3.3-70B-Instruct,True,meta-llama,2024-11-26,llama3.3,70.554,70.0,1.008,True
+llm,QwQ-32B-Preview,Alibaba,llm,developer,qwenlm.github.io,Qwen/QwQ-32B-Preview,True,Qwen,2024-11-27,apache-2.0,32.764,32.0,1.024,True
+llm,Pixtral Large,Mistral AI,llm,developer,mistral.ai,mistralai/Pixtral-Large-Instruct-2411,True,mistralai,2024-11-14,other,,124.0,,True
+llm,Hunyuan-Large,Tencent,llm,hub_model,huggingface.co,tencent/Tencent-Hunyuan-Large,True,tencent,2024-10-22,other,,389.0,,True
+llm,Claude 3.5 Sonnet,Anthropic,llm,developer,anthropic.com,,,,,,,175.0,,True
+llm,Aya Expanse-32B,Cohere,llm,developer,cohere.com,CohereForAI/aya-expanse-32b,True,CohereLabs,2024-10-23,cc-by-nc-4.0,32.296,32.0,1.009,True
+llm,Llama-3.1-Nemotron-70B,NVIDIA,llm,hub_model,huggingface.co,nvidia/Llama-3.1-Nemotron-70B-Instruct-HF,True,nvidia,2024-10-12,llama3.1,70.554,70.0,1.008,True
+llm,Molmo-72B,Allen Institute for AI (Ai2),llm,developer,molmo.allenai.org,allenai/Molmo-72B-0924,True,allenai,2024-09-25,apache-2.0,73.308,72.0,1.018,True
+llm,Llama 3.2-90B-Vision,Meta AI,llm,developer,ai.meta.com,meta-llama/Llama-3.2-90B-Vision-Instruct,True,meta-llama,2024-09-19,llama3.2,88.593,90.0,0.984,True
+llm,Qwen2.5-72B-Instruct,Alibaba,llm,hub_page,huggingface.co,Qwen/Qwen2.5-72B-Instruct,True,Qwen,2024-09-16,other,72.706,72.0,1.01,True
+llm,Qwen2.5-32B,Alibaba,llm,developer,qwenlm.github.io,Qwen/Qwen2.5-32B,True,Qwen,2024-09-15,apache-2.0,32.764,32.0,1.024,True
+llm,Qwen2-VL-72B,Alibaba,llm,developer,qwenlm.github.io,Qwen/Qwen2-VL-72B-Instruct,True,Qwen,2024-09-17,other,73.406,72.0,1.02,True
+llm,Mistral Large 2,Mistral AI,llm,developer,mistral.ai,mistralai/Mistral-Large-Instruct-2407,True,mistralai,2024-07-24,other,122.61,123.0,0.997,True
+llm,Llama 3.1-70B-Instruct,Meta AI,llm,developer,llama.com,meta-llama/Meta-Llama-3.1-70B-Instruct,True,meta-llama,2024-07-16,llama3.1,70.554,70.0,1.008,True
+llm,Llama 3.1-405B-Instruct,Meta AI,llm,developer,llama.com,meta-llama/Meta-Llama-3.1-405B-Instruct,True,meta-llama,2024-07-16,llama3.1,405.853,405.0,1.002,True
+llm,InternVL2-76B,Shanghai AI Laboratory,llm,developer,github.com,OpenGVLab/InternVL2-Llama3-76B,True,OpenGVLab,2024-07-15,llama3,76.262,76.0,1.003,True
+llm,Nemotron-4 340B,NVIDIA,llm,hub_model,huggingface.co,nvidia/Nemotron-4-340B-Instruct,True,nvidia,2024-06-13,other,,340.0,,True
+llm,Gemma 2-27B,Google DeepMind,llm,developer,blog.google,google/gemma-2-27b,True,google,2024-06-24,gemma,27.227,27.0,1.008,True
+llm,DeepSeek-Coder-V2,DeepSeek,llm,developer,github.com,deepseek-ai/DeepSeek-Coder-V2-Instruct,True,deepseek-ai,2024-06-14,other,235.741,236.0,0.999,True
+llm,Qwen2-72B,Alibaba,llm,developer,qwenlm.github.io,Qwen/Qwen2-72B,True,Qwen,2024-05-22,other,72.706,72.0,1.01,True
+llm,Aya 23-35B,Cohere,llm,developer,cohere.com,CohereForAI/aya-23-35B,True,CohereLabs,2024-05-19,cc-by-nc-4.0,34.981,35.0,0.999,True
+llm,Yi-1.5-34B,01.AI,llm,developer,github.com,01-ai/Yi-1.5-34B,True,01-ai,2024-05-11,apache-2.0,34.389,34.0,1.011,True
+llm,GPT-4o,OpenAI,undisclosed,developer,openai.com,,,,,,,1800.0,,True
+llm,Granite Code-34B,IBM,llm,developer,github.com,ibm-granite/granite-34b-code-instruct,True,ibm-granite,2024-04-26,apache-2.0,33.716,34.0,0.992,True
+llm,DeepSeek-V2,DeepSeek,llm,developer,github.com,deepseek-ai/DeepSeek-V2,True,deepseek-ai,2024-04-22,other,235.741,236.0,0.999,True
+llm,Qwen1.5-110B,Alibaba,llm,developer,qwenlm.github.io,Qwen/Qwen1.5-110B,True,Qwen,2024-04-25,other,111.21,110.0,1.011,True
+llm,Llama-3-70B,Meta AI,llm,developer,ai.meta.com,meta-llama/Meta-Llama-3-70B,True,meta-llama,2024-04-17,llama3,70.554,70.0,1.008,True
+llm,WizardLM-2-8x22B,Microsoft,llm,developer,wizardlm.github.io,microsoft/WizardLM-2-8x22B,True,microsoft,,,,141.0,,True
+llm,Mixtral 8x22B,Mistral AI,llm,hub_model,huggingface.co,mistralai/Mixtral-8x22B-Instruct-v0.1,True,mistralai,2024-04-16,apache-2.0,140.63,141.0,0.997,True
+llm,Command R+,Cohere,llm,developer,cohere.com,CohereLabs/c4ai-command-r-plus,True,CohereLabs,2024-04-03,cc-by-nc-4.0,103.811,104.0,0.998,True
+llm,Qwen1.5-32B,Alibaba,llm,developer,qwenlm.github.io,Qwen/Qwen1.5-32B,True,Qwen,2024-04-01,other,32.512,32.0,1.016,True
+llm,DBRX Instruct,Databricks,llm,hub_model,huggingface.co,databricks/dbrx-instruct,True,databricks,,,,132.0,,True
+llm,Jais-30B,Inception / Core42 / Cerebras,llm,hub_model,huggingface.co,core42/jais-30b-v3,True,inception42,2024-02-14,apache-2.0,,30.0,,True
+llm,Reka Flash,Reka AI,llm,developer,reka.ai,RekaAI/reka-flash-3,True,RekaAI,2025-03-11,apache-2.0,20.905,21.0,0.995,True
+llm,Qwen1.5-72B,Alibaba,llm,developer,qwenlm.github.io,Qwen/Qwen1.5-72B,True,Qwen,2024-01-23,other,72.288,72.0,1.004,True
+llm,Smaug-72B,Abacus AI,llm,hub_model,huggingface.co,abacusai/Smaug-72B-v0.1,True,abacusai,2024-02-02,other,72.289,72.0,1.004,True
+llm,Code Llama-70B,Meta AI,llm,developer,ai.meta.com,codellama/CodeLlama-70b-hf,True,codellama,2024-01-29,llama2,68.977,70.0,0.985,True
+llm,Yi-VL-34B,01.AI,llm,hub_model,huggingface.co,01-ai/Yi-VL-34B,True,01-ai,2023-12-25,apache-2.0,,34.0,,True
+llm,DeepSeek-V1,DeepSeek,llm,developer,github.com,deepseek-ai/deepseek-llm-67b-chat,True,deepseek-ai,2023-11-29,other,,67.0,,True
+llm,DeepSeek-LLM-67B,DeepSeek,llm,developer,github.com,deepseek-ai/deepseek-llm-67b-chat,True,deepseek-ai,2023-11-29,other,,67.0,,True
+llm,Qwen-72B,Alibaba,llm,developer,github.com,Qwen/Qwen-72B,True,Qwen,2023-11-26,other,72.288,72.0,1.004,True
+llm,Grok-1,xAI,llm,developer,x.ai,xai-org/grok-1,True,xai-org,2024-03-17,apache-2.0,,314.0,,True
+llm,Yi-34B,01.AI,llm,hub_model,huggingface.co,01-ai/Yi-34B,True,01-ai,2023-11-01,apache-2.0,34.389,34.0,1.011,True
+llm,DeepSeek-Coder-V1,DeepSeek,llm,developer,github.com,deepseek-ai/deepseek-coder-33b-instruct,True,deepseek-ai,2023-11-01,other,33.343,33.0,1.01,True
+llm,Falcon 180B,TII,llm,hub_model,huggingface.co,tiiuae/falcon-180B,True,tiiuae,2023-08-28,unknown,179.523,180.0,0.997,True
+llm,Code Llama-34B,Meta AI,llm,developer,ai.meta.com,codellama/CodeLlama-34b-hf,True,codellama,2023-08-24,llama2,33.744,34.0,0.992,True
+llm,Llama-2-70B,Meta AI,llm,developer,ai.meta.com,meta-llama/Llama-2-70b-hf,True,meta-llama,2023-07-11,llama2,68.977,70.0,0.985,True
+llm,MPT-30B,MosaicML (Databricks),llm,developer,mosaicml.com,mosaicml/mpt-30b,True,mosaicml,,,,30.0,,True
+llm,Falcon-40B,Technology Innovation Institute (TII),llm,developer,falconllm.tii.ae,tiiuae/falcon-40b,True,tiiuae,2023-05-24,apache-2.0,41.836,40.0,1.046,True
+llm,LLaMA-65B,Meta AI,llm,paper,arxiv.org,huggyllama/llama-65b,True,huggyllama,2023-04-04,other,65.286,65.0,1.004,True
+llm,LLaMA-33B,Meta AI,llm,paper,arxiv.org,huggyllama/llama-30b,True,huggyllama,2023-04-04,other,32.529,33.0,0.986,True
+llm,GPT-3.5 (text-davinci-003),OpenAI,llm,developer,openai.com,,,,,,,175.0,,True
+llm,Galactica,Meta AI,llm,paper,arxiv.org,facebook/galactica-120b,True,facebook,2022-11-16,cc-by-nc-4.0,,120.0,,True
+llm,Flan-PaLM,Google,llm,paper,arxiv.org,,,,,,,540.0,,True
+llm,BLOOM-176B,BigScience (Hugging Face),llm,hub_model,huggingface.co,bigscience/bloom,True,bigscience,2022-05-19,bigscience-bloom-rail-1.0,176.247,176.0,1.001,True
+llm,BLOOM,BigScience (Hugging Face),llm,hub_model,huggingface.co,bigscience/bloom,True,bigscience,2022-05-19,bigscience-bloom-rail-1.0,176.247,176.0,1.001,True
+llm,Luminous Supreme,Aleph Alpha,llm,developer,aleph-alpha.com,,,,,,,70.0,,True
+llm,InstructGPT,OpenAI,llm,developer,openai.com,,,,,,,175.0,,True

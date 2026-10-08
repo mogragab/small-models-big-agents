@@ -1,182 +1,127 @@
 % ================================================================
-% Section: \glspl{slm} as the Substrate of Agentic AI
-% New section (position core of the consolidated paper)
+% Section: When should a small model be the default in an agent?
 % ================================================================
 
-\section{Small Language Models as the Substrate of Agentic AI}
+\section{When Should a Small Model Be the Default in an Agent?}
 \label{sec:agentic}
 
-The preceding sections establish three things about the sub-10B regime: modern \glspl{slm} report capability levels that were state-of-the-art for far larger models only two years earlier (Section~\ref{sec:reported}); they can be compressed to run on commodity and edge hardware at a modest and characterized accuracy cost (Sections~\ref{sec:compression}--\ref{sec:deployment}); and a mature ecosystem now exists to deploy them (Section~\ref{subsec:deployment_frameworks}). This section assesses hypothesis~H of Section~\ref{subsec:intro_thesis}: that for agent calls which are bounded, recurrent, short-context, and verifiable, a specialized \gls{slm} is the appropriate default execution substrate. The argument follows and extends the position of \citet{belcak2025slm_agentic}; we situate it within the broader literature on LLM--SLM collaboration \citep{chen2024role_small,chen2025collab_survey,chen2024mas_survey} and connect it to the deployment evidence consolidated in this paper.
+The preceding sections show that \glspl{slm} can be compressed to run on commodity and edge hardware at a characterized cost (Sections~\ref{sec:compression}--\ref{sec:deployment}), and that the general benchmark record can establish neither their relative capability nor their fitness for agents (Section~\ref{sec:reported}). This section assesses hypothesis~H (Section~\ref{subsec:intro_thesis}) on agent-specific evidence. The premises and the conversion pipeline are those of \citet{belcak2025slm_agentic}, and the \gls{slm}-default, \gls{llm}-fallback design with cost per successful task as its metric is shared with \citet{sharma2025slm_agentic}; what this section adds is the grading of each line of evidence, including contrary results, the break-even and checking conditions of H, and the counterexamples of Section~\ref{subsec:agentic_counterexamples}.
 
-The section is organized so that the case and its limits are separable.
-Section~\ref{subsec:agentic_delegation} characterizes the workload.
-Section~\ref{subsec:agentic_case} states the three premises.
-Section~\ref{subsec:agentic_evidence} assembles the agent-specific evidence for
-each premise and grades it, which is the part of the argument that general
-benchmark scores cannot supply. Section~\ref{subsec:agentic_counterexamples}
-states the workload classes for which the hypothesis fails.
-Sections~\ref{subsec:agentic_hetero}--\ref{subsec:agentic_barriers} then treat
-routing, conversion, and adoption.
-
-\subsection{What Agents Delegate to Language Models}
+\subsection{What Agents Delegate}
 \label{subsec:agentic_delegation}
 
-An AI agent is a software system in which one or more language models operate under a control loop that also includes tools, memory, and a scaffold of prompts and parsers \citep{belcak2025slm_agentic}. The language model in such a system is rarely asked to hold an open-ended conversation. It is asked to perform bounded sub-tasks: decide which tool to call and with what arguments, extract fields from a document, classify an intent, rewrite a query, summarize a retrieved passage, produce a short code patch, or check whether a step succeeded. These calls share three properties. They are \emph{narrow}: each exercises a small slice of the model's competence. They are \emph{repetitive}: the same handful of call types recur thousands of times in production. And they are \emph{format-constrained}: the output must parse as JSON, match a function signature, or fall within a fixed label set, or the surrounding code breaks \citep{belcak2025slm_agentic}.
+An agent is a control loop in which language models operate alongside tools, memory, and a scaffold of prompts and parsers. The model is mostly asked to perform bounded sub-tasks: choose a tool and its arguments, extract fields, classify an intent, rewrite a query, summarize a passage, produce a short patch, or check a step. \citet{belcak2025slm_agentic} characterize such calls as narrow, repetitive, and format-constrained, and estimate, by inspecting three open-source agents, that about 60\% of the \gls{llm} queries in MetaGPT, 40\% in Open Operator, and 70\% in Cradle could be handled by appropriately specialized \glspl{slm}. These are the authors' judgments of replaceability, not measurements and not an application of H1--H4, so we grade them \evD{}. We found no trace study measuring the distribution of call types in deployed agents by count, cost, or contribution to task success.
 
-None of these properties rewards the breadth of a frontier \gls{llm}. A model that can also write a sonnet, debate philosophy, and reason across a 200-page contract is carrying capacity that the agent never invokes on the call in question. \citet{belcak2025slm_agentic} formalize this as the observation that agents use only a narrow subset of language-model functionality, and that agentic systems demand strict behavioral alignment to code interfaces, which is exactly the setting in which a specialized small model can match or exceed a general large one.
-
-\subsection{The Case for SLMs in Agents}
+\subsection{The Premises}
 \label{subsec:agentic_case}
 
-\subsubsection{Capability Sufficiency}
+\subsubsection{P1: Capability Sufficiency}
 \label{subsubsec:agentic_capability}
 
-The first premise is that \glspl{slm} are good enough for the delegated sub-task, where ``the sub-task'' means the individual bounded call and not the completed trajectory. Section~\ref{subsubsec:agentic_ev_fc} sets out the evidence, which for tool selection and argument filling is independent and favorable. Unified-reasoning \glspl{slm} extend the range of what can be delegated: Qwen3 \citep{qwen3_2025} exposes a controllable ``thinking budget'' so that an agent can spend inference compute only on the calls that need it, and distilled reasoning models such as Phi-4-mini-reasoning \citep{xu2025phi4mini_reasoning} and the DeepSeek-R1 distillations \citep{deepseek2025r1} bring competition-mathematics performance into the 3--8B range; \citet{srivastava2025thinkslm} benchmark 72 small models across 14 reasoning benchmarks and conclude that reasoning ability in this band tracks training method and data quality more than scale. \citet{belcak2025slm_agentic} argue that objections based on scaling laws understate \gls{slm} capability because scaling-law studies hold architecture fixed, exclude task-specific fine-tuning, and predate inference-time reasoning, all three of which disproportionately help small models. We accept that argument for per-call competence and note that it does not extend to the multi-step results of Section~\ref{subsubsec:agentic_ev_e2e}.
+The first premise is that a specialized \gls{slm} is good enough for the individual bounded call, not for the completed trajectory. Section~\ref{subsubsec:agentic_ev_fc} sets out the evidence, which is favorable for tool selection and argument filling but mostly developer-reported. Two further results bear on it. Controllable reasoning extends what can be delegated: Qwen3 \citep{qwen3_2025} exposes a thinking budget, and distilled reasoning models such as Phi-4-mini-reasoning \citep{xu2025phi4mini_reasoning} report competition-mathematics results at 3--8B that earlier models of that size did not reach (\evC). And specialization, not size alone, appears to carry the gain: a controlled study of Qwen3 models from 0.6B to 32B, published after our snapshot, finds supervised fine-tuning with \gls{lora} the strongest in-distribution adaptation for tool calling across the whole range \citep{laskar2026sftrl} (\evB). All of the per-call evidence concerns models below 10B or a single family.
 
-\subsubsection{Economics}
+\subsubsection{P2: Economics}
 \label{subsubsec:agentic_economics}
 
-The second premise is cost. \citet{belcak2025slm_agentic} estimate that serving a 7B \gls{slm} is 10--30$\times$ cheaper than serving a 70--175B \gls{llm} once latency, energy, and FLOPs are accounted for, and that parameter-efficient fine-tuning lets a small model be specialized for a new agent role in GPU-hours rather than GPU-weeks. This is a grade-\evC{} estimate rather than a measurement, and its width is not incidental: realized cost ratios depend on batch size, context length, achieved hardware utilization, and the serving stack, and the same two models can differ by a factor of three in cost ratio across two deployments. What is robust across those conditions is the ordinal claim and its rough magnitude, that the gap is one to two orders and not a few percent, and it is that ordinal claim the argument uses.
+\citet{belcak2025slm_agentic} estimate that serving a 7B \gls{slm} is 10--30$\times$ cheaper in latency, energy, and FLOPs than serving a 70--175B \gls{llm}, and \citet{sharma2025slm_agentic} estimate that cost per successful task falls by a similar factor; both are estimates rather than measurements (\evD). The break-even condition H2 (Equation~\ref{eq:breakeven}, Figure~\ref{fig:breakeven}) is how we state the premise instead, because four things that a per-token ratio omits decide the outcome. First, the unit is cost per \emph{completed task}: a small model that needs $a$ attempts per call, a check costing $c_V$, and escalation of a fraction $e$ of calls to the large model saves only $c_L - (a\,c_S + c_V + e\,c_L)$ per call, and saves nothing once $e \ge 1 - (a\,c_S + c_V)/c_L$. Second, specialization has fixed costs $F$: logging and curating traces, removing personal data, fine-tuning per call type, evaluation, router calibration, retraining under drift, and maintaining a fleet of specialists. Third, the large-model cost $c_L$ is not a list price: agent calls repeat long system prompts and tool schemas, which is the case that provider-side prompt caching and asynchronous batch pricing discount, and hosted fine-tuning of a provider's small model gives specialization without a fleet. Each of these lowers $c_L$ or $F$ for the comparator and so raises $N^{*}$, as does any further fall in hosted prices at fixed capability. Fourth, the comparator for server-side calls is not only a frontier model: a hosted general-purpose small model or a small-active-parameter \gls{moe} has small-model per-token cost and no specialization cost. The one measurement of cost per correct answer across model classes finds that lightweight models are cost-optimal on basic quantitative tasks and large models on knowledge-intensive ones \citep{erol2025costofpass} (\evB), which supports a conditional premise and not a general one. Finally, ``zero marginal cost'' on a device means no per-query charge to the operator, not zero cost to a user who pays in battery and thermal budget; offline, the large model cannot run at all, which makes the question one of capability rather than cost.
 
-Three qualifications matter. First, the per-token comparison is the wrong unit: what a product pays is cost per \emph{completed task}, and as Section~\ref{subsubsec:agentic_ev_routing} records, no source we found reports it for a small-model agent against a large-model agent on one workload. A small model that needs retries and escalations can be more expensive per completed task while being far cheaper per token. Second, ``zero marginal cost'' for on-device inference means no per-query cash cost to the operator; it is not zero cost to the user, who pays in battery, thermal budget, and device wear, nor zero cost in aggregate once device manufacture is amortized. Third, in offline settings the comparison does not arise: the large model cannot run at all, which makes local inference a capability question rather than an economic one. Subject to those, because an agent amortizes model cost over many calls per user task, a constant-factor saving per call compounds into the difference between a viable and an unviable margin.
+\begin{figure}[t]
+\centering
+\footnotesize
+\definecolor{beInk}{HTML}{34404A}
+\definecolor{beBlue}{HTML}{7397B8}
+\definecolor{beApr}{HTML}{D8A879}
+\definecolor{beSage}{HTML}{79A88E}
+\definecolor{beRose}{HTML}{C9858C}
+\begin{tikzpicture}[x=1cm,y=1cm, lab/.style={font=\scriptsize, text=beInk, align=center}]
+% panel (a)
+\fill[beRose!10] (0,0) rectangle (2.5,3.2);
+\fill[beSage!12] (2.5,0) rectangle (6.2,3.2);
+\draw[->, beInk] (0,0) -- (6.4,0) node[below left, lab] {calls of this type, $N$};
+\draw[->, beInk] (0,0) -- (0,3.4) node[above right, lab, anchor=south west] {cumulative cost};
+\draw[very thick, beApr] (0,0) -- (6.0,3.0) node[right, lab] {all-LLM};
+\draw[very thick, beBlue] (0,0.8) -- (6.0,1.88) node[right, lab] {SLM-first};
+\node[lab, left] at (0,0.8) {$F$};
+\draw[dashed, beInk!70] (2.5,0) -- (2.5,3.2);
+\node[lab, below] at (2.5,0) {$N^{*}$};
+\node[lab, font=\tiny] at (1.25,2.85) {specialization\\does not pay};
+\node[lab, font=\tiny] at (4.35,0.45) {specialization pays};
+\node[lab, font=\tiny, text=beInk!80] at (3.6,3.42) {slopes $c_L$ and $a\,c_S + c_V + e\,c_L$};
+\node[lab, font=\bfseries] at (-0.3,3.7) {(a)};
+% panel (b)
+\begin{scope}[xshift=8.0cm]
+\node[lab, font=\bfseries] at (-0.3,3.7) {(b)};
+\node[lab, anchor=north west, text width=54mm, align=left] at (0,3.4) {\textbf{Moves $N^{*}$ right (later break-even)}};
+\node[lab, anchor=north west, text width=54mm, align=left] at (0.2,2.95) {higher escalation rate $e$\\more attempts per call $a$\\costlier check $c_V$\\prompt caching or batch pricing lower $c_L$\\hosted fine-tuning lowers the comparator's $F$};
+\node[lab, anchor=north west, text width=54mm, align=left] at (0,1.05) {\textbf{Moves $N^{*}$ left}};
+\node[lab, anchor=north west, text width=54mm, align=left] at (0.2,0.65) {larger gap between $c_L$ and $c_S$};
+\end{scope}
+\end{tikzpicture}
+\caption{Break-even volume for specializing one call type (Equation~\ref{eq:breakeven}). (a)~An SLM-first system pays a fixed cost $F$ and a per-call cost that includes attempts, the check, and escalations, so it is cheaper than an all-LLM system only above $N^{*}$; if $e \ge 1 - (a\,c_S + c_V)/c_L$, the lines never cross. (b)~Factors that move $N^{*}$. Schematic: no axis values or prices are implied, and no measured $N^{*}$ exists for any workload.}
+\Description{Two panels. Left: cumulative cost against the number of calls, with an all-LLM line from the origin and a shallower SLM-first line starting at the fixed cost F; they cross at N star, left of which specialization does not pay and right of which it pays. Right: a list of factors that move N star right (higher escalation rate, more attempts, costlier check, prompt caching or batch pricing, hosted fine-tuning) and one that moves it left (a larger gap between large- and small-model cost).}
+\label{fig:breakeven}
+\end{figure}
 
-\subsubsection{Behavioral Alignment and Operational Fit}
+\subsubsection{P3: Control}
 \label{subsubsec:agentic_alignment}
 
-The third premise is control. An agent needs its model to emit exactly the format the scaffold expects, and to do so reliably across a long tail of inputs. Two mechanisms deliver this, and they are worth separating. Constrained decoding \citep{willard2023guided} enforces well-formedness outside the model, so schema adherence is not a function of model size at all; this removes the strongest structural objection to using a small model in a loop, but guarantees only syntax. Specialization supplies the rest: constraining a small model to a narrow output \emph{distribution} is easier than suppressing the much larger behavioral range of a frontier model, and fine-tuning on the agent's own logged traces closes the residual gap \citep{belcak2025slm_agentic}. \citet{belcak2025slm_agentic} note a virtuous cycle here (their argument A7): agent interactions generate high-quality, in-distribution training data essentially for free, which is precisely what specialization of a small model requires. Operationally, small models are also easier to version, roll back, run on-premises for data-residency reasons, and co-locate with the tools they call.
+An agent needs its model to emit exactly the format the scaffold expects. Constrained decoding enforces well-formedness outside the model \citep{willard2023guided,dong2024xgrammar}, so syntactic validity for a supported schema does not depend on model size. This removes an objection to small models rather than giving them an advantage, since a large model can be constrained equally. What remains for P3 is the argument of \citet{belcak2025slm_agentic} that a narrow output distribution is easier to impose on a small model by fine-tuning on the agent's own traces than to elicit from a frontier model by prompting, together with operational properties: small models are easier to version, roll back, host on-premises, and co-locate with their tools.
 
 % ----------------------------------------------------------------
 \subsection{Agent-Specific Evidence}
 \label{subsec:agentic_evidence}
 
-The three premises above are commonly supported with general benchmark scores.
-As Section~\ref{subsec:reported_agentic_gap} argues, those scores are the wrong
-instrument: \gls{mmlu}, \gls{gsm8k}, and HumanEval measure a model answering in
-isolation, not a model operating inside a loop. This subsection therefore
-assembles the evidence that does bear on the question, organized by the capability
-an agent actually exercises, and grades each line under the scheme of
-Section~\ref{subsec:reported_grading}. Table~\ref{tab:agentic_evidence}
-summarizes.
+General benchmark scores are the wrong instrument for these premises (Section~\ref{subsec:reported_agentic_gap}). This subsection assembles the evidence that bears on them, by the capability an agent exercises, and grades each line (Table~\ref{tab:agentic_evidence}).
 
 \subsubsection{Function Calling and Tool Selection}
 \label{subsubsec:agentic_ev_fc}
 
-This is the best-evidenced part of the case and the only one with a
-standardized, independently operated evaluation. The Berkeley Function-Calling
-Leaderboard \citep{patil2025bfcl} evaluates a model's ability to select the right
-function from a supplied set and populate its arguments, across simple,
-multiple-function, parallel, and, in later versions, multi-turn and agentic
-settings, with executable checks rather than string matching. Its predecessors in
-this line, Gorilla \citep{patil2023gorilla}, ToolLLM's ToolBench
-\citep{qin2024toolllm}, and API-Bank \citep{li2023apibank}, established that
-API-call generation is a distinct skill on which general capability transfers
-only partially: \citet{patil2023gorilla} report that a fine-tuned 7B model paired
-with document retrieval exceeds GPT-4 on API-call generation, and
-\citet{li2023apibank} report a 26-point gain on tool use from targeted training
-of a small model.
+This is the best-evidenced capability. The Berkeley Function-Calling Leaderboard \citep{patil2025bfcl} checks function selection and argument filling with executable checks, in single-turn, parallel, and, from its third version, multi-turn settings; its predecessors \citep{patil2023gorilla,qin2024toolllm,li2023apibank} established that API-call generation is a skill on which general capability transfers only partially. Developer reports place specialized sub-10B models among the leading single-turn entries of 2024: APIGen's 7B model was reported to outperform several GPT-4 models and its 1B model GPT-3.5-Turbo \citep{liu2024apigen}; the xLAM-7B card places it third at 88.24\% (the first place belonged to an 8$\times$22B member of the series) \citep{zhang2024xlam}; ToolACE reports an 8B model rivalling GPT-4 \citep{liu2025toolace}; and on-device work reports 0.1--7B models competitive on narrower suites \citep{chen2024octopusv2,erdogan2024tinyagent,lin2024hammer,liu2024mobilellm}. Meta reports Llama~3.2 3B at 67.0 on BFCL~v2 against 67.1 for Llama~3.1 8B, and the 1B model at 25.7 \citep{meta2024llama32card}. For multi-turn use, APIGen-MT trains 1B--70B models on verified multi-turn trajectories and reports that they outperform GPT-4o and Claude~3.5 on $\tau$-bench and BFCL, with smaller models surpassing larger ones in multi-turn settings and more consistent across repeated trials \citep{prabhakar2025apigenmt}. All of these are developer reports on public benchmarks, and the placements were not checked against archived leaderboard snapshots (\evC).
 
-The most direct evidence for premise~(i) is that models in this size class hold
-competitive positions on this leaderboard. Salesforce's xLAM family
-\citep{zhang2024xlam} reports its 7B function-calling model at the top of the
-leaderboard at the time of its release, and its 1B variant surpassing
-GPT-3.5-Turbo and Claude-3~Haiku on the same task. This is a genuine
-grade-\evB{} result, since the leaderboard is independently operated, and it is
-the strongest single piece of evidence in this paper for the substrate
-hypothesis. Two qualifications belong with it. Leaderboard standings are a moving
-target, so the claim to make is that sub-10B models are \emph{competitive} on
-function calling, not that a particular one leads. And function-calling accuracy
-is a per-call metric; Section~\ref{subsubsec:agentic_ev_e2e} takes up what
-happens when such calls are chained.
+Independent evidence qualifies them. \citet{kavathekar2025smallmodels} find that small models improve from zero- to few-shot to fine-tuned function calling but ``struggle significantly with adhering to the given output format'' (\evB), and \citet{shen2024weaktool} recover performance only by splitting planning, calling, and summarization across separately fine-tuned small models. Read together, the evidence supports the conditional form of H: per-call competence at this size is something specialization produces, not something an off-the-shelf small model has.
 
-\subsubsection{Structured-Output Validity}
+\subsubsection{Structured Output: Validity Is Not Correctness}
 \label{subsubsec:agentic_ev_struct}
 
-An agent's scaffold breaks on malformed output regardless of whether the content
-was right, so schema adherence is a first-class requirement rather than a
-presentational one. The relevant finding here is architectural rather than
-comparative: constrained decoding makes the question largely moot. Reformulating
-generation as traversal of a finite-state machine derived from a regular
-expression or grammar \citep{willard2023guided} guarantees that output parses,
-at negligible overhead and independently of the underlying model. Because the
-guarantee is enforced outside the model, it applies equally to a 1B and a 400B
-model, which removes what would otherwise be a structural disadvantage for small
-models and is a real, if indirect, argument for premise~(iii). What constrained
-decoding does not do is make the \emph{content} correct, and the gap between
-well-formed and correct output is where small models still lose ground.
+Constrained decoding guarantees that output parses, at an overhead its authors report as small \citep{willard2023guided,dong2024xgrammar} (\evC). Three results limit what that buys. JSONSchemaBench finds that frameworks differ in schema coverage, efficiency, and output quality, so the guarantee holds for the features a framework supports \citep{geng2025jsonschemabench} (\evB). Grammar-constrained decoding distorts the model's distribution, producing grammatical outputs whose likelihoods are not those the model assigns \citep{park2024gad}. And \citet{tam2024speakfreely} report that format restrictions degrade reasoning (\evB), a result disputed by the developers of a constrained-decoding library on methodological grounds \citep{kurt2024saywhatyoumean}, so its size is uncertain. What constrained decoding does not do is make the content correct, and the gap between well-formed and correct output, a valid call to the wrong tool or with a wrong argument value, is where small models still lose ground. This is why H4 requires a correctness check (H4b) and not only a validity check (H4a).
 
 \subsubsection{End-to-End Agent Success}
 \label{subsubsec:agentic_ev_e2e}
 
-This is where the case is weakest, and it needs saying plainly. On realistic
-multi-step agent benchmarks, absolute success rates are low for all models, and
-the reporting for sub-10B models is sparse. WebArena \citep{zhou2024webarena}
-reports a best GPT-4-based agent at 14.41\% end-to-end success against 78.24\%
-for humans. GAIA \citep{mialon2024gaia} reports GPT-4 with plugins at 15\%
-against 92\% for humans. SWE-bench \citep{jimenez2024swebench} reports the best
-model of its time resolving about 2\% of real GitHub issues. AgentBench
-\citep{liu2024agentbench} finds a large gap between commercial and open models
-across eight environments, attributing it specifically to long-horizon reasoning
-and instruction following rather than to knowledge.
+Here the evidence is weakest and partly contradictory. When the realistic multi-step benchmarks were introduced, success was low for every model: the best GPT-4 agent reached 14.41\% on WebArena against 78.24\% for humans \citep{zhou2024webarena}, GPT-4 with plugins 15\% on GAIA against 92\% \citep{mialon2024gaia}, and the best model about 2\% on SWE-bench \citep{jimenez2024swebench} (\evB). The one cross-class comparison of that period, AgentBench, found a large gap between commercial models and open models of 70B or less, attributed to long-horizon reasoning, decision-making, and instruction following \citep{liu2024agentbench} (\evB); it compared open with closed models of 2023, so model size is confounded with openness and training. Against it, the APIGen-MT developers report specialized small models ahead of frontier models on $\tau$-bench \citep{prabhakar2025apigenmt} (\evC). We found no dated, independent, like-for-like comparison of current specialized sub-10B agents and frontier agents, so whether a size gap persists for specialized small models is open (\evD).
 
-Two things follow. First, these are frontier-model numbers, so the failures are
-not attributable to model size, and the honest reading is that end-to-end agentic
-competence is an open problem for the field rather than a settled advantage for
-either size class. Second, and more damaging to a naive reading of our thesis,
-the failure mode these benchmarks expose is precisely the one that per-call
-metrics hide. $\tau$-bench \citep{yao2024taubench} makes this quantitative: it
-introduces a pass\textsuperscript{$k$} metric over repeated trials of the same
-task and reports that even strong models succeed on under half of its tasks and
-degrade sharply as $k$ grows, which is a measurement of behavioral consistency,
-not of capability. An agent that chains $n$ calls at per-call reliability $p$
-completes the trajectory at $p^n$ absent recovery, so the difference between
-0.98 and 0.95 per-call reliability is the difference between 82\% and 60\% over
-ten steps. Hypothesis~H's requirement~(iv), that the scaffold can cheaply verify
-each step, is what breaks this compounding, and it is a requirement rather than a
-nicety for exactly this reason.
+The failure mode these benchmarks expose is the one per-call metrics hide. $\tau$-bench reports that even strong models succeed on under half of its tasks and degrade as the number of repeated trials grows \citep{yao2024taubench}, and $\tau^2$-bench reports further drops when the agent must coordinate with an active user \citep{barres2025tau2}. A trajectory of $n$ calls at per-call reliability $p$ completes at $p^n$ absent recovery, so the difference between 0.98 and 0.95 per call is the difference between 82\% and 60\% over ten steps. A correctness check that triggers escalation (H4b) is what breaks this compounding; a validity check alone lets valid but wrong outputs pass and compound.
 
 \subsubsection{Routing, Escalation, and Cost per Completed Task}
 \label{subsubsec:agentic_ev_routing}
 
-The heterogeneous design of Section~\ref{subsec:agentic_hetero} stands or falls
-on router quality, and the evidence here is thinner than the architecture
-diagrams suggest. RouteLLM \citep{ong2024routellm} reports more than 2$\times$
-cost reduction at matched quality on standard benchmarks, with transfer of a
-trained router to unseen model pairs, which is a real result but one obtained on
-single-turn query benchmarks rather than inside an agent loop.
-Division-of-Thoughts \citep{division_of_thoughts_2025} routes decomposed
-sub-questions between a local \gls{slm} and a cloud \gls{llm} for on-device
-agents. What is missing across this literature is calibration reporting: how
-often the router is confidently wrong, how the escalation rate moves under
-distribution shift, and what the seam costs when a trajectory switches models
-mid-task.
+Cascades and routers report large savings on single-turn query benchmarks: FrugalGPT matches the best single model with up to 98\% cost reduction \citep{chen2023frugalgpt}, Hybrid~LLM sends up to 40\% fewer calls to the large model with no quality drop \citep{ding2024hybridllm}, AutoMix reports over 50\% cost reduction at comparable quality \citep{aggarwal2024automix}, and RouteLLM over $2\times$ at matched quality with transfer to unseen model pairs \citep{ong2024routellm} (all \evC). RouterBench provides a common dataset of 405K inference outcomes for comparing routers \citep{hu2024routerbench}. None of these reports, inside an agent loop, how often the router is confidently wrong, how escalation rates move under distribution shift, or what the seam costs when a trajectory switches models.
 
-Most consequentially, almost no source reports \emph{cost per completed task},
-as opposed to cost per token or cost per call. That is the quantity the economic
-premise actually requires, because a cheaper model that needs three attempts and
-one escalation is not cheaper. We were unable to find a study that measures it
-for a small-model agent against a large-model agent on the same workload, and we
-name it as the single most valuable missing measurement in this area
-(Section~\ref{subsec:challenges_verification}).
+Cost per correct outcome has begun to be measured, but not for the comparison H requires. Cost-of-pass, the expected monetary cost of a correct solution, has been measured across model classes on single-turn tasks \citep{erol2025costofpass} (\evB); the Holistic Agent Leaderboard reports agent accuracy and cost across 9 frontier-class models and 9 benchmarks, and finds, for example, that higher reasoning effort reduced accuracy in most runs \citep{kapoor2025hal} (\evB); and \citet{kapoor2024agentsmatter} argue that agents should be evaluated on joint cost and accuracy. We found no study that reports cost per completed task for an \gls{slm}-first agent against an all-\gls{llm} agent on the same workload. That is the measurement on which H is confirmed or refuted (Section~\ref{subsec:challenges_verification}).
 
 \begin{table}[t]
 \centering
-\caption{Agent-specific evidence for the premises of hypothesis~H, by capability. Grades follow Section~\ref{subsec:reported_grading}. The pattern is that the evidence is strong and independent at the level of the individual call and thin to absent at the level of the completed task.}
+\caption{Agent-specific evidence bearing on hypothesis~H, by capability, with the premise or condition each line bears on. Grades follow Section~\ref{subsec:reported_grading}; ``None'' marks a quantity for which the search of Section~\ref{subsec:intro_method} located no study. Per-call evidence is favorable but mostly developer-reported, independent evidence qualifies it, and the completed-task comparison H requires is absent.}
 \label{tab:agentic_evidence}
 \footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{@{}lp{5.9cm}p{3.6cm}c@{}}
+\begin{tabular}{@{}lp{5.4cm}p{3.6cm}cc@{}}
 \toprule
-\textbf{Capability} & \textbf{What the evidence shows} & \textbf{Source class} & \textbf{Grade} \\
+\textbf{Capability} & \textbf{What the evidence shows} & \textbf{Source class} & \textbf{Bears on} & \textbf{Grade} \\
 \midrule
-Function calling, tool selection & Sub-10B models trained for the task are competitive with much larger models on an independently operated leaderboard & Standardized leaderboard \citep{patil2025bfcl}; model reports \citep{zhang2024xlam} & \evB \\
-API-call generation & Retrieval-paired 7B models exceed GPT-4 on API-call generation; targeted training yields large gains on tool use & Author-reported \citep{patil2023gorilla,li2023apibank} & \evC \\
-Tool-use breadth & Instruction data over thousands of real APIs transfers to unseen tools & Author-reported \citep{qin2024toolllm} & \evC \\
-Structured-output validity & Constrained decoding guarantees well-formed output at negligible cost, model-independently & Method paper \citep{willard2023guided} & \evB \\
-Multi-step reliability & Success degrades sharply over repeated trials of the same task; consistency is distinct from capability & Independent benchmark \citep{yao2024taubench} & \evB \\
-End-to-end agent success & Absolute success is low for all model sizes on realistic environments; sub-10B coverage is sparse & Independent benchmarks \citep{zhou2024webarena,mialon2024gaia,jimenez2024swebench,liu2024agentbench} & \evB \\
-Router quality & Learned routing cuts cost at matched quality on single-turn benchmarks & Author-reported \citep{ong2024routellm,division_of_thoughts_2025} & \evC \\
-Router calibration, escalation rate & Not reported in the sources reviewed & --- & None \\
-Cost per completed task & Not reported in the sources reviewed; the decisive quantity for the economic premise & --- & None \\
-Privacy-sensitive routing & Production systems implement it; no published evaluation of routing accuracy on privacy grounds & Vendor report \citep{gunter2025afm} & \evC \\
+Single-turn function calling & Specialized sub-10B models among the leading entries in 2024 & Developer reports \citep{liu2024apigen,zhang2024xlam,liu2025toolace,meta2024llama32card} & P1, H1 & \evC \\
+Multi-turn function calling & Specialized small models reported ahead of frontier models on BFCL multi-turn and $\tau$-bench & Developer report \citep{prabhakar2025apigenmt} & P1 & \evC \\
+Format adherence without fine-tuning & Small models often fail the call format; fine-tuning helps most & Independent study \citep{kavathekar2025smallmodels} & P1 & \evB \\
+Specialization method & LoRA fine-tuning strongest in-distribution for tool calling at 0.6--32B & Independent study \citep{laskar2026sftrl} & P1 & \evB \\
+Structured-output validity & Constrained decoding guarantees parseable output, model-independently & Method papers \citep{willard2023guided,dong2024xgrammar} & H4a & \evC \\
+Limits of constrained decoding & Coverage differs by framework; decoding distorts the distribution; reasoning effect disputed & \citep{geng2025jsonschemabench,park2024gad,tam2024speakfreely,kurt2024saywhatyoumean} & H4 & \evB \\
+Multi-step reliability & Success degrades over repeated trials of the same task & Independent benchmarks \citep{yao2024taubench,barres2025tau2} & H4b & \evB \\
+End-to-end success & Low for all models at introduction; open $\le$70B models trailed commercial APIs in 2023 & Independent benchmarks \citep{zhou2024webarena,mialon2024gaia,jimenez2024swebench,liu2024agentbench} & P1 & \evB \\
+Current size gap end to end & Contested: no independent like-for-like comparison of specialized sub-10B and frontier agents & -- & P1 & \evD \\
+Estimated replaceable calls & 40--70\% of calls in three agents judged replaceable by specialized SLMs & Position paper \citep{belcak2025slm_agentic} & H2 & \evD \\
+Router quality & Cascades and routers cut cost at matched quality on single-turn benchmarks & Author-reported \citep{chen2023frugalgpt,ding2024hybridllm,aggarwal2024automix,ong2024routellm} & P2 & \evC \\
+Router calibration, escalation rate & Not reported inside agent loops & -- & P2, H2 & None \\
+Cost per correct outcome & Lightweight models cost-optimal on basic quantitative tasks, large ones on knowledge-intensive tasks (single-turn); agent cost and accuracy for frontier models & Independent \citep{erol2025costofpass,kapoor2025hal} & P2 & \evB \\
+Cost per completed task, SLM-first vs.\ all-LLM & Not reported & -- & H & None \\
 \bottomrule
 \end{tabular}%
 }
@@ -185,127 +130,81 @@ Privacy-sensitive routing & Production systems implement it; no published evalua
 \subsubsection{What This Evidence Supports}
 \label{subsubsec:agentic_ev_summary}
 
-Read together, the evidence supports a narrower claim than the one usually made.
-It is well supported (\evB) that a specialized sub-10B model can perform the
-individual delegated operation, tool selection and argument filling, at a
-standard competitive with much larger models. It is well supported (\evB) that
-well-formedness can be guaranteed independently of model size. It is
-\emph{not} established that a small-model agent completes realistic multi-step
-tasks at a rate comparable to a large-model agent, because that comparison has
-not been run; what is established is that both do poorly in absolute terms and
-that reliability compounds badly. And the economic premise, though plausible on
-per-token cost, rests on grade-\evC{} estimates and lacks the per-completed-task
-measurement that would confirm it.
-
-This is why hypothesis~H is conditional and why condition~(iv), verifiability, is
-part of it rather than an implementation detail. The case for \glspl{slm} inside
-agents is strong exactly where the scaffold can check the work, and it is
-currently unproven where it cannot.
+The evidence supports a narrower claim than the one usually made. Developers report (\evC), and independent work qualifies (\evB), that a \emph{specialized} sub-10B model can perform the individual delegated operation at a standard competitive with much larger models; an off-the-shelf small model often cannot. Validity can be guaranteed independently of model size for supported schemas; correctness cannot. Whether a specialized small-model agent completes realistic multi-step tasks at a comparable rate is contested, and whether it does so at lower cost per completed task has not been measured. The case for H is therefore strongest where a correctness check exists and the call type recurs often enough to repay specialization, and unproven elsewhere.
 
 % ----------------------------------------------------------------
 \subsection{Where the Hypothesis Does Not Hold}
 \label{subsec:agentic_counterexamples}
 
-A design hypothesis is only useful if it says when it does not apply. The
-following workload classes fall outside hypothesis~H, and for each of them a
-frontier model remains the right default.
+For the following workload classes the conditions of H fail and a frontier model remains the right default.
 
 \begin{description}
-  \item[Open-ended planning over an unbounded action space] When the agent must
-    decide \emph{what} to do rather than execute a decided step, the call is not
-    bounded in the sense of condition~(i): there is no fixed output schema, and
-    the space of acceptable plans is large. AgentBench \citep{liu2024agentbench}
-    locates the open-model gap specifically in long-horizon reasoning, which is
-    the capability planning needs. This is the escalation case in every routing
-    architecture in Section~\ref{subsec:agentic_hetero}, and it is not a residual
-    case: in agent traces it is the call that determines whether the whole
-    trajectory succeeds.
-  \item[Synthesis over long or heterogeneous context] Condition~(iii) fails when
-    the input is a large document set, a long trajectory history, or a
-    multi-source retrieval result requiring cross-document reasoning. Long
-    context in a small model is a memory and prefill problem before it is a
-    capability problem (Section~\ref{subsec:deployment_latency}), and quality on
-    long-context synthesis degrades faster with scale reduction than quality on
-    short-context extraction.
-  \item[Tasks whose correctness cannot be cheaply checked] Condition~(iv) fails
-    for open-ended generation, judgement calls, and anything where verification
-    is as hard as the task. Without a cheap check, per-call errors compound
-    silently across the trajectory, which is exactly the regime the
-    pass\textsuperscript{$k$} results of \citet{yao2024taubench} describe.
-  \item[Low-resource-language and safety-sensitive calls] The multilingual and
-    safety deficits documented in Section~\ref{subsec:reported_safety} are
-    concentrated in small models, and the reporting needed to know which small
-    model is safe for a given language is largely absent. A router that sends
-    such calls to a small model on size grounds alone degrades them silently.
-  \item[Sparse or unstable call distributions] Condition~(ii) fails when a call
-    type is rare, or when the traffic distribution shifts faster than the
-    specialization loop of Section~\ref{subsec:agentic_conversion} can track.
-    Specialization has a fixed cost per call type; below some call volume it does
-    not repay, and a generalist model is simply cheaper in total.
-  \item[Cold-start deployments] Before an agent is in production there are no
-    logged traces, so the conversion pipeline has no input. The correct opening
-    move is a frontier model with instrumentation, and migration afterwards.
+  \item[Open-ended planning] When the agent must decide \emph{what} to do, the call fails H1: there is no fixed schema and the space of acceptable plans is large. AgentBench locates the open-model gap in long-horizon reasoning and decision-making \citep{liu2024agentbench}, and a planning error propagates to every later step.
+  \item[Synthesis over long or heterogeneous context] H3 fails for large document sets, long trajectory histories, and multi-source retrieval requiring cross-document reasoning. Long context in a small model is a memory and prefill problem before it is a capability problem, and we found no evidence that small models close the gap on long-context synthesis (\evD).
+  \item[Uncheckable output] H4b fails for open-ended generation, judgment calls, and tasks where verification is as hard as the task; errors then compound silently.
+  \item[Low-resource-language and safety-sensitive calls] The multilingual and safety deficits of Section~\ref{subsec:reported_safety} are concentrated in small models, and a router that sends such calls to a small model on size grounds degrades them silently.
+  \item[Sparse or unstable call distributions] H2 fails when a call type is rare, when traffic drifts faster than specialization can track (raising $F$), or when cached, batched, or fine-tuned hosted alternatives make $c_L$ low; a hosted model is then cheaper in total.
+  \item[Cold start] Before deployment there are no logged traces for the conversion pipeline. The opening move is a frontier model with instrumentation, and migration afterwards.
 \end{description}
 
-Two of these deserve emphasis because they are not transitional. Planning and
-uncheckable generation are not gaps that a better 4B model closes; they are
-categories of work for which the properties that make small models attractive,
-narrow competence and constrained output, are the wrong properties. The
-heterogeneous architecture of the next subsection exists because of them, not in
-spite of them.
+Planning and uncheckable generation are not transitional: they are categories of work for which narrow competence and constrained output are the wrong properties, and the heterogeneous design below exists because of them.
 
 \subsection{Heterogeneous SLM--LLM Systems}
 \label{subsec:agentic_hetero}
 
-The position is not that \glspl{llm} disappear from agents but that the default inverts: \glspl{slm} handle the repetitive language errands, and a strong generalist model is invoked only for planning, open-ended decomposition, or calls that genuinely need long context or broad world knowledge \citep{belcak2025slm_agentic}. Figure~\ref{fig:hetero_agent} sketches the arrangement. Realizing it requires a mechanism to decide, per call, which model to use. \citet{chen2025collab_survey} organize the collaboration literature into five interaction patterns (pipeline, routing, auxiliary, distillation, and fusion), of which routing is the most direct fit for agents.
+For call types meeting H1--H4 the default inverts: \glspl{slm} handle them, and a generalist model handles planning, open-ended decomposition, long context, broad world knowledge, and calls whose small-model output fails a check \citep{belcak2025slm_agentic,sharma2025slm_agentic}. Figure~\ref{fig:hetero_agent} sketches the arrangement; the share of calls on each path depends on the agent and is not established in general.
 
 \begin{figure}[t]
 \centering
 \footnotesize
+\definecolor{agInk}{HTML}{34404A}
+\definecolor{agBlue}{HTML}{7397B8}
+\definecolor{agSage}{HTML}{79A88E}
+\definecolor{agApricot}{HTML}{D8A879}
+\definecolor{agLavender}{HTML}{9B8FB5}
+\definecolor{agRose}{HTML}{C9858C}
+\definecolor{agSlate}{HTML}{A2AAB1}
 \begin{tikzpicture}[
   >={Stealth[length=2mm]},
-  box/.style={draw, rounded corners=2pt, align=center, inner sep=4pt, line width=0.5pt},
-  slm/.style={box, fill=black!4, text width=40mm, align=left},
-  llm/.style={box, fill=black!10, text width=40mm, align=left},
-  router/.style={box, fill=black!6, text width=24mm, minimum height=10mm},
-  lbl/.style={font=\scriptsize\itshape, text=black!55},
+  box/.style={draw=agSlate!75!agInk, text=agInk, fill=agSlate!8,
+              rounded corners=2pt, align=center, inner sep=4pt, line width=0.55pt},
+  task/.style={box, draw=agBlue!75!agInk, fill=agBlue!10},
+  loop/.style={box, draw=agLavender!75!agInk, fill=agLavender!11},
+  tools/.style={box, draw=agSlate!80!agInk, fill=agSlate!10},
+  slm/.style={box, draw=agSage!78!agInk, fill=agSage!12, text width=38mm, align=left},
+  llm/.style={box, draw=agRose!78!agInk, fill=agRose!11, text width=38mm, align=left},
+  router/.style={box, draw=agApricot!80!agInk, fill=agApricot!14,
+                 text width=22mm, minimum height=10mm},
+  lbl/.style={font=\scriptsize\itshape, text=agInk!68},
+  every path/.style={draw=agInk!75},
 ]
-\node[box, text width=13mm] (task) {User task};
-\node[box, right=7mm of task, minimum height=12mm, text width=20mm] (loop) {Agent\\control loop};
-\node[box, below=6mm of loop, font=\scriptsize, text width=20mm] (tools) {Tools $\cdot$ Memory};
-\node[router, right=9mm of loop] (router) {\textbf{Router}\\[1pt]\scriptsize difficulty $\cdot$ cost $\cdot$ privacy $\cdot$ network};
-\node[slm, above right=2mm and 12mm of router] (slm) {\textbf{Specialised SLMs}: default\\[1pt]\scriptsize tool selection, argument filling, field extraction, classification, query rewrite, short code patch, step verification};
-\node[llm, below right=2mm and 12mm of router] (llm) {\textbf{Generalist LLM}: escalation\\[1pt]\scriptsize planning, open-ended decomposition, long context, broad world knowledge};
+\node[task, text width=12mm] (task) {User task};
+\node[loop, right=6mm of task, minimum height=12mm, text width=18mm] (loop) {Agent\\control loop};
+\node[tools, below=6mm of loop, font=\scriptsize, text width=18mm] (tools) {Tools $\cdot$ Memory};
+\node[router, right=8mm of loop] (router) {\textbf{Router}\\[1pt]\scriptsize call type $\cdot$ cost $\cdot$ privacy $\cdot$ network};
+\node[slm, above right=2mm and 11mm of router] (slm) {\textbf{Specialised SLMs}: default\\[1pt]\scriptsize tool selection, argument filling, extraction, classification, query rewrite, short patch; each output passes validity (H4a) and correctness (H4b) checks};
+\node[llm, below right=2mm and 11mm of router] (llm) {\textbf{Generalist LLM}: escalation\\[1pt]\scriptsize planning, decomposition, long context, broad knowledge, and any call whose small-model output fails a check};
 \draw[->] (task) -- (loop);
 \draw[->] (tools) -- (loop);
 \draw[<->] (loop) -- (router);
-\draw[->] (router.east) -- ($(slm.west)+(0,-1mm)$) node[lbl, midway, above] {most calls};
-\draw[->] (router.east) -- ($(llm.west)+(0,1mm)$) node[lbl, midway, below] {minority};
+\draw[->] (router.east) -- ($(slm.west)+(0,-1mm)$) node[lbl, pos=0.45, sloped, above] {H1--H4 met};
+\draw[->] (router.east) -- ($(llm.west)+(0,1mm)$) node[lbl, pos=0.45, sloped, below] {otherwise};
+\draw[->, dashed] ($(slm.south)+(4mm,0)$) -- node[lbl, right] {check fails} ($(llm.north)+(4mm,0)$);
 \end{tikzpicture}
-\caption{Heterogeneous SLM--LLM agent. A per-call router sends the majority of
-delegated sub-tasks to specialised small models and escalates only planning-like
-or long-context calls to a generalist \gls{llm}; tools and memory are shared. After
-\citet{belcak2025slm_agentic}.}
-\Description{Block diagram of a heterogeneous agent. A user task feeds an agent control loop that shares tools and memory and consults a router. The router sends most calls to specialised small language models handling tool selection, argument filling, extraction, classification, query rewriting, short code patches, and step verification, and escalates a minority of calls to a generalist large language model for planning, open-ended decomposition, long context, and broad world knowledge.}
-  \label{fig:hetero_agent}
+\caption{Heterogeneous SLM--LLM agent. A per-call router sends call types meeting H1--H4 to specialised small models by default; their outputs are checked for validity and correctness, and a failed check escalates the call to a generalist \gls{llm}, which also handles planning-like and long-context calls. The split between the paths varies by agent. After \citet{belcak2025slm_agentic}.}
+\Description{Block diagram of a heterogeneous agent. A user task feeds an agent control loop that shares tools and memory and consults a router. The router sends call types that meet the four conditions to specialised small language models, whose outputs pass validity and correctness checks; a dashed arrow labelled check fails leads from the small models to a generalist large language model, which also receives planning, decomposition, long-context, and broad-knowledge calls.}
+\label{fig:hetero_agent}
 \end{figure}
 
-\subsubsection{Learned Routing}
-\label{subsubsec:agentic_routing}
-
-RouteLLM \citep{ong2024routellm} trains a lightweight router on human-preference data to predict, for each query, whether a weak model's answer would be judged as good as a strong model's, and dispatches accordingly; the authors report cost reductions of more than 2$\times$ on standard benchmarks with no measurable quality loss, and transfer of the trained router to unseen strong/weak model pairs. Division-of-Thoughts \citep{division_of_thoughts_2025} pushes routing below the query level, decomposing a task into sub-questions and assigning each to a local \gls{slm} or a cloud \gls{llm} according to estimated difficulty, for on-device agents. The open problems are difficulty estimation without an oracle, routing objectives that jointly weigh accuracy, latency, privacy sensitivity, and network availability, and handoff that does not produce a visible seam in output quality \citep{demystifying2025slm}.
+\subsubsection{Routing Designs}
+\label{subsubsec:agentic_routing_summary}
+Three designs recur: cascades that try the small model first and escalate on a quality signal \citep{chen2023frugalgpt,aggarwal2024automix}, predictive routers that decide before generation \citep{ding2024hybridllm,ong2024routellm}, and decomposing routers that assign sub-questions to a local or a cloud model \citep{division_of_thoughts_2025}. H prescribes a cascade whose quality signal is the H4 check. Speculative decoding \citep{leviathan2023speculative,chen2023specsampling,cai2024medusa,li2024eagle} speeds up the large model without delegating answers, and an escalated call can itself be served speculatively. \suppsec~\ref{subsubsec:agentic_routing} describes each.
 
 \subsubsection{Production Instances}
 \label{subsubsec:agentic_production}
 
-Two large deployments already embody the heterogeneous pattern. Apple's Foundation Models framework pairs an on-device model of roughly 3B parameters, quantized with 2-bit quantization-aware training and KV-cache sharing, with a Private Cloud Compute server model built on a Parallel-Track Mixture-of-Experts transformer, and routes to the server only when the on-device model is expected to fall short \citep{gunter2025afm}. The on-device model is reported to be competitive with Qwen3-4B and Gemma-3-4B on its target tasks. Third-party providers can now register cloud models behind the same API surface as the local model, making the \gls{slm} the default and the \gls{llm} an opt-in escalation \citep{apple2026afm3}. Samsung's Gauss and Google's Gemini Nano occupy the same design point on their respective platforms \citep{samsung2023gauss}.
+Apple pairs an on-device model with a server model on Private Cloud Compute and routes to the server when the on-device model is expected to fall short \citep{gunter2025afm}; its 2026 models were built in collaboration with Google \citep{apple2026afm3,google_apple2026statement}. The design is motivated by privacy and latency as much as by cost, and Apple reports no cost per completed task, so it shows that the heterogeneous pattern is deployable at scale, not that it is cheaper. Google's Gemini Nano occupies the same on-device role on Android \citep{gemini2023}.
 
-\subsection{Converting an LLM Agent to an SLM Agent}
-\label{subsec:agentic_conversion}
-
-For teams with an existing LLM-only agent, \citet{belcak2025slm_agentic} propose a six-step conversion pipeline that we summarize here because it operationalizes the position. \textbf{S1, instrumentation:} log every non-interface model call (inputs, outputs, latency) from the running agent, with encryption and access control. \textbf{S2, curation:} strip personally identifiable and protected health information and application secrets from the logs. \textbf{S3, clustering:} apply unsupervised clustering to the curated calls to surface the recurring request types, which are the specialization targets. \textbf{S4, selection:} for each cluster, choose a candidate \gls{slm} by matching required capability against benchmarks, license, and deployment constraints. \textbf{S5, specialization:} fine-tune the chosen \gls{slm} on the cluster's curated data, typically with \gls{lora} or \gls{qlora}. \textbf{S6, iteration:} re-run the loop periodically as the traffic distribution drifts. The pipeline is attractive precisely because the data it needs is a by-product of running the agent, and because each cluster converted removes a recurring frontier-model bill.
-
-\subsection{Barriers to Adoption}
-\label{subsec:agentic_barriers}
-
-\citet{belcak2025slm_agentic} identify three reasons the shift has lagged the technical case. First, large centralized-inference investments create sunk-cost inertia and an operational bias toward one big model behind one API (B1). Second, \glspl{slm} are still evaluated on generalist leaderboards (\gls{mmlu}, broad chat benchmarks) that are misaligned with agentic utility, so their fitness for delegated sub-tasks is under-measured (B2). Section~\ref{sec:reported} shows the gap to be worse than a matter of emphasis: public reporting on these generalist benchmarks is itself too inconsistent to support cross-model comparison, so agentic fitness is not merely under-measured but currently unmeasurable from published sources. Third, \gls{slm} releases receive far less attention than frontier launches, so awareness lags capability (B3). The first and third are not technical obstacles and are eroding as routing frameworks mature and on-device platforms ship \glspl{slm} by default. The second is different, and Section~\ref{subsec:agentic_evidence} shows it to be partly a real evidential gap rather than only a misdirected one: agent-specific evaluation exists and is maturing \citep{patil2025bfcl,yao2024taubench,liu2024agentbench}, but it reports sub-10B models sparsely and reports cost per completed task essentially not at all. Until that changes, the strength of the case for hypothesis~H will remain uneven across its premises in the way Table~\ref{tab:agentic_evidence} records.
+\subsection{Conversion and Adoption}
+\label{subsec:agentic_conversion_summary}
+For an agent that already runs on a frontier model, \citet{belcak2025slm_agentic} propose a six-step conversion: log the agent's calls, strip personal data, cluster them into recurring types, choose a candidate \gls{slm} per cluster, specialize it with \gls{lora} or \gls{qlora}, and repeat as traffic drifts. The clustering step is where H1, H3, and H4 can be checked and where the pilot estimates for H2 are made; clusters that fail stay with the generalist, and each converted cluster should be evaluated on cost per completed task against the unconverted agent. They also identify three barriers to adoption: sunk investment in centralized inference, evaluation on generalist leaderboards, and lower attention to \gls{slm} releases; Section~\ref{subsec:agentic_evidence} shows the second to be partly a real evidential gap. \suppsec~\ref{supp:agentic} gives the pipeline and barriers in full.

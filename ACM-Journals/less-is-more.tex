@@ -1,5 +1,5 @@
 %%
-%% Less is More: Small Language Models as the Substrate of Agentic AI
+%% A Survey of Small Language Models for Agentic AI
 %% ACM Journals (acmart) version -- content ported from paper_consolidated/paper.tex
 %%
 %% Build:  pdflatex -> bibtex -> pdflatex -> pdflatex
@@ -24,7 +24,7 @@
 %% matches what LaTeX believes is already loaded and raises no option clash.
 \expandafter\def\csname opt@newtxmath.sty\endcsname{libertine}
 
-\documentclass[manuscript,screen,review]{acmart}
+\documentclass[acmsmall,screen,review]{acmart}
 
 %% -------------------------------------------------------------------------
 %% Packages required by the ported section files
@@ -57,6 +57,12 @@
   \DeclareTextFontCommand{\liningnums}{\LibertinusSerifLF}%
 }
 
+%% Cross-references into the electronic supplement (supplement.tex), resolved
+%% from its .aux file. Build order: main, supplement, main.
+\usepackage{xr}
+\externaldocument{supplement}
+\newcommand{\suppsec}{Supplementary Section}
+
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{makecell}
@@ -71,32 +77,14 @@
 %% Acronyms / glossaries (same setup as the source manuscript)
 \usepackage[acronym,nomain,nonumberlist,nopostdot]{glossaries}
 \setacronymstyle{long-short}
+%% No glossary is printed, so acronym uses must not become hyperlinks to it.
+\glsdisablehyper
 
 %% Column types used by the ported tables
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
-
-%% -------------------------------------------------------------------------
-%% Author-supplied placeholders.
-%%
-%% \needsdata{...} and \needsnum mark values that must be transcribed from the
-%% released screening ledger and the archival deposit before submission. They
-%% render conspicuously so that none can be overlooked. Setting \needsdatafinal
-%% to true turns them into a hard build error, which is the intended state for
-%% the camera-ready build.
-%% -------------------------------------------------------------------------
-\newif\ifneedsdatafinal
-\needsdatafinalfalse
-\newcommand{\needsdata}[1]{%
-  \ifneedsdatafinal
-    \GenericError{}{Unfilled placeholder: #1}{}{}%
-  \else
-    \textbf{\textsf{[TO SUPPLY: #1]}}%
-  \fi
-}
-\newcommand{\needsnum}{\needsdata{count}}
 
 %% -------------------------------------------------------------------------
 %% Evidence grading (Section 7.1.6). Each grade denotes the strongest kind of
@@ -130,24 +118,26 @@
 \setcopyright{none}
 \copyrightyear{2026}
 \acmYear{2026}
-%% The DOI, volume, number, article number, and the revised/accepted dates are
-%% assigned by ACM at acceptance. Until then acmart's "unpublished" defaults are
-%% used, which suppress the fabricated-looking XXXXXXX placeholders in the
-%% footer, and no revision or acceptance date is claimed.
+%% The DOI, volume, number, article number, and the received/revised/accepted
+%% dates are assigned by ACM. For the submission build the ACM reference block
+%% and its placeholder DOI are suppressed, and no date is claimed.
 \acmJournal{CSUR}
-\acmMonth{9}
-
-\received{5 September 2026}
+\settopmatter{printacmref=false}
+%% No DOI is assigned before acceptance: clear acmart's placeholder and let
+%% the footnote omit the DOI line when it is empty.
+\acmDOI{}
+\makeatletter
+\def\@formatdoi#1{\if\relax\detokenize{#1}\relax\else\url{https://doi.org/#1}\fi}
+\makeatother
 
 %% -------------------------------------------------------------------------
 %% Front matter
 %% -------------------------------------------------------------------------
 \begin{document}
 
-\title[SLMs as the Substrate of Agentic AI]{Small Language Models as the
-  Substrate of Agentic AI: A Survey of Architectures, Compression, Deployment,
-  and Evaluation Practice}
-\titlenote{Preprint / manuscript version prepared for ACM Computing Surveys.}
+\title[A Survey of Small Language Models for Agentic AI]{A Survey of Small
+  Language Models for Agentic AI: Architectures, Compression, Deployment, and
+  Evaluation}
 
 \author{Mohammed Gamal Ragab}
 \authornote{Corresponding authors.}
@@ -164,6 +154,7 @@
 
 \author{Hitham Alhussian}
 \authornotemark[1]
+\orcid{0000-0003-3947-269X}
 \email{seddig.alhussian@utp.edu.my}
 \affiliation{%
   \department[0]{Department of Computer and Information Sciences}
@@ -175,6 +166,7 @@
 }
 
 \author{Said Jadid Abdulkadir}
+\orcid{0000-0003-0038-3702}
 \email{saidjadid.a@utp.edu.my}
 \affiliation{%
   \department[0]{Department of Computer and Information Sciences}
@@ -198,47 +190,36 @@
 \renewcommand{\shortauthors}{Ragab et al.}
 
 \begin{abstract}
-  Large language models (LLMs) have transformed natural language processing, but
-  their cost, memory footprint, and latency are a poor match for the
-  fastest-growing consumer of language intelligence: the AI agent, which issues
-  many narrow, repetitive, well-specified model calls rather than a few
-  open-ended ones. Small language models (SLMs) have closed much of the
-  capability gap through knowledge distillation, synthetic-data curation, and
-  post-training quantization. This article is both a survey and a position
-  statement, and it fixes a definition the literature currently leaves loose: an
-  SLM is a decoder-only or hybrid transformer bounded at roughly twenty billion
-  parameters on \emph{both} active parameters per token, which governs latency and
-  energy, and total parameters, which governs storage and resident memory. Models
-  meeting only the first bound are distinguished as small-active-parameter
-  mixtures of experts and excluded from on-device claims. We catalog 215
-  documented SLM variants (2022--2026), including the 2025--2026 hybrid
-  state-space, unified-reasoning, and mobile-first multimodal families, under a
-  multi-label faceted taxonomy, and release the inventory in machine-readable
-  form. We review compression for the sub-10B regime, reporting what each
-  technique reduces along five separate axes rather than as one ratio, and
-  finding that quantization outperforms pruning below 4B parameters. We then
-  audit the public evaluation record for an 18-model cohort and report a negative
-  result: a cross-model accuracy table cannot be assembled from current public
-  reporting without misrepresenting its sources, because vendors report
-  non-intersecting benchmark sets, shot counts that differ per benchmark and per
-  vendor, base and instruction-tuned figures that are routinely conflated, and few
-  matched baselines. Against that record we state the agentic case as a
-  conditional hypothesis rather than a universal claim: for calls that are
-  bounded, recurrent, short-context, and cheaply verifiable, a specialized SLM is
-  the appropriate default execution substrate, with a frontier model on
-  escalation. We grade the evidence for each premise using function-calling,
-  tool-use, structured-output, and end-to-end agent benchmarks rather than
-  general model scores, finding it strong at the level of the individual call and
-  absent at the level of cost per completed task, and we state the workload
-  classes for which the hypothesis fails. We survey heterogeneous SLM--LLM routing
-  and the LLM-to-SLM conversion pipeline, and close with the open problems and a
-  specification of the six experiments that would supply the controlled evidence
-  this field does not yet have.
+  Large language models (LLMs) fit poorly, on cost, memory, and latency, with a
+  growing class of workloads: AI agents that issue many narrow, repetitive,
+  well-specified model calls. Small language models (SLMs) have narrowed the
+  capability gap through distillation, curated and synthetic data, and
+  quantization. This survey defines an SLM as an autoregressive decoder-only
+  model of at most about twenty billion parameters both active per token, which
+  bounds compute, and in total, which bounds storage; models meeting only the
+  first bound are treated separately as small-active-parameter mixtures of
+  experts. We catalog 179 SLMs and 30 such mixtures released from 2023 to
+  September 2026, check every record's developer source, and release the
+  inventory, the checks, and the scripts that apply the inclusion rule. We review
+  compression along separate axes of parameters, memory, training compute, and
+  latency. We quantify why the vendor evaluation record cannot support
+  cross-model comparison: for the 14 cohort models of the four largest vendors,
+  no benchmark is reported for all of them and no stated protocol is shared by
+  more than five. We then state the agentic case as a conditional, falsifiable
+  hypothesis: for call types that are bounded, recurrent enough to clear a
+  break-even volume counting retries, checks, and escalations, short-context,
+  and checkable for correctness, a specialized SLM should be the default, with
+  escalation to a frontier model when a check fails. Grading the agent-specific
+  evidence, we find per-call competence reported for specialized sub-10B models
+  but qualified by independent studies, contested evidence on end-to-end
+  success, and no measurement of cost per completed task for an SLM-first
+  agent. We state the workloads for which the hypothesis fails and specify a
+  pre-registered comparison, with its decision rule and sample size, that would
+  refute it for a given workload.
 \end{abstract}
 
 %%
-%% CCS concepts. Mandatory for any ACM article over two pages. Verify/refine the
-%% concept IDs against https://dl.acm.org/ccs/ccs.cfm before final submission.
+%% CCS concepts (2012 ACM CCS).
 %%
 \begin{CCSXML}
 <ccs2012>
@@ -248,13 +229,13 @@
        <concept_significance>500</concept_significance>
    </concept>
    <concept>
-       <concept_id>10010147.10010257.10010258.10010259</concept_id>
-       <concept_desc>Computing methodologies~Supervised learning</concept_desc>
+       <concept_id>10010147.10010257.10010293.10010294</concept_id>
+       <concept_desc>Computing methodologies~Neural networks</concept_desc>
        <concept_significance>300</concept_significance>
    </concept>
    <concept>
-       <concept_id>10010520.10010553.10010554</concept_id>
-       <concept_desc>Computer systems organization~Embedded systems</concept_desc>
+       <concept_id>10010520.10010553</concept_id>
+       <concept_desc>Computer systems organization~Embedded and cyber-physical systems</concept_desc>
        <concept_significance>300</concept_significance>
    </concept>
    <concept>
@@ -266,8 +247,8 @@
 \end{CCSXML}
 
 \ccsdesc[500]{Computing methodologies~Natural language processing}
-\ccsdesc[300]{Computing methodologies~Supervised learning}
-\ccsdesc[300]{Computer systems organization~Embedded systems}
+\ccsdesc[300]{Computing methodologies~Neural networks}
+\ccsdesc[300]{Computer systems organization~Embedded and cyber-physical systems}
 \ccsdesc[300]{Computing methodologies~Multi-agent systems}
 
 \keywords{Small language models, agentic AI, model compression, edge AI,
@@ -287,7 +268,6 @@
 \input{sections/reported_performance}
 \input{sections/deployment}
 \input{sections/agentic}
-\input{sections/applications}
 \input{sections/discussion}
 \input{sections/challenges}
 \input{sections/conclusion}
@@ -296,8 +276,7 @@
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{bibliography}
 
-\appendix
-\input{sections/appendix_supplementary}
-\input{sections/appendix_ecosystem}
+%% Appendices and supporting material are in the electronic supplement
+%% (supplement.tex).
 
 \end{document}

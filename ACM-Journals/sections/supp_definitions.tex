@@ -1,0 +1,71 @@
+% Supplementary material: moved from Section 1.2 of the main text.
+
+\section{Reporting Dimensions and Artifact Vocabulary}
+\label{supp:definitions}
+
+\subsection{Reporting Dimensions}
+\label{subsubsec:intro_def_dimensions}
+
+A single parameter count is not enough to determine whether a model will run on a
+given device. Table~\ref{tab:reporting_dimensions} lists the dimensions this
+survey reports where the primary source supplies them, and states which of them
+each of our claims depends on. Where a source omits a dimension, the entry is
+marked as not reported rather than estimated.
+
+\begin{table}[t]
+\centering
+\caption{Reporting dimensions for a small language model, the deployment question each answers, and the coverage achieved across the 209-variant inventory. ``Derived'' means the value follows arithmetically from others rather than being reported.}
+\label{tab:reporting_dimensions}
+\footnotesize\adjustbox{max width=\linewidth}{%
+\begin{tabular}{@{}lllc@{}}
+\toprule
+\textbf{Dimension} & \textbf{Question it answers} & \textbf{Bounds} & \textbf{Inventory coverage} \\
+\midrule
+Total parameters            & How large is the download? & C2 & 209/209 \\
+Active parameters per token & What does one token cost? & C1 & 36/209 stated below total; else $=$ total \\
+Weight memory at a precision & Will the weights fit? & C2 & Derived \\
+Peak runtime memory          & Will it fit while running? & C2 & Not reported by vendors \\
+FLOPs per token             & Compute cost per token & C1 & Derived (approximate) \\
+KV-cache size per token     & Cost of long context & C1, C2 & Derived from head config \\
+Context length              & Largest usable input & -- & 135/209 \\
+Target hardware             & What did the vendor test on? & -- & Vendor-stated only \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Model-Artifact Vocabulary}
+\label{subsubsec:intro_def_artifacts}
+
+Because the inventory counts artifacts rather than papers, we also fix the
+following. A \emph{family} is a named line of models sharing an architecture and
+a training recipe (Qwen2.5, Gemma~3). A \emph{variant} is one released
+parameter size within a family. Where a vendor publishes the base and the
+post-trained checkpoint of that size in one release, the inventory records one
+variant and marks its post-training status as ``both'' (63 of the 209); where
+only one is published, or the two were released separately, the status is
+recorded as that one. The post-training status is therefore a field of the
+variant, not a second count. A \emph{checkpoint}
+is a specific set of weights published under a version identifier; a variant may
+be revised through several checkpoints, and the inventory records the variant,
+not each checkpoint. A \emph{release} is a dated publication event covering one
+or more variants. A \emph{pretrained} (or base) model is the artifact produced by
+pretraining alone; an \emph{instruction-tuned} model has undergone supervised
+instruction fine-tuning and usually a preference-optimization stage; a
+\emph{reasoning-tuned} model has additionally been trained, by distillation of
+long chain-of-thought traces, reinforcement learning, or both, to emit extended
+intermediate reasoning before its answer. These three post-training statuses are
+not interchangeable for evaluation purposes, which is why an evaluated artifact
+must be identified to the checkpoint even though the inventory counts variants, and conflating them is one of the
+specific defects in the public record documented in
+Section~\ref{subsec:reported_overall}.
+
+Two conventions follow from this vocabulary and are used consistently throughout.
+Family names are written as their developers write them and with a space before
+the version, as in Gemma~3, Qwen2.5, Phi-4, and Llama~3.2; the original 2023
+LLaMA release keeps its own capitalization, since Meta renamed the line to
+``Llama'' from Llama~2 onward. Checkpoint identifiers are written in the
+hyphenated form used on the model hub, as in \texttt{Gemma-3-4B-it} or
+\texttt{Qwen2.5-7B-Instruct}, and are used wherever the specific artifact rather
+than the family is meant.
+

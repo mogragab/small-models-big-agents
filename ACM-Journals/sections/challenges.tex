@@ -1,121 +1,85 @@
 % ================================================================
 % Section: Challenges and Future Directions
-% From main (2).tex — Section VIII + sections/conclusion.tex future work
 % ================================================================
 
 \section{Challenges and Future Directions}
 \label{sec:challenges}
 
-Despite remarkable progress, \glspl{slm} face persistent challenges that define the frontier of the field, and the agentic framing of Section~\ref{sec:agentic} adds a set of its own. We organize these into research clusters, closing with the empirical-verification agenda for this paper's consolidated evidence base.
-
-\subsection{Hallucination Mitigation in Small Models}
-\label{subsec:challenges_hallucination}
-
-Hallucination, the confident generation of factually incorrect content, is an intrinsic failure mode of autoregressive language models, and it is more pronounced in smaller models \citep{zhang2023siren}. The core issue is information capacity: a 3B model's parameters can encode far fewer facts than a 175B model, and when queried about knowledge at the boundary of its training distribution, small models are more likely to confabulate plausible-sounding but incorrect responses.
-
-Mitigation strategies include: (1)~\emph{\gls{rag}} \citep{lewis2020rag}, which anchors \gls{slm} generation to retrieved documents rather than parametric memory; (2)~\emph{uncertainty quantification} through sampling and ensemble methods; (3)~\emph{RLHF with truthfulness rewards} to penalize confident incorrect responses; and (4)~\emph{calibration post-processing} to align model confidence to actual accuracy.
-
-\subsection{Reasoning Limitations Under Parameter Constraints}
-\label{subsec:challenges_reasoning}
-
-Complex multi-step reasoning, particularly in mathematics, formal logic, and scientific inference, improves roughly as a power law with parameter count \citep{kaplan2020scaling}. At the 1B--7B scale, \glspl{slm} struggle with problems that require holding many intermediate states simultaneously or with deep deductive chains.
-
-Emerging directions include: (1)~\emph{Test-time scaling}: allocating additional inference compute (more generation tokens, repeated sampling, tree-of-thought search) to substitute for model capacity; DeepSeek-R1 \citep{deepseek2025r1} achieves frontier-class reasoning in its 7B distilled variant through extended chain-of-thought generation. (2)~\emph{Neuro-symbolic integration}: augmenting \glspl{slm} with symbolic solvers (SAT solvers, theorem provers, calculators) to handle formal reasoning externally. (3)~\emph{Speculative decoding} \citep{leviathan2023speculative} using a small draft \gls{slm} to propose tokens verified by a larger model, enabling faster inference from larger models when latency permits.
+\subsection{Model-Level Challenges}
+\label{subsec:challenges_model}
+Hallucination is more pronounced at small scale, where fewer facts fit in the parameters, and retrieval augmentation is the main mitigation \citep{zhang2023siren,lewis2020rag}. Multi-step reasoning is where the gap to large models is widest; test-time compute, symbolic tools, and reasoning distillation narrow it. Hardware and model architecture are still designed separately, although \gls{npu} efficiency depends on matching attention and feed-forward shapes to the accelerator. Compression can amplify bias \citep{blodgett2020language,kurz2025pruning_vs_quant}. \suppsec~\ref{supp:challenges} treats each.
 
 \subsection{Open Problems for Agentic SLM Systems}
 \label{subsec:challenges_routing}
 
-Section~\ref{sec:agentic} argues that \glspl{slm} are the appropriate default substrate for the class of agent calls hypothesis~H names; several problems stand between that conditional position and routine practice. \textbf{Difficulty estimation without an oracle:} a router must decide, cheaply and before generation, whether a given call exceeds the local model's competence; current approaches use learned win-prediction \citep{ong2024routellm} or sub-task decomposition \citep{division_of_thoughts_2025}, but calibration under distribution shift is unsolved. \textbf{Multi-objective routing:} the decision must jointly weigh accuracy, latency, energy, monetary cost, privacy sensitivity, and network availability, and the reported multilingual and safety gaps (Section~\ref{subsec:reported_safety}) mean a size-only router silently degrades non-English and safety-critical calls. \textbf{Handoff without a seam:} escalation from \gls{slm} to \gls{llm} mid-task must not produce a visible discontinuity in style or quality. \textbf{Agent-appropriate evaluation:} generalist leaderboards do not measure the tool-selection, argument-filling, and format-adherence skills agents actually use \citep{belcak2025slm_agentic}; function-calling leaderboards \citep{patil2025bfcl,zhang2024xlam} and interaction benchmarks \citep{yao2024taubench} are a start, but they report sub-10B models sparsely, and none reports cost per completed task (Section~\ref{subsubsec:agentic_ev_routing}). \textbf{Fleet management:} an agent built from many fine-tuned sub-3B specialists (Section~\ref{subsec:agentic_conversion}) raises questions of versioning, drift detection, and retraining cadence that single-model deployments do not face. Apple's privacy-preserving cloud escalation \citep{apple2024intelligence,gunter2025afm} shows the pattern is production-viable; generalizing it beyond a single vendor's stack is open.
+Several problems stand between hypothesis~H and routine practice. \textbf{Correctness checking:} H4b requires a check that catches valid but wrong outputs at a cost well below a large-model call; executors with observable effects and unit tests exist for code and tool calls, but most agent call types lack them. \textbf{Difficulty estimation without an oracle:} routers use win prediction \citep{ong2024routellm}, predicted difficulty \citep{ding2024hybridllm}, self-verification \citep{aggarwal2024automix}, or decomposition \citep{division_of_thoughts_2025}, but calibration under distribution shift is unsolved. \textbf{Multi-objective routing:} accuracy, latency, energy, cost, privacy sensitivity, and network availability must be weighed jointly, and size-only routing degrades non-English and safety-sensitive calls (Section~\ref{subsec:reported_safety}). \textbf{Handoff without a seam:} escalating mid-task must not produce a visible discontinuity. \textbf{Agent-appropriate, cost-aware evaluation:} function-calling and interaction benchmarks \citep{patil2025bfcl,yao2024taubench,barres2025tau2} and cost-aware agent leaderboards \citep{kapoor2025hal} exist, but report specialized sub-10B models sparsely and do not compare \gls{slm}-first with all-\gls{llm} agents. \textbf{Fleet management:} many fine-tuned specialists raise questions of versioning, drift detection, and retraining cadence that a single model does not.
 
-\subsection{Hardware Co-Design and NPU Optimization}
-\label{subsec:challenges_hardware}
-
-The efficiency of \gls{slm} inference depends as much on hardware as on model architecture. Modern consumer hardware increasingly includes dedicated AI accelerators: Apple ANE, Qualcomm Hexagon \gls{npu} \citep{qualcomm2024ondevice}, Samsung Exynos \gls{npu}, and Intel \gls{npu}. These accelerators are optimized for specific operation types (INT4/INT8 matrix multiplication) and data layouts.
-
-A critical open problem is \emph{hardware-model co-design}: developing \gls{slm} architectures whose attention patterns, FFN widths, and layer counts align with the data bus widths and tile sizes of target \glspl{npu}. \gls{gqa} head counts of 8 or 16 align well with SIMD widths on ARM Cortex-A processors, while head counts of 32 may be suboptimal. Future \glspl{slm} trained with hardware constraints as first-class objectives, rather than retrofitting quantization after the fact, will likely yield significant efficiency improvements.
-
-\subsection{Ethical Considerations: Bias Amplification in Compressed Models}
-\label{subsec:challenges_ethics}
-
-Model compression introduces an underexplored ethical risk: \emph{bias amplification}. Pruning and quantization may disproportionately affect model performance on underrepresented demographic groups, dialects, and languages, as the model's remaining capacity may preferentially serve the majority distributions present in training data \citep{blodgett2020language}. \citet{kurz2025pruning_vs_quant} observe that quantization's advantage over pruning is most pronounced for multilingual tasks, suggesting that pruning disproportionately degrades non-English performance.
-
-Research priorities include: (1)~\emph{fairness-aware compression} that includes demographic parity metrics as part of the compression objective; (2)~\emph{representation auditing} of compressed models across language, dialect, gender, and race; and (3)~\emph{minimum performance floors} for safety-critical applications, ensuring compressed models meet baseline accuracy thresholds for all user populations.
-
-\subsection{Sustainable AI: SLMs as a Green AI Alternative}
-\label{subsec:challenges_sustainability}
-
-The energy consumption of training and serving frontier \glspl{llm} has become a significant environmental and economic concern \citep{strubell2019energy,patterson2022carbon}. Training GPT-3 emitted an estimated 552 metric tons of CO$_2$ equivalent \citep{patterson2021carbon}; training a model two orders of magnitude smaller from scratch consumes correspondingly less, and per-query inference energy is lower in proportion to the compute each query performs.
-
-\subsubsection{What the Environmental Claim Covers}
-\label{subsubsec:challenges_env_scope}
-
-Claims of this kind are routinely made at a level of generality the accounting
-does not support, and we withdraw one we made in an earlier draft. The statement
-that 10,000 concurrent small-model instances on consumer hardware consume less
-total energy than a single multi-GPU server is not one we can source or derive:
-its truth depends entirely on utilization on both sides, and a server at high
-batch utilization is considerably more energy-efficient per token than an idle
-consumer device performing occasional single-stream inference. We remove the
-claim rather than qualify it.
-
-What can be said requires the boundary of the accounting to be stated. A complete
-comparison of a small-model deployment against a large-model one has to include:
-the training energy of the small model itself; the training energy of any
-\emph{teacher} used to distill it, which for a distilled model can dominate and
-which vendors do not report; the energy of the distillation, quantization, or
-pruning pipeline that produced the deployed artifact; the embodied carbon of
-manufacturing the devices inference runs on, amortized over their service life
-and over the share of that life spent on inference; the marginal grid intensity
-where each side runs, which differs by more than a factor of ten between regions;
-and the energy of model updates over the deployment's lifetime, which for
-on-device models means redistributing weights to every device rather than
-updating one server.
-
-Almost none of these terms is reported in the literature. What the field has
-instead is per-query inference energy on the two sides, which is a single term in
-a much longer sum, and which does favor the small model by one to two orders of
-magnitude for a query both can answer. The defensible claim is therefore narrow:
-\emph{for a task a small model completes correctly, serving it with the small
-model uses substantially less inference energy}. Whether a wholesale shift to
-small models reduces total system energy is a question no published accounting
-answers, and the rebound effect, that cheaper inference induces more of it, cuts
-against it. As AI regulation incorporates carbon disclosure requirements, this
-accounting will have to be done properly, and the inputs for it do not currently
-exist.
-
-\subsection{Empirical-Verification Opportunities}
+\subsection{Empirical-Verification Agenda}
 \label{subsec:challenges_verification}
 
-Because this review synthesizes reported performance rather than producing original benchmark runs, the most immediately valuable follow-up work is targeted empirical verification of the reported claims that do the most work in practitioner decisions. Four empirical studies would disproportionately reduce the residual uncertainty in the evidence base reviewed here:
+Six studies would most reduce the uncertainty documented here. Studies 1--4 use one model set chosen by a stated rule: the instruction-tuned checkpoint of the most downloaded sub-10B variant on the Hugging Face Hub at the time of the study for each of the cohort families (Phi, Qwen, Gemma, Llama) and for the 2025--2026 families (for example Qwen3, Gemma~3n, SmolLM3, Granite~4, LFM2), so that the results bear on both the audited and the current generation. Each fixes the harness version, prompts, extraction rules, and decoding settings in advance, runs sampled tasks with at least three seeds, and reports confidence intervals.
 
 \begin{description}
-    \item[Harness-consistent reruns of the headline \glspl{slm} on the headline benchmarks] A controlled re-run of the seven most-cited \glspl{slm} (Phi-4-mini, Phi-4, Qwen2.5-3B, Qwen2.5-7B, Gemma-3-4B, Llama 3.2-3B, Mistral-7B) on \gls{mmlu}, \gls{gsm8k}, HumanEval, and MBPP under a single \texttt{lm-evaluation-harness} configuration would anchor every vendor-reported figure to an independent reproduction.
-    \item[Quantization-degradation measurement] A controlled comparison of FP16 vs.\ INT8 vs.\ INT4 accuracy across the seven headline \glspl{slm} and four benchmarks, using the \gls{gguf}, GPTQ, and \gls{awq} toolchains referenced in the vendor reports, would sharpen the 1--4-point degradation figure reported in the literature.
-    \item[Edge-throughput reproduction] Timed runs of the same seven \glspl{slm} in their best-supported INT4 format on a Raspberry~Pi~5, Jetson Orin Nano, Snapdragon reference device, and recent laptop CPU would calibrate the reported throughput ranges against modern silicon.
-    \item[QLoRA-gain reproduction] A controlled \gls{qlora} (rank 64, $\alpha = 128$) adaptation of the seven \glspl{slm} on SST-2, MNLI, ARC-C, \gls{gsm8k}, and SQuAD~2.0 would quantify the reported fine-tuning gains under a single adaptation recipe.
-
-    \item[Cost per completed task, small-model against large-model agent] The measurement this survey most needs and could not find (Section~\ref{subsubsec:agentic_ev_routing}). Fix one agentic workload with a checkable success criterion, for instance a $\tau$-bench domain \citep{yao2024taubench} or a WebArena subset \citep{zhou2024webarena}. Run three configurations end to end: a frontier model throughout; a specialized \gls{slm} throughout; and a routed heterogeneous system. Report, per configuration, end-to-end task success, the number of model calls per completed task including retries, escalation rate, wall-clock latency, and total monetary and energy cost per \emph{completed} task rather than per call. This single study would move the economic premise of hypothesis~H from grade~\evC{} to grade~\evA{}, and it would settle whether per-token savings survive the retry and escalation overhead that per-call accounting hides.
-
-    \item[Agent-specific evaluation of the sub-10B cohort] Run the seven headline \glspl{slm} on the Berkeley Function-Calling Leaderboard \citep{patil2025bfcl} and on $\tau$-bench, reporting the pass\textsuperscript{$k$} consistency metric alongside single-attempt accuracy, with and without constrained decoding \citep{willard2023guided}. This would fill the sparse-coverage gap identified in Table~\ref{tab:agentic_evidence} and would separate well-formedness failures from content failures, which current reporting conflates.
+  \item[1. Harness-consistent reruns (RQ3).] Run the model set on the eight benchmarks of the coverage ledger under one \texttt{lm-evaluation-harness} configuration, separately for pre-trained and instruction-tuned checkpoints, so that every vendor figure in the ledger has an independent counterpart.
+  \item[2. Quantization degradation (RQ2).] Measure FP16, INT8, and three INT4 formats (\gls{gguf} Q4\_K\_M, GPTQ, \gls{awq}) on the same benchmarks with matched baselines, to establish per-model degradation and whether it varies with size.
+  \item[3. Edge measurement (RQ2).] Measure decode and prefill throughput, time-to-first-token, resident memory, and energy per token on a phone, a single-board computer, a Jetson-class module, and a laptop, reporting batch size, context length, and runtime version.
+  \item[4. Agent-specific evaluation (RQ4).] Run the model set on BFCL multi-turn splits and $\tau$-bench, with and without constrained decoding, reporting pass\textsuperscript{$k$} consistency and classifying failures as invalid (caught by H4a) or valid but wrong (caught only by H4b).
+  \item[5. Cost per completed task (RQ5, the test of H; Figure~\ref{fig:falsification}).] Fix a workload with a checkable success criterion, identify the call types meeting H1, H3, and H4 by inspection, and record pilot estimates of $N$, $F$, $a$, and $e$ for H2 before the comparison. Run six configurations end to end, each with the same checks and the same retry budget: (i)~a frontier model throughout; (ii)~the same with prompt caching and batch pricing where the provider offers them; (iii)~a hosted general-purpose small model or small-active-parameter \gls{moe} without specialization; (iv)~a hosted small model fine-tuned through the provider's service; (v)~a specialized \gls{slm} with escalation to the frontier model on a failed check, which is the configuration H prescribes; and (vi)~the specialized \gls{slm} without escalation, to measure what escalation buys. Report per configuration task success, calls and retries per completed task, escalation rate, the rate of valid but wrong outputs that pass the checks, latency, and monetary and energy cost per completed task, with $F$ reported separately. The decision rule is a pre-registered one-sided non-inferiority test of (v) against (i) on task success at margin $\delta$, with task-clustered bootstrap intervals, together with a comparison of cost per completed task against every other configuration. For independent arms at a success rate near 0.5, a one-sided test at $\alpha = 0.05$ with power 0.8 needs about $n \approx 3.09/\delta^2$ tasks per arm: about 7{,}700 for $\delta = 2$ percentage points, 1{,}240 for 5, and 310 for 10; a paired design on the same tasks needs fewer. A $\tau$-bench-scale workload of a few hundred tasks can therefore decide only a margin of about ten points, and a tighter margin needs a synthetic or production workload of thousands of tasks. Under the refutation rule of Section~\ref{subsec:intro_thesis}, H is rejected for a workload class if (v) fails non-inferiority or costs more per completed task than any other configuration, and rejected as a general rule if it fails on a majority of at least three pre-registered workloads with distinct call types.
+  \item[6. Call-type prevalence (H2).] On logged traces of deployed agents, measure the share of calls, of cost, and of contribution to task success that meets H1--H4, replacing the three estimates of Section~\ref{subsec:agentic_delegation} with measurements.
 \end{description}
 
-The first four studies are practical on a single modern GPU on the time scale of weeks. The last two require an agent harness and a modest API budget but no unusual resources, and they are the two that bear on the paper's central hypothesis rather than on its survey material. Together they would convert several consolidated claims from ``reported by sources'' to ``empirically verified,'' and would supply the first grade-\evA{} evidence in an area that currently has none. They do not replace the review; they strengthen the claims that practitioners depend on most.
+\begin{figure}[t]
+\centering
+\footnotesize
+\definecolor{fdInk}{HTML}{34404A}
+\definecolor{fdBlue}{HTML}{7397B8}
+\definecolor{fdSage}{HTML}{79A88E}
+\definecolor{fdApr}{HTML}{D8A879}
+\definecolor{fdLav}{HTML}{9B8FB5}
+\definecolor{fdRose}{HTML}{C9858C}
+\definecolor{fdSlate}{HTML}{A2AAB1}
+\begin{tikzpicture}[
+  >={Stealth[length=1.8mm]},
+  col/.style={draw=#1!80!fdInk, fill=#1!10, rounded corners=2pt, align=left, text=fdInk,
+              inner sep=3pt, font=\scriptsize},
+  cfg/.style={draw=fdBlue!70!fdInk, fill=fdBlue!8, rounded corners=1.5pt, align=left, text=fdInk,
+              inner sep=2pt, font=\scriptsize, text width=40mm, minimum height=5mm},
+  hd/.style={font=\scriptsize\bfseries, text=fdInk},
+  every path/.style={draw=fdInk!75},
+]
+\node[col=fdSlate, text width=34mm] (fix) {%
+  \textbf{Fixed in advance}\\[2pt]
+  workload with a checkable\\success criterion\\[1pt]
+  call types meeting H1, H3, H4\\[1pt]
+  pilot estimates of $N$, $F$, $a$, $e$\\[1pt]
+  margin $\delta$ and tasks per arm:\\
+  $n \approx 3.09/\delta^2$ ($\delta=$2, 5, 10 pts:\\
+  about 7{,}700, 1{,}240, 310)};
+\node[cfg, right=8mm of fix.north east, anchor=north west] (c1) {(i) frontier LLM throughout};
+\node[cfg, below=1.2mm of c1] (c2) {(ii) frontier, cached and batched};
+\node[cfg, below=1.2mm of c2] (c3) {(iii) hosted small model or small-active MoE};
+\node[cfg, below=1.2mm of c3] (c4) {(iv) hosted fine-tuned small model};
+\node[cfg, below=1.2mm of c4, draw=fdSage!85!fdInk, fill=fdSage!20, line width=0.8pt] (c5) {\textbf{(v) specialized SLM + escalation}\\{\tiny the configuration H prescribes}};
+\node[cfg, below=1.2mm of c5] (c6) {(vi) specialized SLM, no escalation};
+\node[hd, above=1mm of c1] {same checks and retry budget};
+\node[col=fdLav, text width=40mm, right=8mm of c1.north east, anchor=north west] (met) {%
+  \textbf{Reported per configuration}\\[2pt]
+  task success; calls and retries\\per completed task; escalation rate;\\valid but wrong outputs passing\\the checks; latency; monetary and\\energy cost per completed task; $F$};
+\node[col=fdRose, text width=40mm, below=3mm of met] (dec) {%
+  \textbf{Decision rule}\\[2pt]
+  1. (v) non-inferior to (i) on success\\ \phantom{1. }at margin $\delta$ (one-sided)\\
+  2. (v) cheapest per completed task\\[2pt]
+  H refuted for the workload if 1 or 2 fails;\\rejected in general if it fails on most\\of at least 3 workloads};
+\draw[->] (fix.east |- c3.west) -- (c3.west);
+\draw[->] (c3.east) -- (c3.east -| met.west);
+\end{tikzpicture}
+\caption{The pre-registered test of hypothesis~H (study 5). Call types, pilot estimates for H2, the margin, and the sample size are fixed before running; six configurations are run end to end under the same checks and retry budget; the decision rule combines a non-inferiority test on task success with a comparison of cost per completed task. The sample sizes assume independent arms at a success rate near 0.5, one-sided $\alpha = 0.05$, and power 0.8. No results are implied: the study has not been run.}
+\Description{Three columns. Left: items fixed in advance, namely a workload with a checkable success criterion, call types meeting H1, H3, and H4, pilot estimates of N, F, a, and e, and the margin delta with tasks per arm of about 7,700, 1,240, and 310 for margins of 2, 5, and 10 points. Middle: six configurations run with the same checks and retry budget, from frontier model throughout to specialized SLM without escalation, with specialized SLM plus escalation highlighted. Right: metrics reported per configuration and a decision rule: non-inferiority on success and lowest cost per completed task, with refutation for the workload if either fails and general rejection if it fails on most of at least three workloads.}
+\label{fig:falsification}
+\end{figure}
 
-\subsection{Open Research Directions Beyond Empirical Verification}
+Studies 1--4 are practical on one modern GPU in weeks; studies 5 and 6 need an agent harness, an API budget, and, for study 6, access to production traces. Study 5 is the one that bears directly on the paper's central hypothesis.
+
+\subsection{Further Directions}
 \label{subsec:challenges_future}
-
-Beyond direct empirical verification, several promising research directions emerge from this review:
-
-\begin{description}
-    \item[Multilingual \gls{slm} evaluation] Extending the consolidated performance evidence to non-English benchmarks would reveal whether the English-centric performance hierarchy reported in the literature holds across languages, particularly for models with multilingual training data (Qwen2.5, Gemma~3, BLOOM).
-
-    \item[On-device continual learning] Developing methods for incremental adaptation of deployed \glspl{slm} to new data without full retraining would enable personalization and domain adaptation at the edge.
-
-    \item[SLM ensembles vs.\ single \gls{llm}] Investigating whether ensembles of specialized \glspl{slm} (one for math, one for code, one for general knowledge) with a lightweight router can match single-LLM performance at lower aggregate cost.
-
-    \item[Multimodal \glspl{slm}] Evaluating vision-language \glspl{slm} such as Phi-3-vision, Gemma~3 with vision, and Gemma~3n \citep{google2025gemma3n} on multimodal benchmarks would extend the comparison to the rapidly growing multimodal inference domain.
-
-    \item[Hybrid architectures] The emergence of non-transformer \gls{slm} architectures (SambaY \citep{pal2025sambay}, Gated Delta Networks \citep{yang2025gated_delta}) suggests that the transformer's dominance may not extend to the edge, where linear-time inference is particularly valuable.
-
-    \item[Federated fine-tuning] Developing privacy-preserving fine-tuning protocols that aggregate gradient updates across edge devices would enable collaborative model improvement without centralized data collection.
-\end{description}
+Beyond verification, \suppsec~\ref{supp:directions} sets out multilingual evaluation, on-device continual learning, ensembles of specialized \glspl{slm} against a single \gls{llm}, multimodal evaluation, linear-time hybrid architectures, and federated fine-tuning.

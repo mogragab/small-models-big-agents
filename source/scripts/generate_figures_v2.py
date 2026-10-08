@@ -30,50 +30,39 @@ from plotly.subplots import make_subplots
 # Palette & colour constants
 # ---------------------------------------------------------------------------
 
-# Palette rebuilt September 2026. The previous set was chosen by eye and was not
-# colour-vision-deficiency safe; several pairs that carried meaning (teal/mint,
-# coral/peach, amber/sand) collapsed under deuteranopia and again in greyscale
-# print. This one is validated: every categorical set below clears the adjacent-
-# pair CVD floor (OKLab dE >= 8) and the normal-vision floor (dE >= 15) against a
-# white surface, and every ordered set is a single hue, monotone in lightness,
-# with adjacent dL >= 0.06 and the light end clearing 2:1 against white.
-#
-# Two rules drive the assignments further down, and they are the substantive
-# change rather than the hexes:
-#   * Ordered quantities (release year, parameter band, context bucket) get a
-#     single-hue ramp, light to dark. They were previously categorical, which
-#     asked the reader to learn an arbitrary colour order for data that has a
-#     natural one.
-#   * Only genuinely nominal quantities (access mode, licence posture, base vs
-#     instruct, MoE vs dense) get distinct hues, and never more than three plus
-#     a neutral.
+# Muted publication palette. The colours deliberately sit away from full
+# saturation so that a page of figures feels calm rather than dashboard-like.
+# White boundaries, marker shapes, ordering, and direct labels carry part of the
+# distinction too, so colour is never the only cue in a dense chart.
 
 PALETTE = {
-    # Categorical hues, in fixed assignment order. Never cycled; a fourth
-    # nominal category folds into "other" rather than taking a generated hue.
-    "blue":      "#2A78D6",
-    "orange":    "#EB6834",
-    "aqua":      "#1BAF7A",
-    "violet":    "#4A3AA7",
-    "red":       "#E34948",
+    # Low-chroma categorical accents.
+    "blue":      "#7397B8",
+    "orange":    "#D8A879",
+    "aqua":      "#79A88E",
+    "violet":    "#9B8FB5",
+    "red":       "#C9858C",
+    "teal":      "#78A5A3",
+    "ochre":     "#C2AA70",
+    "mauve":     "#B38FA6",
+    "steel":     "#8296A6",
 
-    # Single-hue ordinal ramp, light to dark. Five usable steps on white: six
-    # cannot hold both the lightness-gap floor and the light-end contrast floor.
-    "seq1":      "#86B6EF",
-    "seq2":      "#5598E7",
-    "seq3":      "#2A78D6",
-    "seq4":      "#1C5CAB",
-    "seq5":      "#104281",
+    # Quiet blue-grey ordinal ramp, light to dark.
+    "seq1":      "#D4E2EC",
+    "seq2":      "#B6CEDC",
+    "seq3":      "#91B4C8",
+    "seq4":      "#6E98B1",
+    "seq5":      "#4F748D",
 
     # Neutral, for "unknown" and "not reported". Deliberately low chroma so it
     # never reads as one of the meaningful categories.
-    "slate":     "#7E8C9A",
+    "slate":     "#A2AAB1",
 
     # Utility
-    "ink":       "#1F2933",
-    "fog":       "#E4EAEE",
-    "cloud":     "#FBFCFD",
-    "mist":      "#D6DFE5",
+    "ink":       "#34404A",
+    "fog":       "#E9EDF0",
+    "cloud":     "#FCFDFD",
+    "mist":      "#DDE4E8",
 }
 
 # Fallback sequence for charts whose category set is data-driven (families,
@@ -82,58 +71,58 @@ PALETTE = {
 # rather than invent a hue, which is what the top-N cutoffs below do.
 SOFT_SEQUENCE = [
     PALETTE["blue"], PALETTE["orange"], PALETTE["aqua"],
-    PALETTE["violet"], PALETTE["red"], PALETTE["slate"],
+    PALETTE["violet"], PALETTE["red"], PALETTE["teal"],
+    PALETTE["ochre"], PALETTE["mauve"], PALETTE["steel"],
+    PALETTE["slate"],
 ]
 
 # Continuous magnitude: one hue, light to dark, lightest step near the surface.
 SOFT_HEATMAP = [
     [0.0, PALETTE["cloud"]],
-    [0.2, "#CDE2FB"],
+    [0.2, "#E3EDF1"],
     [0.4, PALETTE["seq1"]],
     [0.6, PALETTE["seq3"]],
     [0.8, PALETTE["seq4"]],
-    [1.0, "#0D366B"],
+    [1.0, PALETTE["seq5"]],
 ]
 
 # Centralized colour maps ------------------------------------------------
 #
-# Ordered quantities use the single-hue ramp. Parameter band and context bucket
-# each have one out-of-range category (">20B" is above the SLM threshold
-# entirely) that takes the orange accent instead of a sixth ramp step: it is a
-# different kind of value, not the next step up, and a five-step ramp is the
-# most a single hue supports on white while keeping the steps apart.
+# Parameter bands use a gentle multi-hue sequence. This is easier to scan in a
+# stacked bar than seven shades of one strong colour; the legend order and white
+# segment rules preserve the underlying order.
 
 BUCKET_COLORS = {
-    "<1B": PALETTE["seq1"], "1-3B": PALETTE["seq2"], "3-7B": PALETTE["seq3"],
-    "7-10B": PALETTE["seq4"], "10-20B": PALETTE["seq5"],
-    ">20B": PALETTE["orange"], "Unknown": PALETTE["slate"],
+    "<1B": "#B7CCDC", "1-3B": "#92B7A3", "3-7B": "#AAA0C4",
+    "7-10B": "#7397B8", "10-20B": "#D8A879",
+    ">20B": "#C9858C", "Unknown": PALETTE["slate"],
 }
 
 YEAR_COLORS = {
-    "2022": PALETTE["seq1"], "2023": PALETTE["seq2"], "2024": PALETTE["seq3"],
-    "2025": PALETTE["seq4"], "2026": PALETTE["seq5"],
+    "2022": "#B7CCDC", "2023": "#92B7A3", "2024": "#AAA0C4",
+    "2025": "#D8A879", "2026": "#C9858C",
 }
 
 CONTEXT_BUCKET_COLORS = {
-    "<=4K": PALETTE["seq1"], "8K": PALETTE["seq2"], "16K-32K": PALETTE["seq3"],
-    "64K-128K": PALETTE["seq4"], ">128K": PALETTE["seq5"],
+    "<=4K": "#B7CCDC", "8K": "#92B7A3", "16K-32K": "#AAA0C4",
+    "64K-128K": "#D8A879", ">128K": "#C9858C",
     "Unknown": PALETTE["slate"],
 }
 
 # Nominal quantities: distinct hues, at most three plus a neutral.
 
 STATUS_COLORS = {
-    "Active": PALETTE["blue"], "Legacy": PALETTE["orange"],
+    "Active": PALETTE["aqua"], "Legacy": PALETTE["orange"],
     "Deprecated": PALETTE["red"], "Unknown": PALETTE["slate"],
 }
 
 ACCESS_COLORS = {
-    "OW": PALETTE["blue"], "Both": PALETTE["orange"], "API": PALETTE["aqua"],
+    "OW": PALETTE["aqua"], "Both": PALETTE["violet"], "API": PALETTE["blue"],
 }
 
 LICENSE_COLORS = {
-    "Permissive open": PALETTE["blue"], "Custom/source-available": PALETTE["orange"],
-    "Proprietary": PALETTE["aqua"], "Other open": PALETTE["violet"],
+    "Permissive open": PALETTE["aqua"], "Custom/source-available": PALETTE["orange"],
+    "Proprietary": PALETTE["red"], "Other open": PALETTE["violet"],
     "Unspecified": PALETTE["slate"], "Unknown": PALETTE["slate"],
 }
 
@@ -174,6 +163,7 @@ FIGURE_SIZES = {
     "default": {"width": 780, "height": 480},
     "wide": {"width": 900, "height": 480},
     "tall": {"width": 780, "height": 620},
+    "panel2": {"width": 1150, "height": 520},
 }
 
 # Extra top room so the top-centre horizontal legend never overlaps the plot.
@@ -488,7 +478,9 @@ def fig_releases_by_size(
     for m in models:
         y = release_year(m)
         if y is not None:
-            by_year[y][size_bucket(effective_params_billions(m))] += 1
+            # Binned by TOTAL parameters (residency, C2), so a small-active MoE
+            # lands in the >20B band rather than in the band of its active count.
+            by_year[y][size_bucket(total_params_billions(m))] += 1
 
     fig = go.Figure()
     for bucket in SIZE_BUCKETS:
@@ -501,6 +493,7 @@ def fig_releases_by_size(
     apply_figure_theme(fig, f"{label} Releases by Year and Parameter Bucket", show_title=show_title)
     fig.update_xaxes(title_text="Release year")
     fig.update_yaxes(title_text=f"Number of {label} variants")
+    fig.update_layout(legend_title_text="Total parameters")
     save_figure(fig, output_dir, f"paper_{tag}_releases_by_size", fmt)
 
 
@@ -759,27 +752,54 @@ def fig_cumulative_releases(
     slms: list[dict], llms: list[dict], tag: str,
     output_dir: Path, show_title: bool, fmt: str,
 ) -> None:
-    """Overlay SLM and LLM cumulative release curves."""
-    slm_dates = sorted(str(m.get("release_date")) for m in slms if m.get("release_date"))
-    llm_dates = sorted(str(m.get("release_date")) for m in llms if m.get("release_date"))
+    """Releases per year (left) and cumulative releases (right), by class.
 
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        x=slm_dates, y=list(range(1, len(slm_dates) + 1)),
-        mode="lines", name="SLMs",
-        line=dict(color=PALETTE["blue"], width=3),
-        fill="tozeroy", fillcolor=color_with_alpha(PALETTE["blue"], 0.18),
-    ))
-    fig.add_trace(go.Scatter(
-        x=llm_dates, y=list(range(1, len(llm_dates) + 1)),
-        mode="lines", name="LLMs",
-        line=dict(color=PALETTE["orange"], width=3),
-        fill="tozeroy", fillcolor=color_with_alpha(PALETTE["orange"], 0.12),
-    ))
-    apply_figure_theme(fig, "Cumulative Model Releases: SLM vs LLM", size="wide", show_title=show_title)
-    fig.update_xaxes(title_text="Release date")
-    fig.update_yaxes(title_text="Cumulative number of variants")
-    # legend inherits the top-centre horizontal placement from apply_figure_theme
+    The two inventory classes are kept apart: SLMs (C1 and C2) and
+    small-active-parameter MoEs (C1 only). The comparison curve counts only
+    records of disclosed size that fail C1; records of undisclosed size cannot
+    be classified and are not plotted.
+    """
+    strict = [m for m in slms if m.get("slm_class") == "slm"]
+    sparse = [m for m in slms if m.get("slm_class") == "small-active-moe"]
+    large = [m for m in llms if m.get("slm_class") == "llm"]
+    series = [
+        ("SLMs (C1 and C2)", strict, PALETTE["blue"]),
+        ("Small-active MoEs (C1 only)", sparse, PALETTE["violet"]),
+        ("LLMs (disclosed size, fail C1)", large, PALETTE["orange"]),
+    ]
+    years = ["2023", "2024", "2025", "2026"]
+    fig = make_subplots(
+        rows=1, cols=2, column_widths=[0.42, 0.58], horizontal_spacing=0.09,
+        subplot_titles=("Releases per year", "Cumulative releases"),
+    )
+    for name, models, colour in series[:2]:
+        counts = Counter(str(m.get("release_date"))[:4] for m in models if m.get("release_date"))
+        fig.add_trace(go.Bar(
+            x=[y if y != "2026" else "2026*" for y in years], y=[counts.get(y, 0) for y in years],
+            name=name, marker_color=colour, legendgroup=name,
+            text=[counts.get(y, 0) if counts.get(y, 0) >= 5 else "" for y in years],
+            textposition="inside", textangle=0, insidetextanchor="middle",
+        ), row=1, col=1)
+    for name, models, colour in series:
+        dates = sorted(str(m.get("release_date")) for m in models if m.get("release_date"))
+        fig.add_trace(go.Scatter(
+            x=dates, y=list(range(1, len(dates) + 1)), mode="lines", name=name,
+            line=dict(color=colour, width=3), legendgroup=name,
+            showlegend=name.startswith("LLMs"),
+        ), row=1, col=2)
+    fig.update_layout(barmode="stack")
+    apply_figure_theme(fig, "Model Releases by Class", size="panel2", show_title=show_title)
+    fig.update_annotations(font=dict(size=17, family=FIGURE_FONT, color=PALETTE["ink"]))
+    fig.update_xaxes(title_text="Release year (*2026 to 4 September)", row=1, col=1)
+    fig.update_xaxes(title_text="Release date", row=1, col=2)
+    fig.update_yaxes(title_text="Variants released", row=1, col=1)
+    fig.update_yaxes(title_text="Cumulative variants", row=1, col=2)
+    # Two panels with subplot titles: put the legend under the plots so it
+    # cannot collide with the figure title.
+    fig.update_layout(
+        legend=dict(orientation="h", yanchor="top", y=-0.2, xanchor="center", x=0.5),
+        margin=dict(b=150),
+    )
     save_figure(fig, output_dir, f"paper_{tag}_cumulative_releases", fmt)
 
 
@@ -873,8 +893,8 @@ def fig_family_treemap(
         hovertemplate="<b>%{label}</b><br>Variants: %{value}<extra></extra>",
     ))
     apply_figure_theme(fig, f"{label} Ecosystem by Developer and Family", size="tall", show_title=show_title)
-    # treemaps should fill the frame: strip the plot-style margins/legend room
-    fig.update_layout(margin=dict(l=6, r=6, t=6, b=6),
+    # Treemaps should fill the frame, but retain enough top room for the title.
+    fig.update_layout(margin=dict(l=6, r=6, t=78 if show_title else 6, b=6),
                       uniformtext=dict(minsize=10, mode="hide"))
     save_figure(fig, output_dir, f"paper_{tag}_family_treemap", fmt)
 

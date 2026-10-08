@@ -1,0 +1,113 @@
+model,checkpoint,benchmark,reported,protocol,pt_reported_separately,source,retrieved
+Phi-3-mini,instruction-tuned,MMLU,yes,5,no,"Phi-3-mini-4k-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3-mini-4k-instruct)",2026-10-08
+Phi-3-mini,instruction-tuned,MMLU-Pro,no,,no,"Phi-3-mini-4k-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3-mini-4k-instruct)",2026-10-08
+Phi-3-mini,instruction-tuned,ARC-C,yes,10,no,"Phi-3-mini-4k-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3-mini-4k-instruct)",2026-10-08
+Phi-3-mini,instruction-tuned,HellaSwag,yes,5,no,"Phi-3-mini-4k-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3-mini-4k-instruct)",2026-10-08
+Phi-3-mini,instruction-tuned,GSM8K,yes,8+CoT,no,"Phi-3-mini-4k-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3-mini-4k-instruct)",2026-10-08
+Phi-3-mini,instruction-tuned,MATH,no,,no,"Phi-3-mini-4k-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3-mini-4k-instruct)",2026-10-08
+Phi-3-mini,instruction-tuned,HumanEval,yes,0,no,"Phi-3-mini-4k-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3-mini-4k-instruct)",2026-10-08
+Phi-3-mini,instruction-tuned,MBPP,yes,3,no,"Phi-3-mini-4k-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3-mini-4k-instruct)",2026-10-08
+Phi-3.5-mini,instruction-tuned,MMLU,yes,5,no,"Phi-3.5-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3.5-mini-instruct)",2026-10-08
+Phi-3.5-mini,instruction-tuned,MMLU-Pro,yes,0+CoT,no,"Phi-3.5-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3.5-mini-instruct)",2026-10-08
+Phi-3.5-mini,instruction-tuned,ARC-C,yes,10,no,"Phi-3.5-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3.5-mini-instruct)",2026-10-08
+Phi-3.5-mini,instruction-tuned,HellaSwag,yes,5,no,"Phi-3.5-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3.5-mini-instruct)",2026-10-08
+Phi-3.5-mini,instruction-tuned,GSM8K,yes,8+CoT,no,"Phi-3.5-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3.5-mini-instruct)",2026-10-08
+Phi-3.5-mini,instruction-tuned,MATH,yes,0+CoT,no,"Phi-3.5-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3.5-mini-instruct)",2026-10-08
+Phi-3.5-mini,instruction-tuned,HumanEval,yes,0,no,"Phi-3.5-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3.5-mini-instruct)",2026-10-08
+Phi-3.5-mini,instruction-tuned,MBPP,yes,3,no,"Phi-3.5-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-3.5-mini-instruct)",2026-10-08
+Phi-4-mini,instruction-tuned,MMLU,yes,5,no,"Phi-4-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-4-mini-instruct)",2026-10-08
+Phi-4-mini,instruction-tuned,MMLU-Pro,yes,0+CoT,no,"Phi-4-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-4-mini-instruct)",2026-10-08
+Phi-4-mini,instruction-tuned,ARC-C,yes,10,no,"Phi-4-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-4-mini-instruct)",2026-10-08
+Phi-4-mini,instruction-tuned,HellaSwag,yes,5,no,"Phi-4-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-4-mini-instruct)",2026-10-08
+Phi-4-mini,instruction-tuned,GSM8K,yes,8+CoT,no,"Phi-4-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-4-mini-instruct)",2026-10-08
+Phi-4-mini,instruction-tuned,MATH,yes,0+CoT,no,"Phi-4-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-4-mini-instruct)",2026-10-08
+Phi-4-mini,instruction-tuned,HumanEval,no,,no,"Phi-4-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-4-mini-instruct)",2026-10-08
+Phi-4-mini,instruction-tuned,MBPP,no,,no,"Phi-4-mini-instruct model card, benchmark table (huggingface.co/microsoft/Phi-4-mini-instruct)",2026-10-08
+Phi-4,instruction-tuned,MMLU,yes,SE,no,"phi-4 model card, simple-evals table (huggingface.co/microsoft/phi-4)",2026-10-08
+Phi-4,instruction-tuned,MMLU-Pro,no,,no,"phi-4 model card, simple-evals table (huggingface.co/microsoft/phi-4)",2026-10-08
+Phi-4,instruction-tuned,ARC-C,no,,no,"phi-4 model card, simple-evals table (huggingface.co/microsoft/phi-4)",2026-10-08
+Phi-4,instruction-tuned,HellaSwag,no,,no,"phi-4 model card, simple-evals table (huggingface.co/microsoft/phi-4)",2026-10-08
+Phi-4,instruction-tuned,GSM8K,no,,no,"phi-4 model card, simple-evals table (huggingface.co/microsoft/phi-4)",2026-10-08
+Phi-4,instruction-tuned,MATH,yes,SE,no,"phi-4 model card, simple-evals table (huggingface.co/microsoft/phi-4)",2026-10-08
+Phi-4,instruction-tuned,HumanEval,yes,SE,no,"phi-4 model card, simple-evals table (huggingface.co/microsoft/phi-4)",2026-10-08
+Phi-4,instruction-tuned,MBPP,no,,no,"phi-4 model card, simple-evals table (huggingface.co/microsoft/phi-4)",2026-10-08
+Qwen2.5-0.5B,instruction-tuned,MMLU,no,,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-0.5B,instruction-tuned,MMLU-Pro,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-0.5B,instruction-tuned,ARC-C,no,,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-0.5B,instruction-tuned,HellaSwag,no,,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-0.5B,instruction-tuned,GSM8K,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-0.5B,instruction-tuned,MATH,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-0.5B,instruction-tuned,HumanEval,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-0.5B,instruction-tuned,MBPP,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-1.5B,instruction-tuned,MMLU,no,,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-1.5B,instruction-tuned,MMLU-Pro,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-1.5B,instruction-tuned,ARC-C,no,,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-1.5B,instruction-tuned,HellaSwag,no,,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-1.5B,instruction-tuned,GSM8K,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-1.5B,instruction-tuned,MATH,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-1.5B,instruction-tuned,HumanEval,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-1.5B,instruction-tuned,MBPP,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-3B,instruction-tuned,MMLU,no,,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-3B,instruction-tuned,MMLU-Pro,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-3B,instruction-tuned,ARC-C,no,,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-3B,instruction-tuned,HellaSwag,no,,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-3B,instruction-tuned,GSM8K,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-3B,instruction-tuned,MATH,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-3B,instruction-tuned,HumanEval,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-3B,instruction-tuned,MBPP,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-7B,instruction-tuned,MMLU,no,,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-7B,instruction-tuned,MMLU-Pro,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-7B,instruction-tuned,ARC-C,no,,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-7B,instruction-tuned,HellaSwag,no,,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-7B,instruction-tuned,GSM8K,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-7B,instruction-tuned,MATH,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-7B,instruction-tuned,HumanEval,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Qwen2.5-7B,instruction-tuned,MBPP,yes,unstated,yes,"Qwen2.5 Technical Report (arXiv:2412.15115), instruction-tuned tables for 0.5B-7B",2026-10-08
+Llama 3.2-1B,instruction-tuned,MMLU,yes,5,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-1B,instruction-tuned,MMLU-Pro,no,,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-1B,instruction-tuned,ARC-C,yes,0,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-1B,instruction-tuned,HellaSwag,yes,0,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-1B,instruction-tuned,GSM8K,yes,8+CoT,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-1B,instruction-tuned,MATH,yes,0+CoT,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-1B,instruction-tuned,HumanEval,no,,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-1B,instruction-tuned,MBPP,no,,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-3B,instruction-tuned,MMLU,yes,5,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-3B,instruction-tuned,MMLU-Pro,no,,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-3B,instruction-tuned,ARC-C,yes,0,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-3B,instruction-tuned,HellaSwag,yes,0,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-3B,instruction-tuned,GSM8K,yes,8+CoT,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-3B,instruction-tuned,MATH,yes,0+CoT,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-3B,instruction-tuned,HumanEval,no,,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Llama 3.2-3B,instruction-tuned,MBPP,no,,yes,"Llama 3.2 model card, instruction-tuned table (github.com/meta-llama/llama-models, models/llama3_2/MODEL_CARD.md)",2026-10-08
+Gemma 2-2B,instruction-tuned,MMLU,yes,unstated,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-2B,instruction-tuned,MMLU-Pro,no,,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-2B,instruction-tuned,ARC-C,no,,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-2B,instruction-tuned,HellaSwag,no,,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-2B,instruction-tuned,GSM8K,no,,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-2B,instruction-tuned,MATH,no,,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-2B,instruction-tuned,HumanEval,no,,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-2B,instruction-tuned,MBPP,yes,unstated,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-9B,instruction-tuned,MMLU,yes,unstated,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-9B,instruction-tuned,MMLU-Pro,no,,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-9B,instruction-tuned,ARC-C,no,,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-9B,instruction-tuned,HellaSwag,no,,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-9B,instruction-tuned,GSM8K,no,,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-9B,instruction-tuned,MATH,no,,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-9B,instruction-tuned,HumanEval,no,,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 2-9B,instruction-tuned,MBPP,yes,unstated,yes,"Gemma 2 report (arXiv:2408.00118), PT/IT comparison table",2026-10-08
+Gemma 3-1B,instruction-tuned,MMLU,yes,0,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-1B,instruction-tuned,MMLU-Pro,yes,0,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-1B,instruction-tuned,ARC-C,no,,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-1B,instruction-tuned,HellaSwag,no,,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-1B,instruction-tuned,GSM8K,yes,0+CoT,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-1B,instruction-tuned,MATH,yes,0,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-1B,instruction-tuned,HumanEval,yes,0,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-1B,instruction-tuned,MBPP,yes,3,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-4B,instruction-tuned,MMLU,yes,0,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-4B,instruction-tuned,MMLU-Pro,yes,0,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-4B,instruction-tuned,ARC-C,no,,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-4B,instruction-tuned,HellaSwag,no,,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-4B,instruction-tuned,GSM8K,yes,0+CoT,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-4B,instruction-tuned,MATH,yes,0,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-4B,instruction-tuned,HumanEval,yes,0,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08
+Gemma 3-4B,instruction-tuned,MBPP,yes,3,yes,"Gemma 3 Technical Report (arXiv:2503.19786), Tables 6 and 18 (IT) with protocol Table 21",2026-10-08

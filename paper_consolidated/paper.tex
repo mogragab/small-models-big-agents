@@ -18,17 +18,6 @@
 %% Kept identical to the ACM build (ACM-Journals/less-is-more.tex) so that the
 %% two builds can share the section files verbatim.
 %% -------------------------------------------------------------------------
-\newif\ifneedsdatafinal
-\needsdatafinalfalse
-\newcommand{\needsdata}[1]{%
-  \ifneedsdatafinal
-    \GenericError{}{Unfilled placeholder: #1}{}{}%
-  \else
-    \textbf{\textsf{[TO SUPPLY: #1]}}%
-  \fi
-}
-\newcommand{\needsnum}{\needsdata{count}}
-
 % \textnormal resets any surrounding italic/bold before applying small caps, so
 % the grade renders in every context (including inside \emph and table headers)
 % without requesting a small-caps-italic shape that the text fonts lack.
@@ -41,58 +30,46 @@
 \newcommand{\file}[1]{{\ttfamily\hyphenchar\font=-1
   \def\_{\char`\_\allowbreak}#1}}
 
+\newcommand{\suppsec}{Appendix}
+
 \begin{document}
 
 \MakeJournalFrontMatter{
   \begin{abstract}
-  Large Language Models (LLMs) with hundreds of billions of parameters
-  have advanced natural language processing dramatically, but their cost,
-  memory demand, and latency make them a poor fit for the fastest-growing
-  consumer of language intelligence: the AI agent, which issues many
-  narrow, repetitive, well-specified model calls rather than a few
-  open-ended ones. Small Language Models (SLMs) have closed much of the
-  capability gap through knowledge distillation, synthetic-data curation,
-  and post-training quantization. This paper is a combined survey and
-  position statement, and it fixes a definition the literature currently
-  leaves loose: an SLM is a decoder-only or hybrid transformer bounded at
-  roughly twenty billion parameters on \emph{both} active parameters per
-  token, which governs latency and energy, and total parameters, which
-  governs storage and resident memory. Models meeting only the first bound
-  are distinguished as small-active-parameter mixtures of experts and
-  excluded from on-device claims. We catalog 215 publicly documented SLM
-  variants (2022--2026), including the 2025--2026 wave of hybrid
-  state-space, unified-reasoning, and mobile-first multimodal families,
-  under a multi-label faceted taxonomy, and release the inventory in
-  machine-readable form. We review compression for the sub-10B regime,
-  reporting what each technique reduces along five separate axes rather
-  than as one ratio, and finding that quantization outperforms pruning
-  below 4B parameters. We then audit the public evaluation record for an
-  18-model cohort and report a negative result: a cross-model accuracy
-  table cannot be assembled from current public reporting without
-  misrepresenting its sources, because vendors report non-intersecting
-  benchmark sets, shot counts that differ per benchmark and per vendor,
-  base and instruction-tuned figures that are routinely conflated, and few
-  matched baselines. Against that record we state the agentic case as a
-  conditional hypothesis rather than a universal claim: for calls that are
-  bounded, recurrent, short-context, and cheaply verifiable, a specialized
-  SLM is the appropriate default execution substrate, with a frontier model
-  on escalation. We grade the evidence for each premise using
-  function-calling, tool-use, structured-output, and end-to-end agent
-  benchmarks rather than general model scores, finding it strong at the
-  level of the individual call and absent at the level of cost per
-  completed task, and we state the workload classes for which the
-  hypothesis fails. We survey heterogeneous SLM--LLM routing and the
-  LLM-to-SLM conversion pipeline, and close with the open problems and a
-  specification of the six experiments that would supply the controlled
-  evidence this field does not yet have.
+  Large language models (LLMs) fit poorly, on cost, memory, and latency, with a
+  growing class of workloads: AI agents that issue many narrow, repetitive,
+  well-specified model calls. Small language models (SLMs) have narrowed the
+  capability gap through distillation, curated and synthetic data, and
+  quantization. This survey defines an SLM as an autoregressive decoder-only
+  model of at most about twenty billion parameters both active per token, which
+  bounds compute, and in total, which bounds storage; models meeting only the
+  first bound are treated separately as small-active-parameter mixtures of
+  experts. We catalog 179 SLMs and 30 such mixtures released from 2023 to
+  September 2026, check every record's developer source, and release the
+  inventory, the checks, and the scripts that apply the inclusion rule. We review
+  compression along separate axes of parameters, memory, training compute, and
+  latency. We quantify why the vendor evaluation record cannot support
+  cross-model comparison: for the 14 cohort models of the four largest vendors,
+  no benchmark is reported for all of them and no stated protocol is shared by
+  more than five. We then state the agentic case as a conditional, falsifiable
+  hypothesis: for call types that are bounded, recurrent enough to clear a
+  break-even volume counting retries, checks, and escalations, short-context,
+  and checkable for correctness, a specialized SLM should be the default, with
+  escalation to a frontier model when a check fails. Grading the agent-specific
+  evidence, we find per-call competence reported for specialized sub-10B models
+  but qualified by independent studies, contested evidence on end-to-end
+  success, and no measurement of cost per completed task for an SLM-first
+  agent. We state the workloads for which the hypothesis fails and specify a
+  pre-registered comparison, with its decision rule and sample size, that would
+  refute it for a given workload.
   \end{abstract}
 
   \begin{highlights}
   \item Fixes a two-condition definition of a small language model that separates per-token cost (active parameters) from residency cost (total parameters), and distinguishes small-active-parameter mixtures of experts from SLMs proper.
-  \item Surveys 215 documented small language model variants (2022--2026), including the May--September 2026 release wave, under a multi-label faceted taxonomy, released in machine-readable form with per-record C1/C2 classification.
-  \item Audits the public evaluation record for 18 SLMs and shows that it does not support the cross-model accuracy comparisons routinely published in surveys, leaderboards, and secondary sources.
-  \item Reviews compression for the sub-10B regime, separating parameter, memory, training-compute, latency, and quality effects rather than collapsing them into one ratio, and finding that quantization outperforms pruning below 4B parameters.
-  \item States the agentic case as a conditional hypothesis, grades the evidence for each premise against agent-specific benchmarks, and sets out the workload classes for which the hypothesis fails.
+  \item Catalogs 209 documented variants (178 SLMs and 31 small-active mixtures of experts, 2023--2026), selected by a mechanically applied inclusion rule and released in machine-readable form with a per-record inclusion decision.
+  \item Audits the vendor-reported evaluation record for 18 SLMs and shows that it does not support the cross-model accuracy comparisons routinely built from it, pointing to single-harness third-party evaluations instead.
+  \item Reviews compression for the sub-10B regime, separating parameter, memory, training-compute, and latency effects, with quality reported alongside, rather than collapsing them into one ratio.
+  \item States the agentic case as a conditional, falsifiable hypothesis whose conditions can be checked in advance, grades the agent-specific evidence including contrary results, and sets out the workload classes for which it fails.
   \item Specifies six experiments that would supply the controlled evidence the field currently lacks, including the cost-per-completed-task comparison the economic argument turns on.
   \end{highlights}
 
@@ -112,13 +89,28 @@
 \input{sections/reported_performance}
 \input{sections/deployment}
 \input{sections/agentic}
-\input{sections/applications}
 \input{sections/discussion}
 \input{sections/challenges}
 \input{sections/conclusion}
 \input{sections/declarations}
 
 \appendix
+\input{sections/supp_definitions}
+\input{sections/supp_method}
+\input{sections/supp_families}
+\input{sections/supp_background}
+\input{sections/supp_figures}
+\input{sections/supp_taxonomy}
+\input{sections/supp_compression}
+\input{sections/supp_kd}
+\input{sections/supp_audit}
+\input{sections/supp_tables}
+\input{sections/supp_deployment}
+\input{sections/supp_agentic}
+\input{sections/supp_applications}
+\input{sections/supp_challenges}
+\input{sections/supp_directions}
+\input{sections/supp_energy}
 \input{sections/appendix_supplementary}
 \input{sections/appendix_ecosystem}
 

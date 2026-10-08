@@ -1,18 +1,18 @@
 \section{Introduction}
 \label{section:introduction}
 
-The landscape of \gls{nlp} has been reshaped by \glspl{llm}. Systems such as GPT-4 \citep{openai2023gpt4}, Claude \citep{anthropic2024claude}, Gemini \citep{gemini2023}, and the Llama series \citep{grattafiori2024llama3} demonstrate broad competence across reasoning, code generation, and multilingual tasks. That competence, however, comes at extraordinary cost. GPT-3's 175~billion parameters \citep{brown2020gpt3} inaugurated an era in which scale was treated as synonymous with capability, and scaling laws \citep{kaplan2020scaling,hoffmann2022chinchilla} appeared to promise predictable returns on ever-larger models. Frontier \glspl{llm} now require multi-thousand-GPU clusters to train, tens of gigabytes of accelerator memory to serve, and cloud infrastructure that introduces latency, recurring cost, and privacy exposure. Training GPT-3 is estimated to have consumed 1{,}287~MWh and emitted roughly 552~metric tons of CO$_2$ equivalent \citep{patterson2021carbon}; a single frontier-model query draws on the order of ten times the energy of a conventional web search \citep{devries2023energy}.
+\Glspl{llm} such as GPT-4 \citep{openai2023gpt4}, Claude \citep{anthropic2024claude}, Gemini \citep{gemini2023}, and Llama \citep{grattafiori2024llama3} show broad competence across reasoning, code, and multilingual tasks, at a cost that scaling laws \citep{kaplan2020scaling,hoffmann2022chinchilla} made predictable but not small: multi-thousand-GPU training runs, tens of gigabytes of accelerator memory per served replica, and a network round trip, a per-token charge, and a transfer of prompt content for every call. Training GPT-3 is estimated to have consumed 1{,}287~MWh \citep{patterson2021carbon}. Per-query serving energy is contested: a 2023 estimate put a frontier query at about ten times a web search \citep{devries2023energy}, while a 2025 production measurement reports 0.24~Wh for the median text prompt of one large assistant \citep{elsworth2025google_energy}.
 
 \subsection{The Rise of Small Language Models}
 \label{subsec:intro_rise}
 
-Running against this trajectory is a counter-trend: \glspl{slm} that achieve disproportionately strong performance for their size. Section~\ref{subsec:intro_definition} fixes the definition we use throughout; informally, an \gls{slm} is an autoregressive language model small enough to be served on a single consumer accelerator, laptop, or phone. Where earlier compact models such as DistilBERT \citep{sanh2019distilbert} and TinyBERT \citep{jiao2020tinybert} were task-specific encoders, the current generation are general-purpose, instruction-following systems. The Chinchilla scaling analysis \citep{hoffmann2022chinchilla} showed that most large models were badly undertrained and that a smaller model given proportionally more data could match them; the Phi family then demonstrated that ``textbook-quality'' synthetic data lets a 3.8B model rival models an order of magnitude larger \citep{abdin2024phi3}, Gemma applied distillation from larger teachers \citep{gemma2024}, and Qwen2.5 pushed sub-7B training to 18~trillion tokens \citep{qwen2024qwen25}. MIT Technology Review named \glspl{slm} one of its 10 Breakthrough Technologies of 2025 \citep{mit2025breakthrough}. The 2025--2026 release wave adds hybrid state-space architectures \citep{falconh1_2025}, controllable-reasoning models \citep{qwen3_2025}, and mobile-first multimodal families \citep{gemma4_2026,gunter2025afm}. Figure~\ref{fig:cumulative_releases} shows the resulting acceleration: the cumulative count of documented \gls{slm} variants has grown from one in 2022 to 215 by September 2026, with 43 of them released in 2026 alone.
+Against this trajectory, \glspl{slm} have narrowed the capability gap at fixed size. The Chinchilla analysis \citep{hoffmann2022chinchilla} showed that most large models were undertrained; Phi showed that curated and synthetic ``textbook-quality'' data lets a 3.8B model rival much larger ones \citep{abdin2024phi3}; Gemma distilled from larger teachers \citep{gemma2024}; and Qwen2.5 trained sub-10B models on 18~trillion tokens \citep{qwen2024qwen25}. The 2025--2026 releases add hybrid state-space architectures \citep{falconh1_2025}, controllable reasoning \citep{qwen3_2025}, and mobile-first multimodal families \citep{gemma4_2026,gunter2025afm}. Figure~\ref{fig:cumulative_releases} shows the record of the released inventory (\suppsec~\ref{appendix:ecosystem}): 179 \glspl{slm} and, counted separately, 30 small-active-parameter mixtures of experts (both defined below) released between 2023 and 4~September 2026. The release rate of \glspl{slm} proper peaked in 2024 (71 variants, against 51 in 2025 and 22 in 2026 to date); what grew in 2026 is the small-active-parameter class (19 of the 41 releases of that year), which Section~\ref{subsec:intro_definition} keeps apart because it does not share the deployment properties of an \gls{slm}. The seed sources of the inventory changed in 2026 (Section~\ref{subsec:intro_method}), so year-to-year differences partly reflect coverage.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{paper_combined_cumulative_releases.png}
-  \caption{Cumulative count of documented small (SLM) and large (LLM) language-model variants by release date, from the model inventory of Appendix~\ref{appendix:ecosystem} (snapshot 5~September 2026). SLM releases accelerate sharply from mid-2024.}
-  \Description{Line chart of the cumulative number of documented small and large language model variants against release date from 2022 to September 2026. Both curves rise, but the small-model curve steepens sharply from mid-2024 and reaches 215 variants by September 2026.}
+  \caption{Documented variants by class: releases per year (left; 2026 to 4~September) and cumulative releases (right), from version~3.6 of the released inventory. SLMs meet both C1 and C2; small-active-parameter MoEs meet C1 only and are plotted separately; the comparison curve counts the 104 records of disclosed size that fail C1. The 119 records of undisclosed size cannot be classified and are not plotted.}
+  \Description{Two panels. Left: stacked bars of documented variants released per year from 2023 to 2026, split into small language models and small-active-parameter mixtures of experts; small language models peak at 71 in 2024 and fall to 51 in 2025 and 22 in 2026 to September, while small-active mixtures of experts rise to 19 in 2026. Right: cumulative release curves for small language models (reaching 179), small-active mixtures of experts (reaching 30), and large language models of disclosed size (reaching 104).}
   \label{fig:cumulative_releases}
 \end{figure}
 
@@ -20,356 +20,173 @@ Running against this trajectory is a counter-trend: \glspl{slm} that achieve dis
 \subsection{Definitions and Terminology}
 \label{subsec:intro_definition}
 
-Survey work on this class of models is complicated by the fact that ``small'' is
-used to mean at least four different things. We therefore fix the terminology
-before using it, and hold to it for the rest of the paper.
+``Small'' is used in the literature to mean at least four different things, so we fix the terms before using them.
 
 \subsubsection{The Operative Definition}
 \label{subsubsec:intro_def_operative}
 
-A model is a \emph{small language model} for the purposes of this survey when it
-satisfies both of the following:
+A model is a \emph{small language model} in this survey when it satisfies both of the following:
 
 \begin{description}
-  \item[C1 (compute envelope)] It is an autoregressive decoder-only or hybrid
-    attention/state-space model whose \emph{active} parameter count per generated
-    token is at most $2 \times 10^{10}$ (roughly twenty billion).
-  \item[C2 (residency envelope)] Its \emph{total} parameter count is also at most
-    roughly twenty billion, so that its weights can be resident in the memory of
-    a single consumer accelerator, laptop, or high-end phone at 4-bit precision.
+  \item[C1 (compute envelope)] It is an autoregressive decoder-only model (attention, state-space, or a hybrid) whose \emph{active} parameter count per generated token is at most roughly twenty billion.
+  \item[C2 (storage envelope)] Its \emph{total} parameter count is also at most roughly twenty billion, so that its weights, about 11--15~GB at the 4.4--5.8 effective bits per weight of common 4-bit formats (\suppsec~\ref{subsec:reported_quantization}), can be stored and downloaded like a consumer application and, on runtimes that keep every weight in memory, held on one 16--24~GB consumer GPU or laptop.
 \end{description}
 
-C1 bounds per-token latency, FLOPs, and energy. C2 bounds storage, download size,
-and resident memory. The two coincide for dense models, which is why a single
-threshold has been sufficient in most prior work, but they come apart for
-\gls{moe} models, and the distinction matters for deployment: a 119B-total model
-that activates 6.5B parameters per token has the inference economics of a 6.5B
-model and the storage and memory economics of a 119B one. Reporting only active
-parameters, as several vendor announcements and prior surveys do, systematically
-understates what it costs to put such a model on a device.
+\begin{figure}[t]
+\centering
+\footnotesize
+\definecolor{dfInk}{HTML}{34404A}
+\definecolor{dfBlue}{HTML}{7397B8}
+\definecolor{dfLav}{HTML}{9B8FB5}
+\definecolor{dfApr}{HTML}{D8A879}
+\definecolor{dfSlate}{HTML}{A2AAB1}
+\begin{tikzpicture}[x=1cm,y=1cm,
+  lab/.style={font=\scriptsize, text=dfInk, align=center},
+  pt/.style={circle, fill=dfInk, inner sep=1.1pt},
+  ptl/.style={font=\tiny\itshape, text=dfInk!80}]
+% regions (axes: total parameters horizontally, active per token vertically; 20B at 4.0 / 2.2)
+\fill[dfBlue!18] (0,0) -- (4.0,0) -- (4.0,2.2) -- cycle;
+\fill[dfLav!20] (4.0,0) rectangle (8.2,2.2);
+\fill[dfApr!22] (4.0,2.2) -- (8.2,2.2) -- (8.2,4.5) -- cycle;
+\fill[dfSlate!25] (0,0) -- (8.2,4.5) -- (0,4.5) -- cycle;
+% axes, threshold lines, diagonal
+\draw[->, dfInk] (0,0) -- (8.5,0) node[below left, lab] {Total parameters (C2: storage)};
+\draw[->, dfInk] (0,0) -- (0,4.8) node[above right, lab, anchor=south west] {Active parameters per token (C1: compute)};
+\draw[dashed, dfInk!70] (4.0,0) -- (4.0,4.5);
+\draw[dashed, dfInk!70] (0,2.2) -- (8.2,2.2);
+\draw[dfInk!70] (0,0) -- (8.2,4.5);
+\node[lab, below] at (4.0,0) {about 20B};
+\node[lab, left] at (0,2.2) {about 20B};
+\node[lab, rotate=28.8, above, font=\tiny] at (6.6,3.62) {dense: active $=$ total};
+% region labels
+\node[lab] at (3.0,1.2) {\textbf{SLM}\\179};
+\node[lab] at (6.6,0.9) {\textbf{Small-active MoE}\\30 (17 above 100B total)};
+\node[lab] at (7.3,2.85) {\textbf{LLM}\\104};
+\node[lab, text=dfInk!75] at (1.7,3.4) {not possible\\(active $>$ total)};
+% example models
+\node[pt] at (2.75,0.42) {}; \node[ptl, left] at (2.72,0.42) {Granite 4.0 Tiny};
+\node[pt] at (4.75,1.15) {}; \node[ptl, above] at (4.75,1.17) {Qwen3-30B-A3B};
+\node[pt] at (5.65,1.6) {}; \node[ptl, above] at (5.65,1.62) {119B total, 6.5B active};
+% undisclosed box
+\node[draw=dfSlate!90, fill=dfSlate!12, rounded corners=2pt, lab, text width=21mm, inner sep=3pt] at (10.1,2.2) {\textbf{Undisclosed size}\\119\\cannot be placed on either axis};
+\end{tikzpicture}
+\caption{The two bounds of the definition. C1 bounds active parameters per token, which set per-token compute, latency, and energy; C2 bounds total parameters, which set storage and download size (and resident memory when every weight is kept in memory). Dense models lie on the diagonal. Counts are inventory records (version~3.6); example points are illustrative placements on schematic logarithmic axes, not a plot of the inventory.}
+\Description{Schematic plane with total parameters on the horizontal axis and active parameters per token on the vertical axis, each with a threshold at about twenty billion. The region where both are below the threshold is labelled SLM, 179; below the active threshold but above the total threshold is small-active mixture of experts, 30, of which 17 exceed 100B total; above the active threshold is LLM, 104; above the diagonal is not possible. Example points: Granite 4.0 Tiny in the SLM region, Qwen3-30B-A3B and a 119B-total, 6.5B-active model in the small-active region. A separate box holds 119 records of undisclosed size.}
+\label{fig:slm_definition}
+\end{figure}
+
+C1 bounds per-token compute, latency, and energy (Figure~\ref{fig:slm_definition}). C2 bounds storage and download size, and resident memory only on runtimes that keep all weights resident: runtimes that stream weights or experts from flash \citep{alizadeh2024llmflash}, as Apple's 20B-total, 1--4B-active on-device model does \citep{apple2026afm3}, decouple residency from total size, so for such models resident memory has to be reported separately rather than read off C2. The two conditions coincide for dense models, which is why a single threshold has sufficed in most prior work, but they come apart for \gls{moe} models: a 119B-total model that activates 6.5B parameters per token has the per-token cost of a 6.5B model and the storage cost of a 119B one. The twenty-billion figure is a convention, not a natural kind. Applied to the records of disclosed size in the released file, a bound of 10B, 13B, 20B, or 32B total parameters would admit 143, 160, 179, or 209 of them respectively, and every record carries its counts so that any other threshold can be applied.
 
 \subsubsection{Four Distinguished Terms}
 \label{subsubsec:intro_def_terms}
 
 \begin{description}
-  \item[\gls{slm}] A model satisfying both C1 and C2. This is the class the
-    survey is about, and the class to which every deployment, memory, and
-    on-device claim in this paper applies.
-  \item[Compact model] An \gls{slm} at or below roughly 3B total parameters. This
-    is the band in which task-specific adaptation stops being optional
-    (Section~\ref{section:conclusion}) and in which 4-bit weights fit in
-    approximately 2~GB.
-  \item[Edge model] A model, of any size, for which the developer documents a
-    target of phone-, single-board-computer-, or \gls{npu}-class hardware, and
-    ships an artifact for it. ``Edge'' is a claim about the intended deployment
-    target, not about parameter count, and the two are correlated but not
-    identical.
-  \item[Small-active-parameter \gls{moe}] A model satisfying C1 but not C2: at
-    most roughly twenty billion active parameters per token, but more in total.
-    These have \gls{slm}-like per-token cost and \gls{llm}-like residency cost.
-    They are retained in the inventory, because they are a live and growing part
-    of the design space, but they are labelled separately and are excluded from
-    every claim in this paper about storage footprint, download size, resident
-    memory, or on-device feasibility.
+  \item[\gls{slm}] A model satisfying C1 and C2. Every deployment, storage, and on-device claim in this paper applies to this class.
+  \item[Compact model] An \gls{slm} at or below roughly 3B total parameters, whose 4-bit weights fit in about 2~GB of the 4--8~GB a current phone leaves to applications. Most documented phone deployments use this band; the exceptions keep part of the model off the accelerator, through per-layer embeddings (Gemma~3n and Gemma~4 E-series) or flash-resident experts (Apple's third-generation on-device model).
+  \item[Edge model] A model, of any size, for which the developer documents and ships an artifact for phone-, single-board-computer-, or \gls{npu}-class hardware. ``Edge'' is a claim about the deployment target, not about parameter count.
+  \item[Small-active-parameter \gls{moe}] A model satisfying C1 but not C2. These have \gls{slm}-like per-token cost and \gls{llm}-like storage cost. They are recorded in the inventory but counted, plotted, and discussed separately, and are excluded from every claim about storage, download size, resident memory, or on-device feasibility. The class is wide: 17 of its 30 members exceed 100B total parameters, so it includes frontier-scale models such as Llama~4 Maverick and Qwen3.5-397B-A17B as well as 21--35B models.
 \end{description}
 
-Of the 215 variants in the inventory (Appendix~\ref{appendix:ecosystem}), 183
-satisfy both C1 and C2 and are \glspl{slm} without qualification; 27 report an
-active-parameter count at or below the threshold against a total above it and
-are the small-active-parameter \gls{moe} group; and 5 are vendor-positioned
-small models whose parameter counts are not published at all, retained on the
-vendor's own positioning and marked as undisclosed rather than assumed. The
-18-model cohort whose public evaluation record is examined in
-Section~\ref{sec:reported} is a strict subset of the 183, and is further
-restricted to below 10B total parameters with Phi-4 (14B) retained as a single
-upper-bound reference, because that is the band in which comparable public
-reporting actually exists.
+The inventory holds 179 \glspl{slm} and 30 small-active-parameter \glspl{moe}; wherever this paper counts \glspl{slm}, it means the 179. Per-layer-embedding ``effective'' sizes (Gemma~3n, Gemma~4 E2B/E4B) are not sparse activation, so C1 is evaluated on those models' total counts. The unit counted is the \emph{variant}: a separately released artifact of one size within a family, which may be a distinct post-training or domain specialization released as its own repository (for example Phi-4 and Phi-4-reasoning), with checkpoint revisions of the same artifact counted once. Counted instead by distinct family and size, the 179 \glspl{slm} are 136 family--size pairs. \suppsec~\ref{supp:definitions} lists the reporting dimensions the inventory records and their coverage (total parameters 209/209, context length 135/209, peak runtime memory not reported by vendors), and the artifact vocabulary.
 
-One point about the count needs stating, because it changed during revision.
-Earlier drafts reported 126 variants. That figure reflected how records had been
-filed in the inventory rather than the inclusion rule as stated: an audit
-against C1 and C2 found 64 models that meet the rule, among them Llama-2-7B,
-Llama-3-8B, Qwen2.5-14B, OLMo~2-7B, Pixtral-12B, and Falcon~3, filed outside the
-\gls{slm} inventory, and two 24B dense models (Mistral Small 3.1 and 3.2) filed
-inside it. Placement is now derived from the rule rather than inherited, which
-is what takes the count to 215. The released inventory records the move
-per-record in its changelog, so the two counts can be reconciled exactly.
-
-\subsubsection{Reporting Dimensions}
-\label{subsubsec:intro_def_dimensions}
-
-A single parameter count is not enough to determine whether a model will run on a
-given device. Table~\ref{tab:reporting_dimensions} lists the dimensions this
-survey reports where the primary source supplies them, and states which of them
-each of our claims depends on. Where a source omits a dimension, the entry is
-marked as not reported rather than estimated; Section~\ref{subsec:intro_method}
-gives the coverage rates.
-
-\begin{table}[t]
-\centering
-\caption{Reporting dimensions for a small language model, the deployment question each answers, and the coverage achieved across the 215-variant inventory. ``Derived'' means the value follows arithmetically from others rather than being reported.}
-\label{tab:reporting_dimensions}
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{@{}lllc@{}}
-\toprule
-\textbf{Dimension} & \textbf{Question it answers} & \textbf{Bounds} & \textbf{Inventory coverage} \\
-\midrule
-Total parameters            & How large is the download? & C2 & 210/215 \\
-Active parameters per token & What does one token cost? & C1 & 35/215 stated; else $=$ total \\
-Weight memory at a precision & Will the weights fit? & C2 & Derived \\
-Peak runtime memory          & Will it fit while running? & C2 & Not reported by vendors \\
-FLOPs per token             & Compute cost per token & C1 & Derived (approximate) \\
-KV-cache size per token     & Cost of long context & C1, C2 & Derived from head config \\
-Context length              & Largest usable input & --- & 142/215 \\
-Target hardware             & What did the vendor test on? & --- & Vendor-stated only \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-
-\subsubsection{Model-Artifact Vocabulary}
-\label{subsubsec:intro_def_artifacts}
-
-Because the inventory counts artifacts rather than papers, we also fix the
-following. A \emph{family} is a named line of models sharing an architecture and
-a training recipe (Qwen2.5, Gemma~3). A \emph{variant} is one released
-parameter size within a family together with one post-training status
-(Qwen2.5-3B base and Qwen2.5-3B-Instruct are two variants). A \emph{checkpoint}
-is a specific set of weights published under a version identifier; a variant may
-be revised through several checkpoints, and the inventory records the variant,
-not each checkpoint. A \emph{release} is a dated publication event covering one
-or more variants. A \emph{pretrained} (or base) model is the artifact produced by
-pretraining alone; an \emph{instruction-tuned} model has undergone supervised
-instruction fine-tuning and usually a preference-optimization stage; a
-\emph{reasoning-tuned} model has additionally been trained, by distillation of
-long chain-of-thought traces, reinforcement learning, or both, to emit extended
-intermediate reasoning before its answer. These three post-training statuses are
-not interchangeable for evaluation purposes, and conflating them is one of the
-specific defects in the public record documented in
-Section~\ref{subsec:reported_overall}.
-
-Two conventions follow from this vocabulary and are used consistently throughout.
-Family names are written as their developers write them and with a space before
-the version, as in Gemma~3, Qwen2.5, Phi-4, and Llama~3.2; the original 2023
-LLaMA release keeps its own capitalization, since Meta renamed the line to
-``Llama'' from Llama~2 onward. Checkpoint identifiers are written in the
-hyphenated form used on the model hub, as in \texttt{Gemma-3-4B-it} or
-\texttt{Qwen2.5-7B-Instruct}, and are used wherever the specific artifact rather
-than the family is meant.
-
-\subsection{The Agentic Turn}
+\subsection{The Agentic Turn and the Thesis}
 \label{subsec:intro_agentic}
-
-At the same time, the way language models are consumed has shifted. The fastest-growing workload is not the chat session but the \emph{AI agent}: a control loop in which a model is called repeatedly to choose a tool, fill its arguments, extract a field, classify an intent, or check a result \citep{belcak2025slm_agentic,chen2024mas_survey}. These calls are narrow, repetitive, and format-constrained, and they exercise only a thin slice of a frontier model's competence. \citet{belcak2025slm_agentic} argue that for such workloads \glspl{slm} are not a compromise but the appropriate default: sufficiently capable for the delegated sub-task, cheaper to serve, cheaper to specialize, and easier to constrain to a code interface, with a strong generalist model reserved for the minority of calls that genuinely need planning or broad context. Surveys of LLM--SLM collaboration \citep{chen2024role_small,chen2025collab_survey} and production systems such as Apple's on-device/server split \citep{gunter2025afm} indicate that this heterogeneous design is already the direction of travel.
-
-\subsection{The Thesis, Stated Conditionally}
 \label{subsec:intro_thesis}
 
-This paper is a survey with a position attached, and we state the position as a
-conditional design hypothesis rather than a universal claim, because that is what
-the available evidence supports.
+A large share of model calls is now issued by AI agents: control loops in which a model is called repeatedly to choose a tool, fill its arguments, extract a field, classify an intent, or check a result \citep{belcak2025slm_agentic,chen2024mas_survey}. Many such calls are narrow, repetitive, and format-constrained. \citet{belcak2025slm_agentic} argue that for these calls \glspl{slm} should be the default, and \citet{sharma2025slm_agentic} survey the evidence and propose an \gls{slm}-default, \gls{llm}-fallback design. We state the position as a conditional hypothesis whose terms can be measured.
 
 \begin{quote}
-\textbf{H (substrate hypothesis).} For a language-model call inside an agent that
-is (i)~\emph{bounded}, in that the required output is a tool selection, a
-structured record, a label from a fixed set, or a short local edit; (ii)~\emph{recurrent},
-in that calls of the same type arrive often enough to repay one-time
-specialization; (iii)~\emph{short-context}, in that the input needed to answer it
-fits well inside the model's window without retrieval over a large corpus; and
-(iv)~\emph{verifiable}, in that the surrounding scaffold can cheaply check whether
-the output is well-formed and, ideally, correct, a specialized \gls{slm} is the
-appropriate default execution substrate, and a frontier \gls{llm} should be
-invoked only on escalation.
+\textbf{H (default hypothesis).} Consider a type of language-model call inside an agent with the following properties.
+\begin{description}
+  \item[H1 (bounded)] The output is a tool selection, a record conforming to a fixed schema, a label from a fixed set, or a local edit of a few lines.
+  \item[H2 (recurrent)] The expected number of such calls over the planning horizon, $N$, exceeds the break-even volume
+  \begin{equation}
+    N^{*} = \frac{F}{\,c_L - (a\,c_S + c_V + e\,c_L)\,},
+    \label{eq:breakeven}
+  \end{equation}
+  where $F$ is the one-time and maintenance cost of specializing for the call type, $c_L$ and $c_S$ are the per-call serving costs of the large and the small model, $a \ge 1$ is the expected number of small-model attempts per call, $c_V$ is the per-call cost of the check, and $e$ is the escalation rate. If the denominator is not positive, specialization never pays.
+  \item[H3 (short-context)] The input needed fits within a few thousand tokens without retrieval over a large corpus.
+  \item[H4 (checkable)] Two checks exist at a cost small relative to $c_L$: a \emph{validity} check (H4a: schema validation, parsing, type checking), and a \emph{correctness} check (H4b: an executor with observable effects, a unit test, a constraint solver, or a lookup against a reference) that detects outputs which are well formed but wrong. Validity checking alone does not satisfy H4.
+\end{description}
+For such a call type, a specialized \gls{slm} is the appropriate default: the call goes to the \gls{slm} first and is escalated to a frontier \gls{llm} when a check fails. ``Appropriate default'' means that the \gls{slm}-first system is non-inferior to an all-\gls{llm} system in task success, within a margin $\delta$ fixed in advance, at a lower cost per completed task than every comparator of Section~\ref{subsec:challenges_verification}.
 \end{quote}
 
-The hypothesis is falsifiable and it is bounded. It does not claim that
-\glspl{slm} match frontier models in general, that scaling has stopped paying, or
-that agentic systems can dispense with large models. Section~\ref{subsec:agentic_counterexamples}
-sets out the workload classes for which the antecedent fails and a large model
-remains the right choice: open-ended planning over an unbounded action space,
-synthesis over long or heterogeneous context, tasks whose correctness cannot be
-checked without a stronger model, low-resource-language and safety-sensitive
-calls where small models have documented deficits, and any workload whose call
-distribution is too sparse or too unstable to specialize against.
-Section~\ref{subsec:agentic_evidence} grades the evidence for each premise of H,
-and is explicit that the evidence is strongest for premise (i) and weakest for
-the end-to-end claim.
+\begin{figure}[t]
+\centering
+\footnotesize
+\definecolor{hcInk}{HTML}{34404A}
+\definecolor{hcBlue}{HTML}{7397B8}
+\definecolor{hcSage}{HTML}{79A88E}
+\definecolor{hcLav}{HTML}{9B8FB5}
+\definecolor{hcRose}{HTML}{C9858C}
+\definecolor{hcSlate}{HTML}{A2AAB1}
+\begin{tikzpicture}[
+  >={Stealth[length=1.8mm]},
+  gate/.style={draw=hcLav!80!hcInk, fill=hcLav!12, rounded corners=2pt, align=center,
+               text=hcInk, inner sep=2.5pt, minimum height=11mm, text width=17mm, font=\scriptsize},
+  src/.style={draw=hcSlate!90!hcInk, fill=hcSlate!12, rounded corners=2pt, align=center,
+               text=hcInk, inner sep=2.5pt, minimum height=11mm, text width=13mm, font=\scriptsize},
+  outc/.style={draw=hcSage!80!hcInk, fill=hcSage!14, rounded corners=2pt, align=center,
+               text=hcInk, inner sep=2.5pt, minimum height=11mm, text width=17mm, font=\scriptsize},
+  bad/.style={draw=hcRose!80!hcInk, fill=hcRose!12, rounded corners=2pt, align=center,
+               text=hcInk, inner sep=3pt, text width=118mm, font=\scriptsize},
+  fl/.style={font=\tiny\itshape, text=hcRose!70!hcInk, align=center},
+  hd/.style={font=\scriptsize\bfseries, text=hcInk!80},
+  every path/.style={draw=hcInk!75},
+]
+\node[src] (ct) {Recurring call type\\{\tiny from clustered logs}};
+\node[gate, right=3mm of ct] (h1) {\textbf{H1 bounded}\\{\tiny tool, schema, label, short edit}};
+\node[gate, right=3mm of h1] (h3) {\textbf{H3 short-context}\\{\tiny few thousand tokens}};
+\node[gate, right=3mm of h3, text width=20mm] (h4) {\textbf{H4 checkable}\\{\tiny H4a validity \emph{and}}\\{\tiny H4b correctness}};
+\node[gate, right=3mm of h4] (h2) {\textbf{H2 recurrent}\\{\tiny $N > N^{*}$, Eq.~(1)}};
+\node[outc, right=3mm of h2] (slm) {\textbf{Specialized SLM}\\{\tiny default; escalate on a failed check}};
+\node[bad, below=9mm of h4.south, anchor=north] (llm) {\textbf{Frontier or hosted model as default}};
+\node[hd, above=1.5mm of h3] {checked by inspection};
+\node[hd, above=1.5mm of h2] {from pilot estimates};
+\draw[->] (ct) -- (h1); \draw[->] (h1) -- (h3); \draw[->] (h3) -- (h4); \draw[->] (h4) -- (h2); \draw[->] (h2) -- (slm);
+\draw[->, hcRose!80!hcInk] (h1.south) -- (h1.south |- llm.north) node[fl, midway, left] {open-ended\\planning};
+\draw[->, hcRose!80!hcInk] (h3.south) -- (h3.south |- llm.north) node[fl, midway, left] {long\\context};
+\draw[->, hcRose!80!hcInk] (h4.south) -- (h4.south |- llm.north) node[fl, midway, left] {uncheckable\\output};
+\draw[->, hcRose!80!hcInk] (h2.south) -- (h2.south |- llm.north) node[fl, midway, left] {rare or\\unstable};
+\end{tikzpicture}
+\caption{Assessing one recurring agent call type against hypothesis~H at design time. H1, H3, and H4 are checked by inspecting the call type; H2 is checked against pilot estimates recorded before any comparison. A call type that passes every condition defaults to a specialized SLM with escalation on a failed check (Figure~\ref{fig:hetero_agent}); a failure at any condition, labelled with the workload class that typically fails there (Section~\ref{subsec:agentic_counterexamples}), leaves a frontier or hosted model as the default.}
+\Description{Left-to-right flow: a recurring call type passes through gates H1 bounded, H3 short-context, H4 checkable (validity and correctness), and H2 recurrent, and if all pass reaches specialized SLM as the default. From each gate a downward arrow labelled open-ended planning, long context, uncheckable output, or rare or unstable leads to a box reading frontier or hosted model as default. Labels mark H1, H3, and H4 as checked by inspection and H2 as checked from pilot estimates.}
+\label{fig:hypothesis_conditions}
+\end{figure}
+
+H1, H3, and H4 can be checked by inspecting a call type before any model is trained (Figure~\ref{fig:hypothesis_conditions}). H2 cannot be checked from first principles, because $a$, $e$, and $c_S$ depend on the specialized model: it is assessed from pilot estimates recorded before the comparison and held fixed, so that a failed comparison cannot be reclassified afterwards as a failure of H2. H is refuted for a workload class meeting H1--H4 if a pre-registered comparison of the kind specified in Section~\ref{subsec:challenges_verification} finds the \gls{slm}-first system inferior by more than $\delta$, or more costly per completed task than any comparator, and it is rejected as a general design rule if it fails on a majority of at least three pre-registered workloads with distinct call types. It does not claim that \glspl{slm} match frontier models in general, that agents can dispense with large models, or any particular share of agent traffic meeting H1--H4. Section~\ref{subsec:agentic_counterexamples} sets out the workload classes for which the conditions fail. Section~\ref{subsec:agentic_evidence} grades the evidence bearing on H: it is strongest for per-call competence of specialized sub-10B models, contested for end-to-end success, and absent for cost per completed task in an \gls{slm}-first agent.
 
 \subsection{Scope and Contributions}
 \label{subsec:intro_gap}
 
-Existing \gls{slm} surveys \citep{lu2024slmsurvey,vannguyen2024slm_survey,wang2024comprehensive,srivastava2025thinkslm} provide taxonomies and measurements but either predate the 2025--2026 model wave or treat agentic deployment only in passing; agentic position pieces \citep{belcak2025slm_agentic} make the argument but do not ground it in a consolidated capability-and-deployment review. This paper joins the two. Its contributions are:
+Existing \gls{slm} surveys \citep{lu2024slmsurvey,vannguyen2024slm_survey,wang2024comprehensive,gupta2025slmsurvey} provide taxonomies, technique reviews, and measurements but treat agentic deployment only in passing. The agentic case has been made as a position \citep{belcak2025slm_agentic,tian2026edgeagents} and as a survey \citep{sharma2025slm_agentic}, which already proposes \gls{slm}-default, \gls{llm}-fallback systems with verifier cascades, cost per successful task as the deciding metric, and limits where fallback remains necessary. We share that direction. This paper adds the following:
 
 \begin{description}
-  \item[Landscape and taxonomy] A catalog of 215 documented \gls{slm} variants (2022--2026), including the recent hybrid, reasoning, and mobile-multimodal families, organized under a multi-label faceted taxonomy (Section~\ref{sec:taxonomy} and Appendix~\ref{appendix:ecosystem}), with a machine-readable release (Section~\ref{subsec:intro_artifacts}).
-  \item[Compression review] A synthesis of distillation, quantization, pruning, and compound pipelines for the sub-10B regime, with the reduction achieved reported separately along parameter count, memory, training compute, and latency rather than collapsed into a single ratio, including the finding that quantization consistently outperforms pruning below 4B parameters \citep{kurz2025pruning_vs_quant} (Section~\ref{sec:compression}).
-  \item[An audit of the public evaluation record] An examination of what the public reporting record can actually support for an 18-model cohort, and the finding that a cross-model accuracy comparison cannot be assembled from it without misrepresenting the sources, because vendors report non-intersecting benchmark sets, differing shot counts per benchmark, inconsistently labelled base and instruction-tuned checkpoints, and few matched baselines (Section~\ref{sec:reported}, Appendix~\ref{app:provenance}).
-  \item[Deployment ecosystem] A survey of inference frameworks, quantization formats, and on-device platforms from Raspberry~Pi to Apple silicon, with calculated and measured quantities kept apart (Section~\ref{sec:deployment}).
-  \item[The agentic argument, with agent-specific evidence] A structured, evidence-graded case for hypothesis~H, drawing on function-calling, tool-use, structured-output, and end-to-end agent benchmarks rather than general model scores, together with its stated counterexamples (Section~\ref{sec:agentic}).
-  \item[Open problems and verification] An agenda of open research problems and targeted empirical-verification opportunities for the consolidated evidence base (Section~\ref{sec:challenges}).
+  \item[A two-bound definition] that separates per-token cost (C1) from storage cost (C2) and so treats mixtures of experts consistently (Section~\ref{subsec:intro_definition}).
+  \item[A verified inventory] of 179 \glspl{slm} and 30 small-active-parameter \glspl{moe} (2023--2026), in which every record's developer source has been checked and every inclusion decision is recorded with its reason, released with the scripts that apply the rule and generate every table and figure (\suppsec~\ref{supp:method}).
+  \item[An audit of the vendor evaluation record] that quantifies why a cross-model table cannot be built from it: for the 14 cohort models of the four largest vendors, no benchmark is reported for all of them, and no stated protocol is shared by more than five (Section~\ref{sec:reported}).
+  \item[A compression review] that reports reductions along separate axes of parameters, memory, training compute, and latency (Section~\ref{sec:compression}).
+  \item[An operational version of the agentic hypothesis] with a break-even condition that includes retries, checking, and escalation, a correctness requirement on the check, graded agent-specific evidence including contrary results, and the workload classes for which it fails (Section~\ref{sec:agentic}).
+  \item[A falsification design] that specifies comparators, the statistical decision rule, and the sample size needed to decide H for a workload, with five further verification studies (Section~\ref{sec:challenges}).
 \end{description}
 
 \subsection{Survey Method and Sources}
 \label{subsec:intro_method}
 
-This is a structured survey conducted under a documented protocol. It is not a
-PRISMA systematic review: the aim is representative coverage of the \gls{slm}
-design space and a complete audit of the public performance record for a defined
-cohort, not an exhaustive enumeration of every publication in the area. What
-follows is the protocol in full, so that the search can be repeated and its
-coverage assessed.
-
-\subsubsection{Research Questions}
+This is a structured narrative survey, not a systematic review; its aims are representative coverage of the design space, a verified inventory, and an audit of a defined cohort. It addresses five research questions: the design space of \glspl{slm} released 2023--2026 (RQ1); which compression techniques pay in the sub-10B regime, along which axis, and at what quality cost (RQ2); what the vendor evaluation record can and cannot support (RQ3); what agent-specific evidence says about small models (RQ4); and under which conditions a small model is the appropriate default inside an agent (RQ5).
 \label{subsubsec:intro_rqs}
-
-\begin{description}
-  \item[RQ1] What is the design space of small language models released between 2022 and 2026, and along which facets do the released artifacts actually differ?
-  \item[RQ2] Which compression techniques are effective in the sub-10B regime, and along which axis (parameters, memory, training compute, latency, quality) does each one pay?
-  \item[RQ3] What does the public evaluation record support about the relative capability of these models, and what does it not support?
-  \item[RQ4] What does the evidence say about the suitability of small models for agentic workloads specifically, as opposed to general benchmarks?
-  \item[RQ5] Under what conditions is a small model the appropriate default inside an agent, and under what conditions is it not?
-\end{description}
-
-\subsubsection{Search Protocol}
 \label{subsubsec:intro_search}
 
-Three bodies of evidence were assembled, each under an explicit rule.
+\emph{Model inventory (RQ1).} A seed list compiled in March 2026 from public model listings and aggregators, 205 of whose records were compiled with the assistance of a large language model, was updated on 5~September 2026 against the OpenRouter catalogue and vendor announcements, and every record was then classified against C1 and C2. On 8~October 2026 every record's developer source was checked through the Hugging Face Hub API: 197 of the 209 included records link an existing repository owned by the developer, and the other 12 link the developer's own announcement, paper, or code repository. Twelve records first sourced from an aggregator or a press article were re-sourced to the developer, and one for which no developer source exists was excluded. C1, C2, and inclusion criteria M1 (a developer source states size and architecture) and M4 (a dated release) are computed from recorded fields by a released script; the exclusions of derivative fine-tunes, API aliases, and encoder-decoder models are named editorial decisions listed in that script. The released file records, per record, the check, its date, and the Hub parameter count where available. Coverage is strongest for developers that publish on the Hub. \suppsec~\ref{supp:method} gives the criteria, the seven excluded records, and the count history.
 
-\emph{Model documentation (RQ1).} Candidate variants were identified from four
-starting points: (a)~the Hugging Face Hub model index, filtered to
-text-generation models with a published model card, sorted by downloads and by
-recency, and queried for the family names of every developer already known to
-ship in this band; (b)~vendor release channels for Microsoft, Google DeepMind,
-Meta, Alibaba, Mistral AI, IBM, NVIDIA, TII, Apple, Hugging Face, AI2, Stability
-AI, DeepSeek, Liquid AI, and Cohere; (c)~arXiv listings under cs.CL and cs.LG for
-technical reports announcing a model release; and (d)~forward citation tracing
-from the four prior \gls{slm} surveys named below. Searches were run over the
-collection window \needsdata{search window: first and last search dates} and
-cover releases dated up to \needsdata{last release date included}.
+\emph{Technique literature (RQ2, RQ4, RQ5).} Works were identified from the prior surveys cited above, by backward and forward citation tracing, and by targeted searches of arXiv and the ACL Anthology, last run on 8~October 2026 for agent-specific evaluation, routing, function calling, and cost-per-outcome measurement. Screening decisions were not recorded for this stream, so statements that we ``found no'' study are bounded by that search.
 
-\emph{Technique literature (RQ2, RQ3).} The ACL Anthology, arXiv (cs.CL, cs.LG),
-and the proceedings of NeurIPS, ICML, ICLR, EMNLP, ACL, and MLSys for 2019--2026
-were searched with the Boolean query
+\emph{Evaluation record (RQ3).} For each model of the 18-model cohort, the primary release document and official model card were consulted; the coverage ledger of Section~\ref{subsec:reported_overall} was transcribed from them on 8~October 2026. No benchmark was executed for this survey.
 
-\begin{quote}\ttfamily\footnotesize
-(``small language model'' OR ``compact language model'' OR ``efficient language
-model'' OR ``on-device language model'' OR ``edge LLM'') AND (survey OR
-quantization OR pruning OR distillation OR ``parameter-efficient'' OR inference
-OR deployment OR agent OR ``tool use'' OR routing)
-\end{quote}
+\emph{Appraisal.} Each empirical claim carries an evidence grade (Section~\ref{subsec:reported_grading}) reflecting its design and the independence of its source.
+\label{subsubsec:intro_inclusion_summary}
 
-\noindent restricted to title, abstract, and keywords, seeded from
-\citet{lu2024slmsurvey}, \citet{vannguyen2024slm_survey},
-\citet{wang2024comprehensive}, and \citet{belcak2025slm_agentic}, and expanded by
-one round of forward and backward citation tracing from every retained work.
-
-\emph{The evaluation record (RQ3).} For each model in the 18-model cohort, the
-primary release document, the official model card, and any linked evaluation
-appendix were retrieved in full, together with community standardized evaluations
-and third-party reproductions where they existed. The collection and appraisal
-rules are set out in Section~\ref{subsec:reported_protocol}. No benchmark was
-executed for this survey.
-
-\subsubsection{Screening, Retrieval Counts, and Agreement}
-\label{subsubsec:intro_screening}
-
-Deduplication was performed on normalized title plus first author, and then on
-arXiv identifier and DOI; the duplicate-identifier check is what surfaced the one
-bibliographic collision that survived into an earlier draft of this paper.
-Records were screened on title and abstract against the inclusion criteria, and
-retained records were read in full. Table~\ref{tab:screening} gives the flow of
-records through those stages; the per-record decisions are in the released
-screening ledger (Section~\ref{subsec:intro_artifacts}).
-
-Inclusion criteria for the technique literature were: (T1)~the work concerns
-models at or below roughly twenty billion parameters, or a compression,
-adaptation, routing, or deployment technique whose reported evaluation includes
-that regime; (T2)~it is available as a peer-reviewed paper, an archived preprint,
-or a vendor technical report with a stable identifier; and (T3)~it reports enough
-methodological detail for a reader to determine what was measured. Exclusion
-reasons were recorded per record and are summarized in
-Table~\ref{tab:screening}.
-
-Inclusion criteria for model variants were: (M1)~a citable primary source
-describing architecture and training; (M2)~a public artifact or a documented
-evaluation card; (M3)~satisfaction of C1, with C2 status recorded separately; and
-(M4)~a dated release. Community fine-tunes, quantized re-uploads, and merges of
-other people's checkpoints were excluded, as were variants that differ from a
-listed variant only in serialization format.
-
-Screening was carried out by \needsdata{number} of the authors working
-independently, with disagreements resolved by discussion; the agreement statistic
-at the title-and-abstract stage is \needsdata{percent agreement and Cohen's
-$\kappa$}. Quality appraisal of retained empirical works used four criteria,
-recorded per work in the released ledger: whether the evaluation harness is
-named, whether the evaluation conditions (shots, prompt, decoding) are stated,
-whether a matched baseline is reported, and whether the artifact evaluated is
-identified to the checkpoint. These four criteria are also what
-Section~\ref{sec:reported} audits the vendor record against, so the appraisal
-scheme and the audit instrument are deliberately the same.
-
-\begin{table}[t]
-\centering
-\caption{Flow of records through retrieval and screening. Model-variant and technique-literature streams were screened separately against their respective criteria. Counts marked as pending are to be transcribed from the released screening ledger before submission.}
-\label{tab:screening}
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{@{}lcc@{}}
-\toprule
-\textbf{Stage} & \textbf{Technique literature} & \textbf{Model variants} \\
-\midrule
-Records retrieved by search                        & \needsnum & \needsnum \\
-After deduplication                                & \needsnum & \needsnum \\
-Excluded at title/abstract screening               & \needsnum & \needsnum \\
-\quad reason: out of parameter scope (T1 / M3)     & \needsnum & \needsnum \\
-\quad reason: no stable identifier (T2 / M1)       & \needsnum & \needsnum \\
-\quad reason: insufficient method detail (T3 / M2) & \needsnum & \needsnum \\
-\quad reason: derivative artifact (models only)    & ---       & \needsnum \\
-\quad reason: off-topic on screening               & \needsnum & ---       \\
-Read in full                                       & \needsnum & \needsnum \\
-Excluded at full-text stage                        & \needsnum & \needsnum \\
-\textbf{Retained}                                  & \needsnum & \textbf{215} \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-
-\subsubsection{Released Artifacts}
-\label{subsec:intro_artifacts}
-
-To make the inventory checkable rather than merely stated, the following are
-released alongside the paper: the machine-readable variant inventory
-(\file{merged\_llm\_database.json}) with one record per variant carrying every
-field in Table~\ref{tab:reporting_dimensions} plus source URL, source retrieval
-date, license, and inclusion decision; the screening ledger recording every
-retrieved record and its inclusion or exclusion reason; the figure- and
-table-generation scripts, so that every generated figure in this paper can be
-reproduced from the inventory; and a changelog keyed to the snapshot dates. These
-are to be deposited in a versioned archival repository under a persistent
-identifier before submission, and that identifier is stated in the Data
-Availability declaration (Section~\ref{section:declarations}). Because the
-repository is versioned, a reader can retrieve the exact snapshot underlying this
-paper as well as any later one, which is what makes the update policy of
-Section~\ref{subsubsec:intro_snapshot} checkable rather than merely promised.
-
-\subsubsection{Snapshot and Update Policy}
-\label{subsubsec:intro_snapshot}
-
-This paper reports the state of the record as of 5~September 2026, with model
-releases through 4~September 2026. The field moves faster than a journal review
-cycle, so we state in advance how the snapshot is maintained. Releases appearing
-between submission and acceptance are added to the released inventory, with their
-addition recorded in the changelog, and are discussed in the text only where they
-change a conclusion rather than merely extending a list; the paper's tables and
-figures are regenerated from the inventory at the last revision before
-acceptance, and the snapshot date on each is updated accordingly. Works appearing
-during review that bear on RQ2--RQ5 are added to the related-work synthesis in
-Section~\ref{section:background}. We do not claim the inventory is permanently
-current, and the released artifact is the authority on what it contained at any
-given date.
-
-\subsection{Paper Organization}
+\subsection{Organization}
 \label{subsec:intro_organization}
 
-Section~\ref{section:background} reviews prior work on the LLM-to-SLM transition, compression, edge inference, and LLM--SLM collaboration. Section~\ref{sec:taxonomy} presents the faceted taxonomy. Section~\ref{sec:compression} reviews compression techniques. Section~\ref{sec:reported} documents the data-collection protocol and audits the public evaluation record. Section~\ref{sec:deployment} covers resource-constrained deployment. Section~\ref{sec:agentic} makes the agentic argument, grades its evidence, and states its counterexamples. Section~\ref{sec:applications} surveys domain-specific applications. Section~\ref{section:discussion} discusses implications, limitations, and ethics. Section~\ref{sec:challenges} sets out open challenges and an empirical-verification agenda. Section~\ref{section:conclusion} concludes.
-
-Appendix~\ref{appendix:ecosystem} provides the full variant inventory, grouped chronologically by release year and family, together with the source-selection protocol; it reflects the public record as of September~2026.
+Section~\ref{section:background} reviews related work. Section~\ref{sec:taxonomy} presents the taxonomy, Section~\ref{sec:compression} compression, Section~\ref{sec:reported} the evaluation record and the grading scheme, and Section~\ref{sec:deployment} deployment. Section~\ref{sec:agentic} assesses H on agent-specific evidence and states its counterexamples. Section~\ref{section:discussion} discusses implications, applications, and limitations, Section~\ref{sec:challenges} sets out open problems and the verification agenda, and Section~\ref{section:conclusion} concludes. The electronic supplement (\suppsec~\ref{supp:definitions} to \suppsec~\ref{supp:last}) holds the reporting dimensions, inclusion criteria and released artifacts, detailed technique reviews, the audit ledger, reference tables, domain applications, and the generated variant inventory.

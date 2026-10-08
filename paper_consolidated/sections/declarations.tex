@@ -2,86 +2,24 @@
 \label{section:declarations}
 \addcontentsline{toc}{section}{Declarations}
 
-% -----------------------------------------------------------------------------
-% Springer Nature and ACM both also collect Competing Interests and Author
-% Contributions through their submission systems, separately from this file.
-% -----------------------------------------------------------------------------
-
 \subsection*{Funding}
-This work was supported and funded by the Deanship of Scientific Research at
-Imam Mohammad Ibn Saud Islamic University (IMSIU), grant number
-IMSIU-DDRSP2602.
+This work was supported and funded by the Deanship of Scientific Research at Imam Mohammad Ibn Saud Islamic University (IMSIU), grant number IMSIU-DDRSP2602.
 
-\subsection*{Acknowledgements}
-This work was supported and funded by the Deanship of Scientific Research at
-Imam Mohammad Ibn Saud Islamic University (IMSIU), grant number
-IMSIU-DDRSP2602.
+\subsection*{Use of Generative AI}
+A large language model assisted in compiling 205 of the candidate model records from public listings in March 2026 (Section~\ref{subsec:intro_method}). During revision, Anthropic's Claude was used to assist with editing the manuscript, checking bibliographic metadata against arXiv and Crossref records, writing the scripts that check each record's developer source and apply the inclusion rule, and transcribing the coverage ledger from the documents it cites. Every included record's developer source was checked through the Hugging Face Hub API or against the developer's own page, and the authors reviewed all generated output, verified factual claims and references against their sources, and take full responsibility for the content.
 
-\subsection*{Competing interests}
+\subsection*{Competing Interests}
 The authors declare that they have no competing interests.
-% Replace if any author has a financial or non-financial competing interest.
 
-\subsection*{Ethics approval and consent to participate}
-Not applicable. This study is a literature review and analysis of publicly
-available model documentation; it involves no human participants, human data, or
-animals.
+\subsection*{Ethics Approval}
+Not applicable: this is a review of publicly available documentation and involves no human participants, human data, or animals.
 
-\subsection*{Consent for publication}
-Not applicable.
+\subsection*{Data and Code Availability}
+No benchmark was run for this review; all performance figures are reported values from public sources, whose provenance is given in \suppsec~\ref{app:provenance}. The following artifacts are provided as supplementary files with this submission and will be deposited in a versioned archival repository under a persistent identifier on publication: the variant inventory \file{merged\_llm\_database.json} (version~3.6), one record per variant with its parameter counts, C1/C2 status, inclusion decision and reason, developer source, the result and date of the source check, and a changelog naming every record added, moved, or removed between versions; the source-check log \file{source\_check\_log.csv}; the audit coverage ledger \file{audit\_coverage\_ledger.csv}; and the scripts that correct and verify the records, apply the inclusion rule, build the ledger, and generate every inventory table and figure (\file{fix\_records\_v3\_6.py}, \file{verify\_sources.py}, \file{apply\_inclusion\_rules.py}, \file{build\_audit\_ledger.py}, \file{generate\_model\_tables.py}, \file{generate\_figures\_v2.py}).
 
-\subsection*{Data availability}
-This paper is a review. All performance figures are \emph{reported} values
-compiled from public sources (vendor technical reports, official model cards,
-community leaderboards, and third-party evaluations) and are not the product of
-original benchmark runs. The provenance of the consolidated figures is documented
-in Appendix~\ref{app:provenance}.
-
-Four artifacts supporting this review are deposited in a versioned archival
-repository under the persistent identifier
-\needsdata{archival DOI for the deposited artifacts}, and are also provided with
-the manuscript source files:
-
-\begin{description}
-  \item[The variant inventory] \file{merged\_llm\_database.json}, one record per
-    documented variant, carrying every field of Table~\ref{tab:reporting_dimensions}
-    together with the source URL, the date that source was retrieved, the licence,
-    the C1/C2 status (Section~\ref{subsubsec:intro_def_operative}), and the
-    inclusion decision. This dataset generates the inventory tables of
-    Appendix~\ref{appendix:ecosystem} and every generated figure in the paper.
-  \item[The screening ledger] every record retrieved by the searches of
-    Section~\ref{subsubsec:intro_search}, with its deduplication key, screening
-    decision, exclusion reason where applicable, and quality-appraisal scores on
-    the four criteria of Section~\ref{subsubsec:intro_screening}. This is the
-    source of the counts in Table~\ref{tab:screening}.
-  \item[The source ledger] for the 18-model evaluation cohort, the primary
-    document, model card, and any third-party evaluation consulted per model,
-    with retrieval dates and the reconciliation decisions of
-    Section~\ref{subsec:reported_sources}.
-  \item[A changelog] keyed to snapshot dates, recording every addition, removal,
-    and field correction between released versions, so that the update policy of
-    Section~\ref{subsubsec:intro_snapshot} can be audited rather than taken on
-    trust.
-\end{description}
-
-\subsection*{Code availability}
-The scripts that generate the ecosystem inventory tables and the figures
-(\file{generate\_model\_tables.py}, \file{generate\_figures\_v2.py}) are
-deposited alongside the data under the identifier above and provided with the
-manuscript source files, so that every generated table and figure in this paper
-can be reproduced from the released inventory. No model-training or
-model-evaluation code was used to produce the results in this paper, which are
-compiled from the published literature.
-
-\subsection*{Author contributions}
-% CRediT taxonomy --- edit to reflect actual contributions.
-\textbf{M.G.R.:} Conceptualization, Methodology, Investigation, Data curation,
-Software, Writing (original draft), Visualization.
-\textbf{H.A.:} Conceptualization, Methodology, Writing (review and editing),
-Supervision, Project administration.
+\subsection*{Author Contributions}
+\textbf{M.G.R.:} Conceptualization, Methodology, Investigation, Data curation, Software, Writing (original draft), Visualization.
+\textbf{H.A.:} Conceptualization, Methodology, Writing (review and editing), Supervision, Project administration.
 \textbf{S.J.A.:} Investigation, Validation, Writing (review and editing).
 \textbf{W.E.A.:} Validation, Writing (review and editing), Funding acquisition.
 All authors read and approved the final manuscript.
-
-% The Acknowledgements subsection now carries the IMSIU funding statement and
-% sits above, next to Funding. Add any non-author contributions, facilities, or
-% technical assistance to it as well.

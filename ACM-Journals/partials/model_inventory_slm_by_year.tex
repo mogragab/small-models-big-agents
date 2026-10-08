@@ -4,7 +4,7 @@
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.15}
 \begin{longtable}{@{}L{3.3cm}C{1.05cm}L{1.75cm}C{1.15cm}L{2.25cm}L{2.4cm}C{1.6cm}L{3.9cm}@{}}
-\caption{Generated chronological small language model inventory from \texttt{merged\_llm\_database.json}, grouped by release year and family.}\label{tab:model_inventory_slm_by_year}\\
+\caption{Generated chronological small language model inventory from \texttt{merged\_llm\_database.json}, grouped by release year and family. Entries whose parameter column reads ``$N$B ($M$B act.)'' with $N > 20$ are small-active-parameter MoEs (C1 only), not SLMs, and are excluded from every storage and on-device claim.}\label{tab:model_inventory_slm_by_year}\\
 \toprule
 \textbf{Model} & \textbf{Access} & \textbf{Params} & \textbf{Context} & \textbf{Modalities} & \textbf{License} & \textbf{Release} & \textbf{Notes} \\ \midrule
 \endfirsthead
@@ -27,23 +27,23 @@
 \href{https://huggingface.co/Qwen/Qwen3.5-397B-A17B}{Qwen3.5-397B-A17B} & Both & 397B (17B act.) & 256K & Text+Vision & Apache 2.0 & 2026-02-16 & flagship open-weight multimodal; 201 languages \\
 \multicolumn{8}{@{}l}{\textit{AFM} --- Apple (AFM) \href{https://machinelearning.apple.com/research/introducing-apple-foundation-models}{[family page]}} \\*
 \href{https://machinelearning.apple.com/research/introducing-third-generation-of-apple-foundation-models}{Apple AFM 3 Core Advanced} & API & 20B (1-4B act.) & 64K & Text+Vision & Proprietary & 2026-06-08 & on-device assistant; multimodal understanding \\
-\multicolumn{8}{@{}l}{\textit{Command} --- Cohere (Command) \href{https://cohere.com/blog/introducing-embed-v3}{[family page]}} \\*
+\multicolumn{8}{@{}l}{\textit{Command} --- Cohere (Command) \href{https://cohere.com/blog/command-r7b}{[family page]}} \\*
 \href{https://huggingface.co/CohereLabs/North-Mini-Code-1.0}{North Mini Code 1.0} & OW & 30B (3B act.) & 250K & Text & CC-BY-NC (Cohere Labs) & 2026-06-17 & coding; agentic coding \\
-\multicolumn{8}{@{}l}{\textit{DeepSeek} --- DeepSeek (DeepSeek) \href{https://github.com/deepseek-ai/DeepSeek-Coder}{[family page]}} \\*
+\multicolumn{8}{@{}l}{\textit{DeepSeek} --- DeepSeek (DeepSeek) \href{https://huggingface.co/deepseek-ai}{[family page]}} \\*
 \href{https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Vision-Exp}{DeepSeek V4 Flash Vision Exp} & OW & 284B (13B act.) & 1M & Text+Vision & See source & 2026-08-21 & vision; long context \\
 \href{https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731}{DeepSeek V4 Flash 0731} & OW & 284B (13B act.) & 1280K & Text & See source & 2026-07-31 & general; long context \\
 \multicolumn{8}{@{}l}{\textit{Dots} --- Dots Studio (Dots3-Note Preview (Aug 2026)) \href{https://openrouter.ai/dots-studio/dots-3-note-preview}{[family page]}} \\*
-\href{https://openrouter.ai/dots-studio/dots-3-note-preview}{Dots3-Note Preview} & OW & 280B (16B act.) & 500K & Text & See source & 2026-08-14 & note taking; general \\
+\href{https://huggingface.co/dots-studio/dots3-note-prev}{Dots3-Note Preview} & OW & 280B (16B act.) & 500K & Text & Apache 2.0 & 2026-08-14 & note taking; general \\
 \multicolumn{8}{@{}l}{\textit{Gemma 4} --- Google DeepMind} \\*
-\href{https://huggingface.co/google/gemma-4-E2B}{Gemma 4 E2B} & OW & \textasciitilde{}5B (\textasciitilde{}2B effective act.) & 128K & Text+Vision+Audio & Apache 2.0 & 2026-04-02 & on-device; multimodal \\
 \href{https://huggingface.co/google/gemma-4-26B}{Gemma 4 26B (MoE)} & OW & 26B (3.8B act.) & 128K & Text+Vision & Apache 2.0 & 2026-04-02 & reasoning; multimodal \\
-\href{https://huggingface.co/google/gemma-4-E4B}{Gemma 4 E4B} & OW & \textasciitilde{}8B (\textasciitilde{}4B effective act.) & 128K & Text+Vision+Audio & Apache 2.0 & 2026-04-02 & multimodal; reasoning \\
+\href{https://huggingface.co/google/gemma-4-E2B}{Gemma 4 E2B} & OW & \textasciitilde{}5B & 128K & Text+Vision+Audio & Apache 2.0 & 2026-04-02 & on-device; multimodal \\
+\href{https://huggingface.co/google/gemma-4-E4B}{Gemma 4 E4B} & OW & \textasciitilde{}8B & 128K & Text+Vision+Audio & Apache 2.0 & 2026-04-02 & multimodal; reasoning \\
 \href{https://huggingface.co/google/gemma-4-12b}{Gemma 4 12B} & OW & 12B & 256K & Text+Vision+Audio & Apache 2.0 & 2026-04-02 & multimodal; reasoning \\
 \multicolumn{8}{@{}l}{\textit{Granite 4} --- IBM} \\*
 \href{https://huggingface.co/ibm-granite/granite-4.2-3b}{Granite 4.2 3B} & OW & 3B & 128K & Text & Apache 2.0 & 2026-08-25 & reasoning; on-device \\
 \href{https://huggingface.co/ibm-granite/granite-4.2-8b}{Granite 4.2 8B} & OW & 8B & 128K & Text & Apache 2.0 & 2026-08-25 & reasoning; agentic \\
-\href{https://huggingface.co/blog/ibm-granite/granite-4-2}{Granite 4.1 3B} & OW & 3B & 128K & Text & Apache 2.0 & 2026-04-29 & enterprise; on-device \\
-\href{https://huggingface.co/blog/ibm-granite/granite-4-2}{Granite 4.1 8B} & OW & 8B & 128K & Text & Apache 2.0 & 2026-04-29 & enterprise; agentic \\
+\href{https://huggingface.co/ibm-granite/granite-4.1-3b}{Granite 4.1 3B} & OW & 3B & 128K & Text & Apache 2.0 & 2026-04-29 & enterprise; on-device \\
+\href{https://huggingface.co/ibm-granite/granite-4.1-8b}{Granite 4.1 8B} & OW & 8B & 128K & Text & Apache 2.0 & 2026-04-29 & enterprise; agentic \\
 \multicolumn{8}{@{}l}{\textit{LFM2} --- Liquid AI} \\*
 \href{https://huggingface.co/LiquidAI/LFM2.5-2.6B}{LFM2.5-2.6B} & Both & 2.69B & 128K & Text & LFM1.0 & 2026-08-04 & agentic workflows; data extraction \\
 \href{https://www.liquid.ai/blog/lfm2-5-8b-a1b}{LFM2.5-8B-A1B} & OW & 8.3B (1.5B act.) & 128K & Text & LFM1.0 & 2026-05-28 & on-device; tool calling \\
@@ -60,7 +60,6 @@
 \href{https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-BF16}{Nemotron 3.5 Lightning 30B-A3B} & OW & 30B (3B act.) & 256K & Text & NVIDIA Open Model License & 2026-08-11 & agentic execution layer; high-volume tool calling \\
 \href{https://huggingface.co/nvidia/Nemotron-3.5-Content-Safety}{Nemotron 3.5 Content Safety} & OW & 4B & 128K & Text+Vision & NVIDIA Open Model License & 2026-06-04 & guardrails; content moderation \\
 \multicolumn{8}{@{}l}{\textit{Nex-N2} --- Nex AGI (Nex-N2-Mini (Jun 2026)) \href{https://huggingface.co/nex-agi/Nex-N2-Pro}{[family page]}} \\*
-\href{https://huggingface.co/nex-agi/Nex-N2-Mini}{Nex-N2-Mini} & OW & Undisclosed & 256K & Text+Vision & See source & 2026-06-24 & agentic; coding \\
 \href{https://huggingface.co/nex-agi/Nex-N2-Pro}{Nex-N2-Pro} & OW & 397B (17B act.) & 256K & Text+Vision & See source & 2026-06-08 & agentic; coding \\
 \multicolumn{8}{@{}l}{\textit{Laguna} --- Poolside (Laguna S 2.1 (Jul 2026)) \href{https://poolside.ai/}{[family page]}} \\*
 \href{https://huggingface.co/poolside/Laguna-S-2.1}{Laguna S 2.1} & OW & 118B (8B act.) & 1M & Text & See source & 2026-07-21 & coding agent \\
@@ -74,8 +73,7 @@
 \multicolumn{8}{@{}l}{\textit{MiMo} --- Xiaomi (MiMo-V2-Pro (Mar 2026)) \href{https://mimo.xiaomi.com/mimo-v2-pro}{[family page]}} \\*
 \href{https://huggingface.co/XiaomiMiMo/MiMo-V2-Flash}{MiMo-V2-Flash} & OW & 309B (15B act.) & 256K & Text & Undisclosed & 2026 & high-throughput coding agents; production serving \\
 \multicolumn{8}{@{}l}{\textit{Ling} --- inclusionAI (Ling-1T (2026)) \href{https://huggingface.co/01ai/Ling-1T}{[family page]}} \\*
-\href{https://openrouter.ai/inclusionai/ling-3.0-flash-sante}{Ling 3.0 Flash Sante} & API & 124B (5.1B act.) & 256K & Text & See source & 2026-09-04 & health; medicine \\
-\href{https://openrouter.ai/inclusionai/ling-3.0-flash-fin}{Ling 3.0 Flash Fin} & API & 124B (5.1B act.) & 256K & Text & See source & 2026-08-27 & finance \\
+\href{https://huggingface.co/inclusionAI/Ling-3.0-flash-Fin}{Ling 3.0 Flash Fin} & OW & 124B (5.1B act.) & 256K & Text & MIT & 2026-08-27 & finance \\
 \href{https://huggingface.co/inclusionAI/Ling-3.0-flash}{Ling 3.0 Flash} & OW & 124B (5.1B act.) & 256K & Text & See source & 2026-07-23 & general; agentic \\
 \addlinespace[3pt]
 \multicolumn{8}{@{}l}{\hypertarget{model-year-slm-2025}{\textbf{2025}}} \\ \midrule
@@ -103,11 +101,11 @@
 \href{https://huggingface.co/google/gemma-3-4b-it}{Gemma 3 4B-IT} & OW & 4B & 128K & Text+Vision & Google Gemma License & 2025-03 & multimodal on-device; image understanding \\
 \href{https://huggingface.co/google/gemma-3-12b-it}{Gemma 3 12B-IT} & OW & 12B & 128K & Text+Vision & Google Gemma License & 2025-03 & high-quality assistant; 140+ languages \\
 \multicolumn{8}{@{}l}{\textit{Gemma 3n} --- Google DeepMind (Gemma-3n (2025)) \href{https://ai.google.dev/gemma/docs/gemma-3n}{[family page]}} \\*
-\href{https://huggingface.co/google/gemma-3n-E2B-it}{Gemma-3n-E2B-IT} & OW & \textasciitilde{}5B (\textasciitilde{}2B effective act.) & 32K & Text+Vision+Audio+Video & Google Gemma License & 2025 & mobile-first multimodal; on-device speech/vision/text \\
-\href{https://huggingface.co/google/gemma-3n-E4B-it}{Gemma-3n-E4B-IT} & OW & \textasciitilde{}8B (\textasciitilde{}4B effective act.) & 32K & Text+Vision+Audio+Video & Google Gemma License & 2025 & higher-accuracy mobile multimodal; edge devices \\
+\href{https://huggingface.co/google/gemma-3n-E2B-it}{Gemma-3n-E2B-IT} & OW & \textasciitilde{}5B & 32K & Text+Vision+Audio+Video & Google Gemma License & 2025 & mobile-first multimodal; on-device speech/vision/text \\
+\href{https://huggingface.co/google/gemma-3n-E4B-it}{Gemma-3n-E4B-IT} & OW & \textasciitilde{}8B & 32K & Text+Vision+Audio+Video & Google Gemma License & 2025 & higher-accuracy mobile multimodal; edge devices \\
 \multicolumn{8}{@{}l}{\textit{SmolLM} --- Hugging Face (SmolLM3-3B (2025)) \href{https://huggingface.co/HuggingFaceTB/SmolLM3-3B}{[family page]}} \\*
 \href{https://huggingface.co/HuggingFaceTB/SmolLM3-3B}{SmolLM3-3B} & OW & 3B & 64K & Text & Apache 2.0 & 2025 & dual-mode reasoning; tool calling \\
-\multicolumn{8}{@{}l}{\textit{Granite} --- IBM (Granite) \href{https://github.com/ibm-granite/granite-code-models}{[family page]}} \\*
+\multicolumn{8}{@{}l}{\textit{Granite} --- IBM (Granite) \href{https://huggingface.co/ibm-granite}{[family page]}} \\*
 \href{https://huggingface.co/ibm-granite/granite-3.2-2b-instruct}{Granite 3.2-2B} & OW & 2B & 125K & Text & See source & 2025-02-26 & Thinking mode; 128K context \\
 \href{https://huggingface.co/ibm-granite/granite-3.2-8b-instruct}{Granite 3.2-8B} & OW & 8B & 125K & Text & See source & 2025-02-26 & Thinking mode (chain-of-thought); 128K context \\
 \multicolumn{8}{@{}l}{\textit{IBM Granite} --- IBM (Granite 3.3 (Apr 2025)) \href{https://huggingface.co/ibm-granite}{[family page]}} \\*
@@ -119,8 +117,6 @@
 \href{https://huggingface.co/ibm-granite/granite-4.0-h-small}{Granite 4.0 H-Small} & OW & 32B (9B act.) & 128K & Text & Apache 2.0 & 2025-10-02 & enterprise; agentic \\
 \href{https://huggingface.co/ibm-granite/granite-3.3-2b-instruct}{Granite 3.3-2B-Instruct} & OW & 2B & 128K & Text & Apache 2.0 & 2025-04 & enterprise NLP; governed AI \\
 \href{https://huggingface.co/ibm-granite/granite-3.3-8b-instruct}{Granite 3.3-8B-Instruct} & OW & 8B & 128K & Text & Apache 2.0 & 2025-04 & enterprise reasoning; Fill-in-Middle code \\
-\multicolumn{8}{@{}l}{\textit{Jan} --- Jan.ai (Jan-v1-4B (2025)) \href{https://huggingface.co/janhq/Jan-v1-4B}{[family page]}} \\*
-\href{https://huggingface.co/janhq/Jan-v1-4B}{Jan-v1-4B} & OW & 4B & 128K & Text & Apache 2.0 & 2025 & agentic reasoning; tool use \\
 \multicolumn{8}{@{}l}{\textit{LFM2} --- Liquid AI} \\*
 \href{https://huggingface.co/LiquidAI/LFM2-8B-A1.5B}{LFM2-8B-A1.5B (MoE)} & OW & 8.3B (1.5B act.) & 32K & Text & LFM Open License v1.0 & 2025-08 & on-device; agentic \\
 \href{https://huggingface.co/LiquidAI/LFM2-2.6B}{LFM2-2.6B} & OW & 2.6B & 32K & Text & LFM Open License v1.0 & 2025-08 & on-device \\
@@ -130,6 +126,8 @@
 \multicolumn{8}{@{}l}{\textit{Llama 4} --- Meta AI (Llama 4 Maverick (Apr 2025)) \href{https://ai.meta.com/blog/llama-4-multimodal-intelligence/}{[family page]}} \\*
 \href{https://huggingface.co/meta-llama/Llama-4-Maverick-17B-128E-Instruct}{Llama 4 Maverick} & Both & 400B (17B act.) & 10M & Text+Vision & Llama 4 Community License & 2025-04-05 & image understanding; coding \\
 \href{https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct}{Llama 4 Scout} & Both & 109B (17B act.) & 10M & Text+Vision & Llama 4 Community License & 2025-04-05 & extreme long-context; single H100 runnable \\
+\multicolumn{8}{@{}l}{\textit{BitNet} --- Microsoft (BitNet) \href{https://arxiv.org/abs/2402.17764}{[family page]}} \\*
+\href{https://huggingface.co/microsoft/bitnet-b1.58-2B-4T}{BitNet b1.58 2B4T} & OW & 2B & -- & Text & MIT & 2025-04-16 & 1-bit LLM (ternary weights: -1, 0, 1); Extreme efficiency \\
 \multicolumn{8}{@{}l}{\textit{Phi-4} --- Microsoft (Phi-4-reasoning-plus (Apr 2025)) \href{https://huggingface.co/microsoft/phi-4}{[family page]}} \\*
 \href{https://huggingface.co/microsoft/Phi-4-mini-flash-reasoning}{Phi-4-mini-flash-reasoning} & OW & 3.8B & 128K & Text & MIT & 2025-04 & fast reasoning; edge agents \\
 \href{https://huggingface.co/microsoft/Phi-4-mini-reasoning}{Phi-4-mini-reasoning} & OW & 3.8B & 128K & Text & MIT & 2025-04 & chain-of-thought reasoning; math \\
@@ -140,8 +138,9 @@
 \href{https://huggingface.co/mistralai/Ministral-3-14B-Instruct-2512}{Ministral 3 (14B)} & OW & 14B & -- & Text+Vision & See source & 2025-12-02 & edge deployment; multimodal \\
 \href{https://huggingface.co/mistralai/Ministral-3B-instruct-2512}{Ministral-3B-Instruct-2512} & OW & 3.8B & 256K & Text+Vision & Apache 2.0 & 2025-12 & tiny multimodal; function calling \\
 \multicolumn{8}{@{}l}{\textit{Voxtral} --- Mistral AI (Voxtral) \href{https://mistral.ai/models}{[family page]}} \\*
-\href{https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503}{Voxtral Mini} & API & undisclosed & -- & Text+Audio & Proprietary & 2025-09-15 & speech understanding; transcription \\
+\href{https://huggingface.co/mistralai/Voxtral-Mini-3B-2507}{Voxtral Mini 3B} & OW & 4.7B & -- & Text+Audio & Apache 2.0 & 2025-07-15 & speech understanding; transcription \\
 \multicolumn{8}{@{}l}{\textit{Nemotron} --- NVIDIA (Nemotron) \href{https://arxiv.org/abs/2402.16819}{[family page]}} \\*
+\href{https://huggingface.co/nvidia/Nemotron-3-Nano-30B}{Nemotron 3 Nano-30B} & OW & 30B & -- & Text & See source & 2025-12-15 & hybrid Mamba-Transformer MoE; 1M context \\
 \href{https://huggingface.co/nvidia/NVIDIA-Nemotron-Nano-9B-v2}{NVIDIA Nemotron Nano 2} & OW & 9B & 128K & Text & See source & 2025-08-18 & on-device; efficient \\
 \multicolumn{8}{@{}l}{\textit{GPT-OSS} --- OpenAI (gpt-oss-120b (2025)) \href{https://openai.com/index/introducing-gpt-oss/}{[family page]}} \\*
 \href{https://huggingface.co/openai/gpt-oss-20b}{gpt-oss-20b} & OW & 21B (3.6B act.) & 128K & Text & Apache 2.0 & 2025 & edge reasoning; 16GB device inference \\
@@ -169,6 +168,7 @@
 \href{https://huggingface.co/Qwen/Qwen2-0.5B}{Qwen2-0.5B} & OW & 0.5B & -- & Text & See source & 2024-06-07 & active \\
 \href{https://huggingface.co/Qwen/Qwen2-1.5B}{Qwen2-1.5B} & OW & 1.5B & -- & Text & See source & 2024-06-07 & active \\
 \href{https://huggingface.co/Qwen/Qwen2-7B}{Qwen2-7B} & OW & 7B & -- & Text & See source & 2024-06-07 & active \\
+\href{https://huggingface.co/Qwen/Qwen2-57B-A14B}{Qwen2-57B-A14B} & OW & 57B & -- & Text & See source & 2024-06-07 & active \\
 \href{https://huggingface.co/Qwen/Qwen1.5-MoE-A2.7B}{Qwen1.5-MoE-A2.7B} & OW & 14.3B & -- & Text & See source & 2024-03-28 & MoE architecture; efficient \\
 \href{https://huggingface.co/Qwen/Qwen1.5-0.5B}{Qwen1.5-0.5B} & OW & 0.5B & -- & Text & See source & 2024-02-05 & legacy \\
 \href{https://huggingface.co/Qwen/Qwen1.5-7B}{Qwen1.5-7B} & OW & 7B & -- & Text & See source & 2024-02-05 & legacy \\
@@ -188,9 +188,6 @@
 \href{https://huggingface.co/allenai/OLMo-7B}{OLMo-7B} & OW & 7B & -- & Text & See source & 2024-02-01 & fully open; training data/code/logs released \\
 \multicolumn{8}{@{}l}{\textit{Tülu} --- Allen Institute for AI (Ai2) (Tülu) \href{https://allenai.org/blog/tulu-3-technical}{[family page]}} \\*
 \href{https://huggingface.co/allenai/Llama-3.1-Tulu-3-8B}{Tülu 3-8B} & OW & 8B & -- & Text & See source & 2024-11-22 & instruction following; DPO \\
-\multicolumn{8}{@{}l}{\textit{Amazon Nova} --- Amazon (Nova Premier (2025)) \href{https://aws.amazon.com/nova/models/}{[family page]}} \\*
-\href{https://aws.amazon.com/nova/models/}{Amazon Nova Lite} & API & Undisclosed & 300K & Text+Vision & Proprietary (AWS) & 2024-12-03 & multimodal understanding; cost-efficient AWS inference \\
-\href{https://aws.amazon.com/nova/models/}{Amazon Nova Micro} & API & Undisclosed & 128K & Text & Proprietary (AWS) & 2024-12-03 & AWS-native low-latency text tasks; Lambda AI apps \\
 \multicolumn{8}{@{}l}{\textit{AFM} --- Apple (AFM) \href{https://machinelearning.apple.com/research/introducing-apple-foundation-models}{[family page]}} \\*
 \href{https://machinelearning.apple.com/research/introducing-apple-foundation-models}{Apple Foundation Model (On-Device)} & API & \textasciitilde{}3B & 4K & Text & Proprietary & 2024-06-10 & On-device Apple Intelligence; Privacy-preserving \\
 \multicolumn{8}{@{}l}{\textit{OpenELM} --- Apple (OpenELM) \href{https://machinelearning.apple.com/research/openelm}{[family page]}} \\*
@@ -202,7 +199,7 @@
 \href{https://huggingface.co/CohereForAI/c4ai-command-r7b-12-2024}{Command R7B} & Both & 7B & 128K & Text & Apache 2.0 & 2024-12 & RAG; multilingual enterprise tasks \\
 \multicolumn{8}{@{}l}{\textit{TinyLlama} --- Community (TinyLlama-1.1B (2024)) \href{https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0}{[family page]}} \\*
 \href{https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0}{TinyLlama-1.1B-Chat} & OW & 1.1B & 2K & Text & Apache 2.0 & 2024 & ultra-light on-device chat; prototyping \\
-\multicolumn{8}{@{}l}{\textit{DeepSeek} --- DeepSeek (DeepSeek) \href{https://github.com/deepseek-ai/DeepSeek-Coder}{[family page]}} \\*
+\multicolumn{8}{@{}l}{\textit{DeepSeek} --- DeepSeek (DeepSeek) \href{https://huggingface.co/deepseek-ai}{[family page]}} \\*
 \href{https://huggingface.co/deepseek-ai/deepseek-vl-7b-chat}{DeepSeek-VL-7B} & OW & 7B & 4K & Text+Vision & See source & 2024-03-13 & Vision-language model; Hybrid vision encoder \\
 \href{https://huggingface.co/deepseek-ai/deepseek-math-7b-instruct}{DeepSeek-Math-7B} & OW & 7B & 4K & Text & See source & 2024-02-05 & Math-specialized; Group Relative Policy Optimization (GRPO) \\
 \multicolumn{8}{@{}l}{\textit{Gemma} --- Google DeepMind (Gemma) \href{https://blog.google/technology/developers/gemma-open-models/}{[family page]}} \\*
@@ -214,11 +211,11 @@
 \href{https://huggingface.co/google/gemma-2b}{Gemma-2B} & OW & 2B & -- & Text & See source & 2024-02-21 & legacy \\
 \href{https://huggingface.co/google/gemma-7b}{Gemma-7B} & OW & 7B & -- & Text & See source & 2024-02-21 & built from Gemini technology; efficient \\
 \multicolumn{8}{@{}l}{\textit{SmolLM} --- Hugging Face (SmolLM3-3B (2025)) \href{https://huggingface.co/HuggingFaceTB/SmolLM3-3B}{[family page]}} \\*
+\href{https://huggingface.co/HuggingFaceTB/SmolLM2-135M}{SmolLM2-135M} & OW & 135M & 2K & Text & Apache 2.0 & 2024-10-31 & ultra-micro inference; browser/WASM \\
+\href{https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct}{SmolLM2-360M-Instruct} & OW & 360M & 8K & Text & Apache 2.0 & 2024-10-31 & on-device/browser inference \\
+\href{https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct}{SmolLM2-1.7B-Instruct} & OW & 1.7B & 8K & Text & Apache 2.0 & 2024-10-31 & efficient on-device chat; coding assist \\
 \href{https://huggingface.co/HuggingFaceTB/SmolLM-135M}{SmolLM-135M} & OW & 135M & 2K & Text & See source & 2024-07-17 & Ultra-small LM; On-device capable \\
 \href{https://huggingface.co/HuggingFaceTB/SmolLM-1.7B}{SmolLM} & OW & 1.7B & -- & Text & See source & 2024-07-16 & tiny but capable; on-device \\
-\href{https://huggingface.co/HuggingFaceTB/SmolLM2-135M}{SmolLM2-135M} & OW & 135M & 2K & Text & Apache 2.0 & 2024 & ultra-micro inference; browser/WASM \\
-\href{https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct}{SmolLM2-360M-Instruct} & OW & 360M & 8K & Text & Apache 2.0 & 2024 & on-device/browser inference \\
-\href{https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct}{SmolLM2-1.7B-Instruct} & OW & 1.7B & 8K & Text & Apache 2.0 & 2024 & efficient on-device chat; coding assist \\
 \multicolumn{8}{@{}l}{\textit{LLaMA} --- Meta AI (LLaMA) \href{https://arxiv.org/abs/2302.13971}{[family page]}} \\*
 \href{https://huggingface.co/meta-llama/Meta-Llama-3-8B}{Llama-3-8B} & OW & 8B & -- & Text & See source & 2024-04-18 & improved tokenizer; grouped query attention \\
 \multicolumn{8}{@{}l}{\textit{Llama 3.1} --- Meta AI (Llama 3.1 (Jul 2024)) \href{https://huggingface.co/meta-llama}{[family page]}} \\*
@@ -227,8 +224,8 @@
 \href{https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct}{Llama 3.2-1B-Instruct} & OW & 1B & 128K & Text & Llama 3.2 Community License & 2024-09-25 & ultra-small on-device; Android/iOS apps \\
 \href{https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct}{Llama 3.2-3B-Instruct} & OW & 3B & 128K & Text & Llama 3.2 Community License & 2024-09-25 & mobile AI; default on-device Qualcomm \\
 \href{https://huggingface.co/meta-llama/Llama-3.2-11B-Vision-Instruct}{Llama 3.2-11B-Vision-Instruct} & OW & 11B & 128K & Text+Vision & Llama 3.2 Community License & 2024-09-25 & vision-language tasks; document understanding \\
-\multicolumn{8}{@{}l}{\textit{BitNet} --- Microsoft (BitNet) \href{https://arxiv.org/abs/2402.17764}{[family page]}} \\*
-\href{https://huggingface.co/microsoft/bitnet-b1.58-2B-4T}{BitNet b1.58} & OW & 3B & -- & Text & See source & 2024-02-27 & 1-bit LLM (ternary weights: -1, 0, 1); Extreme efficiency \\
+\multicolumn{8}{@{}l}{\textit{Phi} --- Microsoft (Phi) \href{https://arxiv.org/abs/2306.11644}{[family page]}} \\*
+\href{https://huggingface.co/microsoft/Phi-3.5-MoE-instruct}{Phi-3.5-MoE} & OW & 41.9B & -- & Text & See source & 2024-08-20 & MoE architecture; 16 experts \\
 \multicolumn{8}{@{}l}{\textit{Phi-3} --- Microsoft (Phi-3.5 (Aug 2024)) \href{https://azure.microsoft.com/en-us/products/phi}{[family page]}} \\*
 \href{https://huggingface.co/microsoft/Phi-3.5-mini-instruct}{Phi-3.5-mini-instruct} & OW & 3.8B & 128K & Text & MIT & 2024-08 & multilingual instruction following \\
 \href{https://huggingface.co/microsoft/Phi-3-mini-128k-instruct}{Phi-3-mini-128k-instruct} & OW & 3.8B & 128K & Text & MIT & 2024-04-23 & on-device chat; instruction following \\
@@ -240,21 +237,20 @@
 \href{https://huggingface.co/mistralai/Ministral-8B-Instruct-2410}{Ministral-8B-Instruct-2410} & OW & 8B & 128K & Text & Apache 2.0 & 2024-10 & edge-friendly assistant; function calling \\
 \multicolumn{8}{@{}l}{\textit{Mistral Small} --- Mistral AI (Mistral Small 4 (Mar 2026)) \href{https://mistral.ai/news/mistral-small-4}{[family page]}} \\*
 \href{https://huggingface.co/mistralai/Mistral-Nemo-Instruct-2407}{Mistral NeMo 12B} & OW & 12B & 128K & Text & Apache 2.0 & 2024-07 & enterprise RAG; long-document summarization \\
+\href{https://huggingface.co/mistralai/Mistral-7B-v0.3}{Mistral 7B v0.3} & OW & 7.3B & 32K & Text & Apache 2.0 & 2024-05-22 & general chat; RAG \\
 \multicolumn{8}{@{}l}{\textit{Pixtral} --- Mistral AI (Pixtral) \href{https://mistral.ai/news/pixtral-12b/}{[family page]}} \\*
 \href{https://huggingface.co/mistralai/Pixtral-12B-2409}{Pixtral-12B} & OW & 12B & -- & Text+Image & See source & 2024-09-17 & vision-language; variable image resolution \\
 \multicolumn{8}{@{}l}{\textit{Nemotron} --- NVIDIA (Nemotron) \href{https://arxiv.org/abs/2402.16819}{[family page]}} \\*
 \href{https://huggingface.co/nvidia/Minitron-8B-Base}{Minitron-8B} & OW & 8B & 8K & Text & See source & 2024-07-17 & Width and depth pruning; Knowledge distillation \\
 \href{https://huggingface.co/nvidia/Nemotron-4-15B-Base}{Nemotron-4-15B} & OW & 15B & 8K & Text & See source & 2024-03-14 & High-quality training data; Strong downstream task performance \\
-\multicolumn{8}{@{}l}{\textit{Hermes} --- Nous Research (Hermes) \href{https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO}{[family page]}} \\*
-\href{https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO}{Nous Hermes 2 Mixtral} & OW & 46.7B (12.9B act.) & 32K & Text & See source & 2024-01-17 & Fine-tuned Mixtral-8x7B; Function calling \\
-\multicolumn{8}{@{}l}{\textit{GPT} --- OpenAI (GPT) \href{https://openai.com/research/instruction-following}{[family page]}} \\*
-\href{https://openai.com/index/gpt-4o-mini-advancing-cost-efficient-intelligence/}{GPT-4o mini} & API & undisclosed & -- & Text+Vision & Proprietary & 2024-07-18 & cost-efficient; fast \\
 \multicolumn{8}{@{}l}{\textit{Reka} --- Reka AI (Reka) \href{https://reka.ai/news/reka-flash-efficient-and-capable-multimodal-language-models}{[family page]}} \\*
 \href{https://huggingface.co/RekaAI/reka-edge-2603}{Reka Edge} & API & 7B & -- & Text+Vision & Proprietary & 2024-02-12 & compact; multimodal \\
 \multicolumn{8}{@{}l}{\textit{InternLM} --- Shanghai AI Laboratory (InternLM) \href{https://github.com/InternLM/InternLM}{[family page]}} \\*
 \href{https://huggingface.co/internlm/internlm2\_5-7b-chat}{InternLM2.5-7B} & OW & 7B & -- & Text & See source & 2024-07-03 & 1M context; tool use \\
 \href{https://huggingface.co/internlm/internlm2\_5-20b-chat}{InternLM2.5-20B} & OW & 20B & 1M & Text & See source & 2024-07-03 & 1M context with LMDeploy; Strong reasoning \\
 \href{https://huggingface.co/internlm/internlm2-20b}{InternLM2-20B} & OW & 20B & -- & Text & See source & 2024-01-17 & 200K context; tool use \\
+\multicolumn{8}{@{}l}{\textit{Arctic} --- Snowflake (Arctic) \href{https://www.snowflake.com/blog/introducing-snowflake-arctic-embed-snowflakes-state-of-the-art-text-embedding-family-of-models/}{[family page]}} \\*
+\href{https://huggingface.co/Snowflake/snowflake-arctic-instruct}{Snowflake Arctic} & OW & 480B & -- & Text & See source & 2024-04-24 & enterprise-grade; 128 experts \\
 \multicolumn{8}{@{}l}{\textit{StableLM} --- Stability AI (StableLM 2 (Jan 2024)) \href{https://huggingface.co/stabilityai/stablelm-2-1\_6b}{[family page]}} \\*
 \href{https://huggingface.co/stabilityai/stablelm-2-12b}{StableLM 2 12B} & OW & 12B & 4K & Text & See source & 2024-02-20 & Multilingual (7 languages); Strong code capability \\
 \href{https://huggingface.co/stabilityai/stablelm-2-1\_6b}{StableLM 2 1.6B} & OW & 1.6B & 4K & Text & Stability AI License & 2024-01-19 & lightweight creative writing; basic chat \\
@@ -282,22 +278,17 @@
 \href{https://huggingface.co/baichuan-inc/Baichuan-7B}{Baichuan-7B} & OW & 7B & -- & Text & See source & 2023-06-15 & bilingual; strong Chinese performance \\
 \multicolumn{8}{@{}l}{\textit{Cerebras-GPT} --- Cerebras Systems (Cerebras-GPT) \href{https://huggingface.co/cerebras/Cerebras-GPT-13B}{[family page]}} \\*
 \href{https://huggingface.co/cerebras/Cerebras-GPT-13B}{Cerebras-GPT-13B} & OW & 13B & 2K & Text & See source & 2023-03-28 & Chinchilla compute-optimal training; Trained on Cerebras CS-2 hardware \\
-\multicolumn{8}{@{}l}{\textit{DeepSeek} --- DeepSeek (DeepSeek) \href{https://github.com/deepseek-ai/DeepSeek-Coder}{[family page]}} \\*
+\multicolumn{8}{@{}l}{\textit{DeepSeek} --- DeepSeek (DeepSeek) \href{https://huggingface.co/deepseek-ai}{[family page]}} \\*
 \href{https://huggingface.co/deepseek-ai/deepseek-coder-1.3b-instruct}{DeepSeek-Coder-1.3B} & OW & 1.3B & -- & Text & See source & 2023-11-02 & compact code model; fill-in-the-middle \\
 \href{https://huggingface.co/deepseek-ai/deepseek-coder-6.7b-instruct}{DeepSeek-Coder-6.7B} & OW & 6.7B & -- & Text & See source & 2023-11-02 & code generation; fill-in-the-middle \\
 \multicolumn{8}{@{}l}{\textit{Pythia} --- EleutherAI (Pythia) \href{https://github.com/EleutherAI/pythia}{[family page]}} \\*
 \href{https://huggingface.co/EleutherAI/pythia-12b}{Pythia-12B} & OW & 12B & 2K & Text & See source & 2023-04-03 & 154 intermediate checkpoints; Reproducible training \\
-\multicolumn{8}{@{}l}{\textit{T5} --- Google (T5) \href{https://arxiv.org/abs/2210.11416}{[family page]}} \\*
-\href{https://huggingface.co/google/flan-t5-xxl}{Flan-T5} & OW & 11B & -- & Text & See source & 2022-10-20 & instruction tuned; encoder-decoder \\
 \multicolumn{8}{@{}l}{\textit{Gemini} --- Google DeepMind (Gemini) \href{https://deepmind.google/technologies/gemini/}{[family page]}} \\*
 \href{https://deepmind.google/technologies/gemini/}{Gemini 1.0 Nano} & API & 3.25B & -- & Text & Proprietary & 2023-12-06 & on-device; efficient \\
 \multicolumn{8}{@{}l}{\textit{StarCoder} --- Hugging Face / BigCode (StarCoder) \href{https://huggingface.co/bigcode/starcoder}{[family page]}} \\*
 \href{https://huggingface.co/bigcode/starcoder}{StarCoder} & OW & 15.5B & -- & Text & See source & 2023-05-04 & code generation; 80+ programming languages \\
 \multicolumn{8}{@{}l}{\textit{Jais} --- Inception / Core42 / Cerebras (Jais) \href{https://arxiv.org/abs/2308.16149}{[family page]}} \\*
 \href{https://huggingface.co/core42/jais-13b-chat}{Jais-13B} & OW & 13B & 2K & Text & See source & 2023-08-30 & Best Arabic LLM at launch; Bilingual Arabic-English \\
-\multicolumn{8}{@{}l}{\textit{Vicuna} --- LMSYS (Vicuna) \href{https://lmsys.org/blog/2023-03-30-vicuna/}{[family page]}} \\*
-\href{https://huggingface.co/lmsys/vicuna-7b-v1.5}{Vicuna-7B v1.5} & OW & 7B & -- & Text & See source & 2023-07-29 & fine-tuned on ShareGPT; chat assistant \\
-\href{https://huggingface.co/lmsys/vicuna-13b-delta-v0}{Vicuna-13B} & OW & 13B & -- & Text & See source & 2023-03-30 & fine-tuned on ShareGPT data; chat assistant \\
 \multicolumn{8}{@{}l}{\textit{Code Llama} --- Meta AI (Code Llama) \href{https://ai.meta.com/blog/code-llama-large-language-model-coding/}{[family page]}} \\*
 \href{https://huggingface.co/codellama/CodeLlama-7b-hf}{Code Llama-7B} & OW & 7B & -- & Text & See source & 2023-08-24 & code generation; infilling \\
 \multicolumn{8}{@{}l}{\textit{LLaMA} --- Meta AI (LLaMA) \href{https://arxiv.org/abs/2302.13971}{[family page]}} \\*
@@ -309,10 +300,8 @@
 \href{https://huggingface.co/microsoft/phi-2}{Phi-2} & OW & 2.7B & -- & Text & See source & 2023-12-13 & language comprehension; reasoning \\
 \href{https://huggingface.co/microsoft/phi-1\_5}{Phi-1.5} & OW & 1.3B & -- & Text & See source & 2023-09-11 & reasoning; language understanding \\
 \href{https://huggingface.co/microsoft/phi-1}{Phi-1} & OW & 1.3B & -- & Text & See source & 2023-06-20 & Python coding; textbook-quality data \\
-\multicolumn{8}{@{}l}{\textit{Mistral} --- Mistral AI (Mistral) \href{https://docs.mistral.ai/getting-started/models}{[family page]}} \\*
-\href{https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3}{Mistral Tiny (Mistral-7B-Instruct)} & API & 7B & 32K & Text & Proprietary & 2023-12-11 & API-served Mistral 7B Instruct; Cost-effective API option \\
-\multicolumn{8}{@{}l}{\textit{Mistral Small} --- Mistral AI (Mistral Small 4 (Mar 2026)) \href{https://mistral.ai/news/mistral-small-4}{[family page]}} \\*
-\href{https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3}{Mistral 7B v0.3} & OW & 7.3B & 32K & Text & Apache 2.0 & 2023-09-27 & general chat; RAG \\
+\multicolumn{8}{@{}l}{\textit{Mixtral} --- Mistral AI (Mixtral 8x22B (Apr 2024)) \href{https://huggingface.co/mistralai/Mixtral-8x22B-Instruct-v0.1}{[family page]}} \\*
+\href{https://huggingface.co/mistralai/Mixtral-8x7B-v0.1}{Mixtral-8x7B} & OW & 46.7B & -- & Text & See source & 2023-12-11 & MoE architecture; 8 experts \\
 \multicolumn{8}{@{}l}{\textit{MPT} --- MosaicML (Databricks) (MPT) \href{https://www.mosaicml.com/blog/mpt-7b}{[family page]}} \\*
 \href{https://huggingface.co/mosaicml/mpt-7b}{MPT-7B} & OW & 7B & -- & Text & See source & 2023-05-05 & ALiBi positional encoding; long context \\
 \multicolumn{8}{@{}l}{\textit{InternLM} --- Shanghai AI Laboratory (InternLM) \href{https://github.com/InternLM/InternLM}{[family page]}} \\*

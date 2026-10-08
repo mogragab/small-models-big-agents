@@ -539,7 +539,10 @@ def build_inventory_table(
             r"\setlength{\tabcolsep}{4pt}",
             r"\renewcommand{\arraystretch}{1.15}",
             r"\begin{longtable}{@{}L{3.3cm}C{1.05cm}L{1.75cm}C{1.15cm}L{2.25cm}L{2.4cm}C{1.6cm}L{3.9cm}@{}}",
-            rf"\caption{{Generated chronological {title} inventory from \texttt{{{latex_escape(source_name)}}}, grouped by release year and family.}}\label{{{label}}}\\",
+            rf"\caption{{Generated chronological {title} inventory from \texttt{{{latex_escape(source_name)}}}, grouped by release year and family."
+            + (r" Entries whose parameter column reads ``$N$B ($M$B act.)'' with $N > 20$ are small-active-parameter MoEs (C1 only), not SLMs, and are excluded from every storage and on-device claim."
+               if model_type == "slm" else "")
+            + rf"}}\label{{{label}}}\\",
             r"\toprule",
             r"\textbf{Model} & \textbf{Access} & \textbf{Params} & \textbf{Context} & \textbf{Modalities} & \textbf{License} & \textbf{Release} & \textbf{Notes} \\ \midrule",
             r"\endfirsthead",

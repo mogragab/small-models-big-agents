@@ -1,438 +1,93 @@
 % ================================================================
 % Section: The Public Evaluation Record
-% Documents what the public reporting record can and cannot support,
-% and why a cross-model accuracy table cannot be built from it.
 % No original benchmark runs.
 % ================================================================
 
 \section{The Public Evaluation Record for Small Language Models}
 \label{sec:reported}
 
-This section examines what the public record can support about \gls{slm} capability and deployment
-behavior. In contrast to an original benchmarking study,
-the performance values analyzed here are \emph{reported} figures, synthesized
-from vendor technical reports, official model cards, community leaderboards, and
-third-party evaluations. We first document the protocol used to collect and
-reconcile these figures (Section~\ref{subsec:reported_protocol}), then present
-the consolidated synthesis (Sections~\ref{subsec:reported_overall}--\ref{subsec:reported_safety}).
-Appendix~\ref{app:provenance} records the provenance of these figures at the
-level of model and source class, together with the reference conditions under
-which they were reported; where sources disagree, the reconciliation rule of
-Section~\ref{subsec:reported_sources} applies.
+This section examines what the public evaluation record can support about \gls{slm} capability. The values discussed are \emph{reported} figures from vendor technical reports, model cards, community leaderboards, and third-party studies. We set out the cohort, sources, and grading scheme (Section~\ref{subsec:reported_protocol}), quantify why a cross-model table cannot be assembled from vendor reporting (Section~\ref{subsec:reported_overall}), and explain why these benchmarks do not answer the agentic question in any case (Section~\ref{subsec:reported_agentic_gap}).
 
-\subsection{Data-Collection Protocol}
+\subsection{Cohort, Sources, and Grading}
 \label{subsec:reported_protocol}
 
-\subsubsection{Model Selection}
+\subsubsection{Cohort and Sources}
 \label{subsec:reported_model_selection}
-Model inclusion required: (1)~public availability of weights or a publicly
-documented evaluation card; (2)~parameter count below 10~billion, with Phi-4 at
-14B retained as an upper-bound reference; (3)~at least one reported score on an
-established benchmark used here; and (4)~representation of diverse training
-methodologies (synthetic-data-centric, web-scale pretraining, distillation).
-Table~\ref{tab:model_specs} lists the resulting 18-model cohort with
-architectural specifications as reported by each model's release materials. The
-cohort spans from 0.5B to 14B parameters and eight developer organizations,
-enabling analysis of how training methodology, architecture, and scale interact
-to determine reported capability.
-
-\begin{table}[ht]
-\centering
-\caption{Architectural specifications of reviewed models (as reported by each model's official release materials).}
-\label{tab:model_specs}
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{lccccccc}
-\toprule
-\textbf{Model} & \textbf{Params} & \textbf{Layers} & \textbf{Hidden} & \textbf{Attention} & \textbf{Context} & \textbf{Vocab} & \textbf{Train Tokens} \\
-\midrule
-TinyLlama-1.1B & 1.1B & 22 & 2,048 & MHA-32h & 2K & 32K & 3.0T \\
-SmolLM2-1.7B & 1.7B & 24 & 2,048 & MHA-32h & 2K & 49K & 11.0T \\
-StableLM 2-1.6B & 1.6B & 24 & 2,048 & MHA-32h & 4K & 100K & 2.0T \\
-Qwen2.5-0.5B & 0.5B & 24 & 896 & GQA-14/2 & 32K & 152K & 18.0T \\
-Qwen2.5-1.5B & 1.5B & 28 & 1,536 & GQA-12/2 & 32K & 152K & 18.0T \\
-Qwen2.5-3B & 3.0B & 36 & 2,048 & GQA-16/2 & 32K & 152K & 18.0T \\
-Qwen2.5-7B & 7.6B & 28 & 3,584 & GQA-28/4 & 128K & 152K & 18.0T \\
-Llama 3.2-1B & 1.2B & 16 & 2,048 & GQA-32/8 & 128K & 128K & 9.0T \\
-Llama 3.2-3B & 3.2B & 28 & 3,072 & GQA-24/8 & 128K & 128K & 9.0T \\
-Gemma 2-2B & 2.6B & 26 & 2,304 & GQA-8/4 & 8K & 256K & 2.0T \\
-Gemma 2-9B & 9.2B & 42 & 3,584 & GQA-16/8 & 8K & 256K & 8.0T \\
-Gemma 3-1B & 1.0B & 26 & 1,536 & GQA-LG & 32K & 262K & 2.0T \\
-Gemma 3-4B & 4.3B & 34 & 2,560 & GQA-LG & 128K & 262K & 4.0T \\
-Mistral 7B & 7.3B & 32 & 4,096 & GQA-32/8 & 8K & 32K & n/a \\
-Phi-3-mini & 3.8B & 32 & 3,072 & MHA-32h & 128K & 32K & 3.3T \\
-Phi-3.5-mini & 3.8B & 32 & 3,072 & MHA-32h & 128K & 32K & 3.4T \\
-Phi-4-mini & 3.8B & 32 & 3,072 & GQA-24/8 & 128K & 200K & 5.0T \\
-Phi-4 & 14.0B & 40 & 5,120 & GQA & 16K & 100K & $\sim$10T \\
-\bottomrule
-\end{tabular}%
-}\par\vskip 4pt\relax
-{\raggedright \small \textit{Note:} MHA = Multi-Head Attention; \gls{gqa} = Grouped-Query Attention (Q/KV heads); GQA-LG = \gls{gqa} with local--global interleaving. Every model in this cohort is dense, so total and active parameters coincide and a single parameter column suffices; no small-active-parameter \gls{moe} model (Section~\ref{subsubsec:intro_def_terms}) is in the cohort, because none has public reporting complete enough to include.
-
-\textit{On training-token counts.} These are the least reliable column in the
-table, and their status differs by row. Marked \emph{per-variant} where the
-source states a figure for that specific size: Gemma~2-2B (2.0T), Gemma~2-9B
-(8.0T), Gemma~3-1B (2.0T), Gemma~3-4B (4.0T), Phi-3-mini (3.3T), Phi-3.5-mini
-(3.4T), Phi-4-mini (5.0T), TinyLlama (3.0T), SmolLM2-1.7B (11.0T), StableLM~2
-(2.0T). Marked \emph{series-level} where the source reports one figure for the
-whole family and the individual sizes are not separately stated: Qwen2.5
-(18.0T across 0.5B--7B) and Llama~3.2 (9.0T across 1B and 3B). Phi-4's
-${\sim}10$T is an approximation given as such by its source. Mistral~7B's
-training-token count is not disclosed. We report series-level figures in the
-size rows they cover rather than omitting them, but they should not be read as
-independent per-model measurements, and no claim in this paper relies on
-comparing a series-level figure against a per-variant one.
-
-\textit{On context length.} The value is the maximum the primary source
-documents, which for several models is reached through position interpolation at
-inference rather than trained natively: Qwen2.5-7B is natively 32K and extended
-to 128K, and Phi-3-mini's 128K is a separate long-context checkpoint from the 4K
-base.\par}
-\end{table}
-
-\subsubsection{Benchmark Tasks and Metrics}
-\label{subsec:reported_benchmarks}
-The benchmarks that recur across the reviewed release documents span seven
-capability areas: \gls{mmlu} \citep{hendrycks2021mmlu} for broad knowledge;
-ARC-Easy and ARC-Challenge \citep{clark2018arc} and HellaSwag
-\citep{zellers2019hellaswag} for commonsense and language reasoning; \gls{gsm8k}
-\citep{cobbe2021gsm8k} and MATH \citep{hendrycks2021math} for mathematical
-reasoning; HumanEval \citep{chen2021humaneval} and MBPP \citep{austin2021mbpp}
-for code generation; TriviaQA \citep{joshi2017triviaqa} and SQuAD~2.0
-\citep{rajpurkar2018squad2} for question answering; MNLI \citep{williams2018mnli}
-for natural language inference; and SST-2 \citep{socher2013sst} for sentiment
-classification. Each benchmark carries a standard metric: accuracy for multiple
-choice, exact match or F1 for question answering, pass@1 for code, exact match
-for \gls{gsm8k}, and symbolic equivalence for MATH. Instruction-following
-(MT-Bench-style \citep{zheng2023mtbench}) and summarization are reported too
-sparsely and too heterogeneously to compare at all, and the conventions behind
-them are described in Appendix~\ref{subsec:appendix_human_eval}. Section~\ref{subsec:reported_agentic_gap}
-takes up separately the question of whether any of these benchmarks bears on
-agentic suitability.
-
-Four conditions determine what a benchmark number means, and a source that omits
-any of them has not reported a comparable result. \emph{Benchmark version:}
-\gls{mmlu} exists in the original and in MMLU-Pro, ARC in Easy and Challenge
-splits, GSM8K in original and GSM8K-Platinum revisions, and HumanEval in the
-original and HumanEval+ forms, and these are not interchangeable.
-\emph{Prompt template:} whether the model's own chat template is applied,
-whether options are lettered or restated, and whether a system prompt is present.
-\emph{Answer extraction:} whether a multiple-choice answer is scored by
-comparing per-option log-likelihoods or by parsing a generated letter, which can
-differ by several points on the same model and benchmark, and for
-chain-of-thought tasks, which span of the generation is taken as the answer.
-\emph{Decoding settings:} greedy versus sampled, temperature, and for pass@$k$
-the number of samples. \emph{Harness:} the framework and its version, most often
-\texttt{lm-evaluation-harness} \citep{gao2023harness} or HELM
-\citep{liang2023helm}, each with its own defaults for all of the above.
-
-The coverage of these five conditions across the reviewed sources is what
-Section~\ref{subsec:reported_overall} reports on, and it is poor. Which
-benchmarks a vendor reports, in which version, under how many shots, and with
-which extraction rule varies enough to prevent a common table.
-
-\subsubsection{Hardware and Quantization Scope}
-\label{subsec:reported_hardware}
-The review covers reported behavior across six configurations spanning the
-cloud-to-edge spectrum (Table~\ref{tab:hardware_configs}) and three precisions:
-FP16 (reference), INT8, and INT4, with \gls{gguf}~Q4\_K\_M, GPTQ group-128, and \gls{awq}
-group-128 treated as distinct INT4 subclasses when the source distinguishes them.
-Inference-framework attribution (vLLM \citep{kwon2023vllm}, llama.cpp
-\citep{gerganov2023llamacpp}, ONNX Runtime \citep{microsoft2019onnx}, ExecuTorch
-\citep{meta2024executorch}, MLC-LLM \citep{mlc2024}) follows the stack used by the
-source of each figure; cross-framework comparisons are made only when compared
-figures share a framework or are explicitly flagged.
-
-\begin{table}[ht]
-\centering
-\caption{Hardware configurations covered by the review. For each reviewed model, reported performance on a configuration was included where publicly available.}
-\label{tab:hardware_configs}
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{lllll}
-\toprule
-\textbf{Configuration} & \textbf{Hardware} & \textbf{RAM/VRAM} & \textbf{TDP} & \textbf{Use Case} \\
-\midrule
-Cloud GPU & NVIDIA A100 80GB & 80 GB HBM2e & 300W & Training + serving \\
-High-end Consumer & NVIDIA RTX 4090 & 24 GB GDDR6X & 450W & Local inference \\
-CPU/iGPU Laptop & AMD Ryzen 7 7840HS & 32 GB DDR5 & 35--54W & Laptop deployment \\
-Edge GPU Module & NVIDIA Jetson Orin Nano & 8 GB LPDDR5 & 25W & Edge AI / robotics \\
-Edge SBC & Raspberry Pi 5 & 8 GB LPDDR4X & 12W & Embedded IoT \\
-Mobile SoC & Snapdragon 8 Gen 3 & 12 GB LPDDR5X & $\sim$8W sustained & Smartphone \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-
-\subsubsection{Source Selection, Extraction, and Reconciliation}
 \label{subsec:reported_sources}
-Reported values were collected in decreasing order of priority from: (1)~official
-vendor technical reports and release papers; (2)~official model cards on Hugging
-Face and vendor repositories, including linked evaluation appendices;
-(3)~community-operated standardized evaluations (the Open \gls{llm} Leaderboard, HELM
-\citep{liang2023helm}, and lm-evaluation-harness \citep{gao2023harness}-based
-community reports); (4)~third-party independent evaluations (Artificial Analysis,
-LMSYS Chatbot Arena, peer-reviewed follow-up studies); and (5)~vendor developer
-blogs, used only to fill gaps. All figures were extracted within a single
-collection window to preserve time-consistency across models.
-
-When qualifying sources disagreed on the same model--task--condition tuple, the
-figure from the source higher in the priority list was retained and the
-alternative recorded in Appendix~\ref{app:provenance}; where the discrepancy
-exceeded 2.0~percentage points (or the metric equivalent), both figures were
-retained as a reported range or the tuple was excluded. A tuple was excluded from
-cross-model comparison when: (a)~only a single self-reported value existed and
-could not be cross-checked; (b)~the harness, prompt format, or shot count
-materially differed from the setting used by at least half the compared models
-and could not be normalized; or (c)~the source did not specify base versus
-instruction-tuned status.
+The cohort was chosen purposively: 18 models with public weights or an evaluation card, below 10B parameters (Phi-4 at 14B retained as an upper-bound reference), at least one score on an established benchmark, release no later than March 2025 so that at least eighteen months of third-party evaluation had accumulated by the snapshot, and a spread of training methods (Table~\ref{tab:model_specs} in \suppsec~\ref{supp:tables}). It spans 0.5B to 14B and eight developers, and it contains none of the 2025--2026 hybrid, reasoning, or mobile-multimodal families, so the audit describes reporting practice for 2023--2025 releases. Values were sought from vendor technical reports, then official model cards, then single-harness community evaluations such as HELM \citep{liang2023helm} and the Open \gls{llm} Leaderboard \citep{hf2024openllmlb}, then peer-reviewed third-party studies. A reported number is comparable with another only if five conditions match: benchmark version, prompt template, answer-extraction rule, decoding settings, and harness \citep{biderman2024lessons}; \suppsec~\ref{supp:audit} defines each.
 
 \subsubsection{Evidence Grading}
 \label{subsec:reported_grading}
 
-Because this survey mixes controlled studies, vendor self-reports, independent
-reproductions, and our own synthesis, and because those carry very different
-weight, every substantive quantitative claim in the paper is graded. The scheme
-has four levels, and the grade denotes the strongest class of source standing
-behind the claim, not the claim's importance:
+Because this survey mixes controlled studies, vendor self-reports, independent evaluations, and our own synthesis, each empirical claim carries a grade. The grade is set by two properties of the strongest source behind the claim: its \emph{design} (a controlled comparison, in which the compared conditions differ only in the variable of interest under one harness with a matched baseline; a single-harness evaluation of many systems; a self-report; or an estimate or synthesis) and its \emph{independence} (whether the reporting party has a stake in the result).
 
 \begin{description}
-  \item[\evA{} Controlled] Measured under a single named harness, with the
-    compared conditions differing only in the variable of interest, and a matched
-    baseline reported. This is the standard a cross-model comparison would have
-    to meet. \emph{No claim in this paper carries grade~\evA}, which is the
-    principal finding of Section~\ref{subsec:reported_overall}.
-  \item[\evB{} Independent] Reported by a party with no stake in the result:
-    a peer-reviewed third-party study, a standardized community evaluation, or a
-    reproduction by an unaffiliated group.
-  \item[\evC{} Reported] Stated by the developer of the artifact or the author of
-    the technique, in a technical report, model card, or release paper, without
-    independent reproduction.
-  \item[\evD{} Interpretation] Our synthesis across sources, or an inference from
-    evidence that was not gathered to answer the question being asked. This grade
-    is applied wherever we combine figures across sources, and it is the correct
-    grade for most directional statements in this survey.
+  \item[\evA{} Controlled, independent] A controlled comparison reported by a party without a stake in the outcome.
+  \item[\evB{} Independent] Any other evaluation or documented count by a party without a stake: a single-harness evaluation across models, an independent benchmark, or a reproduction.
+  \item[\evC{} Reported] Stated by the developer of the artifact or the author of the technique, including developer-run comparisons on a single harness.
+  \item[\evD{} Interpretation] Our synthesis across sources, an inference from evidence gathered for another question, or an estimate in a position paper.
 \end{description}
 
-Grades appear in the tables that carry quantitative claims
-(Tables~\ref{tab:compression_quality} and~\ref{tab:agentic_evidence}) and against
-the main claims of the paper in Table~\ref{tab:claim_grades}. Two consequences
-are worth stating plainly. First, a grade~\evC{} claim is not thereby false; it
-is unverified, and vendor self-reports in this field are systematically more
-favorable than third-party reproductions, so the direction of the likely error is
-known. Second, the absence of any grade~\evA{} claim is not a defect peculiar to
-this survey but a property of the field's current evidence base, and it is the
-reason Section~\ref{subsec:challenges_verification} is written as a specification
-for experiments rather than a list of topics.
+Table~\ref{tab:claim_grades} grades the principal claims, and Tables~\ref{tab:compression_quality} and~\ref{tab:agentic_evidence} grade the technique and agent evidence. A grade-\evC{} claim is unverified rather than false; where vendor reports and independent reproductions of the same model exist, the vendor figure is usually the more favorable, so the likely direction of error is known.
 
 \begin{table}[t]
 \centering
-\caption{Evidence grade for the principal claims of this survey. Grades follow Section~\ref{subsec:reported_grading}: \evA~controlled, \evB~independent, \evC~reported by the interested party, \evD~our interpretation.}
+\caption{Evidence grade of the principal claims of this survey (\evA~controlled and independent, \evB~independent, \evC~reported by the interested party, \evD~interpretation or estimate). ``None'' marks a quantity for which no study was located by the search of Section~\ref{subsec:intro_method}.}
 \label{tab:claim_grades}
 \footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{@{}p{9.2cm}cl@{}}
+\begin{tabular}{@{}p{9.6cm}cl@{}}
 \toprule
 \textbf{Claim} & \textbf{Grade} & \textbf{Where} \\
 \midrule
-A cross-model accuracy table cannot be assembled from current public reporting without misrepresenting its sources & \evB & \S\ref{subsec:reported_overall} \\
-The strongest 3--4B models of 2026 report scores that were state of the art for 13B-class models in 2023 & \evC & \S\ref{subsec:reported_overall} \\
-Within families that publish ablations, corpus composition moves results more than architecture at fixed scale & \evD & \S\ref{subsec:discussion_key_findings} \\
-INT8 post-training quantization is effectively lossless on knowledge and mathematical benchmarks & \evB & \S\ref{subsec:reported_quantization} \\
-INT4 accuracy loss grows as model size falls and is larger for multi-step reasoning & \evC & \S\ref{subsec:reported_quantization} \\
-Quantization preserves fidelity better than pruning below 4B parameters at matched compression & \evB & \S\ref{subsec:compression_quantization} \\
-Weight footprint at 4~bits is $3.2$--$3.4\times$ below FP16 & Derived & \S\ref{subsec:reported_quantization} \\
-Sub-10B function-calling models are competitive with far larger models on function-calling benchmarks & \evB & \S\ref{subsec:agentic_evidence} \\
-Serving a 7B model is 10--30$\times$ cheaper than serving a 70--175B model & \evC & \S\ref{subsubsec:agentic_economics} \\
-End-to-end agent success rates for sub-10B models on realistic multi-step benchmarks are low in absolute terms & \evB & \S\ref{subsec:agentic_evidence} \\
-Hypothesis~H: a specialized SLM is the appropriate default for bounded, recurrent, short-context, verifiable agent calls & \evD & \S\ref{subsec:intro_thesis} \\
+For the 14 cohort models of the four largest vendors, no benchmark is reported for all, and no stated protocol is shared by more than five (released ledger) & \evB & \S\ref{subsec:reported_overall} \\
+Reasoning ability of small models tracks training method and data more than scale & \evB & \S\ref{subsec:background_gaps} \\
+The strongest 3--4B models of 2024--2025 report scores that 13B-class models of 2023 did not (across sources and time) & \evD & \S\ref{subsec:reported_overall} \\
+INT8 post-training quantization is effectively lossless on the benchmarks its method authors report & \evC & \S\ref{sec:compression} \\
+At 4 bits, reasoning is largely preserved; methods tuned on large models transfer imperfectly to sub-1B models & \evB & \S\ref{sec:compression} \\
+At 0.5--3.8B, post-training quantization preserves fidelity better than post-training pruning & \evA & \S\ref{subsec:compression_quantization} \\
+4-bit weight footprint is $2.8$--$3.6\times$ below FP16 (arithmetic from parameter count and effective bits) & \evD & \S\ref{subsec:reported_quantization_summary} \\
+Specialized sub-10B function-calling models placed among the leading single-turn entries in 2024 & \evC & \S\ref{subsubsec:agentic_ev_fc} \\
+Specialized small models are reported ahead of frontier models on multi-turn function calling and $\tau$-bench & \evC & \S\ref{subsubsec:agentic_ev_fc} \\
+Without task-specific fine-tuning, small models often fail the required call format & \evB & \S\ref{subsubsec:agentic_ev_fc} \\
+Serving a 7B model is 10--30$\times$ cheaper in latency, energy, and FLOPs than a 70--175B model & \evD & \S\ref{subsubsec:agentic_economics} \\
+40--70\% of the LLM calls in three open-source agents could be handled by specialized SLMs & \evD & \S\ref{subsec:agentic_delegation} \\
+End-to-end success on realistic agent benchmarks was low for all models when the benchmarks were introduced & \evB & \S\ref{subsubsec:agentic_ev_e2e} \\
+Open models of 70B or less trailed commercial APIs end to end (2023; size confounded with openness and training) & \evB & \S\ref{subsubsec:agentic_ev_e2e} \\
+Current specialized sub-10B agents trail frontier agents end to end & \evD & \S\ref{subsubsec:agentic_ev_e2e} \\
+Cost per correct answer favors lightweight models on basic quantitative tasks and large models on knowledge-intensive ones (single-turn) & \evB & \S\ref{subsubsec:agentic_ev_routing} \\
+Cost per completed task, SLM-first agent against all-LLM agent on one workload & None & \S\ref{subsubsec:agentic_ev_routing} \\
+Hypothesis~H & \evD & \S\ref{subsec:intro_thesis} \\
 \bottomrule
 \end{tabular}%
 }
 \end{table}
 
-\subsubsection{Limitations of the Evidence Base}
-\label{subsec:reported_limits}
-Because the figures are compiled from heterogeneous public sources rather than a
-single controlled pipeline, four limitations bound the strength of every
-comparison below. \textbf{Prompt-format and harness variation:} different sources
-use different templates and answer-extraction heuristics, which can shift reported
-accuracy by several points under the same nominal benchmark. \textbf{Self-reporting
-bias:} vendor-reported scores are systematically more favorable than third-party
-reproductions; where third-party figures exist, comparisons preferentially use
-them and flag the divergence. \textbf{Condition-coverage sparsity:} not every
-model has reported scores for every task, tier, or precision. Missing values are
-never imputed, interpolated, or carried across from a sibling model size or from
-a base checkpoint to its instruction-tuned variant; a tuple with no qualifying
-source is recorded as absent, and absence is itself reported, since the pattern
-of what vendors decline to publish is part of the finding of
-Section~\ref{subsec:reported_overall}. No statistic in this paper is computed
-over a set from which absent tuples were silently dropped. \textbf{Snapshot staleness:} the ecosystem evolves monthly,
-and figures reflect the state of public reporting at the collection window. These
-limitations motivate the empirical-verification agenda of
-Section~\ref{subsec:challenges_verification}.
-
-\subsection{Why a Common Benchmark Table Cannot Be Built from Public Reporting}
+\subsection{Why a Common Benchmark Table Cannot Be Built from Vendor Reporting}
 \label{subsec:reported_overall}
 
-Our original intent for this section was a single consolidated accuracy table
-placing all eighteen models side by side on a shared benchmark set. Assembling it
-from the public record proved impossible without misrepresenting the sources, and
-the reasons are systematic rather than incidental. Because that finding bears
-directly on how practitioners should read vendor claims, we report it in place of
-the table.
+We originally intended a single table placing the cohort side by side on a shared benchmark set, assembled from the vendors' documents. The vendor record cannot support it, and we report the measured reasons instead. The released coverage ledger (\file{audit\_coverage\_ledger.csv}; \suppsec~\ref{subsec:audit_ledger}) records, for the 14 cohort models from Microsoft, Alibaba, Meta, and Google, whether each model's primary release document reports an instruction-tuned value on each of the eight benchmarks that recur in their headline reporting (\gls{mmlu}, MMLU-Pro, ARC-Challenge, HellaSwag, \gls{gsm8k}, MATH, HumanEval, MBPP), and under which stated protocol.
 
-\emph{Vendors do not report a common benchmark set.} Microsoft reports
-\gls{mmlu}, \gls{gsm8k}, ARC-Challenge, HellaSwag and MATH for Phi-4-mini
-\citep{microsoft2025phi4mini}. Alibaba's instruction-tuned Qwen2.5 evaluations
-report MMLU-Pro, \gls{gsm8k}, MATH and HumanEval, but not ARC-Challenge or
-HellaSwag \citep{qwen2024qwen25}. Google reports ARC-c, HellaSwag, \gls{mmlu},
-\gls{gsm8k}, MATH, HumanEval and MBPP for Gemma, but its headline tables cover
-the pre-trained checkpoints \citep{gemma2team2024,team2025gemma3}. The
-intersection across any six vendors is close to empty, so a full matrix can only
-be completed by mixing sources of different provenance into the same row.
+\emph{Vendors do not report a common benchmark set.} Of the 112 model--benchmark cells, 69 carry an instruction-tuned value, and no benchmark is reported for all 14 models; the best covered, \gls{gsm8k} and MATH, are reported for 11.
 
-\emph{Shot counts differ per benchmark and per vendor.} Within a single Phi-4-mini
-model card, \gls{mmlu} is 5-shot, \gls{gsm8k} is 8-shot with chain-of-thought,
-ARC-Challenge is 10-shot and HellaSwag is 5-shot. Gemma reports ARC-c at 25-shot,
-HellaSwag at 10-shot, MATH at 4-shot and MBPP at 3-shot. Llama~3.2 reports
-ARC-Challenge and HellaSwag zero-shot but \gls{mmlu} at 5-shot. A column headed
-with a single evaluation protocol is therefore false for most of its cells, and
-the differences are large: shot count alone moves reported accuracy by several
-points on multiple-choice tasks.
+\emph{Where they report the same benchmark, they rarely use the same protocol.} Only 45 of the 69 reported cells state a protocol at all; the Qwen2.5 report, for example, gives no shot counts for its instruction-tuned tables. Among stated protocols, no benchmark has a protocol shared by more than five of the 14 models: \gls{mmlu} is 5-shot for Phi and Llama~3.2 and 0-shot for Gemma~3; \gls{gsm8k} is 8-shot with chain-of-thought for Phi and Llama~3.2 and 0-shot for Gemma~3; ARC-Challenge is 10-shot for Phi and 0-shot for Llama~3.2. Shot count alone moves multiple-choice accuracy by several points \citep{biderman2024lessons}, so a column headed by one protocol would be false for most of its cells. This finding needs no rule beyond protocol matching.
 
-\emph{Base and instruction-tuned figures are routinely conflated.} Several
-families publish their most complete benchmark tables for the pre-trained
-checkpoint while shipping the instruction-tuned variant as the artifact
-practitioners actually deploy. Gemma~3-4B is reported at 59.6 \gls{mmlu} and 38.4
-\gls{gsm8k} after pre-training \citep{team2025gemma3}; the instruction-tuned model
-is described qualitatively as far stronger, without an equivalently detailed
-table. Any row that silently mixes the two overstates the weaker model and
-understates the stronger one.
+\emph{Pre-trained and instruction-tuned checkpoints are reported separately.} For 10 of the 14 models, the vendor tabulates the pre-trained and the instruction-tuned checkpoint in different tables under different protocols, and secondary sources often copy a figure without its checkpoint. For Gemma~3-4B, the technical report gives \gls{gsm8k} 38.4 for the pre-trained checkpoint (8-shot) and 89.2 for the instruction-tuned one (0-shot with chain-of-thought), and MMLU-Pro 29.2 and 43.6 respectively \citep{team2025gemma3}; a row mixing the two misstates a gap by tens of points.
 
-\emph{Matched baselines are rarely published.} Quantized, fine-tuned and
-long-context variants are seldom reported alongside an FP16 baseline evaluated
-under the same harness, so the deltas that matter most for deployment decisions
-cannot be recovered from the sources at all.
+\emph{Matched comparisons exist but are vendor-run.} Some vendors publish single-harness comparison tables: Microsoft compares Phi-4-mini with ten other models, five of them in this cohort, on an internal platform that keeps prompts and few-shot examples identical across models \citep{microsoft2025phi4minicard}, and Meta reports Llama~3.2 1B and 3B at BF16 beside their quantized versions on the same harness \citep{meta2024llama32card}. These meet the harness condition but are run by an interested party that also chose the comparators and benchmarks, so they are grade~\evC{} evidence and cannot be merged across vendors.
 
-The consequence is that the widely circulated cross-model \gls{slm} comparison
-tables, including those in secondary sources and community leaderboards, should
-be treated as approximate at best. Where a genuine comparison is needed, the only
-sound basis is a controlled re-run under one harness, which is why
-Section~\ref{subsec:challenges_verification} sets that out as the first item of
-the verification agenda rather than as an optional extension. What can be stated
-from the public record without distortion is qualitative and still substantial:
-the strongest 3--4B models of 2026 report scores on mathematics, code and
-knowledge benchmarks that were state of the art for 13B-class systems in 2023;
-no single \gls{slm} leads across all task families; and the largest single source
-of variation among models of near-identical size is the training corpus rather
-than the architecture, a pattern visible in every family's own ablations even
-though it cannot be quantified across families.
+The general point, that scores are not comparable across evaluation setups, is the premise of HELM, the Open \gls{llm} Leaderboard, and the reproducibility analysis of \citet{biderman2024lessons}; the contribution here is to quantify it for the \gls{slm} cohort. Single-harness third-party evaluations are the right basis for comparison: the Open \gls{llm} Leaderboard v2 ran every submission through one configuration on six benchmarks \citep{hf2024openllmlb}, \citet{lu2024slmsurvey} evaluate 70 models of 0.1--5B under one setup including on-device latency, and \citet{srivastava2025thinkslm} evaluate 72 models under one reasoning protocol. None covers the whole cohort, and their benchmark sets differ from the vendors', so they replace the vendor table rather than filling it in. What can be said from the vendor record without distortion is qualitative (\evD): the strongest 3--4B models of 2024--2025 report scores that 13B-class models of 2023 did not, and no single \gls{slm} leads across all task families.
 
 \subsection{Why These Benchmarks Do Not Answer the Agentic Question}
 \label{subsec:reported_agentic_gap}
 
-There is a second problem with the record, independent of its internal
-inconsistency, and it bears directly on the thesis of this paper. Every benchmark
-in Section~\ref{subsec:reported_benchmarks} measures a model answering a question
-in isolation. None measures what an agent actually asks a model to do.
-
-\gls{mmlu} measures recall of facts under a multiple-choice format. \gls{gsm8k}
-measures arithmetic word problems solved in one turn. HumanEval measures whether
-a standalone function passes unit tests. An agent, by contrast, asks the model to
-select one of several available tools, to emit arguments that satisfy a schema,
-to remain well-formed across a long tail of inputs, to recover when a tool
-returns an error, and to do so repeatedly without a single failure derailing the
-trajectory. A model can be strong on all three of the benchmarks above and still
-emit malformed JSON often enough to be unusable in a loop, and the reverse holds
-too: a small model tuned for function calling can be weak on \gls{mmlu} and
-entirely adequate as an agent's executor.
-
-The consequence is that the entire evaluation record examined in this section,
-even if it were internally consistent, would be the wrong evidence for
-hypothesis~H. Section~\ref{subsec:agentic_evidence} therefore assembles a
-separate body of agent-specific evidence, drawn from function-calling, tool-use,
-structured-output, and end-to-end agent benchmarks, and grades it under the same
-scheme. We flag here that this second body of evidence has its own gaps, which
-are different from and in some respects worse than the ones documented above:
-the agent benchmarks that exist report frontier models far more often than
-sub-10B ones, and almost none reports cost per completed task, which is the
-quantity the economic half of the thesis turns on.
+Every benchmark above measures a model answering a question in isolation. An agent asks a model to select one of several tools, to emit arguments that satisfy a schema, to stay well formed across a long tail of inputs, to recover when a tool returns an error, and to do so repeatedly. A model can score well on \gls{mmlu} and still emit malformed calls often enough to be unusable in a loop, and a small model tuned for function calling can score poorly on \gls{mmlu} and be adequate as an executor. Even an internally consistent version of this record would therefore be the wrong evidence for H, and Section~\ref{subsec:agentic_evidence} assembles agent-specific evidence instead.
 
 \subsection{Quantization Impact}
-\label{subsec:reported_quantization}
+\label{subsec:reported_quantization_summary}
 
-Across the compression literature reviewed in Section~\ref{sec:compression}, the
-reported picture for the sub-10B regime is consistent on four points. INT8
-post-training quantization is effectively lossless on knowledge and mathematical
-benchmarks. INT4 costs a small but real amount of accuracy, and the loss is
-\emph{not} uniform across model sizes: smaller models degrade more, consistent
-with the argument that each weight in a small model carries proportionally more
-information \citep{slmquant2025}. Mathematical and multi-step reasoning degrade
-faster than knowledge recall under INT4, which matters directly for agentic use,
-since arithmetic and tool-argument construction are exactly the operations agents
-delegate. Among INT4 methods, \gls{awq} retains more accuracy than GPTQ by
-protecting the small fraction of activation-salient channels
-\citep{lin2024awq}, while \gls{gguf}'s Q4\_K\_M mixed-precision scheme gives the
-best size-quality balance on CPU and edge backends
-\citep{gerganov2023llamacpp}. Across the sub-4B range, quantization preserves
-fidelity better than pruning at matched compression
-\citep{kurz2025pruning_vs_quant}.
-
-Per-model, per-benchmark degradation figures are not reported consistently
-enough across this cohort to tabulate: sources differ in harness, calibration
-set, and group size, and few publish a matched FP16 baseline alongside the
-quantized result. Measuring them under a single toolchain is one of the
-verification studies proposed in
-Section~\ref{subsec:challenges_verification}.
-
-The memory consequence, by contrast, is firmly established, because it follows
-from the storage format rather than from measurement.
-Table~\ref{tab:memory_footprint} gives weight footprints computed from parameter
-count and bit-width. The realized reduction falls short of the nominal
-4$\times$, at roughly 3.2 to 3.4$\times$, because embedding, normalization, and
-in mixed schemes a subset of attention tensors are retained at higher precision.
-A 7B model drops from about 15~GB to about 4.5~GB, and a 3.8B model from 7.6~GB
-to about 2.4~GB, which is what moves each of them across a hardware tier
-boundary.
-
-
-\begin{table}[ht]
-\centering
-\caption{Model-weight memory footprint by precision (GB), computed from parameter count and storage bit-width. Four-bit columns include the higher-precision tensors each scheme retains, which is why the reduction is below the nominal 4$\times$. Activation and KV-cache memory are additional and depend on context length and batch size.}
-\label{tab:memory_footprint}
-\footnotesize
-\begin{tabular}{lcccc}
-\toprule
-\textbf{Model} & \textbf{FP16} & \textbf{GPTQ-4bit} & \textbf{AWQ-4bit} & \textbf{Q4\_K\_M} \\
-\midrule
-Qwen2.5-7B & 15.2 & 4.2 & 4.4 & 4.5 \\
-Phi-4-mini & 7.6 & 2.2 & 2.3 & 2.4 \\
-Llama 3.2-3B & 6.4 & 1.9 & 2.0 & 2.1 \\
-SmolLM2-1.7B & 3.4 & 1.1 & 1.1 & 1.2 \\
-TinyLlama-1.1B & 2.2 & 0.7 & 0.8 & 0.8 \\
-\bottomrule
-\end{tabular}
-\end{table}
+Four points summarize the compression evidence for the cohort's size range (Table~\ref{tab:compression_quality}): INT8 post-training quantization is reported as effectively lossless (\evC); at 4 bits, reasoning is largely preserved in an independent benchmark of 72 small models, while methods tuned on large models transfer imperfectly to sub-1B models (\evB); \gls{awq} is reported to retain more accuracy than GPTQ (\evC); and post-training quantization preserves fidelity better than post-training pruning at 0.5--3.8B (\evA). Per-model degradation figures are not reported consistently enough to tabulate. The memory consequence is arithmetic: 4-bit formats store 4.4--5.8 effective bits per weight, so weights shrink $2.8$--$3.6\times$ rather than $4\times$; Qwen2.5-7B falls from 15.2~GB to 4.2--4.5~GB (Table~\ref{tab:memory_footprint} in \suppsec~\ref{subsec:reported_quantization}).
 
 \subsection{Multilingual and Safety Reporting}
 \label{subsec:reported_safety}
 
-Multilingual and safety reporting is markedly sparser than benchmark reporting
-across the cohort, and the coverage that exists is not comparable across models;
-we therefore report the direction of the evidence rather than tabulating it.
-On multilingual capability, the models whose technical reports document
-large non-English pretraining mixtures, namely Qwen2.5 \citep{qwen2024qwen25}, Gemma~3
-\citep{team2025gemma3}, and Aya \citep{ustun2024aya}, report substantially
-stronger non-English performance than the English-centric families, and the gap
-is widest on non-English mathematical reasoning, where both language coverage and
-reasoning capacity bind at once. On safety, per-model toxicity evaluations are
-reported inconsistently and are frequently absent altogether from research-grade
-small models, so the cohort cannot be ranked; what the literature does establish
-is that alignment is harder to preserve at reduced scale and that fine-tuning can
-erode what alignment exists \citep{qi2023finetuning}, and that compression
-degrades performance unevenly across languages and dialects
-\citep{blodgett2020language,kurz2025pruning_vs_quant}. The absence of
-comparable safety reporting is itself a finding, and it is one of the
-verification gaps named in Section~\ref{subsec:challenges_verification}.
-Both observations carry directly into
-Section~\ref{sec:agentic}: an agent that routes non-English or safety-sensitive
-calls to a small English-centric model inherits these gaps, which is an argument
-for capability-aware rather than size-only routing.
+Multilingual and safety reporting is sparser than benchmark reporting and not comparable across models. Models whose reports document large non-English pretraining mixtures, such as Qwen2.5 \citep{qwen2024qwen25}, Gemma~3 \citep{team2025gemma3}, and Aya~23 8B \citep{aryabumi2024aya23}, report stronger non-English performance than English-centric families (\evC). Per-model toxicity evaluations are often absent for research-grade small models, alignment can be eroded by fine-tuning \citep{qi2023finetuning}, and compression degrades performance unevenly across languages \citep{blodgett2020language,kurz2025pruning_vs_quant}. An agent that routes non-English or safety-sensitive calls to a small English-centric model inherits these gaps, which argues for capability-aware rather than size-only routing.

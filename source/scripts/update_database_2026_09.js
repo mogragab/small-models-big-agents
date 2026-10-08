@@ -43,11 +43,13 @@ const db = JSON.parse(fs.readFileSync(DB, 'utf8'));
 // ---------------------------------------------------------------------------
 
 /** Parse "7B", "~5B", "2.4T", "8.3B total", "3B active" -> number of params. */
-function parseParams(v) {
+function parseParams(v, prefer = 'total_params') {
   if (v == null) return null;
   if (typeof v === 'object') {
     // Some legacy records nest {total_params, active_params, architecture}.
-    return parseParams(v.total_params ?? v.active_params ?? null);
+    // Read the field the caller asked for; reading total_params for the active
+    // count misfiled nested MoEs as LLMs before v3.5 (see apply_inclusion_rules.py).
+    return parseParams(v[prefer] ?? v.total_params ?? null);
   }
   if (typeof v === 'number') return v;
   const s = String(v);
@@ -64,7 +66,7 @@ const THRESHOLD_B = 20;
 function classify(rec) {
   const p = rec.parameters || {};
   const total = parseParams(p.total);
-  const activeStated = parseParams(p.active_per_token);
+  const activeStated = parseParams(p.active_per_token, 'active_params');
   // For a dense model, active == total, so falling back to total is sound. For
   // an MoE whose active count is not published, it is not: assuming active ==
   // total would classify a small-active model as an LLM on no evidence. Leave

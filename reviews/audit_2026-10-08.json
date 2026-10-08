@@ -1,0 +1,956 @@
+{
+  "array_counts": {
+    "slm": 209,
+    "llm": 219,
+    "excluded": 11
+  },
+  "classes": {
+    "small-active-moe": 31,
+    "slm": 178
+  },
+  "years": {
+    "2026": 42,
+    "2025": 56,
+    "2024": 74,
+    "2023": 37
+  },
+  "record_example": {
+    "id": "ling-3.0-flash-sante",
+    "name": "Ling 3.0 Flash Sante",
+    "family": "Ling",
+    "type": "SLM",
+    "access": "API",
+    "developer": "inclusionAI",
+    "release_date": "2026-09-04",
+    "status": "active",
+    "parameters": {
+      "total": "124B",
+      "active_per_token": "5.1B",
+      "is_moe": true
+    },
+    "context_window_tokens": 262144,
+    "modalities": [
+      "text"
+    ],
+    "license": "See source",
+    "use_cases": [
+      "health",
+      "medicine"
+    ],
+    "reference_url": "https://openrouter.ai/inclusionai/ling-3.0-flash-sante",
+    "huggingface_url": null,
+    "pricing_usd_per_million_tokens": null,
+    "architecture_notes": "Health and medicine specialised variant of Ling 3.0 Flash.",
+    "languages_supported": null,
+    "benchmarks": null,
+    "paper_url": null,
+    "training_data": null,
+    "base_or_instruct": "instruct",
+    "variants": [],
+    "source_note": "https://openrouter.ai/api/v1/models (retrieved 2026-09-05)",
+    "source_retrieved": "2026-09-05",
+    "meets_c1_active_le_20b": true,
+    "meets_c2_total_le_20b": false,
+    "slm_class": "small-active-moe",
+    "parsed_total_params_b": 124.0,
+    "parsed_active_params_b": 5.1,
+    "inclusion_decision": "included: small-active-parameter MoE (meets C1, not C2)"
+  },
+  "excluded": [
+    {
+      "id": "nex-n2-mini",
+      "name": "Nex-N2-Mini",
+      "family": "Nex-N2",
+      "type": "SLM",
+      "access": "OW",
+      "developer": "Nex AGI",
+      "release_date": "2026-06-24",
+      "status": "active",
+      "parameters": {
+        "total": "Undisclosed",
+        "active_per_token": "Undisclosed",
+        "is_moe": false
+      },
+      "context_window_tokens": 262144,
+      "modalities": [
+        "text",
+        "vision"
+      ],
+      "license": "See source",
+      "use_cases": [
+        "agentic",
+        "coding",
+        "tool use"
+      ],
+      "reference_url": "https://openrouter.ai/nex-agi/nex-n2-mini",
+      "huggingface_url": "https://huggingface.co/nex-agi/Nex-N2-Mini",
+      "pricing_usd_per_million_tokens": null,
+      "architecture_notes": "Open-source agentic MoE, smaller sibling in the Nex-N2 series. Parameter counts not stated by the source.",
+      "languages_supported": null,
+      "benchmarks": null,
+      "paper_url": null,
+      "training_data": null,
+      "base_or_instruct": "instruct",
+      "variants": [],
+      "source_note": "https://openrouter.ai/api/v1/models (retrieved 2026-09-05)",
+      "source_retrieved": "2026-09-05",
+      "meets_c1_active_le_20b": null,
+      "meets_c2_total_le_20b": null,
+      "slm_class": "undisclosed",
+      "parsed_total_params_b": null,
+      "parsed_active_params_b": null,
+      "inclusion_decision": "excluded: M1 (no primary source states the architecture or parameter count)"
+    },
+    {
+      "id": "254",
+      "name": "Voxtral Mini",
+      "family": "Voxtral",
+      "type": "SLM",
+      "access": "API",
+      "developer": "Mistral AI",
+      "release_date": "2025-09-15",
+      "status": "active",
+      "parameters": {
+        "total": {
+          "total_params": "undisclosed",
+          "active_params": "undisclosed",
+          "architecture": "Transformer"
+        },
+        "active_per_token": {
+          "total_params": "undisclosed",
+          "active_params": "undisclosed",
+          "architecture": "Transformer"
+        },
+        "is_moe": false
+      },
+      "context_window_tokens": null,
+      "modalities": [
+        "audio",
+        "text"
+      ],
+      "license": "Proprietary",
+      "use_cases": [
+        "speech understanding",
+        "transcription"
+      ],
+      "reference_url": "https://mistral.ai/models",
+      "huggingface_url": "https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503",
+      "paper_url": "https://arxiv.org/abs/2507.13264",
+      "pricing_usd_per_million_tokens": null,
+      "architecture_notes": "",
+      "languages_supported": null,
+      "benchmarks": {
+        "MMLU": "N/A",
+        "HumanEval": "N/A",
+        "GSM8K": "N/A",
+        "HellaSwag": "N/A",
+        "ARC_Challenge": "N/A",
+        "MT_Bench": "N/A"
+      },
+      "training_data": {
+        "training_data_cutoff": "undisclosed",
+        "training_tokens": "undisclosed",
+        "languages_supported": "undisclosed"
+      },
+      "base_or_instruct": "both",
+      "variants": [],
+      "meets_c1_active_le_20b": null,
+      "meets_c2_total_le_20b": null,
+      "slm_class": "undisclosed",
+      "parsed_total_params_b": null,
+      "parsed_active_params_b": null,
+      "inclusion_decision": "excluded: M1 (no primary source states the architecture or parameter count)"
+    },
+    {
+      "id": "jan-v1-4b",
+      "name": "Jan-v1-4B",
+      "family": "Jan",
+      "type": "SLM",
+      "access": "OW",
+      "developer": "Jan.ai",
+      "release_date": "2025",
+      "status": "active",
+      "parameters": {
+        "total": "4B",
+        "active_per_token": "4B",
+        "is_moe": false
+      },
+      "context_window_tokens": 131072,
+      "modalities": [
+        "text"
+      ],
+      "license": "Apache 2.0",
+      "use_cases": [
+        "agentic reasoning",
+        "tool use",
+        "local deployment"
+      ],
+      "reference_url": "https://huggingface.co/janhq/Jan-v1-4B",
+      "huggingface_url": "https://huggingface.co/janhq/Jan-v1-4B",
+      "pricing_usd_per_million_tokens": null,
+      "architecture_notes": null,
+      "languages_supported": null,
+      "benchmarks": {
+        "SimpleQA": "91.1%"
+      },
+      "paper_url": null,
+      "training_data": null,
+      "base_or_instruct": "instruct",
+      "variants": [],
+      "meets_c1_active_le_20b": true,
+      "meets_c2_total_le_20b": true,
+      "slm_class": "slm",
+      "parsed_total_params_b": 4.0,
+      "parsed_active_params_b": 4.0,
+      "inclusion_decision": "excluded: derivative artifact (fine-tune of Qwen3-4B; no technical report)"
+    },
+    {
+      "id": "nova-micro",
+      "name": "Amazon Nova Micro",
+      "family": "Amazon Nova",
+      "type": "SLM",
+      "access": "API",
+      "developer": "Amazon",
+      "release_date": "2024-12-03",
+      "status": "active",
+      "parameters": {
+        "total": "Undisclosed",
+        "active_per_token": "Undisclosed",
+        "is_moe": false
+      },
+      "context_window_tokens": 131072,
+      "modalities": [
+        "text"
+      ],
+      "license": "Proprietary (AWS)",
+      "use_cases": [
+        "AWS-native low-latency text tasks",
+        "Lambda AI apps"
+      ],
+      "reference_url": "https://aws.amazon.com/nova/models/",
+      "huggingface_url": null,
+      "pricing_usd_per_million_tokens": null,
+      "architecture_notes": null,
+      "languages_supported": null,
+      "benchmarks": null,
+      "paper_url": "https://arxiv.org/abs/2506.12103",
+      "training_data": null,
+      "base_or_instruct": "instruct",
+      "variants": [],
+      "meets_c1_active_le_20b": null,
+      "meets_c2_total_le_20b": null,
+      "slm_class": "undisclosed",
+      "parsed_total_params_b": null,
+      "parsed_active_params_b": null,
+      "inclusion_decision": "excluded: M1 (no primary source states the architecture or parameter count)"
+    },
+    {
+      "id": "nova-lite",
+      "name": "Amazon Nova Lite",
+      "family": "Amazon Nova",
+      "type": "SLM",
+      "access": "API",
+      "developer": "Amazon",
+      "release_date": "2024-12-03",
+      "status": "active",
+      "parameters": {
+        "total": "Undisclosed",
+        "active_per_token": "Undisclosed",
+        "is_moe": false
+      },
+      "context_window_tokens": 300000,
+      "modalities": [
+        "text",
+        "vision"
+      ],
+      "license": "Proprietary (AWS)",
+      "use_cases": [
+        "multimodal understanding",
+        "cost-efficient AWS inference"
+      ],
+      "reference_url": "https://aws.amazon.com/nova/models/",
+      "huggingface_url": null,
+      "pricing_usd_per_million_tokens": null,
+      "architecture_notes": null,
+      "languages_supported": null,
+      "benchmarks": null,
+      "paper_url": "https://arxiv.org/abs/2506.12103",
+      "training_data": null,
+      "base_or_instruct": "instruct",
+      "variants": [],
+      "meets_c1_active_le_20b": null,
+      "meets_c2_total_le_20b": null,
+      "slm_class": "undisclosed",
+      "parsed_total_params_b": null,
+      "parsed_active_params_b": null,
+      "inclusion_decision": "excluded: M1 (no primary source states the architecture or parameter count)"
+    },
+    {
+      "id": "129",
+      "name": "GPT-4o mini",
+      "family": "GPT",
+      "type": "SLM",
+      "access": "API",
+      "developer": "OpenAI",
+      "release_date": "2024-07-18",
+      "status": "active",
+      "parameters": {
+        "total": {
+          "total_params": "undisclosed",
+          "active_params": "undisclosed",
+          "architecture": "Transformer"
+        },
+        "active_per_token": {
+          "total_params": "undisclosed",
+          "active_params": "undisclosed",
+          "architecture": "Transformer"
+        },
+        "is_moe": false
+      },
+      "context_window_tokens": null,
+      "modalities": [
+        "vision",
+        "text"
+      ],
+      "license": "Proprietary",
+      "use_cases": [
+        "cost-efficient",
+        "fast",
+        "function calling",
+        "long context"
+      ],
+      "reference_url": "https://openai.com/index/gpt-4o-mini-advancing-cost-efficient-intelligence/",
+      "huggingface_url": null,
+      "paper_url": "https://arxiv.org/abs/2410.21276",
+      "pricing_usd_per_million_tokens": null,
+      "architecture_notes": "Replaced GPT-3.5 Turbo as the default affordable model.",
+      "languages_supported": null,
+      "benchmarks": {
+        "MMLU": "82.0",
+        "HumanEval": "N/A",
+        "GSM8K": "N/A",
+        "HellaSwag": "N/A",
+        "ARC_Challenge": "N/A",
+        "MT_Bench": "N/A"
+      },
+      "training_data": {
+        "training_data_cutoff": "undisclosed",
+        "training_tokens": "undisclosed",
+        "languages_supported": "undisclosed"
+      },
+      "base_or_instruct": "instruct",
+      "variants": [],
+      "meets_c1_active_le_20b": null,
+      "meets_c2_total_le_20b": null,
+      "slm_class": "undisclosed",
+      "parsed_total_params_b": null,
+      "parsed_active_params_b": null,
+      "inclusion_decision": "excluded: M1 (no primary source states the architecture or parameter count)"
+    },
+    {
+      "id": "nous-hermes-2-mixtral",
+      "name": "Nous Hermes 2 Mixtral",
+      "family": "Hermes",
+      "type": "LLM",
+      "access": "OW",
+      "developer": "Nous Research",
+      "release_date": "2024-01-17",
+      "status": "legacy",
+      "parameters": {
+        "total": "46.7B",
+        "active_per_token": "12.9B",
+        "is_moe": true
+      },
+      "context_window_tokens": 32000,
+      "modalities": [
+        "text"
+      ],
+      "license": "See source",
+      "use_cases": [
+        "Fine-tuned Mixtral-8x7B",
+        "Function calling",
+        "JSON mode",
+        "Strong instruction following"
+      ],
+      "reference_url": "https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO",
+      "huggingface_url": "https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO",
+      "paper_url": null,
+      "pricing_usd_per_million_tokens": null,
+      "architecture_notes": "Community fine-tune of Mixtral with enhanced instruction following and function calling.",
+      "languages_supported": null,
+      "benchmarks": null,
+      "training_data": "High quality curated datasets",
+      "base_or_instruct": "instruct",
+      "variants": [],
+      "meets_c1_active_le_20b": true,
+      "meets_c2_total_le_20b": false,
+      "slm_class": "small-active-moe",
+      "parsed_total_params_b": 46.7,
+      "parsed_active_params_b": 12.9,
+      "inclusion_decision": "excluded: derivative artifact (community fine-tune of Mixtral-8x7B; no technical report)"
+    },
+    {
+      "id": "mistral-tiny-2312",
+      "name": "Mistral Tiny (Mistral-7B-Instruct)",
+      "family": "Mistral",
+      "type": "SLM",
+      "access": "API",
+      "developer": "Mistral AI",
+      "release_date": "2023-12-11",
+      "status": "legacy",
+      "parameters": {
+        "total": "7B",
+        "active_per_token": "7B",
+        "is_moe": false
+      },
+      "context_window_tokens": 32000,
+      "modalities": [
+        "text"
+      ],
+      "license": "Proprietary",
+      "use_cases": [
+        "API-served Mistral 7B Instruct",
+        "Cost-effective API option",
+        "Fastest Mistral endpoint"
+      ],
+      "reference_url": "https://docs.mistral.ai/getting-started/models/",
+      "huggingface_url": "https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3",
+      "paper_url": "https://arxiv.org/abs/2310.06825",
+      "pricing_usd_per_million_tokens": null,
+      "architecture_notes": "API-hosted version of Mistral 7B Instruct, branded as Mistral Tiny in the API.",
+      "languages_supported": null,
+      "benchmarks": null,
+      "training_data": "undisclosed",
+      "base_or_instruct": "instruct",
+      "variants": [],
+      "meets_c1_active_le_20b": true,
+      "meets_c2_total_le_20b": true,
+      "slm_class": "slm",
+      "parsed_total_params_b": 7.0,
+      "parsed_active_params_b": 7.0,
+      "inclusion_decision": "excluded: duplicate (API alias of the Mistral 7B instruct checkpoint already listed)"
+    },
+    {
+      "id": "35",
+      "name": "Vicuna-7B v1.5",
+      "family": "Vicuna",
+      "type": "LLM",
+      "access": "OW",
+      "developer": "LMSYS",
+      "release_date": "2023-07-29",
+      "status": "legacy",
+      "parameters": {
+        "total": {
+          "total_params": "7B",
+          "active_params": "7B",
+          "architecture": "Transformer"
+        },
+        "active_per_token": {
+          "total_params": "7B",
+          "active_params": "7B",
+          "architecture": "Transformer"
+        },
+        "is_moe": false
+      },
+      "context_window_tokens": null,
+      "modalities": [
+        "text"
+      ],
+      "license": "See source",
+      "use_cases": [
+        "fine-tuned on ShareGPT",
+        "chat assistant"
+      ],
+      "reference_url": "https://huggingface.co/lmsys/vicuna-7b-v1.5",
+      "huggingface_url": "https://huggingface.co/lmsys/vicuna-7b-v1.5",
+      "paper_url": "https://lmsys.org/blog/2023-03-30-vicuna/",
+      "pricing_usd_per_million_tokens": null,
+      "architecture_notes": "",
+      "languages_supported": null,
+      "benchmarks": {
+        "MMLU": "N/A",
+        "HumanEval": "N/A",
+        "GSM8K": "N/A",
+        "HellaSwag": "N/A",
+        "ARC_Challenge": "N/A",
+        "MT_Bench": "N/A"
+      },
+      "training_data": {
+        "training_data_cutoff": "undisclosed",
+        "training_tokens": "undisclosed",
+        "languages_supported": "undisclosed"
+      },
+      "base_or_instruct": "instruct",
+      "variants": [
+        "Vicuna-7B v1.5",
+        "Vicuna-7B-16k v1.5"
+      ],
+      "meets_c1_active_le_20b": true,
+      "meets_c2_total_le_20b": true,
+      "slm_class": "slm",
+      "parsed_total_params_b": 7.0,
+      "parsed_active_params_b": 7.0,
+      "inclusion_decision": "excluded: derivative artifact (LMSYS fine-tune of Llama 2 on shared conversations; no technical report for the model)"
+    },
+    {
+      "id": "17",
+      "name": "Vicuna-13B",
+      "family": "Vicuna",
+      "type": "LLM",
+      "access": "OW",
+      "developer": "LMSYS",
+      "release_date": "2023-03-30",
+      "status": "legacy",
+      "parameters": {
+        "total": {
+          "total_params": "13B",
+          "active_params": "13B",
+          "architecture": "Transformer"
+        },
+        "active_per_token": {
+          "total_params": "13B",
+          "active_params": "13B",
+          "architecture": "Transformer"
+        },
+        "is_moe": false
+      },
+      "context_window_tokens": null,
+      "modalities": [
+        "text"
+      ],
+      "license": "See source",
+      "use_cases": [
+        "fine-tuned on ShareGPT data",
+        "chat assistant"
+      ],
+      "reference_url": "https://lmsys.org/blog/2023-03-30-vicuna/",
+      "huggingface_url": "https://huggingface.co/lmsys/vicuna-13b-delta-v0",
+      "paper_url": "https://lmsys.org/blog/2023-03-30-vicuna/",
+      "pricing_usd_per_million_tokens": null,
+      "architecture_notes": "Fine-tuned LLaMA on ShareGPT conversations. Claimed 90% ChatGPT quality.",
+      "languages_supported": null,
+      "benchmarks": {
+        "MMLU": "N/A",
+        "HumanEval": "N/A",
+        "GSM8K": "N/A",
+        "HellaSwag": "N/A",
+        "ARC_Challenge": "N/A",
+        "MT_Bench": "N/A"
+      },
+      "training_data": {
+        "training_data_cutoff": "undisclosed",
+        "training_tokens": "undisclosed",
+        "languages_supported": "undisclosed"
+      },
+      "base_or_instruct": "instruct",
+      "variants": [
+        "Vicuna-7B",
+        "Vicuna-13B",
+        "Vicuna-33B"
+      ],
+      "meets_c1_active_le_20b": true,
+      "meets_c2_total_le_20b": true,
+      "slm_class": "slm",
+      "parsed_total_params_b": 13.0,
+      "parsed_active_params_b": 13.0,
+      "inclusion_decision": "excluded: derivative artifact (LMSYS fine-tune of LLaMA on shared conversations; no technical report for the model)"
+    },
+    {
+      "id": "4",
+      "name": "Flan-T5",
+      "family": "T5",
+      "type": "LLM",
+      "access": "OW",
+      "developer": "Google",
+      "release_date": "2022-10-20",
+      "status": "legacy",
+      "parameters": {
+        "total": {
+          "total_params": "11B",
+          "active_params": "11B",
+          "architecture": "Transformer"
+        },
+        "active_per_token": {
+          "total_params": "11B",
+          "active_params": "11B",
+          "architecture": "Transformer"
+        },
+        "is_moe": false
+      },
+      "context_window_tokens": null,
+      "modalities": [
+        "text"
+      ],
+      "license": "See source",
+      "use_cases": [
+        "instruction tuned",
+        "encoder-decoder",
+        "chain-of-thought"
+      ],
+      "reference_url": "https://arxiv.org/abs/2210.11416",
+      "huggingface_url": "https://huggingface.co/google/flan-t5-xxl",
+      "paper_url": "https://arxiv.org/abs/2210.11416",
+      "pricing_usd_per_million_tokens": null,
+      "architecture_notes": "Instruction-tuned version of T5. Part of Google's Flan collection.",
+      "languages_supported": null,
+      "benchmarks": {
+        "MMLU": "N/A",
+        "HumanEval": "N/A",
+        "GSM8K": "N/A",
+        "HellaSwag": "N/A",
+        "ARC_Challenge": "N/A",
+        "MT_Bench": "N/A"
+      },
+      "training_data": {
+        "training_data_cutoff": "undisclosed",
+        "training_tokens": "undisclosed",
+        "languages_supported": "undisclosed"
+      },
+      "base_or_instruct": "instruct",
+      "variants": [
+        "Flan-T5-Small (80M)",
+        "Flan-T5-Base (250M)",
+        "Flan-T5-Large (780M)",
+        "Flan-T5-XL (3B)",
+        "Flan-T5-XXL (11B)"
+      ],
+      "meets_c1_active_le_20b": true,
+      "meets_c2_total_le_20b": true,
+      "slm_class": "slm",
+      "parsed_total_params_b": 11.0,
+      "parsed_active_params_b": 11.0,
+      "inclusion_decision": "excluded: encoder-decoder architecture (outside C1)"
+    }
+  ],
+  "bib_entries": 174,
+  "citation_keys": 174,
+  "missing_citations": [],
+  "duplicate_bib_keys": [],
+  "missing_labels": [],
+  "duplicate_labels": [],
+  "copy_differences": [],
+  "bib_copies_equal": true,
+  "reference_hosts": {
+    "openrouter.ai": 11,
+    "huggingface.co": 44,
+    "developer.nvidia.com": 3,
+    "machinelearning.apple.com": 3,
+    "www.liquid.ai": 10,
+    "blog.google": 8,
+    "mistral.ai": 4,
+    "qwen.ai": 7,
+    "nvidianews.nvidia.com": 1,
+    "docs.mistral.ai": 4,
+    "venturebeat.com": 2,
+    "www.ibm.com": 6,
+    "research.nvidia.com": 1,
+    "falcon-lm.github.io": 4,
+    "github.com": 33,
+    "arxiv.org": 11,
+    "ai.meta.com": 9,
+    "build.nvidia.com": 1,
+    "qwenlm.github.io": 14,
+    "openai.com": 2,
+    "ai.google.dev": 5,
+    "falconllm.tii.ae": 4,
+    "docs.cohere.com": 1,
+    "allenai.org": 5,
+    "cohere.com": 2,
+    "azure.microsoft.com": 5,
+    "www.snowflake.com": 1,
+    "stability.ai": 3,
+    "reka.ai": 1,
+    "deepmind.google": 1,
+    "www.adept.ai": 1,
+    "www.together.ai": 1,
+    "www.mosaicml.com": 1
+  },
+  "context_coverage": 136,
+  "context_by_year": {
+    "2023": {
+      "n": 6,
+      "median": 2048.0
+    },
+    "2024": {
+      "n": 38,
+      "median": 12288.0
+    },
+    "2025": {
+      "n": 52,
+      "median": 131072.0
+    },
+    "2026": {
+      "n": 40,
+      "median": 262144.0
+    }
+  },
+  "both_count": 62,
+  "source_retrieved_count": 27,
+  "architecture_examples": [
+    {
+      "name": "Aya Expanse-8B",
+      "notes": "Next generation of Aya with improved training strategies for multilingual performance.",
+      "url": "https://cohere.com/blog/aya-expanse"
+    },
+    {
+      "name": "Aya 23-8B",
+      "notes": "Open multilingual model covering 23 languages with strong cross-lingual transfer.",
+      "url": "https://cohere.com/research/aya"
+    },
+    {
+      "name": "Pythia-12B",
+      "notes": "Suite of models designed for studying training dynamics, with all checkpoints publicly released.",
+      "url": "https://github.com/EleutherAI/pythia"
+    }
+  ],
+  "moe_flag_count": 30,
+  "small_active_without_moe_flag": [
+    "Nemotron 3 Nano-30B",
+    "Phi-3.5-MoE",
+    "Qwen2-57B-A14B",
+    "Snowflake Arctic",
+    "Mixtral-8x7B"
+  ],
+  "active_below_total_count": 37,
+  "secondary_reference_records": [
+    {
+      "name": "Ling 3.0 Flash Sante",
+      "reference_url": "https://openrouter.ai/inclusionai/ling-3.0-flash-sante",
+      "paper_url": null,
+      "huggingface_url": null
+    },
+    {
+      "name": "Ling 3.0 Flash Fin",
+      "reference_url": "https://openrouter.ai/inclusionai/ling-3.0-flash-fin",
+      "paper_url": null,
+      "huggingface_url": null
+    },
+    {
+      "name": "DeepSeek V4 Flash Vision Exp",
+      "reference_url": "https://openrouter.ai/deepseek/deepseek-v4-flash-vision-exp",
+      "paper_url": null,
+      "huggingface_url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Vision-Exp"
+    },
+    {
+      "name": "Dots3-Note Preview",
+      "reference_url": "https://openrouter.ai/dots-studio/dots-3-note-preview",
+      "paper_url": null,
+      "huggingface_url": null
+    },
+    {
+      "name": "DeepSeek V4 Flash 0731",
+      "reference_url": "https://openrouter.ai/deepseek/deepseek-v4-flash-0731",
+      "paper_url": null,
+      "huggingface_url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731"
+    },
+    {
+      "name": "Inkling Small",
+      "reference_url": "https://openrouter.ai/thinkingmachines/inkling-small",
+      "paper_url": null,
+      "huggingface_url": "https://huggingface.co/thinkingmachines/Inkling-Small"
+    },
+    {
+      "name": "Ling 3.0 Flash",
+      "reference_url": "https://openrouter.ai/inclusionai/ling-3.0-flash",
+      "paper_url": null,
+      "huggingface_url": "https://huggingface.co/inclusionAI/Ling-3.0-flash"
+    },
+    {
+      "name": "Laguna S 2.1",
+      "reference_url": "https://openrouter.ai/poolside/laguna-s-2.1",
+      "paper_url": null,
+      "huggingface_url": "https://huggingface.co/poolside/Laguna-S-2.1"
+    },
+    {
+      "name": "Laguna XS 2.1",
+      "reference_url": "https://openrouter.ai/poolside/laguna-xs-2.1",
+      "paper_url": null,
+      "huggingface_url": "https://huggingface.co/poolside/Laguna-XS-2.1"
+    },
+    {
+      "name": "North Mini Code 1.0",
+      "reference_url": "https://openrouter.ai/cohere/north-mini-code",
+      "paper_url": null,
+      "huggingface_url": "https://huggingface.co/CohereLabs/North-Mini-Code-1.0"
+    },
+    {
+      "name": "Nex-N2-Pro",
+      "reference_url": "https://openrouter.ai/nex-agi/nex-n2-pro",
+      "paper_url": null,
+      "huggingface_url": "https://huggingface.co/nex-agi/Nex-N2-Pro"
+    },
+    {
+      "name": "Granite 4.0 Nano 350M",
+      "reference_url": "https://venturebeat.com/ai/ibms-open-source-granite-4-0-nano-ai-models-are-small-enough-to-run-locally",
+      "paper_url": null,
+      "huggingface_url": "https://huggingface.co/ibm-granite/granite-4.0-nano-350m"
+    },
+    {
+      "name": "Granite 4.0 Nano 1B",
+      "reference_url": "https://venturebeat.com/ai/ibms-open-source-granite-4-0-nano-ai-models-are-small-enough-to-run-locally",
+      "paper_url": null,
+      "huggingface_url": "https://huggingface.co/ibm-granite/granite-4.0-nano-1b"
+    }
+  ],
+  "logs": {
+    "less-is-more.log": [
+      "Package natbib Warning: Citation `abdin2024phi3' multiply defined.",
+      "Package natbib Warning: Citation `aggarwal2024automix' multiply defined.",
+      "Package natbib Warning: Citation `ainslie2023gqa' multiply defined.",
+      "Package natbib Warning: Citation `allal2025smollm2' multiply defined.",
+      "Package natbib Warning: Citation `gunter2025afm' multiply defined.",
+      "Package natbib Warning: Citation `apple2024intelligence' multiply defined.",
+      "Package natbib Warning: Citation `apple2026afm3' multiply defined.",
+      "Package natbib Warning: Citation `aryabumi2024aya23' multiply defined.",
+      "Package natbib Warning: Citation `barres2025tau2' multiply defined.",
+      "Package natbib Warning: Citation `belcak2025slm_agentic' multiply defined.",
+      "Package natbib Warning: Citation `blodgett2020language' multiply defined.",
+      "Package natbib Warning: Citation `cai2024medusa' multiply defined.",
+      "Package natbib Warning: Citation `chen2023specsampling' multiply defined.",
+      "Package natbib Warning: Citation `chen2023frugalgpt' multiply defined.",
+      "Package natbib Warning: Citation `deepseek2025r1' multiply defined.",
+      "Package natbib Warning: Citation `dettmers2022llmint8' multiply defined.",
+      "Package natbib Warning: Citation `dettmers2023qlora' multiply defined.",
+      "Package natbib Warning: Citation `ding2024hybridllm' multiply defined.",
+      "Package natbib Warning: Citation `frantar2023sparsegpt' multiply defined.",
+      "Package natbib Warning: Citation `frantar2023gptq' multiply defined.",
+      "Package natbib Warning: Citation `fu2024dynamic_selfd' multiply defined.",
+      "Package natbib Warning: Citation `gao2023harness' multiply defined.",
+      "Package natbib Warning: Citation `gemini2023' multiply defined.",
+      "Package natbib Warning: Citation `gemma2team2024' multiply defined.",
+      "Package natbib Warning: Citation `gemma2024' multiply defined.",
+      "Package natbib Warning: Citation `team2025gemma3' multiply defined.",
+      "Package natbib Warning: Citation `gemma4_2026' multiply defined.",
+      "Package natbib Warning: Citation `gerganov2023llamacpp' multiply defined.",
+      "Package natbib Warning: Citation `gunasekar2023phi1' multiply defined.",
+      "Package natbib Warning: Citation `zhu2024deepseek_coder' multiply defined.",
+      "Package natbib Warning: Citation `hasan2024optimclm' multiply defined.",
+      "Package natbib Warning: Citation `hinton2015distilling' multiply defined.",
+      "Package natbib Warning: Citation `hu2022lora' multiply defined.",
+      "Package natbib Warning: Citation `jiang2023mistral' multiply defined.",
+      "Package natbib Warning: Citation `jiao2020tinybert' multiply defined.",
+      "Package natbib Warning: Citation `kaplan2020scaling' multiply defined.",
+      "Package natbib Warning: Citation `kim2025meerkat' multiply defined.",
+      "Package natbib Warning: Citation `kim2024squeezellm' multiply defined.",
+      "Package natbib Warning: Citation `leviathan2023speculative' multiply defined.",
+      "Package natbib Warning: Citation `lewis2020rag' multiply defined.",
+      "Package natbib Warning: Citation `li2024eagle' multiply defined.",
+      "Package natbib Warning: Citation `liang2023helm' multiply defined.",
+      "Package natbib Warning: Citation `lin2024awq' multiply defined.",
+      "Package natbib Warning: Citation `liu2024agentbench' multiply defined.",
+      "Package natbib Warning: Citation `grattafiori2024llama3' multiply defined.",
+      "Package natbib Warning: Citation `lozhkov2024starcoder2' multiply defined.",
+      "Package natbib Warning: Citation `meta2024executorch' multiply defined.",
+      "Package natbib Warning: Citation `microsoft2025phi4mini' multiply defined.",
+      "Package natbib Warning: Citation `mlc2024' multiply defined.",
+      "Package natbib Warning: Citation `mukherjee2023orca' multiply defined.",
+      "Package natbib Warning: Citation `minitron2024' multiply defined.",
+      "Package natbib Warning: Citation `ong2024routellm' multiply defined.",
+      "Package natbib Warning: Citation `patil2025bfcl' multiply defined.",
+      "Package natbib Warning: Citation `patterson2021carbon' multiply defined.",
+      "Package natbib Warning: Citation `qwen2024qwen25' multiply defined.",
+      "Package natbib Warning: Citation `roziere2023codellama' multiply defined.",
+      "Package natbib Warning: Citation `division_of_thoughts_2025' multiply defined.",
+      "Package natbib Warning: Citation `slmquant2025' multiply defined.",
+      "Package natbib Warning: Citation `xiao2023smoothquant' multiply defined.",
+      "Package natbib Warning: Citation `xu2025phi4mini_reasoning' multiply defined.",
+      "Package natbib Warning: Citation `xu2024device' multiply defined.",
+      "Package natbib Warning: Citation `yao2024taubench' multiply defined.",
+      "Package natbib Warning: Citation `zhang2023siren' multiply defined.",
+      "Package natbib Warning: Citation `kurz2025pruning_vs_quant' multiply defined.",
+      "Package natbib Warning: Citation `ustun2024aya' multiply defined.",
+      "LaTeX Warning: Label `tocindent-1' multiply defined.",
+      "LaTeX Warning: Label `tocindent0' multiply defined.",
+      "LaTeX Warning: Label `tocindent1' multiply defined.",
+      "LaTeX Warning: Label `tocindent2' multiply defined.",
+      "LaTeX Warning: Label `tocindent3' multiply defined.",
+      "LaTeX Warning: Label `tocindent4' multiply defined.",
+      "LaTeX Warning: Label `tocindent5' multiply defined.",
+      "LaTeX Warning: Label `TotPages' multiply defined.",
+      "Package natbib Warning: There were multiply defined citations.",
+      "Class acmart Warning: \\vspace should only be used to provide space above/below ",
+      "LaTeX Warning: There were multiply-defined labels."
+    ],
+    "supplement.log": [
+      "Package natbib Warning: Citation `abdin2024phi3' multiply defined.",
+      "Package natbib Warning: Citation `aggarwal2024automix' multiply defined.",
+      "Package natbib Warning: Citation `ainslie2023gqa' multiply defined.",
+      "Package natbib Warning: Citation `allal2025smollm2' multiply defined.",
+      "Package natbib Warning: Citation `gunter2025afm' multiply defined.",
+      "Package natbib Warning: Citation `apple2024intelligence' multiply defined.",
+      "Package natbib Warning: Citation `apple2026afm3' multiply defined.",
+      "Package natbib Warning: Citation `aryabumi2024aya23' multiply defined.",
+      "Package natbib Warning: Citation `barres2025tau2' multiply defined.",
+      "Package natbib Warning: Citation `belcak2025slm_agentic' multiply defined.",
+      "Package natbib Warning: Citation `blodgett2020language' multiply defined.",
+      "Package natbib Warning: Citation `cai2024medusa' multiply defined.",
+      "Package natbib Warning: Citation `chen2023specsampling' multiply defined.",
+      "Package natbib Warning: Citation `chen2023frugalgpt' multiply defined.",
+      "Package natbib Warning: Citation `deepseek2025r1' multiply defined.",
+      "Package natbib Warning: Citation `dettmers2022llmint8' multiply defined.",
+      "Package natbib Warning: Citation `dettmers2023qlora' multiply defined.",
+      "Package natbib Warning: Citation `ding2024hybridllm' multiply defined.",
+      "Package natbib Warning: Citation `frantar2023sparsegpt' multiply defined.",
+      "Package natbib Warning: Citation `frantar2023gptq' multiply defined.",
+      "Package natbib Warning: Citation `fu2024dynamic_selfd' multiply defined.",
+      "Package natbib Warning: Citation `gao2023harness' multiply defined.",
+      "Package natbib Warning: Citation `gemini2023' multiply defined.",
+      "Package natbib Warning: Citation `gemma2team2024' multiply defined.",
+      "Package natbib Warning: Citation `gemma2024' multiply defined.",
+      "Package natbib Warning: Citation `team2025gemma3' multiply defined.",
+      "Package natbib Warning: Citation `gemma4_2026' multiply defined.",
+      "Package natbib Warning: Citation `gerganov2023llamacpp' multiply defined.",
+      "Package natbib Warning: Citation `gunasekar2023phi1' multiply defined.",
+      "Package natbib Warning: Citation `zhu2024deepseek_coder' multiply defined.",
+      "Package natbib Warning: Citation `hasan2024optimclm' multiply defined.",
+      "Package natbib Warning: Citation `hinton2015distilling' multiply defined.",
+      "Package natbib Warning: Citation `hu2022lora' multiply defined.",
+      "Package natbib Warning: Citation `jiang2023mistral' multiply defined.",
+      "Package natbib Warning: Citation `jiao2020tinybert' multiply defined.",
+      "Package natbib Warning: Citation `kaplan2020scaling' multiply defined.",
+      "Package natbib Warning: Citation `kim2025meerkat' multiply defined.",
+      "Package natbib Warning: Citation `kim2024squeezellm' multiply defined.",
+      "Package natbib Warning: Citation `leviathan2023speculative' multiply defined.",
+      "Package natbib Warning: Citation `lewis2020rag' multiply defined.",
+      "Package natbib Warning: Citation `li2024eagle' multiply defined.",
+      "Package natbib Warning: Citation `liang2023helm' multiply defined.",
+      "Package natbib Warning: Citation `lin2024awq' multiply defined.",
+      "Package natbib Warning: Citation `liu2024agentbench' multiply defined.",
+      "Package natbib Warning: Citation `grattafiori2024llama3' multiply defined.",
+      "Package natbib Warning: Citation `lozhkov2024starcoder2' multiply defined.",
+      "Package natbib Warning: Citation `meta2024executorch' multiply defined.",
+      "Package natbib Warning: Citation `microsoft2025phi4mini' multiply defined.",
+      "Package natbib Warning: Citation `mlc2024' multiply defined.",
+      "Package natbib Warning: Citation `mukherjee2023orca' multiply defined.",
+      "Package natbib Warning: Citation `minitron2024' multiply defined.",
+      "Package natbib Warning: Citation `ong2024routellm' multiply defined.",
+      "Package natbib Warning: Citation `patil2025bfcl' multiply defined.",
+      "Package natbib Warning: Citation `patterson2021carbon' multiply defined.",
+      "Package natbib Warning: Citation `qwen2024qwen25' multiply defined.",
+      "Package natbib Warning: Citation `roziere2023codellama' multiply defined.",
+      "Package natbib Warning: Citation `division_of_thoughts_2025' multiply defined.",
+      "Package natbib Warning: Citation `slmquant2025' multiply defined.",
+      "Package natbib Warning: Citation `xiao2023smoothquant' multiply defined.",
+      "Package natbib Warning: Citation `xu2025phi4mini_reasoning' multiply defined.",
+      "Package natbib Warning: Citation `xu2024device' multiply defined.",
+      "Package natbib Warning: Citation `yao2024taubench' multiply defined.",
+      "Package natbib Warning: Citation `zhang2023siren' multiply defined.",
+      "Package natbib Warning: Citation `kurz2025pruning_vs_quant' multiply defined.",
+      "Package natbib Warning: Citation `ustun2024aya' multiply defined.",
+      "LaTeX Warning: Label `tocindent-1' multiply defined.",
+      "LaTeX Warning: Label `tocindent0' multiply defined.",
+      "LaTeX Warning: Label `tocindent1' multiply defined.",
+      "LaTeX Warning: Label `tocindent2' multiply defined.",
+      "LaTeX Warning: Label `tocindent3' multiply defined.",
+      "LaTeX Warning: Label `tocindent4' multiply defined.",
+      "LaTeX Warning: Label `tocindent5' multiply defined.",
+      "LaTeX Warning: Label `TotPages' multiply defined.",
+      "Overfull \\hbox (1.02536pt too wide) in paragraph at lines 112--113",
+      "Package natbib Warning: There were multiply defined citations.",
+      "Class acmart Warning: ACM keywords are mandatory for papers over two pages.",
+      "Class acmart Warning: \\vspace should only be used to provide space above/below ",
+      "Class acmart Warning: CCS concepts are mandatory for papers over two pages.",
+      "LaTeX Warning: There were multiply-defined labels."
+    ]
+  }
+}

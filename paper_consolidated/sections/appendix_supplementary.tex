@@ -2,7 +2,7 @@
 \label{appendix:supplementary}
 \label{app:provenance}
 
-This appendix supports the reproducibility of the \emph{review itself}. It records where the quantitative material in Sections~\ref{sec:reported} and~\ref{sec:deployment} comes from, and documents the evaluation and compression conventions the reviewed sources report, so that a reader can judge any individual figure against the conditions behind it. Detailed device specifications appear in Section~\ref{sec:deployment}, Table~\ref{tab:appendix_hardware}. The appendix reports no original experimental runs.
+This appendix supports the reproducibility of the \emph{review itself}. It records where the quantitative material in Sections~\ref{sec:reported} and~\ref{sec:deployment} comes from, and documents the evaluation and compression conventions the reviewed sources report, so that a reader can judge any individual figure against the conditions behind it. Device specifications are in Table~\ref{tab:appendix_hardware}. The appendix reports no original experimental runs.
 
 \subsection{Provenance of the Consolidated Figures}
 \label{subsec:appendix_provenance_table}
@@ -18,12 +18,12 @@ This appendix supports the reproducibility of the \emph{review itself}. It recor
 % -----------------------------------------------------------------------------
 
 Provenance is recorded at two levels. \emph{Model-level} provenance fixes, for
-each model in the cohort, the primary release document from which its
-architectural specification and headline benchmark scores derive
+each of the 18 models in the cohort, the primary release document from which its
+architectural specification and the vendor-reported scores quoted in
+Section~\ref{subsec:reported_overall} derive
 (Table~\ref{tab:provenance_models}). \emph{Source-class} provenance records, for
-each consolidated table, the categories of source the figures are drawn from and
-the reconciliation rules applied
-(Section~\ref{subsec:appendix_provenance_status}). Benchmark definitions and
+each table retained in the paper, the category of source its contents are drawn
+from (Section~\ref{subsec:appendix_provenance_status}). Benchmark definitions and
 metric variants follow the originating task papers cited in
 Section~\ref{subsec:reported_benchmarks}.
 
@@ -37,7 +37,7 @@ Section~\ref{subsec:reported_benchmarks}.
 \textbf{Model(s)} & \textbf{Developer} & \textbf{Primary source} & \textbf{Source type} \\
 \midrule
 TinyLlama-1.1B & StatNLP / SUTD & \citet{zhang2024tinyllama} & Technical report \\
-SmolLM2-1.7B, -360M & Hugging Face & \citet{allal2025smollm2} & Technical report \\
+SmolLM2-1.7B & Hugging Face & \citet{allal2025smollm2} & Technical report \\
 StableLM 2-1.6B & Stability AI & \citet{stabilityai2024stablelm} & Technical report \\
 Qwen2.5-0.5B/1.5B/3B/7B & Alibaba & \citet{qwen2024qwen25} & Technical report \\
 Llama 3.2-1B/3B & Meta & \citet{grattafiori2024llama3} & Technical report \\
@@ -48,7 +48,6 @@ Phi-3-mini & Microsoft & \citet{abdin2024phi3} & Technical report \\
 Phi-3.5-mini & Microsoft & \citet{abdin2024phi35} & Technical report \\
 Phi-4-mini & Microsoft & \citet{microsoft2025phi4mini} & Technical report \\
 Phi-4 & Microsoft & \citet{abdin2024phi4} & Technical report \\
-Ministral 8B & Mistral AI & Vendor model card & Model card \\
 \bottomrule
 \end{tabular}%
 }
@@ -68,7 +67,9 @@ counts are stated directly in those documents and are stable across printings.
 
 \emph{Computed from stated quantities.} The weight footprints in
 Table~\ref{tab:memory_footprint} follow arithmetically from parameter count and
-storage bit-width and are not measurements. The device specifications in
+an effective number of bits per weight (two bytes per parameter for FP16, 4.4--5.8
+effective bits for the four-bit schemes, as stated in its caption) and are
+estimates, not measurements. The device specifications in
 Table~\ref{tab:hardware_configs} and Table~\ref{tab:appendix_hardware} come from
 manufacturer datasheets.
 
@@ -78,6 +79,10 @@ consequences of how the technique works, not measurements: the memory factor of
 $n$-bit quantization follows from the bit-width, and the parameter factor of
 $s$-fraction pruning follows from the sparsity level. Where a cell reports a
 figure from a specific study, that study is cited in the cell.
+
+\emph{Inventory-derived.} The counts in the text, Table~\ref{tab:reporting_dimensions}, the inventory appendix, and every generated figure are computed from version~3.6 of the released inventory by the released scripts.
+
+\emph{Transcribed coverage.} The coverage ledger (Table~\ref{tab:audit_ledger}) records whether, and under which stated protocol, each model's primary release document or official model card reports each benchmark; the document and table for every cell are listed in \file{audit\_coverage\_ledger.csv}. For the Phi models these are the official model cards \citep{microsoft2025phi4minicard}, and for Llama~3.2 the official model card \citep{meta2024llama32card}.
 
 \emph{Qualitative synthesis of the reviewed literature.} The quality-cost
 statements in Table~\ref{tab:compression_quality}, the framework comparison in
@@ -89,33 +94,21 @@ sections. They are positional rather than metric, and each row of the two graded
 tables carries the class of evidence standing behind it
 (Section~\ref{subsec:reported_grading}).
 
-\emph{Withdrawn.} An earlier version of this paper carried a table giving a
-single ``compression ratio'' and a single ``accuracy retention'' percentage per
-technique. Both columns have been withdrawn.
-Section~\ref{subsec:compression_reporting} sets out the reasons: the compression
-ratio conflates reductions in parameters, memory, and training compute, which
-trade against different budgets, and is undefined for distillation, where the
-student size is a design choice rather than a property of the method; and an
-accuracy-retention percentage is uninterpretable without a baseline precision,
-model, size, task, metric, and aggregation rule, all of which the retained figure
-had averaged over. They are replaced by
-Tables~\ref{tab:compression_axes} and~\ref{tab:compression_quality}. They should
-not be reinstated without per-cell provenance of the kind
-Section~\ref{subsec:appendix_provenance_table} requires.
+\emph{Not reported by design.} No table in this paper gives a single compression
+ratio or accuracy-retention percentage per technique, for the reasons in
+Section~\ref{subsec:compression_reporting}, and no table reports a cross-model
+accuracy comparison, because, as Section~\ref{subsec:reported_overall} and
+Table~\ref{tab:audit_ledger} show, such a table cannot be assembled from vendor
+reporting without mixing incompatible protocols and separately reported
+checkpoints. A partial table from single-harness third-party evaluations is the
+defensible alternative.
 
-No table in this paper reports a cross-model accuracy comparison. As
-Section~\ref{subsec:reported_overall} sets out, such a table cannot be assembled
-from current public reporting without mixing incompatible shot counts,
-inconsistent base and instruction-tuned checkpoints, and benchmark sets that do
-not intersect. We considered it preferable to state that finding and omit the
-table than to publish a matrix whose cells could not each be traced to a source
-evaluated under the conditions its column header claims.
-
-\subsection{Prompt Formats}
+\subsection{Prompt Formats in the Source Literature}
 \label{subsec:appendix_prompt_templates}
-The reviewed source materials commonly preserve each model's own instruction
-wrapper while following a shared task-payload structure, which is summarized here
-in prose. \textbf{Multiple-choice question answering} presents the question
+This subsection describes the conventions the reviewed sources use; it does not
+describe a protocol applied in this review, which ran no evaluations. The sources
+commonly preserve each model's own instruction wrapper while following a broadly
+similar task-payload structure. \textbf{Multiple-choice question answering} presents the question
 followed by the enumerated options (A--D) and an ``Answer:'' cue, with the model
 expected to emit a single option letter. \textbf{Mathematical reasoning} prepends
 an instruction to solve the problem step by step and appends a ``Let's think step
@@ -124,15 +117,15 @@ by step'' cue, so that a chain-of-thought precedes the final numeric answer.
 question, then an instruction to answer from the context and to respond
 ``unanswerable'' when the context does not contain the answer. \textbf{Abstractive
 summarization} supplies the source article preceded by an instruction to produce a
-two- to three-sentence summary. Where a source reports few-shot results, the same
-fixed set of exemplars is prepended to the payload for every model on a given
-task. Because sources differ in the exact wording of these wrappers and in
-answer-extraction heuristics, the consolidated figures are compared only within
-tasks and, wherever possible, within a single reporting source.
+two- to three-sentence summary. Where a source reports few-shot results, it typically prepends a fixed set of
+exemplars of its own choosing, which differs from source to source. Because
+sources differ in the exemplars, in the exact wording of these wrappers, and in
+answer-extraction heuristics, figures from different sources are not comparable,
+which is part of the finding of Section~\ref{subsec:reported_overall}.
 
 \subsection{Quantization and Compression Pipeline}
 \label{subsec:appendix_quantization_pipeline}
-To complement the methodology section, the compression workflows reported across the reviewed sources are summarized here. The reviewed literature reports five precision or compression settings across the consolidated comparison:
+The compression workflows reported across the reviewed sources are summarized here. The reviewed literature reports five recurring precision or compression settings:
 \begin{description}
     \item[FP16 baseline] Standard half-precision inference used as the reference condition.
     \item[GGUF Q4\_K\_M] Mixed-precision 4-bit quantization via \texttt{llama.cpp}, assigning higher precision to the most sensitive tensors.
@@ -141,7 +134,7 @@ To complement the methodology section, the compression workflows reported across
     \item[bitsandbytes NF4] 4-bit NormalFloat quantization with double quantization, matching the \gls{qlora} training regime.
 \end{description}
 
-For compression stress tests, the sources report SparseGPT~\citep{frantar2023sparsegpt}-induced 50\% unstructured sparsity applied before 4-bit quantization. Reported figures for this combined pruning-plus-quantization setting are retained in the provenance tables for sensitivity analysis rather than the main comparative tables, because support for sparse inference remains hardware dependent and is not uniformly reported across the reviewed sources.
+Some sources also report SparseGPT~\citep{frantar2023sparsegpt}-induced 50\% unstructured sparsity applied before 4-bit quantization. We do not tabulate those figures, because support for sparse inference remains hardware dependent and the setting is not uniformly reported across the reviewed sources.
 
 \subsection{Human-Evaluation Conventions in the Source Literature}
 \label{subsec:appendix_human_eval}

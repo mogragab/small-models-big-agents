@@ -1,0 +1,121 @@
+% Supplementary material: moved from Section 8 of the main text.
+
+\section{Domain-Specific Applications in Detail}
+\label{supp:applications}
+
+This section expands the summary of Section~\ref{sec:applications} of the main text.
+
+\subsection{Healthcare and Clinical NLP}
+\label{subsec:applications_healthcare}
+
+Healthcare \gls{nlp} presents demanding requirements: high factual accuracy, interpretability, compatibility with clinical workflows, and operation within a regulatory regime that constrains where identifiable patient data may be processed. That regime is the pull toward on-premises models, and it needs stating precisely, because it is frequently overstated.
+
+\emph{On-premises deployment is not compliance.} Neither HIPAA nor the GDPR is
+satisfied by the location of a model's weights. HIPAA compliance is a property of
+a covered entity's administrative, physical, and technical safeguards taken
+together: access control, audit logging, integrity controls, transmission
+security, workforce training, breach notification, and business-associate
+agreements where a third party is involved. The GDPR requires a lawful basis for
+processing, purpose limitation, data minimization, a data protection impact
+assessment for high-risk processing, and, for automated decisions with legal or
+similarly significant effects, the safeguards of Article~22. A locally hosted
+model can fail every one of these. What on-premises deployment does is remove one
+specific difficulty, the transfer of identifiable data to a processor outside the
+entity's control, which under HIPAA otherwise requires a business-associate
+agreement and under the GDPR raises transfer and sub-processor questions. That is
+a real and often decisive simplification, and it is the reason the pull exists.
+It is not a compliance property of the model, and no claim in this paper should
+be read as asserting one. The same scope conditions as
+Section~\ref{subsec:deployment_privacy_scope} apply: an on-premises model whose
+application logs prompts to a cloud service has reintroduced the transfer it was
+chosen to avoid.
+
+The Meerkat family \citep{kim2025meerkat} demonstrates the potential of domain-specific \gls{slm} fine-tuning. Built on a 7B base with instruction fine-tuning on curated clinical QA data and chain-of-thought traces synthesized from medical textbooks, Meerkat-7B reports 70.6\% on MedQA (USMLE-style), which its authors describe as the first 7B result above the USMLE passing threshold, ahead of earlier open medical models and GPT-3.5 across six medical benchmarks though below GPT-4 (\evC). The larger Meerkat-70B is reported to exceed GPT-4 by 1.3 points on average and to diagnose 21 of 38 complex clinical cases, against 21.8 for GPT-4 and 13.8 for human respondents (\evC). Meerkat-7B runs on a single GPU; Meerkat-70B needs about 140~GB at 16-bit precision.
+
+OptimCLM \citep{hasan2024optimclm} distils an ensemble of domain-adapted clinical BERT encoders into the smaller BERT-PKD and TinyBERT, then applies unstructured pruning and 8-bit quantization, reporting up to $22.88\times$ compression with under 5\% loss in macro-AUROC on length-of-stay, mortality, diagnosis, and procedure prediction from MIMIC-III admission notes. It shows that the compression stages compose for clinical classifiers that can run on hospital workstations; it is not evidence about generative \glspl{slm}.
+
+The broader \gls{slm} healthcare ecosystem includes domain-pretrained biomedical models in the 2--3B range, clinical note generation models, and radiology-specific models. A key trend is the use of \gls{rag} \citep{lewis2020rag} to anchor \gls{slm} outputs to verified clinical knowledge bases, reducing hallucination rates in patient-facing applications.
+
+\subsubsection{The State of the Evidence in This Domain}
+\label{subsubsec:applications_health_evidence}
+
+Healthcare is the best-evidenced of the verticals surveyed here, and it is still
+weaker evidence than it appears. Three qualifications apply to everything above.
+
+\emph{Licensing-exam benchmarks are not deployment evidence.} MedQA and its
+siblings are multiple-choice examinations designed to test candidate physicians,
+and performance on them establishes that a model can answer exam questions. It
+does not establish accuracy on the tasks clinical systems actually perform:
+coding an encounter, drafting a discharge summary, extracting a medication list
+from a note, or flagging a contraindication. The Meerkat results are
+grade-\evC{}, author-reported on public benchmarks with a documented method,
+which is a good standard for the model literature and not the standard a clinical
+deployment decision requires.
+
+\emph{Independent prospective evaluation is largely absent.} We found no
+prospective study evaluating a sub-10B model in a live clinical workflow with
+outcome measurement, and no head-to-head comparison of an on-premises small model
+against a cloud frontier model on the same institution's data under the same
+protocol. Retrospective benchmark performance and deployment performance are
+known to diverge in clinical \gls{nlp}, and nothing in the current \gls{slm}
+literature closes that gap.
+
+\emph{Compression results are single-study.} The OptimCLM finding
+\citep{hasan2024optimclm} that compressed clinical encoders lose under 5\% in
+macro-AUROC on outcome prediction is one pipeline, on one dataset, for
+classification rather than generation. It has not been independently reproduced,
+and no comparable study exists for a compressed generative \gls{slm} on clinical
+tasks such as coding an encounter or drafting a discharge summary.
+
+The honest summary is that healthcare provides the strongest published case for
+domain-specific small models and that the case rests on exam benchmarks and
+single studies rather than on deployment evidence. Establishing per-task clinical
+benchmarks with independent evaluation, and reporting per-group performance
+floors of the kind Section~\ref{subsec:challenges_ethics} argues for, is an open
+need in this vertical specifically.
+
+\subsection{Legal NLP}
+\label{subsec:applications_legal}
+
+Legal document processing, which covers contract review, compliance monitoring, regulatory change analysis, and case law search, involves long and precisely structured documents where hallucination is particularly dangerous. \glspl{slm} address legal \gls{nlp} deployment constraints in two ways: (1)~by enabling on-premises deployment to satisfy attorney-client privilege and data security requirements; and (2)~by enabling cost-effective processing of the massive volumes of routine legal work that would be prohibitively expensive with frontier \glspl{llm}.
+
+The argument for domain-adapted \glspl{slm} (3B--7B, fine-tuned on contract corpora) in this vertical is structural rather than empirical: contract review, compliance triage, and regulatory monitoring consist of bounded, highly repetitive classification and extraction operations over documents that frequently cannot leave the client's infrastructure, which is precisely the profile the conversion pipeline of Section~\ref{subsec:agentic_conversion} targets. Narrow fine-tuning on a specific regulatory regime concentrates in-domain knowledge that a generalist model must retrieve or infer.
+
+We state the evidential position for this vertical explicitly, because it is
+weaker than for the other three and it would be easy to read the structural
+argument above as though it were a result. Public legal benchmarks exist: LegalBench
+\citep{guha2023legalbench} collects 162 legal-reasoning tasks, LexGLUE
+\citep{chalkidis2022lexglue} groups legal language-understanding tasks, and CUAD
+\citep{hendrycks2021cuad} provides expert-annotated contract clauses. What is
+missing is their use for the current generation of small decoder models: we
+found no evaluation of 2024--2026 sub-10B models across them under a common
+protocol, and deployment comparisons rest on vendor pilot reports that are not
+independently verifiable, often because the corpora are client-confidential. Two structural
+features of the domain make this worse: an error in contract or compliance work
+can be both consequential and hard to detect, which is exactly the condition
+under which hypothesis~H's verifiability requirement (Section~\ref{subsec:intro_thesis})
+fails; and long, cross-referential documents strain the short-context condition.
+Legal work is therefore a domain where the economic case for small models is
+strong and the capability evidence is absent, and we present the section as such
+rather than as a claim of parity. Establishing open legal-domain benchmarks with
+independent evaluation is a prerequisite for saying anything stronger.
+
+\subsection{Code Generation}
+\label{subsec:applications_code}
+
+Code-focused \glspl{slm} have matured into a category distinct from general \glspl{slm}, with specialized pre-training corpora (GitHub, Stack Overflow, documentation), code-aware tokenization, and evaluation on function-level benchmarks (HumanEval, MBPP, SWE-Bench).
+
+\begin{description}
+    \item[Code Llama \citep{roziere2023codellama}] Meta's family of code models fine-tuned on Llama 2 (7B, 13B, 34B). Code Llama 7B achieves 33.5\% HumanEval pass@1.
+
+    \item[StarCoder2 \citep{lozhkov2024starcoder2}] BigCode's 3B/7B/15B models trained on The Stack v2 (600+ programming languages). StarCoder2-7B reports 35.4\% HumanEval pass@1, and StarCoder2-15B 46.3\%.
+
+    \item[DeepSeek-Coder \citep{zhu2024deepseek_coder}] A 1.3B--33B family trained from scratch on 2T tokens. The 6.7B base model reports 49.4\% on Python HumanEval, and its instruction-tuned version 78.6\%, above the 76.2\% the same report gives for GPT-3.5-Turbo.
+
+    \item[Codestral \citep{mistral2024codestral}] Mistral's 22B code model trained on 80+ programming languages with fill-in-the-middle (FIM) training for IDE integration. At 22B dense it is just outside the C1/C2 bound and is not in the inventory; it is listed as the upper reference for this category.
+\end{description}
+
+\subsection{Education and Multilingual NLP}
+\label{subsec:applications_multilingual}
+
+Multilingual \glspl{slm} address the linguistic coverage gap in AI assistants: the majority of \gls{llm} pre-training data is English, leaving speakers of lower-resource languages with markedly worse performance. Aya~23 \citep{aryabumi2024aya23} allocates the capacity of an 8B decoder to 23 languages and reports outperforming its predecessor Aya-101 \citep{ustun2024aya}, a 13B mT5-based encoder-decoder covering 101 languages (outside C1), on the languages both cover (\evC); the pair illustrates the breadth-versus-depth trade-off at this size. Qwen2.5 \citep{qwen2024qwen25} and Gemma~3 \citep{team2025gemma3} document large non-English pretraining mixtures and report multilingual evaluations (\evC). For educational use, which includes on-device tutoring and low-connectivity tools, the requirements beyond language coverage are low hallucination rates and age-appropriate safety filtering, neither of which is reported comparably across small models.

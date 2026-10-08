@@ -1,316 +1,77 @@
 % ================================================================
 % Section: Taxonomy of Small Language Models
-% Merged from main (2).tex — Section III
 % ================================================================
 
 \section{A Faceted Taxonomy of Small Language Models}
 \label{sec:taxonomy}
 
-\subsection{Why the Scheme Is Faceted and Multi-Label}
+\subsection{The Scheme}
 \label{subsec:taxonomy_scheme}
 
-We organize the \gls{slm} design space along four \emph{primary} facets,
-\emph{architecture}, \emph{training strategy}, \emph{modality}, and
-\emph{application domain} (Figure~\ref{fig:taxonomy}), and five
-\emph{secondary} facets that govern whether a model can actually be adopted
-(Table~\ref{tab:taxonomy_facets}). Two properties of the scheme need stating up
-front, because earlier presentations of this taxonomy, including our own, got
-them wrong.
-
-First, the facets are \emph{not orthogonal}, and it would be misleading to
-present them as such. Training strategy and architecture are entangled: the
-pruning-plus-distillation route presupposes a dense teacher, and the
-mixture-of-experts route interacts with distillation through which experts are
-supervised. Modality and architecture are entangled through the encoder a
-vision-language model attaches. What the facets are is \emph{separately
-observable}: each can be read off a model's primary source independently of the
-others, which is what makes them usable as an indexing scheme even though they
-covary.
-
-Second, the scheme is \emph{multi-label}, not a partition. A model may occupy
-several categories on one facet at once. Gemma~3 is distilled \emph{and} trained
-on a curated corpus from scratch; Granite~4.0 is a hybrid state-space model
-\emph{and} a mixture of experts; Qwen2.5-7B is used as a general-purpose model
-\emph{and} as a multilingual and a code model. Forcing one label per facet, as a
-partition would, produces exactly the misclassifications a reader would then have
-to undo. In the inventory each variant therefore carries a set of labels per
-facet, and the counts in the figures that follow are counts of labels, not of
-models, except where stated.
-
-The application-domain facet needs a further caveat. Unlike the other three, it
-is usually a statement about \emph{how a model is used} rather than an intrinsic
-property of the artifact: a general-purpose 7B model fine-tuned by a hospital on
-clinical notes is a healthcare model in deployment and a general-purpose model on
-the Hub. We therefore assign a domain label only when the developer trained or
-tuned the released artifact for that domain and says so in the primary source,
-and we treat the facet as the weakest of the four.
-
-\begin{table}[t]
-\centering
-\caption{Secondary facets. These do not describe what a model is but whether it can be adopted, and they are the facets practitioners report finding hardest to recover from model cards. Each is recorded per variant in the released inventory.}
-\label{tab:taxonomy_facets}
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{@{}lp{5.4cm}p{4.6cm}@{}}
-\toprule
-\textbf{Facet} & \textbf{Values} & \textbf{Why it gates adoption} \\
-\midrule
-Licensing & Permissive (Apache-2.0, MIT); custom vendor licence with use restrictions; research-only; unspecified; proprietary/API-only & Determines commercial use, redistribution of fine-tunes, and whether an on-premises deployment is legal at all \\
-Data transparency & Full (corpus released); partial (composition described, data not released); disclosed sources only; undisclosed & Determines whether contamination, licensing of training data, and domain fit can be assessed \\
-Safety alignment & Preference-optimized with a published safety evaluation; instruction-tuned without one; base model only & A base checkpoint wired into an agent with tool access has no refusal behavior to rely on \\
-Reasoning mode & None; always-on extended reasoning; controllable budget; separate reasoning checkpoint & Determines token cost per call and whether latency is predictable, which is decisive inside an agent loop \\
-Deployment target & Documented inference engine(s) and hardware class the vendor ships an artifact for & An unquantized checkpoint with no GGUF, ONNX, or ExecuTorch export is not an edge model whatever its size \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-
-Context length and active-parameter count, which would otherwise belong here, are
-reported per variant in Table~\ref{tab:reporting_dimensions} instead, because they
-are quantities rather than categories.
+We index the \gls{slm} design space along four \emph{primary} facets, architecture, training strategy, modality, and application domain (Figure~\ref{fig:taxonomy}), and five \emph{secondary} facets that govern adoption: licensing, data transparency, safety alignment, reasoning mode, and deployment target (Table~\ref{tab:taxonomy_facets} in \suppsec~\ref{supp:tables}). The facets are \emph{separately observable}, in that each can be read off a model's primary source, but they are \emph{not orthogonal}: pruning-plus-distillation presupposes a dense teacher, and a vision encoder ties modality to architecture. The scheme is also \emph{multi-label}: Gemma~3 is distilled \emph{and} trained on a curated corpus, Granite~4.0 is a hybrid state-space model \emph{and} a mixture of experts. It is an indexing scheme illustrated with exemplars, not a partition of the inventory. The released inventory records per variant the fields its sources state directly (modality, access, license, dense or mixture-of-experts, post-training status, context length), and the figures are drawn from those fields; architecture and training facets are assigned in this paper to representative models only. The application-domain facet is the weakest of the four, since it usually describes use rather than the artifact, so we assign it only when the developer trained the released artifact for a domain and says so.
 
 \begin{figure}[t]
 \centering
 \footnotesize
 % Palette shared with the generated figures (source/scripts/generate_figures_v2.py).
-% Four categorical hues in the validated assignment order: blue, orange, aqua,
-% violet. Keep these in step with PALETTE in that script.
-\definecolor{txInk}{HTML}{1F2933}
-\definecolor{txSlate}{HTML}{7E8C9A}
-\definecolor{txIndigo}{HTML}{2A78D6}
-\definecolor{txOcean}{HTML}{EB6834}
-\definecolor{txTeal}{HTML}{1BAF7A}
-\definecolor{txCoral}{HTML}{4A3AA7}
+\definecolor{txInk}{HTML}{34404A}
+\definecolor{txSlate}{HTML}{A2AAB1}
+\definecolor{txIndigo}{HTML}{7397B8}
+\definecolor{txOcean}{HTML}{D8A879}
+\definecolor{txTeal}{HTML}{79A88E}
+\definecolor{txCoral}{HTML}{9B8FB5}
 \newcommand{\txax}[2]{{\normalsize\bfseries\color{#1!88!black}#2}}
 \newcommand{\txcat}[1]{{\scriptsize\bfseries\color{txInk}#1}}
 \newcommand{\txsep}{{\color{txSlate}\,\textendash\,}}
 \newcommand{\txex}[1]{{\scriptsize\itshape\color{txSlate}#1}}
 \begin{tikzpicture}[
-  panel/.style={draw=#1!55, line width=0.7pt, rounded corners=3pt, inner sep=6pt,
+  panel/.style={draw=#1!55, line width=0.7pt, rounded corners=3pt, inner sep=5pt,
                 text width=0.455\linewidth, align=left, fill=#1!7},
-  node distance=4mm and 4mm,
+  node distance=3mm and 3mm,
 ]
 \node[panel=txIndigo] (arch) {%
-  \txax{txIndigo}{1.\ Architecture}\\[3pt]
-  \txcat{Dense transformer}\txsep GQA, RoPE, SwiGLU\\ \txex{Phi-4-mini, Qwen3, SmolLM3, Gemma 3}\\[2pt]
-  \txcat{Mixture-of-experts}\txsep sparse activation\\ \txex{Granite 4.0 Tiny; small-active MoE: Mixtral, Qwen3-30B-A3B, Llama 4 Scout}\\[2pt]
+  \txax{txIndigo}{1.\ Architecture}\\[2pt]
+  \txcat{Dense transformer}\txsep GQA, RoPE, gated FFN\\ \txex{Phi-4-mini, Qwen3, SmolLM3, Gemma 3}\\[1pt]
+  \txcat{Mixture-of-experts}\txsep sparse activation\\ \txex{Granite 4.0 Tiny; small-active MoE: Mixtral, Qwen3-30B-A3B}\\[1pt]
   \txcat{Hybrid SSM/attention}\txsep linear-time\\ \txex{Falcon-H1, Granite 4.0, Nemotron Nano 2}%
 };
 \node[panel=txOcean, right=of arch] (train) {%
-  \txax{txOcean}{2.\ Training strategy}\\[3pt]
-  \txcat{From scratch}\txsep curated / synthetic data\\ \txex{Phi, Qwen3, SmolLM3}\\[2pt]
-  \txcat{Distillation}\txsep transfer from a larger teacher\\ \txex{Gemma 3/4, DeepSeek-R1-Distill, Phi-4-mini-reasoning}\\[2pt]
-  \txcat{Pruning + distillation}\txsep shrink a large model\\ \txex{Minitron, Sheared-LLaMA}%
+  \txax{txOcean}{2.\ Training strategy}\\[2pt]
+  \txcat{From scratch}\txsep curated / synthetic data\\ \txex{Phi, Qwen3, SmolLM3}\\[1pt]
+  \txcat{Distillation}\txsep transfer from a larger teacher\\ \txex{Gemma 3/4, DeepSeek-R1-Distill, Phi-4-mini-reasoning}\\[1pt]
+  \txcat{Pruning + distillation}\txsep shrink a larger model\\ \txex{Minitron, Sheared-LLaMA, Llama 3.2 1B/3B}%
 };
 \node[panel=txTeal, below=of arch] (mod) {%
-  \txax{txTeal}{3.\ Modality}\\[3pt]
-  \txcat{Text-only}\txsep majority of production SLMs\\ \txex{Mistral 7B, SmolLM3, Qwen3}\\[2pt]
-  \txcat{Vision--language}\txsep CLIP/SigLIP encoder\\ \txex{Phi-3-vision, Gemma 3 (4B+), PaliGemma}\\[2pt]
-  \txcat{Text + vision + audio}\txsep one sub-10B model\\ \txex{Gemma 3n, Gemma 4, Apple AFM}%
+  \txax{txTeal}{3.\ Modality}\\[2pt]
+  \txcat{Text-only}\txsep majority of SLMs\\ \txex{Mistral 7B, SmolLM3, Qwen3}\\[1pt]
+  \txcat{Vision--language}\txsep image encoder added\\ \txex{Phi-3-vision, Gemma 3 (4B+), PaliGemma}\\[1pt]
+  \txcat{Text + vision + audio}\txsep one sub-10B model\\ \txex{Gemma 3n, Gemma 4, Voxtral Mini (audio)}%
 };
 \node[panel=txCoral, below=of train] (dom) {%
-  \txax{txCoral}{4.\ Application domain}\\[3pt]
-  \txcat{General-purpose}\txsep broad benchmarks\\ \txex{Phi, Gemma, Llama, Qwen, Mistral}\\[2pt]
-  \txcat{Healthcare / legal}\txsep on-premises, compliance\\ \txex{Meerkat, OptimCLM}\\[2pt]
-  \txcat{Code / multilingual}\txsep domain corpora\\ \txex{StarCoder2, DeepSeek-Coder, Aya}%
+  \txax{txCoral}{4.\ Application domain}\\[2pt]
+  \txcat{General-purpose}\txsep broad benchmarks\\ \txex{Phi, Gemma, Llama, Qwen, Mistral}\\[1pt]
+  \txcat{Healthcare}\txsep clinical text\\ \txex{Meerkat, OptimCLM (encoders)}\\[1pt]
+  \txcat{Code / multilingual}\txsep domain corpora\\ \txex{StarCoder2, DeepSeek-Coder, Aya 23}%
 };
 \end{tikzpicture}
-\caption{The four primary facets of the taxonomy. The facets are separately
-observable but not orthogonal, and assignment is multi-label: a model may carry
-more than one category on a facet. Representative models are italicised.
-Section~\ref{sec:taxonomy} develops each facet, Table~\ref{tab:taxonomy_facets}
-gives the five secondary facets, and Table~\ref{tab:taxonomy_summary} gives the
-tabular form.}
-\Description{A two-by-two arrangement of four labelled panels, one per primary taxonomy facet: architecture, training strategy, modality, and application domain. Each panel lists its three categories with a short defining characteristic and representative models.}
-  \label{fig:taxonomy}
-\end{figure}
-
-Figure~\ref{fig:releases_by_size} shows how the size distribution of new \gls{slm} releases has evolved: the sub-1B and 1--3B bands dominated early releases, but the 3--7B band has become the centre of gravity as capability-per-parameter has improved. Figure~\ref{fig:family_size_range} shows the parameter span of the major families.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{paper_slm_releases_by_size.png}
-  \caption{Documented SLM variants by release year and parameter band. The 3--7B band has grown from a minority of releases in 2023 to the largest single band by 2025.}
-  \Description{Stacked bar chart of documented small language model releases per year, split by parameter band. The sub-1B and 1-3B bands dominate 2023; the 3-7B band grows to become the largest single band by 2025.}
-  \label{fig:releases_by_size}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{paper_slm_family_size_range.png}
-  \caption{Parameter span (minimum, median, maximum, in billions, log scale) of the principal SLM families in the inventory.}
-  \Description{Horizontal range plot on a logarithmic axis showing the minimum, median, and maximum parameter count in billions for each principal small language model family.}
-  \label{fig:family_size_range}
+\caption{The four primary facets of the taxonomy. Facets are separately observable but not orthogonal, and assignment is multi-label. Representative models are italicised; \suppsec~\ref{supp:taxonomy} develops each facet and Table~\ref{tab:taxonomy_summary} gives the tabular form.}
+\Description{A two-by-two arrangement of four labelled panels, one per primary taxonomy facet: architecture, training strategy, modality, and application domain. Each panel lists three categories with a short defining characteristic and representative models.}
+\label{fig:taxonomy}
 \end{figure}
 
 % ----------------------------------------------------------------
-\subsection{Taxonomy by Architecture}
+\subsection{Architecture}
 \label{subsec:taxonomy_architecture}
 
-\subsubsection{Dense Transformer Models}
+\emph{Dense transformers} remain the majority, from SmolLM2-135M \citep{allal2025smollm2} to 7--14B models. The recurring refinements are grouped-query attention \citep{ainslie2023gqa}, which shrinks the \gls{kv} cache by the ratio of query to \gls{kv} heads; rotary position embeddings with an enlarged base or rescaling for long context; and gated feed-forward layers (SwiGLU in most families, GeGLU in Gemma). Among \glspl{slm} whose records state a context length, the median grew from 2K tokens in 2023 ($n=5$) to 16K in 2024 ($n=39$) and 128K in 2025 ($n=46$) and 2026 ($n=20$); coverage is thin for 2023, so the starting point is uncertain (\suppsec~\ref{supp:figures}).
 
-The majority of production \glspl{slm} use a dense transformer decoder: every token attends to every other token (within window) and every parameter is activated per forward pass. This category spans from sub-1B models (SmolLM2-135M \citep{allal2025smollm2}) to 7--8B flagships (Mistral 7B \citep{jiang2023mistral}, Llama 3.1 8B \citep{grattafiori2024llama3}). Recent dense families are notable for pushing capability per parameter: SmolLM3-3B \citep{smollm3} uses grouped-query attention with NoPE and is trained on 11.2T tokens with a documented three-stage curriculum, matching or exceeding Llama-3.2-3B and Qwen2.5-3B; Qwen3's dense line \citep{qwen3_2025} spans 0.6B--32B under a single architecture combining \gls{gqa}, \gls{rope}, and SwiGLU with a unified thinking / non-thinking switch. Key architectural improvements over the vanilla GPT-2 design include:
+\emph{Mixtures of experts} \citep{shazeer2017moe,fedus2022switch} decouple total from active parameters, and they sit on the fault line that C2 marks. Qwen3-30B-A3B \citep{qwen3_2025} costs about what a 3B dense model costs per token but needs 17--22~GB of 4-bit weight storage, so it is a small-active-parameter \gls{moe} in this paper, not an \gls{slm}; Granite~4.0 Tiny (about 7B total, 1B active) \citep{granite4_2025} satisfies both conditions. The 2026 releases concentrated in this class, with Nemotron~3.5 Lightning (30B/3B), Laguna XS~2.1 (33B/3B), Ling~3.0 Flash (124B/5.1B), and DeepSeek V4 Flash (284B/13B) appearing between June and August 2026.
 
-\begin{description}
-    \item[Grouped-query attention] Introduced in Llama 2 \citep{touvron2023llama2} and adopted by Mistral 7B and most post-2023 \glspl{slm}, \gls{gqa} reduces the \gls{kv} cache memory by a factor of $G$ (query heads divided by \gls{kv} heads), enabling longer context windows without a proportional memory cost.
+\emph{Hybrid state-space models} combine attention with linear-time state-space layers \citep{gu2023mamba}. Jamba \citep{lieber2024jamba} interleaves Mamba and attention blocks and reports a \gls{kv} cache eight times smaller than Mixtral's at 256K context; Falcon-H1 \citep{falconh1_2025}, Granite~4.0 \citep{granite4_2025}, Nemotron Nano~2 \citep{nvidia2025nemotron_nano2}, and the Qwen3.5 small series \citep{qwen3_5_2026} brought the design to production at small scale in 2025--2026. \suppsec~\ref{supp:taxonomy} gives the architectural detail for each class.
 
-    \item[Extended \gls{rope} base] Phi-3, Phi-4, Gemma~3, and Llama~3.2 all use \gls{rope} with extended base frequencies ($\theta = 500{,}000$--$1{,}000{,}000$) to support context windows up to 128K tokens without architectural modification.
-
-    \item[SwiGLU feed-forward network] Replacing the standard two-layer \gls{ffn} with a Swish-gated linear unit (SwiGLU) variant, adopted across nearly all post-2022 \glspl{slm}, improves perplexity at equal parameter count and has become the default choice in every major family surveyed here.
-\end{description}
-
-These changes, together with \gls{rope} base extension and positional interpolation, have driven a rapid expansion of context windows in the \gls{slm} inventory (Figure~\ref{fig:context_by_year}): median supported context grew from a few thousand tokens in 2023 to over 100K by 2025.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{paper_slm_context_by_year.png}
-  \caption{Supported context window of documented SLM variants by release year (log scale). Each violin is the kernel-density estimate of the distribution; the inner box marks the interquartile range, the dashed line the mean, and the dots individual models. Long context has become standard in the sub-10B regime.}
-  \Description{Violin plot of supported context window on a logarithmic axis against release year. The distribution shifts upward from a few thousand tokens in 2023 to a median above one hundred thousand tokens by 2025.}
-  \label{fig:context_by_year}
-\end{figure}
-
-\subsubsection{Mixture-of-Experts (MoE) SLMs}
-\glsunset{moe}
-
-MoE architectures \citep{shazeer2017moe,fedus2022switch} decouple \emph{total} parameters from \emph{active} parameters per token: only a subset of ``expert'' feed-forward network (FFN) blocks is activated by a learned router. This allows a model to have a large total parameter count while keeping per-token FLOPs comparable to a much smaller dense model.
-
-Mixtral~$8{\times}7$B \citep{jiang2024mixtral} (47B total, 12.9B active per token) is the canonical example, competitive with 70B dense models while activating only about a quarter of its parameters per token. More recent \gls{moe} models in this band include DeepSeek-MoE \citep{dai2024deepseekmoe} (finer-grained experts, 2B active from 16B total) and Qwen3-30B-A3B \citep{qwen3_2025}, which activates 3B of 30B parameters and reportedly matches Qwen2.5's dense base models at a fraction of the active parameter count. Meta's Llama~4 Scout \citep{llama4_2025} (109B total, 17B active, 16 experts) applies the same principle at a much larger total scale, with Behemoth serving as the distillation teacher.
-
-These models sit precisely on the fault line that condition C2 of
-Section~\ref{subsubsec:intro_def_operative} is there to mark. Per-token latency,
-FLOPs, and energy track \emph{active} parameters, so Qwen3-30B-A3B costs roughly
-what a 3B dense model costs to generate a token. Download size, disk footprint,
-and resident memory track \emph{total} parameters, so the same model needs on the
-order of 17~GB of weight storage at 4~bits and cannot be resident on a phone.
-Both facts are true at once, and a survey that reports only the first has
-described a model that nobody can deploy on the hardware the first fact makes it
-sound suitable for. In this paper, therefore, Mixtral~$8{\times}7$B,
-Qwen3-30B-A3B, and Llama~4 Scout are \emph{small-active-parameter \gls{moe}}
-models, not \glspl{slm}: they appear in the inventory and in the architectural
-discussion, and they are excluded from every statement about on-device
-feasibility, storage, and resident memory. Models such as Granite~4.0 Tiny
-($\sim$7B total, $\sim$1B active) satisfy both conditions and are \glspl{slm}
-without qualification.
-
-Dense models still dominate the inventory numerically (Figure~\ref{fig:moe_vs_dense}), but the small-active-parameter design is where the 2026 releases concentrated: 27 of the 215 inventory entries now activate at most 20B parameters against a larger total, up from a handful two years earlier. Nemotron 3.5 Lightning (30B total, 3B active), Cohere's North Mini Code (30B/3B), Poolside's Laguna XS 2.1 (33B/3B), inclusionAI's Ling 3.0 Flash (124B/5.1B), and DeepSeek V4 Flash (284B/13B) all appeared between June and August 2026. Each has the per-token economics of a 3--13B model and the storage and residency economics of something an order of magnitude larger, which is precisely the split C1 and C2 exist to keep visible.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{paper_slm_moe_vs_dense.png}
-  \caption{Mixture-of-experts versus dense SLMs in the inventory: variant count (left), median total parameters (centre), and median \emph{active} parameters per token (right). MoE models carry a much larger total-parameter count but a per-token cost comparable to dense models.}
-  \Description{Three side-by-side bar charts comparing mixture-of-experts and dense small language models on variant count, median total parameters, and median active parameters per token. Dense models are far more numerous; mixture-of-experts models carry much larger total parameter counts at comparable active parameter counts.}
-  \label{fig:moe_vs_dense}
-\end{figure}
-
-\subsubsection{Hybrid SSM-Transformer Models}
-
-A nascent but rapidly growing class of \glspl{slm} combines attention-based transformer layers with \glspl{ssm} \citep{gu2023mamba}, which process sequences in linear rather than quadratic time. Mamba \citep{gu2023mamba} introduced hardware-aware selective \glspl{ssm}; Jamba \citep{lieber2024jamba} interleaves transformer and Mamba blocks in a 1:7 ratio, achieving competitive performance with $2.6\times$ lower KV-cache memory than a pure transformer. In 2025--2026 this design moved from research to production at the small scale. Falcon-H1 \citep{falconh1_2025} spans 0.5B--34B with a parallel Mamba-2/attention block. IBM's Granite~4.0 \citep{granite4_2025} interleaves self-attention and Mamba-2 layers at roughly a 1:9 ratio and pairs it with a fine-grained \gls{moe}, reporting more than 70\% memory reduction for long-context and multi-session inference relative to transformer-only models, with ``Tiny'' ($\sim$7B total, $\sim$1B active) and ``Micro'' variants aimed explicitly at edge and local use. NVIDIA's Nemotron Nano~2 \citep{nvidia2025nemotron_nano2} replaces most self-attention in a 9--12B model with Mamba-2 layers (6 attention, 28 Mamba-2, 28 FFN across 62 layers) and reports up to 6$\times$ higher throughput than Qwen3-8B when generating long reasoning traces. Alibaba's Qwen3.5 small series adopts a Gated DeltaNet hybrid at a 3:1 linear-to-full-attention ratio \citep{qwen3_5_2026}. Linear-time inference is most valuable exactly where \glspl{slm} are deployed, in long-context, streaming, memory-bound edge settings, which is why the hybrid category is growing fastest.
-
-% ----------------------------------------------------------------
-\subsection{Taxonomy by Training Strategy}
+\subsection{Training Strategy, Modality, and Domain}
 \label{subsec:taxonomy_training}
-
-\subsubsection{Trained from Scratch}
-
-Most commercially significant \glspl{slm} are pre-trained from scratch on carefully curated datasets. The Phi family exemplifies a data-centric philosophy: rather than increasing parameters, Microsoft researchers found that training on ``textbook-quality'' synthetic and curated web data yields disproportionate gains \citep{gunasekar2023phi1,li2023phi2}. Phi-1 (1.3B) \citep{gunasekar2023phi1} trained on $<$8B tokens, two orders of magnitude less than contemporaries, yet achieved competitive Python coding benchmarks. Llama 3.2 3B \citep{grattafiori2024llama3} trained on 9T tokens from Meta's curated corpus. Gemma 3 \citep{team2025gemma3} scales its token budget with model size rather than applying one figure across the family, from 2T tokens for the 1B variant to 14T for the 27B, under a curriculum that progressively increases the ratio of math, code, and multilingual data.
-
-Key training innovations in this category include: (a)~\emph{data quality filtering} using heuristic and classifier-based pipelines; (b)~\emph{synthetic data generation} from larger teacher models \citep{tinystories2023,ho2022orca}; (c)~\emph{curriculum scheduling} where token mixture evolves over training to emphasize harder reasoning data in later stages; and (d)~\emph{long-context extension} via continued pre-training with positional interpolation or extended \gls{rope}.
-
-\subsubsection{Distilled SLMs}
-
-Knowledge distillation \citep{hinton2015distilling} transfers capability from a large teacher model to a smaller student. In the \gls{llm} era, distillation takes several forms. \emph{White-box distillation} accesses the teacher's internal representations (intermediate hidden states, attention maps), enabling feature-level alignment. \emph{Black-box distillation} uses only the teacher's outputs (token logits or generated text) as supervision. Orca \citep{ho2022orca} demonstrated that distilling reasoning \emph{traces} from GPT-4 rather than just answers, enables a 13B student to acquire substantially stronger chain-of-thought capabilities. Reasoning distillation became a dominant 2025 strategy: DeepSeek-R1-Distill models \citep{deepseek2025r1} transfer long chain-of-thought from DeepSeek-R1 into Qwen-2.5 students at 1.5B--14B, and Phi-4-mini-reasoning \citep{xu2025phi4mini_reasoning} combines distillation from a large reasoning teacher with reinforcement learning to bring competition-mathematics performance to a 3.8B model. Gemma~3 and Gemma~4 \citep{team2025gemma3,gemma4_2026} distill every model size, including the largest, from a bigger teacher by default.
-
-\subsubsection{Pruned and Compressed SLMs}
-
-Rather than training a small model from scratch, pruning removes parameters from a large pre-trained model. NVIDIA's Minitron pipeline \citep{minitron2024} first prunes Llama 3.1 8B by removing attention heads, MLP neurons, and layers guided by activation statistics, then distills from the unpruned teacher, achieving a 40$\times$ reduction in training compute relative to training from scratch while matching or exceeding the performance of same-size models trained from scratch.
-
-% ----------------------------------------------------------------
-\subsection{Taxonomy by Modality}
 \label{subsec:taxonomy_modality}
-
-\subsubsection{Text-Only SLMs}
-
-Text-only models still dominate the inventory (Figure~\ref{fig:modality}), processing tokenized text as both input and output. This category encompasses all major \gls{slm} families: Phi, Gemma, LLaMA, Mistral, Qwen, Yi, InternLM, SmolLM, MiniCPM, OLMo, Pythia, and DeepSeek.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{paper_slm_modality_distribution.png}
-  \caption{Input modalities supported by documented SLM variants (a variant may support several). Vision has become common; audio and video remain a small but growing minority.}
-  \Description{Bar chart of the number of documented small language model variants supporting each input modality. Text dominates, vision is common, and audio and video remain small but growing categories.}
-  \label{fig:modality}
-\end{figure}
-
-\subsubsection{Multimodal (Vision-Language) SLMs}
-
-A growing subset accepts image inputs alongside text, enabling visual question answering, image captioning, document understanding, and visual reasoning. Notable examples include:
-
-\begin{description}
-    \item[PaliGemma 3B \citep{chen2023paligemma}] Google's 3B vision-language \gls{slm} combining a SigLIP-400M image encoder with a Gemma decoder; its release paper reports strong transfer to a wide set of downstream vision-language tasks after fine-tuning.
-
-    \item[Phi-3-vision (4.2B)] Microsoft's first vision-capable Phi model \citep{abdin2024phi3}, adding a CLIP-family image encoder to Phi-3-mini's text backbone and targeting document and chart understanding.
-
-    \item[Gemma 3 (4B/12B/27B)] Google's Gemma 3 attaches a custom SigLIP vision encoder, operating on fixed $896 \times 896$ inputs with a Pan-and-Scan cropping scheme for other aspect ratios, to the 4B, 12B, and 27B variants \citep{team2025gemma3}. The 1B variant is text-only and has a 32K rather than a 128K context window, so vision support in this family begins at 4B and is not, as is sometimes reported, present at every size.
-
-    \item[Qwen2.5-VL 3B/7B] Alibaba's multimodal \glspl{slm} \citep{qwen2024qwen25}, with native support for video, charts, and documents.
-\end{description}
-
-\subsubsection{Audio and Multi-Modal SLMs}
-
-A smaller but rapidly growing category incorporates audio alongside text and vision. Gemma~3n \citep{google2025gemma3n} is built mobile-first: its MatFormer (``Matryoshka'') architecture nests a 2B-effective sub-model inside a 4B-effective model so that one download yields a spectrum of sizes, and Per-Layer Embeddings cut the resident memory footprint of the 5B/8B raw models to roughly that of a 2B/4B model (2--3~GB). Gemma~4 \citep{gemma4_2026} extends the family from 2.3B-effective to 31B with dense and \gls{moe} variants, an integrated thinking mode, and, for the 12B model, an encoder-free architecture that ingests raw audio and image patches directly. Apple's on-device Foundation Model \citep{gunter2025afm} is a $\sim$3B multimodal model quantized with 2-bit quantization-aware training and KV-cache sharing. The full text+vision+audio frontier in a single sub-10B model is now a shipping capability rather than a research aspiration.
-
-% ----------------------------------------------------------------
-\subsection{Taxonomy by Application Domain}
 \label{subsec:taxonomy_domain}
 
-\subsubsection{General-Purpose SLMs}
-
-General-purpose \glspl{slm} are trained on diverse data and evaluated on multi-domain benchmarks (\gls{mmlu}, HellaSwag, ARC, \gls{gsm8k}). The majority of \glspl{slm} in our taxonomy, particularly the flagship families from Microsoft (Phi), Google (Gemma), Meta (LLaMA), Mistral AI, Alibaba (Qwen), and DeepSeek, fall into this category.
-
-\subsubsection{Domain-Specific SLMs}
-
-Domain-specific \glspl{slm} sacrifice breadth for depth, outperforming general-purpose models on narrow tasks:
-
-\begin{description}
-    \item[Healthcare] Meerkat (7B) \citep{kim2025meerkat}, fine-tuned on synthesized clinical reasoning traces, was the first 7B model to clear the USMLE pass threshold (70.6\% on MedQA) while running on a single A100 GPU; its 70B sibling edges GPT-4 on average across six medical-licensing exams. OptimCLM \citep{hasan2024optimclm} applies combined compression (distillation + quantization + pruning) to clinical language models without sacrificing diagnostic accuracy.
-
-    \item[Code] Code Llama \citep{roziere2023codellama}, StarCoder2 \citep{lozhkov2024starcoder2}, and DeepSeek-Coder \citep{zhu2024deepseek_coder} represent a mature class of code-focused \glspl{slm} with strong HumanEval and MBPP performance.
-
-    \item[Legal] Domain-specific legal \glspl{slm} trained on corpora of statutory text, case law, and contracts target high-volume routine work such as clause classification, obligation extraction, and regulatory change triage, where on-premises deployment satisfies privilege and data-residency constraints that API-based \glspl{llm} cannot. Public evaluation in this domain remains sparse relative to the healthcare and code verticals.
-
-    \item[Multilingual] Cohere's Aya line illustrates a breadth-versus-depth trade-off that is specific to this size band. Aya-101 \citep{ustun2024aya} is a 13B mT5-based model covering 101 languages, above the compact band; Aya~23 \citep{aryabumi2024aya23} is an 8B and 35B decoder-only pair that allocates the same capacity to 23 languages instead, and its 8B variant outperforms the 13B Aya-101 on the languages both cover. Qwen2.5 7B \citep{qwen2024qwen25} is the most widely downloaded open-weight \gls{slm} for multilingual deployments, with documented coverage of Chinese, Japanese, Korean, Arabic, and the major European languages.
-\end{description}
-
-Table~\ref{tab:taxonomy_summary} summarizes the four primary facets with representative models for each category. The representative models are examples, not exhaustive assignments, and several appear against more than one category because the scheme is multi-label.
-
-\begin{table}[ht]
-\centering
-\caption{Summary of the four primary facets of the SLM taxonomy with representative models. Assignment is multi-label: a model may carry several categories on one facet, and the same model may therefore appear more than once in a block.}
-\label{tab:taxonomy_summary}
-\footnotesize\adjustbox{max width=\linewidth}{%
-\begin{tabular}{llll}
-\toprule
-\textbf{Facet} & \textbf{Category} & \textbf{Key Characteristics} & \textbf{Representative Models} \\
-\midrule
-\multirow{3}{*}{Architecture}
- & Dense Transformer & All params active per token; GQA, RoPE, SwiGLU & Phi-4-mini, Qwen3, SmolLM3, Gemma 3 \\
- & MoE              & Sparse activation; total $\gg$ active params       & Granite 4.0 Tiny (SLM); Mixtral 8$\times$7B, Qwen3-30B-A3B (small-active MoE) \\
- & Hybrid SSM-Transformer & Linear-time; interleaved SSM/attention blocks   & Falcon-H1, Granite 4.0, Nemotron Nano 2 \\
-\midrule
-\multirow{3}{*}{Training Strategy}
- & From scratch     & Curated/synthetic data; full pre-training          & Phi, Qwen2.5/Qwen3, SmolLM3 \\
- & Distillation     & Knowledge transfer from larger teacher             & Gemma 3/4, DeepSeek-R1-Distill, Phi-4-mini-reasoning \\
- & Pruning-based    & Parameter removal from large model + distillation  & Minitron, Sheared-LLaMA \\
-\midrule
-\multirow{3}{*}{Modality}
- & Text-only        & Tokenized text I/O; majority of production SLMs   & Mistral 7B, SmolLM3, Qwen3 \\
- & Vision-Language  & Image + text; CLIP/SigLIP encoder added            & Phi-3-vision, Gemma 3 (4B and above), PaliGemma \\
- & Audio/Multimodal & Text + vision + audio in one sub-10B model         & Gemma 3n, Gemma 4, Apple AFM \\
-\midrule
-\multirow{4}{*}{Domain}
- & General-purpose  & Multi-domain training; evaluated on broad benchmarks & Phi, Gemma, Llama, Qwen, Mistral \\
- & Healthcare       & Clinical NLP; on-premises for data residency        & Meerkat 7B, OptimCLM \\
- & Code             & Code corpora; FIM training; HumanEval/MBPP focus  & Code Llama, StarCoder2, DeepSeek-Coder \\
- & Legal/Multilingual & Domain corpora; regulatory and cross-lingual tasks & Aya 23 8B, Qwen2.5 multilingual \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
+Three training routes recur and are often combined: training from scratch on curated or synthetic data (Phi, SmolLM, Qwen), distillation from a larger teacher (Gemma, the DeepSeek-R1 students, Phi-4-mini-reasoning), and pruning a larger model followed by distillation (Minitron, Sheared-LLaMA, Llama~3.2 1B and 3B). Text-only models still dominate the inventory, vision--language models are common at 2--12B, and audio and natively multimodal mobile models (Qwen2.5-Omni, Gemma~3n and~4, Voxtral Mini) grew in 2025--2026 (\suppsec~\ref{supp:figures}). Most \glspl{slm} are released as general-purpose models; developer-trained domain models concentrate in code, healthcare, and multilingual use. \suppsec~\ref{supp:taxonomy} lists representative models for each category.

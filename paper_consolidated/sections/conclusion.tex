@@ -1,52 +1,8 @@
 \section{Conclusion}
 \label{section:conclusion}
 
-This paper set out to do two things at once: survey the small-language-model
-landscape as it stands in 2026, and argue a position about where it is going. On
-the first, we fixed a two-condition definition that separates the per-token cost
-of a model from its residency cost, cataloged 215 documented \gls{slm} variants
-under a multi-label faceted taxonomy, tracked the 2025--2026 shift toward hybrid
-state-space architectures, unified reasoning models, and mobile-first multimodal
-families, reviewed the compression techniques specific to the sub-10B regime,
-where quantization outperforms pruning \citep{kurz2025pruning_vs_quant}, and
-audited the public evaluation record for an 18-model cohort. That audit returned
-a negative result: the record does not currently support the cross-model accuracy
-comparison that surveys in this area routinely present.
+This survey fixed a two-condition definition that separates a model's per-token cost from its storage cost, cataloged 179 \glspl{slm} and, separately, 30 small-active-parameter mixtures of experts released from 2023 to September 2026 with every record's developer source checked, reviewed compression along separate axes, and quantified why the vendor evaluation record cannot support cross-model comparison: for the 14 cohort models of the four largest vendors, no benchmark is reported for all of them and no stated protocol is shared by more than five. Single-harness third-party evaluations, not vendor tables, are the basis on which comparison should rest.
 
-On the second: the ``less is more'' thesis is no longer only about efficiency,
-and it is not a universal claim. The consumer of language intelligence that is
-growing fastest is the AI agent, and for a large share of what an agent
-delegates, a generalist is the wrong instrument. Where a call is bounded,
-recurrent, short-context, and cheaply verifiable, a small specialized model is
-sufficiently capable, substantially cheaper to serve, cheaper to adapt, and
-easier to hold to a code interface \citep{belcak2025slm_agentic}. Where it is
-not, and the counterexamples of
-Section~\ref{subsec:agentic_counterexamples} are neither few nor transitional,
-a frontier model remains the right choice. The evidence assembled here supports
-the premises unevenly, and we have graded them rather than averaging over them:
-independent leaderboards support per-call competence at this size, and no
-published study measures cost per completed task for a small-model agent against
-a large-model one, which is the measurement the economic premise turns on. Apple's
-on-device and server split \citep{gunter2025afm}, together with the routing
-systems surveyed in Section~\ref{sec:agentic}, embodies the heterogeneous design
-at production scale.
-The barriers that remain are those of sunk infrastructure, measurement, and
-attention, and the measurement barrier is the one this paper finds to be a real
-evidential gap rather than only a misdirected emphasis.
+On the agentic question, we stated the case for small models as a conditional hypothesis. For call types that are bounded, recurrent enough to clear a break-even volume that counts retries, checks, and escalations, short-context, and checkable for correctness as well as validity, a specialized small model should be the default, with escalation to a frontier model when a check fails. The evidence supports this unevenly. Developers report specialized sub-10B models competitive on single- and multi-turn function calling, while independent work shows that off-the-shelf small models often are not; end-to-end comparisons are contested; cost per correct answer has been measured for single-turn tasks and frontier agents; and no study measures cost per completed task for a small-model-first agent against the alternatives, including cached, batched, and fine-tuned hosted models. Where the conditions fail, for planning, long-context synthesis, and uncheckable work, a frontier model remains the right choice.
 
-The work ahead is concrete. Below roughly 3B parameters, task-specific
-adaptation stops being optional and becomes a precondition for reliable
-delegated work, and inference-time compute only partly closes the remaining
-reasoning gap;
-hallucination is worse at small scale; compression can amplify bias; hardware and
-model architecture are still designed separately; and the consolidated evidence
-base needs controlled verification of the handful of claims that practitioners
-most depend on (Section~\ref{sec:challenges}). None of these is a reason to wait,
-and the six experiments specified in
-Section~\ref{subsec:challenges_verification} are the shortest route from a survey
-of what has been reported to a body of what has been established.
-The future of applied \gls{nlp} is not one frontier model answering every query
-through a cloud API, and neither is it small models everywhere. It is a fabric of
-small, specialized, mostly on-device models doing the ordinary work, calling a
-large model on the planning, the long-context synthesis, and the calls nobody can
-check. In that architecture, less is not a limitation. It is the design.
+The pre-registered comparison of Section~\ref{subsec:challenges_verification}, with its comparators, decision rule, and sample size, is the shortest route from what has been reported to what has been established. Until it is run, the position defended here is a design hypothesis with a stated domain: specialized small models doing the bounded, recurrent, checkable work, and a large model for planning, synthesis, and the calls no cheap check can verify.
