@@ -127,7 +127,7 @@
 %% the footnote omit the DOI line when it is empty.
 \acmDOI{}
 \makeatletter
-\def\@formatdoi#1{\if\relax\detokenize{#1}\relax\else\url{https://doi.org/#1}\fi}
+\def\@formatdoi#1{\edef\acmdoi@tmp{#1}\ifx\acmdoi@tmp\@empty\else\url{https://doi.org/#1}\fi}
 \makeatother
 \renewcommand{\thesection}{S\arabic{section}}
 \renewcommand{\thefigure}{S\arabic{figure}}

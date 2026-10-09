@@ -27,7 +27,7 @@ The first premise is that a specialized \gls{slm} is good enough for the individ
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{fig04-breakeven-economics.png}
+\includegraphics[width=\linewidth, alt={Two panels. Left: cumulative cost against the number of calls, with an all-LLM line from the origin and a shallower SLM-first line starting at the fixed cost F; they cross at N star, left of which specialization does not pay and right of which it pays. Right: a list of factors that move N star right (higher escalation rate, more attempts, costlier check, prompt caching or batch pricing, hosted fine-tuning) and one that moves it left (a larger gap between large- and small-model cost).}]{fig04-breakeven-economics.png}
 \caption{Break-even volume for specializing one call type (Equation~\ref{eq:breakeven}). (a)~An SLM-first system pays a fixed cost $F$ and a per-call cost that includes attempts, the check, and escalations, so it is cheaper than an all-LLM system only above $N^{*}$; if $e \ge 1 - (a\,c_S + c_V)/c_L$, the lines never cross. (b)~Factors that move $N^{*}$. Schematic: no axis values or prices are implied, and no measured $N^{*}$ exists for any workload.}
 \Description{Two panels. Left: cumulative cost against the number of calls, with an all-LLM line from the origin and a shallower SLM-first line starting at the fixed cost F; they cross at N star, left of which specialization does not pay and right of which it pays. Right: a list of factors that move N star right (higher escalation rate, more attempts, costlier check, prompt caching or batch pricing, hosted fine-tuning) and one that moves it left (a larger gap between large- and small-model cost).}
 \label{fig:breakeven}
@@ -127,7 +127,7 @@ For call types meeting H1--H4 the default inverts: \glspl{slm} handle them, and 
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{fig05-agent-architecture.png}
+\includegraphics[width=\linewidth, alt={Block diagram of a heterogeneous agent. A user task feeds an agent control loop that shares tools and memory and consults a router. The router sends call types that meet the four conditions to specialised small language models, whose outputs pass validity and correctness checks; a dashed arrow labelled check fails leads from the small models to a generalist large language model, which also receives planning, decomposition, long-context, and broad-knowledge calls.}]{fig05-agent-architecture.png}
 \caption{Heterogeneous SLM--LLM agent. A per-call router sends call types meeting H1--H4 to specialised small models by default; their outputs are checked for validity and correctness, and a failed check escalates the call to a generalist \gls{llm}, which also handles planning-like and long-context calls. The split between the paths varies by agent. After \citet{belcak2025slm_agentic}.}
 \Description{Block diagram of a heterogeneous agent. A user task feeds an agent control loop that shares tools and memory and consults a router. The router sends call types that meet the four conditions to specialised small language models, whose outputs pass validity and correctness checks; a dashed arrow labelled check fails leads from the small models to a generalist large language model, which also receives planning, decomposition, long-context, and broad-knowledge calls.}
 \label{fig:hetero_agent}

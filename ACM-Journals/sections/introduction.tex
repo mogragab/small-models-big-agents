@@ -10,7 +10,7 @@ Against this trajectory, \glspl{slm} have narrowed the capability gap at fixed s
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{paper_combined_cumulative_releases.png}
+  \includegraphics[width=\linewidth, alt={Two panels. Left: stacked bars of documented variants released per year from 2023 to 2026, split into small language models and small-active-parameter mixtures of experts; small language models peak at 71 in 2024 and fall to 51 in 2025 and 22 in 2026 to September, while small-active mixtures of experts rise to 19 in 2026. Right: cumulative release curves for small language models (reaching 179), small-active mixtures of experts (reaching 30), and large language models of disclosed size (reaching 104).}]{paper_combined_cumulative_releases.png}
   \caption{Documented variants by class: releases per year (left; 2026 to 4~September) and cumulative releases (right), from version~3.6 of the released inventory. SLMs meet both C1 and C2; small-active-parameter MoEs meet C1 only and are plotted separately; the comparison curve counts the 104 records of disclosed size that fail C1. The 119 records of undisclosed size cannot be classified and are not plotted.}
   \Description{Two panels. Left: stacked bars of documented variants released per year from 2023 to 2026, split into small language models and small-active-parameter mixtures of experts; small language models peak at 71 in 2024 and fall to 51 in 2025 and 22 in 2026 to September, while small-active mixtures of experts rise to 19 in 2026. Right: cumulative release curves for small language models (reaching 179), small-active mixtures of experts (reaching 30), and large language models of disclosed size (reaching 104).}
   \label{fig:cumulative_releases}
@@ -113,7 +113,7 @@ For such a call type, a specialized \gls{slm} is the appropriate default: the ca
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{fig03-hypothesis-conditions.png}
+\includegraphics[width=\linewidth, alt={Left-to-right flow: a recurring call type passes through gates H1 bounded, H3 short-context, H4 checkable (validity and correctness), and H2 recurrent, and if all pass reaches specialized SLM as the default. From each gate a downward arrow labelled open-ended planning, long context, uncheckable output, or rare or unstable leads to a box reading frontier or hosted model as default. Labels mark H1, H3, and H4 as checked by inspection and H2 as checked from pilot estimates.}]{fig03-hypothesis-conditions.png}
 \caption{Assessing one recurring agent call type against hypothesis~H at design time. H1, H3, and H4 are checked by inspecting the call type; H2 is checked against pilot estimates recorded before any comparison. A call type that passes every condition defaults to a specialized SLM with escalation on a failed check (Figure~\ref{fig:hetero_agent}); a failure at any condition, labelled with the workload class that typically fails there (Section~\ref{subsec:agentic_counterexamples}), leaves a frontier or hosted model as the default.}
 \Description{Left-to-right flow: a recurring call type passes through gates H1 bounded, H3 short-context, H4 checkable (validity and correctness), and H2 recurrent, and if all pass reaches specialized SLM as the default. From each gate a downward arrow labelled open-ended planning, long context, uncheckable output, or rare or unstable leads to a box reading frontier or hosted model as default. Labels mark H1, H3, and H4 as checked by inspection and H2 as checked from pilot estimates.}
 \label{fig:hypothesis_conditions}
