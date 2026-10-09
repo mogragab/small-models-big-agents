@@ -23,49 +23,7 @@ The check led to the following corrections, applied by \file{fix\_records\_v3\_6
 
 \begin{figure}[t]
 \centering
-\footnotesize
-\definecolor{ipInk}{HTML}{34404A}
-\definecolor{ipBlue}{HTML}{7397B8}
-\definecolor{ipSage}{HTML}{79A88E}
-\definecolor{ipApr}{HTML}{D8A879}
-\definecolor{ipLav}{HTML}{9B8FB5}
-\definecolor{ipRose}{HTML}{C9858C}
-\definecolor{ipSlate}{HTML}{A2AAB1}
-\begin{tikzpicture}[
-  >={Stealth[length=1.8mm]},
-  b/.style={draw=#1!80!ipInk, fill=#1!11, rounded corners=2pt, align=center, text=ipInk,
-            inner sep=2.5pt, font=\scriptsize, text width=24mm, minimum height=9mm},
-  hd/.style={font=\scriptsize\bfseries, text=ipInk!80},
-  every path/.style={draw=ipInk!75},
-]
-\node[b=ipSlate] (seed) {\textbf{Seed list}\\{\tiny Mar 2026; listings and aggregators}};
-\node[b=ipSlate, below=3mm of seed] (upd) {\textbf{Catalogue update}\\{\tiny 5 Sep 2026; OpenRouter, vendors}};
-\node[b=ipSage, below=3mm of upd] (cand) {\textbf{Candidate records}\\{\tiny 439}};
-\node[b=ipLav, right=9mm of seed] (chk) {\textbf{Source check}\\{\tiny 8 Oct 2026; Hub API}};
-\node[b=ipLav, below=3mm of chk] (fix) {\textbf{Record corrections}\\{\tiny 12 re-sourced; 5 fixed}};
-\node[b=ipLav, below=3mm of fix] (cls) {\textbf{Classify by C1, C2}};
-\node[b=ipLav, right=9mm of chk] (comp) {\textbf{Computed from fields}\\{\tiny C1, C2, M1, M4}};
-\node[b=ipRose, below=3mm of comp] (ed) {\textbf{Named editorial}\\{\tiny encoder-decoder, derivative, alias}};
-\node[b=ipBlue, right=9mm of comp, text width=22mm] (slm) {\textbf{SLM (179)}};
-\node[b=ipBlue, below=1.5mm of slm, text width=22mm, minimum height=7mm] (moe) {\textbf{Small-active MoE (30)}};
-\node[b=ipSlate, below=1.5mm of moe, text width=22mm, minimum height=7mm] (cmp) {\textbf{Comparison (223)}\\{\tiny 104 fail C1; 119 undisclosed}};
-\node[b=ipRose, below=1.5mm of cmp, text width=22mm, minimum height=7mm] (exc) {\textbf{Excluded (7)}};
-\node[b=ipSage, below=4mm of ed, text width=24mm] (rel) {\textbf{Released artifacts}\\{\tiny inventory v3.6, log, ledger, scripts, changelog}};
-\node[hd, above=1mm of seed] {Assemble};
-\node[hd, above=1mm of chk] {Verify};
-\node[hd, above=1mm of comp] {Decide};
-\node[hd, above=1mm of slm] {Arrays};
-\draw[->] (seed) -- (upd); \draw[->] (upd) -- (cand);
-\draw[->] (cand.east) -- ++(4.5mm,0) |- (chk.west);
-\draw[->] (chk) -- (fix); \draw[->] (fix) -- (cls);
-\draw[->] (cls.east) -- ++(4.5mm,0) |- (comp.west);
-\draw[->] (comp.east) -- (slm.west);
-\draw[->] (comp.east) -- (moe.west);
-\draw[->] (comp.east) -- (cmp.west);
-\draw[->] (comp.east) -- (exc.west);
-\draw[->] (ed.east) -- ++(3mm,0) |- ($(exc.west)+(0,-1mm)$);
-\draw[->] (exc.south) -- ++(0,-3mm) -| (rel.south);
-\end{tikzpicture}
+\includegraphics[width=\linewidth]{fig02-inventory-pipeline.png}
 \caption{How the inventory was assembled, verified, and filtered. Secondary listings only seeded the candidate list; every record was then checked against its developer source and corrected where needed. C1, C2, M1, and M4 are computed from recorded fields; the encoder-decoder, derivative, and alias exclusions are named editorial decisions. All four arrays, the source-check log, the coverage ledger, the scripts, and the changelog are released.}
 \Description{Flow diagram in four columns. Assemble: seed list (March 2026) and catalogue update (September 2026) feed 439 candidate records. Verify: source check against the Hugging Face Hub (October 2026), record corrections, and classification by C1 and C2. Decide: decisions computed from fields, and named editorial exclusions. Arrays: SLM 179, small-active mixture of experts 30, comparison 223 (104 fail C1, 119 undisclosed), and excluded 7. All outputs lead to the released artifacts.}
 \label{fig:inventory_pipeline}

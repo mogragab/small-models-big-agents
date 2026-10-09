@@ -30,49 +30,7 @@ Six studies would most reduce the uncertainty documented here. Studies 1--4 use 
 
 \begin{figure}[t]
 \centering
-\footnotesize
-\definecolor{fdInk}{HTML}{34404A}
-\definecolor{fdBlue}{HTML}{7397B8}
-\definecolor{fdSage}{HTML}{79A88E}
-\definecolor{fdApr}{HTML}{D8A879}
-\definecolor{fdLav}{HTML}{9B8FB5}
-\definecolor{fdRose}{HTML}{C9858C}
-\definecolor{fdSlate}{HTML}{A2AAB1}
-\begin{tikzpicture}[
-  >={Stealth[length=1.8mm]},
-  col/.style={draw=#1!80!fdInk, fill=#1!10, rounded corners=2pt, align=left, text=fdInk,
-              inner sep=3pt, font=\scriptsize},
-  cfg/.style={draw=fdBlue!70!fdInk, fill=fdBlue!8, rounded corners=1.5pt, align=left, text=fdInk,
-              inner sep=2pt, font=\scriptsize, text width=40mm, minimum height=5mm},
-  hd/.style={font=\scriptsize\bfseries, text=fdInk},
-  every path/.style={draw=fdInk!75},
-]
-\node[col=fdSlate, text width=34mm] (fix) {%
-  \textbf{Fixed in advance}\\[2pt]
-  workload with a checkable\\success criterion\\[1pt]
-  call types meeting H1, H3, H4\\[1pt]
-  pilot estimates of $N$, $F$, $a$, $e$\\[1pt]
-  margin $\delta$ and tasks per arm:\\
-  $n \approx 3.09/\delta^2$ ($\delta=$2, 5, 10 pts:\\
-  about 7{,}700, 1{,}240, 310)};
-\node[cfg, right=8mm of fix.north east, anchor=north west] (c1) {(i) frontier LLM throughout};
-\node[cfg, below=1.2mm of c1] (c2) {(ii) frontier, cached and batched};
-\node[cfg, below=1.2mm of c2] (c3) {(iii) hosted small model or small-active MoE};
-\node[cfg, below=1.2mm of c3] (c4) {(iv) hosted fine-tuned small model};
-\node[cfg, below=1.2mm of c4, draw=fdSage!85!fdInk, fill=fdSage!20, line width=0.8pt] (c5) {\textbf{(v) specialized SLM + escalation}\\{\tiny the configuration H prescribes}};
-\node[cfg, below=1.2mm of c5] (c6) {(vi) specialized SLM, no escalation};
-\node[hd, above=1mm of c1] {same checks and retry budget};
-\node[col=fdLav, text width=40mm, right=8mm of c1.north east, anchor=north west] (met) {%
-  \textbf{Reported per configuration}\\[2pt]
-  task success; calls and retries\\per completed task; escalation rate;\\valid but wrong outputs passing\\the checks; latency; monetary and\\energy cost per completed task; $F$};
-\node[col=fdRose, text width=40mm, below=3mm of met] (dec) {%
-  \textbf{Decision rule}\\[2pt]
-  1. (v) non-inferior to (i) on success\\ \phantom{1. }at margin $\delta$ (one-sided)\\
-  2. (v) cheapest per completed task\\[2pt]
-  H refuted for the workload if 1 or 2 fails;\\rejected in general if it fails on most\\of at least 3 workloads};
-\draw[->] (fix.east |- c3.west) -- (c3.west);
-\draw[->] (c3.east) -- (c3.east -| met.west);
-\end{tikzpicture}
+\includegraphics[width=\linewidth]{fig06-falsification-design.png}
 \caption{The pre-registered test of hypothesis~H (study 5). Call types, pilot estimates for H2, the margin, and the sample size are fixed before running; six configurations are run end to end under the same checks and retry budget; the decision rule combines a non-inferiority test on task success with a comparison of cost per completed task. The sample sizes assume independent arms at a success rate near 0.5, one-sided $\alpha = 0.05$, and power 0.8. No results are implied: the study has not been run.}
 \Description{Three columns. Left: items fixed in advance, namely a workload with a checkable success criterion, call types meeting H1, H3, and H4, pilot estimates of N, F, a, and e, and the margin delta with tasks per arm of about 7,700, 1,240, and 310 for margins of 2, 5, and 10 points. Middle: six configurations run with the same checks and retry budget, from frontier model throughout to specialized SLM without escalation, with specialized SLM plus escalation highlighted. Right: metrics reported per configuration and a decision rule: non-inferiority on success and lowest cost per completed task, with refutation for the workload if either fails and general rejection if it fails on most of at least three workloads.}
 \label{fig:falsification}

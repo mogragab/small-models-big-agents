@@ -27,36 +27,7 @@ The first premise is that a specialized \gls{slm} is good enough for the individ
 
 \begin{figure}[t]
 \centering
-\footnotesize
-\definecolor{beInk}{HTML}{34404A}
-\definecolor{beBlue}{HTML}{7397B8}
-\definecolor{beApr}{HTML}{D8A879}
-\definecolor{beSage}{HTML}{79A88E}
-\definecolor{beRose}{HTML}{C9858C}
-\begin{tikzpicture}[x=1cm,y=1cm, lab/.style={font=\scriptsize, text=beInk, align=center}]
-% panel (a)
-\fill[beRose!10] (0,0) rectangle (2.5,3.2);
-\fill[beSage!12] (2.5,0) rectangle (6.2,3.2);
-\draw[->, beInk] (0,0) -- (6.4,0) node[below left, lab] {calls of this type, $N$};
-\draw[->, beInk] (0,0) -- (0,3.4) node[above right, lab, anchor=south west] {cumulative cost};
-\draw[very thick, beApr] (0,0) -- (6.0,3.0) node[right, lab] {all-LLM};
-\draw[very thick, beBlue] (0,0.8) -- (6.0,1.88) node[right, lab] {SLM-first};
-\node[lab, left] at (0,0.8) {$F$};
-\draw[dashed, beInk!70] (2.5,0) -- (2.5,3.2);
-\node[lab, below] at (2.5,0) {$N^{*}$};
-\node[lab, font=\tiny] at (1.25,2.85) {specialization\\does not pay};
-\node[lab, font=\tiny] at (4.35,0.45) {specialization pays};
-\node[lab, font=\tiny, text=beInk!80] at (3.6,3.42) {slopes $c_L$ and $a\,c_S + c_V + e\,c_L$};
-\node[lab, font=\bfseries] at (-0.3,3.7) {(a)};
-% panel (b)
-\begin{scope}[xshift=8.0cm]
-\node[lab, font=\bfseries] at (-0.3,3.7) {(b)};
-\node[lab, anchor=north west, text width=54mm, align=left] at (0,3.4) {\textbf{Moves $N^{*}$ right (later break-even)}};
-\node[lab, anchor=north west, text width=54mm, align=left] at (0.2,2.95) {higher escalation rate $e$\\more attempts per call $a$\\costlier check $c_V$\\prompt caching or batch pricing lower $c_L$\\hosted fine-tuning lowers the comparator's $F$};
-\node[lab, anchor=north west, text width=54mm, align=left] at (0,1.05) {\textbf{Moves $N^{*}$ left}};
-\node[lab, anchor=north west, text width=54mm, align=left] at (0.2,0.65) {larger gap between $c_L$ and $c_S$};
-\end{scope}
-\end{tikzpicture}
+\includegraphics[width=\linewidth]{fig04-breakeven-economics.png}
 \caption{Break-even volume for specializing one call type (Equation~\ref{eq:breakeven}). (a)~An SLM-first system pays a fixed cost $F$ and a per-call cost that includes attempts, the check, and escalations, so it is cheaper than an all-LLM system only above $N^{*}$; if $e \ge 1 - (a\,c_S + c_V)/c_L$, the lines never cross. (b)~Factors that move $N^{*}$. Schematic: no axis values or prices are implied, and no measured $N^{*}$ exists for any workload.}
 \Description{Two panels. Left: cumulative cost against the number of calls, with an all-LLM line from the origin and a shallower SLM-first line starting at the fixed cost F; they cross at N star, left of which specialization does not pay and right of which it pays. Right: a list of factors that move N star right (higher escalation rate, more attempts, costlier check, prompt caching or batch pricing, hosted fine-tuning) and one that moves it left (a larger gap between large- and small-model cost).}
 \label{fig:breakeven}
@@ -156,41 +127,7 @@ For call types meeting H1--H4 the default inverts: \glspl{slm} handle them, and 
 
 \begin{figure}[t]
 \centering
-\footnotesize
-\definecolor{agInk}{HTML}{34404A}
-\definecolor{agBlue}{HTML}{7397B8}
-\definecolor{agSage}{HTML}{79A88E}
-\definecolor{agApricot}{HTML}{D8A879}
-\definecolor{agLavender}{HTML}{9B8FB5}
-\definecolor{agRose}{HTML}{C9858C}
-\definecolor{agSlate}{HTML}{A2AAB1}
-\begin{tikzpicture}[
-  >={Stealth[length=2mm]},
-  box/.style={draw=agSlate!75!agInk, text=agInk, fill=agSlate!8,
-              rounded corners=2pt, align=center, inner sep=4pt, line width=0.55pt},
-  task/.style={box, draw=agBlue!75!agInk, fill=agBlue!10},
-  loop/.style={box, draw=agLavender!75!agInk, fill=agLavender!11},
-  tools/.style={box, draw=agSlate!80!agInk, fill=agSlate!10},
-  slm/.style={box, draw=agSage!78!agInk, fill=agSage!12, text width=38mm, align=left},
-  llm/.style={box, draw=agRose!78!agInk, fill=agRose!11, text width=38mm, align=left},
-  router/.style={box, draw=agApricot!80!agInk, fill=agApricot!14,
-                 text width=22mm, minimum height=10mm},
-  lbl/.style={font=\scriptsize\itshape, text=agInk!68},
-  every path/.style={draw=agInk!75},
-]
-\node[task, text width=12mm] (task) {User task};
-\node[loop, right=6mm of task, minimum height=12mm, text width=18mm] (loop) {Agent\\control loop};
-\node[tools, below=6mm of loop, font=\scriptsize, text width=18mm] (tools) {Tools $\cdot$ Memory};
-\node[router, right=8mm of loop] (router) {\textbf{Router}\\[1pt]\scriptsize call type $\cdot$ cost $\cdot$ privacy $\cdot$ network};
-\node[slm, above right=2mm and 11mm of router] (slm) {\textbf{Specialised SLMs}: default\\[1pt]\scriptsize tool selection, argument filling, extraction, classification, query rewrite, short patch; each output passes validity (H4a) and correctness (H4b) checks};
-\node[llm, below right=2mm and 11mm of router] (llm) {\textbf{Generalist LLM}: escalation\\[1pt]\scriptsize planning, decomposition, long context, broad knowledge, and any call whose small-model output fails a check};
-\draw[->] (task) -- (loop);
-\draw[->] (tools) -- (loop);
-\draw[<->] (loop) -- (router);
-\draw[->] (router.east) -- ($(slm.west)+(0,-1mm)$) node[lbl, pos=0.45, sloped, above] {H1--H4 met};
-\draw[->] (router.east) -- ($(llm.west)+(0,1mm)$) node[lbl, pos=0.45, sloped, below] {otherwise};
-\draw[->, dashed] ($(slm.south)+(4mm,0)$) -- node[lbl, right] {check fails} ($(llm.north)+(4mm,0)$);
-\end{tikzpicture}
+\includegraphics[width=\linewidth]{fig05-agent-architecture.png}
 \caption{Heterogeneous SLM--LLM agent. A per-call router sends call types meeting H1--H4 to specialised small models by default; their outputs are checked for validity and correctness, and a failed check escalates the call to a generalist \gls{llm}, which also handles planning-like and long-context calls. The split between the paths varies by agent. After \citet{belcak2025slm_agentic}.}
 \Description{Block diagram of a heterogeneous agent. A user task feeds an agent control loop that shares tools and memory and consults a router. The router sends call types that meet the four conditions to specialised small language models, whose outputs pass validity and correctness checks; a dashed arrow labelled check fails leads from the small models to a generalist large language model, which also receives planning, decomposition, long-context, and broad-knowledge calls.}
 \label{fig:hetero_agent}

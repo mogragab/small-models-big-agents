@@ -54,6 +54,9 @@ A small legend strip under the plot states what each bound governs: C1 bounds pe
 
 ## Must not imply
 
+- The diagonal "active = total" is one straight line of constant slope; on logarithmic axes it need not pass through the axis corner, so do not bend it to reach the corner.
+- Do not write figure numbers ("Fig. N") in any label; the paper's numbering differs from the brief IDs.
+
 - The example points are illustrative placements, not a scatter of the inventory; do not plot the 209 records.
 - The 20B threshold is a convention, not a natural boundary; do not shade the boundary as if it were sharp in capability.
 - Do not imply that small-active MoEs are SLMs or are deployable on phones.

@@ -12,48 +12,7 @@ We index the \gls{slm} design space along four \emph{primary} facets, architectu
 
 \begin{figure}[t]
 \centering
-\footnotesize
-% Palette shared with the generated figures (source/scripts/generate_figures_v2.py).
-\definecolor{txInk}{HTML}{34404A}
-\definecolor{txSlate}{HTML}{A2AAB1}
-\definecolor{txIndigo}{HTML}{7397B8}
-\definecolor{txOcean}{HTML}{D8A879}
-\definecolor{txTeal}{HTML}{79A88E}
-\definecolor{txCoral}{HTML}{9B8FB5}
-\newcommand{\txax}[2]{{\normalsize\bfseries\color{#1!88!black}#2}}
-\newcommand{\txcat}[1]{{\scriptsize\bfseries\color{txInk}#1}}
-\newcommand{\txsep}{{\color{txSlate}\,\textendash\,}}
-\newcommand{\txex}[1]{{\scriptsize\itshape\color{txSlate}#1}}
-\begin{tikzpicture}[
-  panel/.style={draw=#1!55, line width=0.7pt, rounded corners=3pt, inner sep=5pt,
-                text width=0.455\linewidth, align=left, fill=#1!7},
-  node distance=3mm and 3mm,
-]
-\node[panel=txIndigo] (arch) {%
-  \txax{txIndigo}{1.\ Architecture}\\[2pt]
-  \txcat{Dense transformer}\txsep GQA, RoPE, gated FFN\\ \txex{Phi-4-mini, Qwen3, SmolLM3, Gemma 3}\\[1pt]
-  \txcat{Mixture-of-experts}\txsep sparse activation\\ \txex{Granite 4.0 Tiny; small-active MoE: Mixtral, Qwen3-30B-A3B}\\[1pt]
-  \txcat{Hybrid SSM/attention}\txsep linear-time\\ \txex{Falcon-H1, Granite 4.0, Nemotron Nano 2}%
-};
-\node[panel=txOcean, right=of arch] (train) {%
-  \txax{txOcean}{2.\ Training strategy}\\[2pt]
-  \txcat{From scratch}\txsep curated / synthetic data\\ \txex{Phi, Qwen3, SmolLM3}\\[1pt]
-  \txcat{Distillation}\txsep transfer from a larger teacher\\ \txex{Gemma 3/4, DeepSeek-R1-Distill, Phi-4-mini-reasoning}\\[1pt]
-  \txcat{Pruning + distillation}\txsep shrink a larger model\\ \txex{Minitron, Sheared-LLaMA, Llama 3.2 1B/3B}%
-};
-\node[panel=txTeal, below=of arch] (mod) {%
-  \txax{txTeal}{3.\ Modality}\\[2pt]
-  \txcat{Text-only}\txsep majority of SLMs\\ \txex{Mistral 7B, SmolLM3, Qwen3}\\[1pt]
-  \txcat{Vision--language}\txsep image encoder added\\ \txex{Phi-3-vision, Gemma 3 (4B+), PaliGemma}\\[1pt]
-  \txcat{Text + vision + audio}\txsep one sub-10B model\\ \txex{Gemma 3n, Gemma 4, Voxtral Mini (audio)}%
-};
-\node[panel=txCoral, below=of train] (dom) {%
-  \txax{txCoral}{4.\ Application domain}\\[2pt]
-  \txcat{General-purpose}\txsep broad benchmarks\\ \txex{Phi, Gemma, Llama, Qwen, Mistral}\\[1pt]
-  \txcat{Healthcare}\txsep clinical text\\ \txex{Meerkat, OptimCLM (encoders)}\\[1pt]
-  \txcat{Code / multilingual}\txsep domain corpora\\ \txex{StarCoder2, DeepSeek-Coder, Aya 23}%
-};
-\end{tikzpicture}
+\includegraphics[width=\linewidth]{fig07-taxonomy-facets.png}
 \caption{The four primary facets of the taxonomy. Facets are separately observable but not orthogonal, and assignment is multi-label. Representative models are italicised; \suppsec~\ref{supp:taxonomy} develops each facet and Table~\ref{tab:taxonomy_summary} gives the tabular form.}
 \Description{A two-by-two arrangement of four labelled panels, one per primary taxonomy facet: architecture, training strategy, modality, and application domain. Each panel lists three categories with a short defining characteristic and representative models.}
 \label{fig:taxonomy}

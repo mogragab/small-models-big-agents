@@ -113,42 +113,7 @@ For such a call type, a specialized \gls{slm} is the appropriate default: the ca
 
 \begin{figure}[t]
 \centering
-\footnotesize
-\definecolor{hcInk}{HTML}{34404A}
-\definecolor{hcBlue}{HTML}{7397B8}
-\definecolor{hcSage}{HTML}{79A88E}
-\definecolor{hcLav}{HTML}{9B8FB5}
-\definecolor{hcRose}{HTML}{C9858C}
-\definecolor{hcSlate}{HTML}{A2AAB1}
-\begin{tikzpicture}[
-  >={Stealth[length=1.8mm]},
-  gate/.style={draw=hcLav!80!hcInk, fill=hcLav!12, rounded corners=2pt, align=center,
-               text=hcInk, inner sep=2.5pt, minimum height=11mm, text width=17mm, font=\scriptsize},
-  src/.style={draw=hcSlate!90!hcInk, fill=hcSlate!12, rounded corners=2pt, align=center,
-               text=hcInk, inner sep=2.5pt, minimum height=11mm, text width=13mm, font=\scriptsize},
-  outc/.style={draw=hcSage!80!hcInk, fill=hcSage!14, rounded corners=2pt, align=center,
-               text=hcInk, inner sep=2.5pt, minimum height=11mm, text width=17mm, font=\scriptsize},
-  bad/.style={draw=hcRose!80!hcInk, fill=hcRose!12, rounded corners=2pt, align=center,
-               text=hcInk, inner sep=3pt, text width=118mm, font=\scriptsize},
-  fl/.style={font=\tiny\itshape, text=hcRose!70!hcInk, align=center},
-  hd/.style={font=\scriptsize\bfseries, text=hcInk!80},
-  every path/.style={draw=hcInk!75},
-]
-\node[src] (ct) {Recurring call type\\{\tiny from clustered logs}};
-\node[gate, right=3mm of ct] (h1) {\textbf{H1 bounded}\\{\tiny tool, schema, label, short edit}};
-\node[gate, right=3mm of h1] (h3) {\textbf{H3 short-context}\\{\tiny few thousand tokens}};
-\node[gate, right=3mm of h3, text width=20mm] (h4) {\textbf{H4 checkable}\\{\tiny H4a validity \emph{and}}\\{\tiny H4b correctness}};
-\node[gate, right=3mm of h4] (h2) {\textbf{H2 recurrent}\\{\tiny $N > N^{*}$, Eq.~(1)}};
-\node[outc, right=3mm of h2] (slm) {\textbf{Specialized SLM}\\{\tiny default; escalate on a failed check}};
-\node[bad, below=9mm of h4.south, anchor=north] (llm) {\textbf{Frontier or hosted model as default}};
-\node[hd, above=1.5mm of h3] {checked by inspection};
-\node[hd, above=1.5mm of h2] {from pilot estimates};
-\draw[->] (ct) -- (h1); \draw[->] (h1) -- (h3); \draw[->] (h3) -- (h4); \draw[->] (h4) -- (h2); \draw[->] (h2) -- (slm);
-\draw[->, hcRose!80!hcInk] (h1.south) -- (h1.south |- llm.north) node[fl, midway, left] {open-ended\\planning};
-\draw[->, hcRose!80!hcInk] (h3.south) -- (h3.south |- llm.north) node[fl, midway, left] {long\\context};
-\draw[->, hcRose!80!hcInk] (h4.south) -- (h4.south |- llm.north) node[fl, midway, left] {uncheckable\\output};
-\draw[->, hcRose!80!hcInk] (h2.south) -- (h2.south |- llm.north) node[fl, midway, left] {rare or\\unstable};
-\end{tikzpicture}
+\includegraphics[width=\linewidth]{fig03-hypothesis-conditions.png}
 \caption{Assessing one recurring agent call type against hypothesis~H at design time. H1, H3, and H4 are checked by inspecting the call type; H2 is checked against pilot estimates recorded before any comparison. A call type that passes every condition defaults to a specialized SLM with escalation on a failed check (Figure~\ref{fig:hetero_agent}); a failure at any condition, labelled with the workload class that typically fails there (Section~\ref{subsec:agentic_counterexamples}), leaves a frontier or hosted model as the default.}
 \Description{Left-to-right flow: a recurring call type passes through gates H1 bounded, H3 short-context, H4 checkable (validity and correctness), and H2 recurrent, and if all pass reaches specialized SLM as the default. From each gate a downward arrow labelled open-ended planning, long context, uncheckable output, or rare or unstable leads to a box reading frontier or hosted model as default. Labels mark H1, H3, and H4 as checked by inspection and H2 as checked from pilot estimates.}
 \label{fig:hypothesis_conditions}

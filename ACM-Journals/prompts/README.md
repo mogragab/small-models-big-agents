@@ -67,18 +67,18 @@ reference stub (`ref <owner>` in their Components table).
 | Comparator configurations and decision rule | fig06-falsification-design | none |
 | Taxonomy facets | fig07-taxonomy-facets | none |
 
-## Placement notes for the authors
+## Placement status (9 October 2026)
 
-The five new figures are already drawn in TikZ and placed in the manuscript
-(labels `fig:slm_definition`, `fig:inventory_pipeline`, `fig:hypothesis_conditions`,
-`fig:breakeven`, `fig:falsification`), and the taxonomy and agent figures exist in
-TikZ. These briefs serve an optional Codex redraw for a uniform rendered style.
-A rendered figure replaces the TikZ block with the same label and caption.
-
-After rendering, insert each new figure with `\includegraphics[width=\linewidth]{figXX-....pdf}`,
-the label listed above, the caption draft in its brief, and a `\Description{}`
-alt text (required by acmart). Rebuild and confirm the main text still ends
-within 35 pages including references; if not, move fig04 to the supplement first.
+All seven briefs were rendered (see `figures/AI-FIGURES.md`). Six are placed in
+the paper: fig02 (Supplement S2, `fig:inventory_pipeline`), fig03 (§1.3,
+`fig:hypothesis_conditions`), fig04 (§7.2.2, `fig:breakeven`), fig05 (§7.5,
+`fig:hetero_agent`), fig06 (§9.3, `fig:falsification`), fig07 (§3.1,
+`fig:taxonomy`). Hard-coded figure numbers in fig02, fig03, and fig06 and a typo
+in fig06 were corrected after rendering. fig01 is not placed: its active = total
+diagonal is drawn as a curve near the axis corner; the paper keeps the TikZ
+version of `fig:slm_definition`. To replace it, regenerate fig01 with the
+diagonal as one straight line (it need not pass through the axis corner on
+logarithmic axes) and without figure numbers in any label.
 
 ## Open questions across figures
 
