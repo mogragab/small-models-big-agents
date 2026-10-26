@@ -45,6 +45,6 @@ in the manuscript.
 
 Sincerely,
 
-Mohammed Gamal Ragab and Hitham Alhussian (corresponding authors), on behalf of all authors
+Mohammed Gamal Ragab (corresponding author), on behalf of both authors
 Department of Computer and Information Sciences and Center for Research in Data Science (CeRDaS),
 Universiti Teknologi PETRONAS, Seri Iskandar, Perak, Malaysia

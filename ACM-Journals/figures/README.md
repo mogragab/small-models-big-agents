@@ -11,7 +11,6 @@ cd source
 uv run python scripts/generate_figures_v2.py \
     --input merged_llm_database.json \
     --output-dir ../ACM-Journals/figures --format png
-cp ../ACM-Journals/figures/*.png ../paper_consolidated/figures/
 ```
 
 Notes on the output format:

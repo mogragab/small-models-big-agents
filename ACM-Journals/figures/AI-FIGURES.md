@@ -26,3 +26,7 @@ These are raster PNGs at the image tool's native resolution, approximately 312�
 
 Placed in the paper: fig02 (Supplement S2), fig03 (Section 1.3), fig04 (Section 7.2.2), fig05 (Section 7.5), fig06 (Section 9.3), fig07 (Section 3.1).
 Not placed: `fig01-slm-definition.png` draws the active = total diagonal as a curve near the axis corner, which misstates the dense-model line; the paper keeps its TikZ version of that figure.
+
+## Edit of 12 October 2026
+
+- `fig06-falsification-design.png`: a stray image-generator glyph after "configuration" in the right-hand header was removed by copying the adjacent header background over it (pixels 1617–1643 × 7–21). Copied to `paper_consolidated/figures/`.
