@@ -58,6 +58,8 @@ Thumbs.db
 /archive/
 /reviews/
 /ACM-Journals/cover_letter.md
+/ACM-Journals/prompts/
+/ACM-Journals/README.txt
 
 # --- ACM template build artefacts (ACM-Journals/) ---
 comment.cut
