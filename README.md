@@ -4,7 +4,7 @@
 
 Research materials for the ACM Computing Surveys submission by **Mohammed Gamal Ragab** and **Amgad Muneer**: the manuscript, electronic supplement, model inventory, source-verification records, and scripts for generating the inventory tables and plots.
 
-**[Manuscript](ACM-Journals/less-is-more.tex)** · **[Supplement](ACM-Journals/supplement.tex)** · **[Released artifacts](release/README.md)** · **[Model inventory](release/merged_llm_database.json)** · **[Evaluation coverage ledger](release/audit_coverage_ledger.csv)**
+**[Manuscript](journal/less-is-more.tex)** · **[Supplement](journal/supplement.tex)** · **[Released artifacts](release/README.md)** · **[Model inventory](release/merged_llm_database.json)** · **[Evaluation coverage ledger](release/audit_coverage_ledger.csv)**
 
 ## The research question
 
@@ -15,7 +15,7 @@ This structured narrative survey examines architectures, training and compressio
 The paper separates evidence for individual model calls from evidence for complete agent tasks, and proposes a comparison that could refute the hypothesis for a workload. It does not report a new benchmark run or establish an end-to-end cost advantage for SLM-first agents.
 
 <p align="center">
-  <img src="ACM-Journals/figures/fig05-agent-architecture.png" alt="An agent routes qualifying calls to specialized small language models, checks their outputs, and escalates failed checks to a generalist large language model." width="900">
+  <img src="journal/figures/fig05-agent-architecture.png" alt="An agent routes qualifying calls to specialized small language models, checks their outputs, and escalates failed checks to a generalist large language model." width="900">
 </p>
 
 ## What is included
@@ -46,12 +46,12 @@ The evaluation audit covers **14 cohort models × 8 benchmarks = 112 cells**. Of
 
 | Path | Purpose |
 |---|---|
-| [`ACM-Journals/`](ACM-Journals/) | Active ACM manuscript and supplement, bibliography, section sources, figures, and generated LaTeX partials |
-| [`ACM-Journals/figures/`](ACM-Journals/figures/) | Publication figures |
+| [`journal/`](journal/) | Active ACM manuscript and supplement, bibliography, section sources, figures, and generated LaTeX partials |
+| [`journal/figures/`](journal/figures/) | Publication figures |
 | [`source/`](source/) | Development inventory, verification logs, Python environment, and data-maintenance scripts |
 | [`release/`](release/README.md) | Self-contained data and script snapshot accompanying the submission |
 
-Use `source/` for ongoing work and `release/` for the submission snapshot. Each has its own `pyproject.toml` and `uv.lock`. The active manuscript is in `ACM-Journals/`.
+Use `source/` for ongoing work and `release/` for the submission snapshot. Each has its own `pyproject.toml` and `uv.lock`. The active manuscript is in `journal/`.
 
 ## Reproduce the data artifacts
 
@@ -71,18 +71,18 @@ The locked environment includes pandas, Plotly, and Kaleido. Static plot export 
 From `source/`:
 
 ```sh
-uv run python scripts/generate_model_tables.py --input merged_llm_database.json --output-dir ../ACM-Journals/partials
+uv run python scripts/generate_model_tables.py --input merged_llm_database.json --output-dir ../journal/partials
 uv run python scripts/build_audit_ledger.py
 ```
 
-The first command generates five model-landscape and chronological-inventory LaTeX partials. The second writes `source/audit_coverage_ledger.csv`, updates `ACM-Journals/partials/audit_coverage_ledger.tex`, and prints the reporting-coverage summary.
+The first command generates five model-landscape and chronological-inventory LaTeX partials. The second writes `source/audit_coverage_ledger.csv`, updates `journal/partials/audit_coverage_ledger.tex`, and prints the reporting-coverage summary.
 
 ### Generate inventory plots
 
 From `source/`:
 
 ```sh
-uv run python scripts/generate_figures_v2.py --input merged_llm_database.json --output-dir ../ACM-Journals/figures --format png
+uv run python scripts/generate_figures_v2.py --input merged_llm_database.json --output-dir ../journal/figures --format png
 ```
 
 This generates the `paper_*.png` data plots. The plotting script does not recreate the conceptual diagrams named `fig01` through `fig07`. Existing conceptual figures are included in the repository.
@@ -107,7 +107,7 @@ Use a TeX distribution with **pdfLaTeX** and **BibTeX**, such as MiKTeX or TeX L
 The manuscript and supplement reference each other's `.aux` files. From the repository root, build the main paper, then the supplement, then the main paper again:
 
 ```sh
-cd ACM-Journals
+cd journal
 pdflatex -interaction=nonstopmode -halt-on-error less-is-more.tex
 bibtex less-is-more
 pdflatex -interaction=nonstopmode -halt-on-error less-is-more.tex
@@ -122,17 +122,17 @@ pdflatex -interaction=nonstopmode -halt-on-error less-is-more.tex
 pdflatex -interaction=nonstopmode -halt-on-error less-is-more.tex
 ```
 
-The outputs are `ACM-Journals/less-is-more.pdf` and `ACM-Journals/supplement.pdf`. PDFs are generated locally and are not included in the current source snapshot. Inventory regeneration is optional for a build: the manuscript's generated partials and required figure assets are already included.
+The outputs are `journal/less-is-more.pdf` and `journal/supplement.pdf`. PDFs are generated locally and are not included in the current source snapshot. Inventory regeneration is optional for a build: the manuscript's generated partials and required figure assets are already included.
 
 Missing external-reference warnings are expected during the initial passes, before both `.aux` files exist. Check the final logs for unresolved citations and references. If cross-document labels change during editing, rerun the affected document and its counterpart until the references settle.
 
-On Windows, [`ACM-Journals/build.bat`](ACM-Journals/build.bat) builds and opens the **main paper only**. Use the full sequence above when building both documents from a fresh checkout.
+On Windows, [`journal/build.bat`](journal/build.bat) builds and opens the **main paper only**. Use the full sequence above when building both documents from a fresh checkout.
 
 ## Working with the materials
 
-Edit manuscript text in `ACM-Journals/sections/` and references in `ACM-Journals/bibliography.bib`. For inventory changes, update the development data and scripts, regenerate affected artifacts, and reconcile the counts with the manuscript before refreshing the release snapshot. Edit data generators rather than their generated LaTeX tables or plots.
+Edit manuscript text in `journal/sections/` and references in `journal/bibliography.bib`. For inventory changes, update the development data and scripts, regenerate affected artifacts, and reconcile the counts with the manuscript before refreshing the release snapshot. Edit data generators rather than their generated LaTeX tables or plots.
 
-The survey is a **structured narrative review**. Its model inventory and literature coverage have the limits described in the [method section](ACM-Journals/sections/supp_method.tex). Benchmark values originate in cited reports and can use different protocols. Source verification establishes the recorded developer source; it does not independently validate every vendor claim.
+The survey is a **structured narrative review**. Its model inventory and literature coverage have the limits described in the [method section](journal/sections/supp_method.tex). Benchmark values originate in cited reports and can use different protocols. Source verification establishes the recorded developer source; it does not independently validate every vendor claim.
 
 ## Citation
 

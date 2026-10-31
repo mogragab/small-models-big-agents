@@ -103,7 +103,7 @@ CODE = {"": "--", "unstated": "u", "SE": "SE", "0+CoT": "0c", "8+CoT": "8c"}
 
 def write_latex(rows: list[dict]) -> None:
     """Emit the ledger as a LaTeX table for the supplement (partials/)."""
-    out = Path(__file__).resolve().parent.parent.parent / "ACM-Journals" / "partials" / "audit_coverage_ledger.tex"
+    out = Path(__file__).resolve().parent.parent.parent / "journal" / "partials" / "audit_coverage_ledger.tex"
     cell = {(r["model"], r["benchmark"]): CODE.get(r["protocol"], r["protocol"]) for r in rows}
     bs = "\\"
     lines = [

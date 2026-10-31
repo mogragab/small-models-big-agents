@@ -69,16 +69,16 @@ Thumbs.db
 /.agents/
 /archive/
 /reviews/
-/ACM-Journals/prompts/
-/ACM-Journals/README.txt
+/journal/prompts/
+/journal/README.txt
 
 # Local manuscript notes and BibLaTeX support (build uses BibTeX)
-/ACM-Journals/**/*.md
-/ACM-Journals/*.dbx
-/ACM-Journals/*.bbx
-/ACM-Journals/*.cbx
+/journal/**/*.md
+/journal/*.dbx
+/journal/*.bbx
+/journal/*.cbx
 
-# --- ACM template build artefacts (ACM-Journals/) ---
+# --- ACM template build artefacts (journal/) ---
 comment.cut
 *.synctex.gz
 

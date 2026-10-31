@@ -10,7 +10,7 @@ For every entry whose url/eprint names an arXiv identifier:
   - eprint / archivePrefix fields are added.
 Prints a log of every change. Run from source/:
 
-    uv run python scripts/repair_bib_from_arxiv.py ../ACM-Journals/bibliography.bib
+    uv run python scripts/repair_bib_from_arxiv.py ../journal/bibliography.bib
 """
 
 from __future__ import annotations
