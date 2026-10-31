@@ -51,10 +51,8 @@ The evaluation audit covers **14 cohort models × 8 benchmarks = 112 cells**. Of
 | [`ACM-Journals/figures/`](ACM-Journals/figures/README.md) | Publication figures; [AI figure provenance](ACM-Journals/figures/AI-FIGURES.md) records generation and corrections |
 | [`source/`](source/) | Development inventory, verification logs, Python environment, and data-maintenance scripts |
 | [`release/`](release/README.md) | Self-contained data and script snapshot accompanying the submission |
-| [`reviews/`](reviews/) | Dated reviews, evidence checks, revision notes, and visual inspection artifacts |
-| [`archive/`](archive/) | Archived earlier draft materials |
 
-Use `source/` for ongoing work and `release/` for the submission snapshot. Each has its own `pyproject.toml` and `uv.lock`. The active manuscript is in `ACM-Journals/`; earlier draft materials are preserved in [`archive/less-is-more-draft.zip`](archive/less-is-more-draft.zip).
+Use `source/` for ongoing work and `release/` for the submission snapshot. Each has its own `pyproject.toml` and `uv.lock`. The active manuscript is in `ACM-Journals/`.
 
 ## Reproduce the data artifacts
 

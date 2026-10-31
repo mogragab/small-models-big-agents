@@ -5,6 +5,8 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
 
 # --- LaTeX build artefacts ---
 *.aux
@@ -41,6 +43,21 @@ Thumbs.db
 *~
 .vscode/
 .idea/
+*.tmp
+*.bak
+
+# --- local environment settings ---
+.env
+.env.*
+!.env.example
+
+# --- local agent configuration and archives ---
+/.claude/
+/.codex/
+/.agents/
+/archive/
+/reviews/
+/ACM-Journals/cover_letter.md
 
 # --- ACM template build artefacts (ACM-Journals/) ---
 comment.cut

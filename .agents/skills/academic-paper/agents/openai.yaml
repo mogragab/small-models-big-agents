@@ -1,7 +1,0 @@
-interface:
-  display_name: "Academic Paper"
-  short_description: "Draft verified LaTeX papers with BibTeX"
-  default_prompt: "Use $academic-paper to research and draft a source-verified LaTeX manuscript with BibTeX references."
-
-policy:
-  allow_implicit_invocation: true
