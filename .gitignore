@@ -35,6 +35,18 @@ __pycache__/
 *.toc
 *.xdv
 *.dvi
+*.idx
+*.ind
+*.ilg
+*.nlo
+*.nls
+*.nlg
+*.lol
+*.loa
+*.vrb
+*.spl
+*.synctex
+*.synctex.gz(busy)
 
 # --- editor / OS ---
 .DS_Store
@@ -57,9 +69,14 @@ Thumbs.db
 /.agents/
 /archive/
 /reviews/
-/ACM-Journals/cover_letter.md
 /ACM-Journals/prompts/
 /ACM-Journals/README.txt
+
+# Local manuscript notes and BibLaTeX support (build uses BibTeX)
+/ACM-Journals/**/*.md
+/ACM-Journals/*.dbx
+/ACM-Journals/*.bbx
+/ACM-Journals/*.cbx
 
 # --- ACM template build artefacts (ACM-Journals/) ---
 comment.cut

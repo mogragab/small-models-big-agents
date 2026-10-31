@@ -24,7 +24,7 @@ The paper separates evidence for individual model calls from evidence for comple
 - **A versioned model inventory.** Records include model characteristics, classification decisions, release-date precision, and developer-source checks.
 - **An evaluation-reporting audit.** A coverage ledger records which instruction-tuned results vendors report and under which stated protocols.
 - **A conditional agent design hypothesis.** The paper states qualifying workloads, failure cases, break-even economics, and a proposed falsification design.
-- **Reproducibility materials.** Python scripts generate inventory tables, data plots, inclusion decisions, and the audit ledger. Provenance records accompany the conceptual diagrams.
+- **Reproducibility materials.** Python scripts generate inventory tables, data plots, inclusion decisions, and the audit ledger.
 
 ## Inventory at a glance
 
@@ -47,7 +47,7 @@ The evaluation audit covers **14 cohort models × 8 benchmarks = 112 cells**. Of
 | Path | Purpose |
 |---|---|
 | [`ACM-Journals/`](ACM-Journals/) | Active ACM manuscript and supplement, bibliography, section sources, figures, and generated LaTeX partials |
-| [`ACM-Journals/figures/`](ACM-Journals/figures/README.md) | Publication figures; [AI figure provenance](ACM-Journals/figures/AI-FIGURES.md) records generation and corrections |
+| [`ACM-Journals/figures/`](ACM-Journals/figures/) | Publication figures |
 | [`source/`](source/) | Development inventory, verification logs, Python environment, and data-maintenance scripts |
 | [`release/`](release/README.md) | Self-contained data and script snapshot accompanying the submission |
 
@@ -85,7 +85,7 @@ From `source/`:
 uv run python scripts/generate_figures_v2.py --input merged_llm_database.json --output-dir ../ACM-Journals/figures --format png
 ```
 
-This generates the `paper_*.png` data plots. The conceptual diagrams named `fig01` through `fig07` have separate [provenance](ACM-Journals/figures/AI-FIGURES.md); the plotting script does not recreate them. Existing conceptual figures are included in the repository.
+This generates the `paper_*.png` data plots. The plotting script does not recreate the conceptual diagrams named `fig01` through `fig07`. Existing conceptual figures are included in the repository.
 
 To reproduce the release snapshot instead, use the environment and commands in [`release/README.md`](release/README.md).
 
